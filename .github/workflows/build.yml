@@ -63,36 +63,3 @@ jobs:
         with:
           name: App Android
           path: app-build
-
-  local-build-ios:
-    name: Local Build iOS
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18.x
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Setup EAS
-        uses: expo/expo-github-action@v8
-        with:
-          eas-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
-
-      - name: Build ios app
-        run: |
-          eas build --local \
-          --non-interactive \
-          --output=./app-build \
-          --platform=ios 
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: App iOS
-          path: app-build
