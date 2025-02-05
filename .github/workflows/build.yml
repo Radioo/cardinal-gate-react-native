@@ -55,11 +55,11 @@ jobs:
         run: |
           eas build --local \
           --non-interactive \
-          --output=./app-build \
+          --output=./app-build.apk \
           --platform=android 
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: App Android
-          path: app-build
+          path: app-build.apk
