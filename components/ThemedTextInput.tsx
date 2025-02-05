@@ -20,6 +20,6 @@ export function ThemedTextInput({
                 borderWidth: 1,
                 padding: 10,
             }
-        ]} {...rest}/>
+        ]} placeholderTextColor={textColor} {...rest}/>
     )
 }
