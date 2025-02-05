@@ -58,9 +58,8 @@ jobs:
           --output=./app-build \
           --platform=android 
 
-      - name: Build ios app
-        run: |
-          eas build --local \
-          --non-interactive \
-          --output=./app-build \
-          --platform=ios
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: App
+          path: app-build
