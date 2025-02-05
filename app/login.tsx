@@ -1,6 +1,6 @@
 import {StyleSheet, View} from "react-native";
 import {useState} from "react";
-import Logo from "@/assets/svg/logo";
+import Logo from "@/assets/svg/Logo";
 import {ThemedTextInput} from "@/components/ThemedTextInput";
 import {ThemedButton} from "@/components/ThemedButton";
 
@@ -38,7 +38,7 @@ export default function LoginScreen() {
 
     return (
         <View style={styles.container}>
-            <Logo style={styles.logo}/>
+            <Logo width="50%" height="25%"/>
             <ThemedTextInput value={form.username}
                              onChangeText={(text) => handleInputChange('username', text)}
                              placeholder="Username"/>
@@ -56,8 +56,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         gap: 20,
-    },
-    logo: {
-        width: '50%',
     }
 });
