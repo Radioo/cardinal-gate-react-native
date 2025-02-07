@@ -13,6 +13,9 @@
       "bundleIdentifier": "com.cardinalgate.app",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
+      },
+      "entitlements":{
+        "com.apple.developer.device-information.user-assigned-device-name": true
       }
     },
     "android": {
