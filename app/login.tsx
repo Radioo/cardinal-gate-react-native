@@ -66,7 +66,7 @@ export default function LoginScreen() {
                     }
                 });
 
-                router.navigate('/home/home');
+                router.replace('/home/home');
             })
             .finally(() => {
                 setLoading(false);
