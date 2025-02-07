@@ -4,7 +4,7 @@ import Logo from "@/assets/svg/Logo";
 import {ThemedTextInput} from "@/components/ThemedTextInput";
 import {ThemedButton} from "@/components/ThemedButton";
 import {Notifier, NotifierComponents} from "react-native-notifier";
-import {Stack} from "expo-router";
+import {router, Stack} from "expo-router";
 import * as Device from 'expo-device';
 
 export default function LoginScreen() {
@@ -64,7 +64,9 @@ export default function LoginScreen() {
                     componentProps: {
                         alertType: 'success',
                     }
-                })
+                });
+
+                router.navigate('/home/home');
             })
             .finally(() => {
                 setLoading(false);
