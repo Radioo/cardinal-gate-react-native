@@ -34,7 +34,7 @@ export default function LoginScreen() {
             method: 'POST',
             body: JSON.stringify({
                 ...form,
-                device_name: Device.deviceName,
+                device_name: Device.deviceName || 'Unknown device',
             }),
         }).then(async response => {
             displayMessage(MessageSeverity.SUCCESS, 'Login successful');
