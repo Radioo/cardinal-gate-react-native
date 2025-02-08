@@ -14,13 +14,14 @@
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       },
-      "entitlements":{
+      "entitlements": {
         "com.apple.developer.device-information.user-assigned-device-name": true
       }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
+        "monochromeImage": "./assets/images/adaptive-icon-mono.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.cardinalgate.app"
@@ -39,6 +40,13 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
+        }
+      ],
+      [
+        "expo-secure-store",
+        {
+          "configureAndroidBackup": true,
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to access your Face ID biometric data as well as shame you for your life choices."
         }
       ]
     ],

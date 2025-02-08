@@ -6,6 +6,10 @@ import {ThemedButton} from "@/components/ThemedButton";
 import {Notifier, NotifierComponents} from "react-native-notifier";
 import {router, Stack} from "expo-router";
 import * as Device from 'expo-device';
+import {saveSecureValue} from "@/store/secure";
+import {SecureValue} from "@/enums/secure-value";
+import {LoginResponse} from "@/types/login-response";
+import FullScreenLoader from "@/components/FullScreenLoader";
 
 export default function LoginScreen() {
     const [loading, setLoading] = useState(false);
@@ -22,6 +26,7 @@ export default function LoginScreen() {
     };
 
     const login = async () => {
+        console.log('login', process.env.EXPO_PUBLIC_API_URL);
         setLoading(true);
 
         fetch(`${process.env.EXPO_PUBLIC_API_URL}/authorize`, {
@@ -31,7 +36,20 @@ export default function LoginScreen() {
                 device_name: Device.deviceName,
             }),
         })
+            .catch(error => {
+                Notifier.showNotification({
+                    title: 'Error',
+                    description: 'Request error',
+                    Component: NotifierComponents.Alert,
+                    componentProps: {
+                        alertType: 'error',
+                    },
+                });
+
+                return Promise.reject(error);
+            })
             .then(async res => {
+                console.log('res', res);
                 if (!res.ok) {
                     let error = 'Unknown error';
 
@@ -54,8 +72,8 @@ export default function LoginScreen() {
 
                 return res.json();
             })
-            .then(data => {
-                console.log(data);
+            .then(async (data: LoginResponse) => {
+                console.log('data', data);
 
                 Notifier.showNotification({
                     title: 'Success',
@@ -66,7 +84,12 @@ export default function LoginScreen() {
                     }
                 });
 
-                router.replace('/home/home');
+                await saveSecureValue(SecureValue.TOKEN, data.token);
+
+                router.replace('/main/home');
+            })
+            .catch(error => {
+                console.error('error', error);
             })
             .finally(() => {
                 setLoading(false);
