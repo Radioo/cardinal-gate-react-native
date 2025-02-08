@@ -104,12 +104,14 @@ export default function LoginScreen() {
                 <ThemedTextInput value={form.username}
                                  onChangeText={(text) => handleInputChange('username', text)}
                                  placeholder="Username"
+                                 autoCapitalize="none"
                                  textContentType="username"
                                  style={{width: '50%', minWidth: 300}}
                 />
                 <ThemedTextInput value={form.password}
                                  onChangeText={(text) => handleInputChange('password', text)}
                                  placeholder="Password"
+                                 autoCapitalize="none"
                                  textContentType="password"
                                  secureTextEntry={true}
                                  style={{width: '50%', minWidth: 300}}
