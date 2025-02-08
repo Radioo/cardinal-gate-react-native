@@ -43,6 +43,7 @@ const fetchApi = async <T>(
         }
 
         displayMessage(MessageSeverity.ERROR, errorText);
+        return Promise.reject();
     });
 }
 

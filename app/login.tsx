@@ -9,7 +9,9 @@ import * as Device from 'expo-device';
 import {saveSecureValue} from "@/store/secure";
 import {SecureValue} from "@/enums/secure-value";
 import {LoginResponse} from "@/types/login-response";
-import FullScreenLoader from "@/components/FullScreenLoader";
+import fetchApi from "@/services/api";
+import {displayMessage} from "@/services/message";
+import {MessageSeverity} from "@/enums/message-severity";
 
 export default function LoginScreen() {
     const [loading, setLoading] = useState(false);
@@ -29,71 +31,21 @@ export default function LoginScreen() {
         console.log('login', process.env.EXPO_PUBLIC_API_URL);
         setLoading(true);
 
-        fetch(`${process.env.EXPO_PUBLIC_API_URL}/authorize`, {
+        fetchApi<LoginResponse>('/authorize', {
             method: 'POST',
             body: JSON.stringify({
                 ...form,
                 device_name: Device.deviceName,
             }),
-        })
-            .catch(error => {
-                Notifier.showNotification({
-                    title: 'Error',
-                    description: 'Request error',
-                    Component: NotifierComponents.Alert,
-                    componentProps: {
-                        alertType: 'error',
-                    },
-                });
+        }).then(async response => {
+            displayMessage(MessageSeverity.SUCCESS, 'Login successful');
 
-                return Promise.reject(error);
-            })
-            .then(async res => {
-                console.log('res', res);
-                if (!res.ok) {
-                    let error = 'Unknown error';
+            await saveSecureValue(SecureValue.TOKEN, response.token);
 
-                    if (res.headers.get('content-type') === 'application/json') {
-                        const json = await res.json();
-                        error = json.error;
-                    }
-
-                    Notifier.showNotification({
-                        title: 'Error',
-                        description: error,
-                        Component: NotifierComponents.Alert,
-                        componentProps: {
-                            alertType: 'error',
-                        },
-                    });
-
-                    return Promise.reject(error);
-                }
-
-                return res.json();
-            })
-            .then(async (data: LoginResponse) => {
-                console.log('data', data);
-
-                Notifier.showNotification({
-                    title: 'Success',
-                    description: 'Login successful',
-                    Component: NotifierComponents.Alert,
-                    componentProps: {
-                        alertType: 'success',
-                    }
-                });
-
-                await saveSecureValue(SecureValue.TOKEN, data.token);
-
-                router.replace('/main/home');
-            })
-            .catch(error => {
-                console.error('error', error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+            router.replace('/main/home');
+        }).finally(() => {
+            setLoading(false);
+        });
     };
 
     return (

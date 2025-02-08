@@ -29,6 +29,7 @@ export function PlayCounts() {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'gray'
+        backgroundColor: 'gray',
+        margin: 10,
     }
 })
