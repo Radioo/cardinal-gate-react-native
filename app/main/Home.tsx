@@ -8,8 +8,10 @@ import ScrollView = Animated.ScrollView;
 import {useEffect, useState} from "react";
 import fetchApi from "@/services/api";
 import {PlayCounts} from "@/components/PlayCounts";
+import {Drawer} from "expo-router/drawer";
+import {Stack} from "expo-router";
 
-export default function () {
+export default function Home() {
     const [refreshing] = useState(false);
     const {data, loading, reload} = useUserData();
 

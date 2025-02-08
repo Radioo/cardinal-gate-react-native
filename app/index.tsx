@@ -20,7 +20,7 @@ export default function Root() {
     }
 
     if(hasToken) {
-        return <Redirect href="/main/home" />;
+        return <Redirect href="/main/Home" />;
     }
 
     return <Redirect href="/login" />;

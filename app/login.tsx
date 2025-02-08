@@ -3,8 +3,7 @@ import {useState} from "react";
 import Logo from "@/assets/svg/Logo";
 import {ThemedTextInput} from "@/components/ThemedTextInput";
 import {ThemedButton} from "@/components/ThemedButton";
-import {Notifier, NotifierComponents} from "react-native-notifier";
-import {router, Stack} from "expo-router";
+import {ErrorBoundaryProps, router, Stack} from "expo-router";
 import * as Device from 'expo-device';
 import {saveSecureValue} from "@/store/secure";
 import {SecureValue} from "@/enums/secure-value";
@@ -42,7 +41,7 @@ export default function LoginScreen() {
 
             await saveSecureValue(SecureValue.TOKEN, response.token);
 
-            router.replace('/main/home');
+            router.replace('/main/Home');
         }).finally(() => {
             setLoading(false);
         });

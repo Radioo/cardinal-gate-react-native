@@ -9,4 +9,5 @@ export enum Series {
     MSC = 'msc',
     BS = 'bs',
     GD = 'gd',
+    DEAC = 'deac',
 }
