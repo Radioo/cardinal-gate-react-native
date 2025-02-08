@@ -8,6 +8,33 @@ on:
       - master
 
 jobs:
+  eas-web-deploy:
+    name: EAS Web Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Build web app
+        run: NODE_ENV=dev npx expo export --platform web
+
+      - name: Deploy web app
+        run: |
+          eas deploy --prod
+
   local-build-android:
     name: Local Build Android
     runs-on: ubuntu-latest
