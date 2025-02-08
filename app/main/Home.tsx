@@ -14,14 +14,9 @@ import {Stack} from "expo-router";
 export default function Home() {
     const [refreshing] = useState(false);
     const {data, loading, reload} = useUserData();
+    const finishedLoading = !loading && data !== null && !refreshing;
 
-    useEffect(() => {
-        fetchApi('/summary').then(data => {
-            console.log('summary', data);
-        })
-    }, []);
-
-    if(loading || refreshing) {
+    if(!finishedLoading) {
         return <FullScreenLoader></FullScreenLoader>;
     }
 
