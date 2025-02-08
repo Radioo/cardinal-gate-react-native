@@ -5,11 +5,19 @@ import {useUserData} from "@/hooks/useUserData";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import {Animated, RefreshControl} from "react-native";
 import ScrollView = Animated.ScrollView;
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import fetchApi from "@/services/api";
+import {PlayCounts} from "@/components/PlayCounts";
 
 export default function () {
     const [refreshing] = useState(false);
     const {data, loading, reload} = useUserData();
+
+    useEffect(() => {
+        fetchApi('/summary').then(data => {
+            console.log('summary', data);
+        })
+    }, []);
 
     if(loading || refreshing) {
         return <FullScreenLoader></FullScreenLoader>;
@@ -19,7 +27,7 @@ export default function () {
         <ScrollView refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={reload}></RefreshControl>
         }>
-            <ThemedText>Hello {data?.username}, do you like SLAKE? And I'm warning you this is a trick question.</ThemedText>
+            <PlayCounts></PlayCounts>
         </ScrollView>
     )
 }

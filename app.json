@@ -16,6 +16,11 @@
       },
       "entitlements": {
         "com.apple.developer.device-information.user-assigned-device-name": true
+      },
+      "icon": {
+        "light": "./assets/images/icon.png",
+        "dark": "./assets/images/icon.png",
+        "tinted": "./assets/images/icon-mono.png"
       }
     },
     "android": {

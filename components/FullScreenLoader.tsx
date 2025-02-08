@@ -1,11 +1,17 @@
-import {ActivityIndicator, StyleSheet, View} from "react-native";
+import {ActivityIndicator, StyleProp, StyleSheet, View, ViewStyle} from "react-native";
 import {useThemeColor} from "@/hooks/useThemeColor";
 
-export default function FullScreenLoader() {
+interface FullScreenLoaderProps {
+    style?: StyleProp<ViewStyle>;
+}
+
+export default function FullScreenLoader({
+    style
+}: FullScreenLoaderProps) {
     const color = useThemeColor({}, 'primary');
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, style]}>
             <ActivityIndicator color={color} size="large"></ActivityIndicator>
         </View>
     )
