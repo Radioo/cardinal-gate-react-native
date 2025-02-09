@@ -3,13 +3,14 @@ import {useEffect, useState} from "react";
 import {GdSkillDataResponse} from "@/types/gd-skill-data-response";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import {useGdStore} from "@/store/gd";
-import {Picker} from "@react-native-picker/picker";
+import {Picker, PickerProps} from "@react-native-picker/picker";
 import {useTheme} from "@/hooks/useTheme";
 import fetchApi from "@/services/api";
-import {View} from "react-native";
+import {Platform, View} from "react-native";
 import * as React from "react";
 import GradientText from "@/components/GradientText";
 import {GdSkillTabs} from "@/components/GdSkillTabs";
+import {router} from "expo-router";
 
 type TotalSkillProps = {
     name: string;
@@ -135,7 +136,12 @@ export default function Skill() {
             return;
         }
 
-        console.log('selectedGame', selectedGameIndex);
+        if(profileData === null) {
+            router.replace('/main/gd/Profile');
+            return;
+        }
+
+        console.log('selectedGame', selectedGameIndex, profileData);
 
         setLoadingState(true);
         fetchApi<GdSkillDataResponse>(`/gd/skill/${profileData?.games[selectedGameIndex].version}`).then(data => {
@@ -143,7 +149,7 @@ export default function Skill() {
             setSkillData(data);
             setLoadingState(false);
         });
-    }, [profileData?.games, selectedGameIndex]);
+    }, [profileData, selectedGameIndex]);
 
     useEffect(() => {
         if(selectedGameIndex === null) {
@@ -157,6 +163,14 @@ export default function Skill() {
 
     if(loading) {
         return <FullScreenLoader></FullScreenLoader>
+    }
+
+    const dynamicPickerProps: PickerProps = {}
+
+    if(Platform.OS !== 'web') {
+        dynamicPickerProps.selectionColor = theme.primary;
+        dynamicPickerProps.dropdownIconColor = theme.text;
+        dynamicPickerProps.dropdownIconRippleColor = theme.primarySurface;
     }
 
     return (
@@ -174,9 +188,7 @@ export default function Skill() {
                         console.log('onValueChange', itemIndex);
                         onGameChange(itemIndex);
                     }}
-                    selectionColor={theme.primary}
-                    dropdownIconColor={theme.text}
-                    dropdownIconRippleColor={theme.primarySurface}
+                    {...dynamicPickerProps}
                 >
                 {profileData?.games.map(((game, index) => (
                     <Picker.Item key={index.toString()} label={game.name} value={index.toString()}/>
