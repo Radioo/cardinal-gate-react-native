@@ -249,8 +249,9 @@ export default function Skill() {
                 color: theme.text,
                 backgroundColor: theme.background,
             }}
-                    selectedValue={selectedGameIndex}
+                    selectedValue={selectedGameIndex?.toString()}
                     onValueChange={(_itemValue, itemIndex) => {
+                        console.log('onValueChange', itemIndex);
                         onGameChange(itemIndex);
                     }}
                     selectionColor={theme.primary}
@@ -258,7 +259,7 @@ export default function Skill() {
                     dropdownIconRippleColor={theme.primarySurface}
                 >
                 {profileData?.games.map(((game, index) => (
-                    <Picker.Item key={index} label={game.name} value={index}/>
+                    <Picker.Item key={index.toString()} label={`${game.name} ${index}`} value={index.toString()}/>
                 )))}
             </Picker>
             <View style={{flexDirection: 'row', backgroundColor: theme.background}}>
