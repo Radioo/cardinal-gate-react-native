@@ -259,7 +259,7 @@ export default function Skill() {
                     dropdownIconRippleColor={theme.primarySurface}
                 >
                 {profileData?.games.map(((game, index) => (
-                    <Picker.Item key={index.toString()} label={`${game.name} ${index}`} value={index.toString()}/>
+                    <Picker.Item key={index.toString()} label={game.name} value={index.toString()}/>
                 )))}
             </Picker>
             <View style={{flexDirection: 'row', backgroundColor: theme.background}}>
