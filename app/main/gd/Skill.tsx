@@ -233,10 +233,10 @@ export default function Skill() {
     }
 
     const renderScene = SceneMap({
-        hot_dm: () => <SkillList items={skillData?.skill_data.dm?.new ?? []}/>,
-        other_dm: () => <SkillList items={skillData?.skill_data.dm?.exist ?? []}/>,
-        hot_gf: () => <SkillList items={skillData?.skill_data.gf?.new ?? []}/>,
-        other_gf: () => <SkillList items={skillData?.skill_data.gf?.exist ?? []}/>,
+        hot_dm: () => <SkillList items={skillData?.skill_data.dm?.exist ?? []}/>,
+        other_dm: () => <SkillList items={skillData?.skill_data.dm?.new ?? []}/>,
+        hot_gf: () => <SkillList items={skillData?.skill_data.gf?.exist ?? []}/>,
+        other_gf: () => <SkillList items={skillData?.skill_data.gf?.new ?? []}/>,
     });
 
     if(loading) {
