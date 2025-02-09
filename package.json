@@ -50,7 +50,8 @@
     "zustand": "^5.0.3",
     "react-native-pager-view": "6.5.1",
     "expo-linear-gradient": "~14.0.2",
-    "@react-native-masked-view/masked-view": "0.3.2"
+    "@react-native-masked-view/masked-view": "0.3.2",
+    "expo-screen-orientation": "~8.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
