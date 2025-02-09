@@ -1,83 +1,15 @@
 import {ThemedText} from "@/components/ThemedText";
 import {useEffect, useState} from "react";
-import {GdMusicSkillItem, GdSkillDataResponse} from "@/types/gd-skill-data-response";
+import {GdSkillDataResponse} from "@/types/gd-skill-data-response";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import {useGdStore} from "@/store/gd";
 import {Picker} from "@react-native-picker/picker";
 import {useTheme} from "@/hooks/useTheme";
 import fetchApi from "@/services/api";
-import {Route, SceneMap, TabBar, TabBarProps, TabView} from "react-native-tab-view";
-import {FlatList, useWindowDimensions, View} from "react-native";
+import {View} from "react-native";
 import * as React from "react";
-import ThemedCard from "@/components/ThemedCard";
-import GdDifficulty from "@/components/GdDifficulty";
 import GradientText from "@/components/GradientText";
-
-const RenderTabBar = <T extends Route, >(props: TabBarProps<T>) => {
-    const theme = useTheme();
-
-    return (<TabBar {...props} style={{
-        backgroundColor: theme.background,
-        borderColor: 'red',
-        outlineColor: 'red',
-        shadowColor: 'red',
-    }}
-                    activeColor={theme.primary}
-                    inactiveColor={theme.text}
-                    pressColor={theme.primarySurface}
-                    indicatorStyle={{backgroundColor: theme.primary}}
-    />)
-}
-
-function SkillList({items}: {items: GdMusicSkillItem[]}) {
-    if(items.length === 0) {
-        return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                <ThemedText>No data</ThemedText>
-            </View>
-        )
-    }
-
-    const formatValue = (value: number) => {
-        if(value < 0) {
-            return '???';
-        }
-
-        return (value / 100).toFixed(2);
-    }
-
-    return (
-        <FlatList data={items}
-                  keyExtractor={(_item, index) => index.toString()}
-                  renderItem={({item, index}) => (
-            <ThemedCard style={{
-                flexDirection: 'row',
-                gap: 5,
-                alignItems: 'center',
-                marginLeft: 10,
-                marginRight: 10,
-                marginTop: index === 0 ? 10 : 5,
-                marginBottom: index === items.length - 1 ? 10 : 5,
-                flex: 1,
-            }}>
-                <ThemedText style={{
-                    lineHeight: 40,
-                    fontSize: 30,
-                    fontFamily: 'monospace',
-                    fontWeight: 'bold',
-                }}>#{(index + 1).toString().padStart(2, '0')}</ThemedText>
-                <View style={{flexDirection: 'column', justifyContent: 'space-between', flex: 1}}>
-                    <ThemedText numberOfLines={1} ellipsizeMode="tail">{item.title}</ThemedText>
-                    <GdDifficulty difficulty={item.difficulty}/>
-                </View>
-                <View>
-                    <ThemedText style={{fontWeight: 'bold', textAlign: 'right'}}>{formatValue(item.skill)}</ThemedText>
-                    <ThemedText style={{textAlign: 'right'}}>{formatValue(item.percentage)}%</ThemedText>
-                </View>
-            </ThemedCard>
-        )} />
-    )
-}
+import {GdSkillTabs} from "@/components/GdSkillTabs";
 
 type TotalSkillProps = {
     name: string;
@@ -190,22 +122,13 @@ function TotalSkill(props: TotalSkillProps) {
     )
 }
 
-const routes = [
-    { key: 'hot_dm', title: '🥁 HOT' },
-    { key: 'other_dm', title: '🥁 OTHER' },
-    { key: 'hot_gf', title: '🎸 HOT' },
-    { key: 'other_gf', title: '🎸 OTHER' },
-];
-
 export default function Skill() {
     const [loadingState, setLoadingState] = useState(true);
     const [selectedGameIndex, setSelectedGameIndex] = useState<number | null>(null);
-    const [currentTab, setCurrentTab] = useState(0);
     const {profileData} = useGdStore();
     const [skillData, setSkillData] = useState<GdSkillDataResponse | null>(null);
     const theme = useTheme();
-    const layout = useWindowDimensions();
-    const loading = loadingState || profileData === null;
+    const loading = loadingState || profileData === null || skillData === null;
 
     useEffect(() => {
         if(selectedGameIndex === null) {
@@ -232,13 +155,6 @@ export default function Skill() {
         setSelectedGameIndex(index);
     }
 
-    const renderScene = SceneMap({
-        hot_dm: () => <SkillList items={skillData?.skill_data.dm?.exist ?? []}/>,
-        other_dm: () => <SkillList items={skillData?.skill_data.dm?.new ?? []}/>,
-        hot_gf: () => <SkillList items={skillData?.skill_data.gf?.exist ?? []}/>,
-        other_gf: () => <SkillList items={skillData?.skill_data.gf?.new ?? []}/>,
-    });
-
     if(loading) {
         return <FullScreenLoader></FullScreenLoader>
     }
@@ -248,6 +164,10 @@ export default function Skill() {
             <Picker style={{
                 color: theme.text,
                 backgroundColor: theme.background,
+                borderColor: theme.background,
+                padding: 10,
+                borderRadius: 0,
+                outline: 'none',
             }}
                     selectedValue={selectedGameIndex?.toString()}
                     onValueChange={(_itemValue, itemIndex) => {
@@ -272,12 +192,7 @@ export default function Skill() {
                             allMusicSkill={skillData?.skill_data.gf?.all_music_skill}
                 />
             </View>
-            <TabView onIndexChange={setCurrentTab}
-                     navigationState={{index: currentTab, routes}}
-                     renderScene={renderScene}
-                     initialLayout={{width: layout.width}}
-                     renderTabBar={RenderTabBar}
-            />
+            <GdSkillTabs data={skillData}/>
         </>
     )
 }
