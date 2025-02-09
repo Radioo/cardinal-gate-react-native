@@ -37,8 +37,7 @@ export default function GdDifficultyInfo({difficulty}: GdDifficultyProps) {
                 textAlign: 'left',
                 width: 58,
                 borderWidth: 2,
-                borderColor: darken(0.1, typeColor),
-                borderRightWidth: 0,
+                borderColor: '#000000',
             }}>{difficulty.type}</Text>
             <Text style={{
                 color: 'white',
@@ -48,18 +47,19 @@ export default function GdDifficultyInfo({difficulty}: GdDifficultyProps) {
                 width: 82,
                 textAlign: 'center',
                 borderWidth: 2,
-                borderColor: darken(0.1, difficultyColor),
+                borderColor: '#000000',
+                borderLeftWidth: 0,
+                borderRightWidth: 0,
             }}>{difficulty.difficulty}</Text>
             <Text style={{
                 color: 'white',
                 backgroundColor: difficultyColor,
                 paddingLeft: 2,
                 paddingRight: 2,
-                width: 35,
+                width: 40,
                 textAlign: 'right',
                 borderWidth: 2,
-                borderColor: darken(0.1, difficultyColor),
-                borderLeftWidth: 0,
+                borderColor: '#000000',
             }}>
                 {(difficulty.level / 100).toFixed(2)}
             </Text>
