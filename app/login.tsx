@@ -3,7 +3,7 @@ import {useState} from "react";
 import Logo from "@/assets/svg/Logo";
 import {ThemedTextInput} from "@/components/ThemedTextInput";
 import {ThemedButton} from "@/components/ThemedButton";
-import {ErrorBoundaryProps, router, Stack} from "expo-router";
+import {router, Stack} from "expo-router";
 import * as Device from 'expo-device';
 import {saveSecureValue} from "@/store/secure";
 import {SecureValue} from "@/enums/secure-value";

@@ -20,7 +20,7 @@ const useUserDataStore = create<UserDataStore>()((set) => ({
 interface UseUserDataResult {
     data: UserData | null;
     loading: boolean;
-    clear: () => void;
+    clear: () => Promise<void>;
     reload: () => void;
 }
 
@@ -29,51 +29,54 @@ export function useUserData(): UseUserDataResult {
     const [loading, setLoading] = useState<boolean>(true);
     const [reloadFlag, setReloadFlag] = useState(false);
 
-    const loadUserData = async () => {
-        setLoading(true);
 
-        try {
-            const token = await getSecureValue(SecureValue.TOKEN);
-            if (!token) {
-                displayMessage(MessageSeverity.ERROR, 'Token not found');
-                router.replace('/login');
-                return;
-            }
-
-            const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/me`, {
-                headers: {
-                    "CG-Token": token
-                },
-            });
-
-            if (!response.ok) {
-                displayMessage(MessageSeverity.ERROR, 'Failed to fetch user data');
-                setLoading(false);
-                return;
-            }
-
-            const userData: UserData = await response.json();
-            console.log('userData', userData);
-            set(userData);
-        } catch (err) {
-            displayMessage(MessageSeverity.ERROR, 'Failed to fetch user data');
-        } finally {
-            setLoading(false);
-        }
-    };
 
     // Use useEffect to load data when the component mounts or reloadFlag changes
     useEffect(() => {
-        loadUserData();
-    }, [reloadFlag]);
+        const loadUserData = async () => {
+            setLoading(true);
 
-    const clear = () => {
+            try {
+                const token = await getSecureValue(SecureValue.TOKEN);
+                if (!token) {
+                    displayMessage(MessageSeverity.ERROR, 'Token not found');
+                    router.replace('/login');
+                    return;
+                }
+
+                const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/me`, {
+                    headers: {
+                        "CG-Token": token
+                    },
+                });
+
+                if (!response.ok) {
+                    displayMessage(MessageSeverity.ERROR, 'Failed to fetch user data');
+                    setLoading(false);
+                    return;
+                }
+
+                const userData: UserData = await response.json();
+                console.log('userData', userData);
+                set(userData);
+            }
+            catch {
+                displayMessage(MessageSeverity.ERROR, 'Failed to fetch user data');
+            }
+            finally {
+                setLoading(false);
+            }
+        };
+
+        loadUserData();
+    }, [reloadFlag, set]);
+
+    const clear = async () => {
         setLoading(true);
 
-        clearSecureValue(SecureValue.TOKEN).then(() => {
-            set(null);
-            setLoading(false);
-        });
+        await clearSecureValue(SecureValue.TOKEN);
+        set(null);
+        setLoading(false);
     }
 
     // Function to trigger a manual reload

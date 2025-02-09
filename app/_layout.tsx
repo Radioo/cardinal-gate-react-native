@@ -1,18 +1,13 @@
-import {ErrorBoundaryProps, Stack} from 'expo-router';
+import {Stack} from 'expo-router';
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {NotifierWrapper} from "react-native-notifier";
 import {ThemeProvider} from "@react-navigation/core";
 import {DarkTheme, DefaultTheme} from "@react-navigation/native";
 import {useColorScheme} from "@/hooks/useColorScheme";
 import {StatusBar} from "expo-status-bar";
-import {KeyboardAvoidingView, Platform, View} from "react-native";
-import {ThemedText} from "@/components/ThemedText";
-import {ThemedButton} from "@/components/ThemedButton";
-import {Try} from "expo-router/build/views/Try";
+import {KeyboardAvoidingView, Platform} from "react-native";
 
-
-
-export default function() {
+export default function Layout() {
     const colorScheme = useColorScheme();
 
     return (

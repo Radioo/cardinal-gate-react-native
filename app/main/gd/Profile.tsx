@@ -9,7 +9,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import {ThemedText} from "@/components/ThemedText";
 import {useGdStore} from "@/store/gd";
 
-export default function() {
+export default function Profile() {
     const [loading, setLoading] = useState(true);
     const {profileData, setProfileData} = useGdStore();
     const theme = useTheme();
@@ -20,7 +20,7 @@ export default function() {
             setProfileData(data);
             setLoading(false);
         })
-    }, [])
+    }, [setProfileData])
 
     if(loading) {
         return <FullScreenLoader></FullScreenLoader>

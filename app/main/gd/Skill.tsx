@@ -5,16 +5,15 @@ import FullScreenLoader from "@/components/FullScreenLoader";
 import {useGdStore} from "@/store/gd";
 import {Picker} from "@react-native-picker/picker";
 import {useTheme} from "@/hooks/useTheme";
-import {Game} from "@/types/game";
 import fetchApi from "@/services/api";
-import {Route, SceneMap, SceneRendererProps, TabBar, TabBarProps, TabView} from "react-native-tab-view";
-import {FlatList, Text, useWindowDimensions, View} from "react-native";
+import {Route, SceneMap, TabBar, TabBarProps, TabView} from "react-native-tab-view";
+import {FlatList, useWindowDimensions, View} from "react-native";
 import * as React from "react";
 import ThemedCard from "@/components/ThemedCard";
 import GdDifficulty from "@/components/GdDifficulty";
 import GradientText from "@/components/GradientText";
 
-const renderTabBar = <T extends Route, >(props: TabBarProps<T>) => {
+const RenderTabBar = <T extends Route, >(props: TabBarProps<T>) => {
     const theme = useTheme();
 
     return (<TabBar {...props} style={{
@@ -198,7 +197,7 @@ const routes = [
     { key: 'other_gf', title: '🎸 OTHER' },
 ];
 
-export default function() {
+export default function Skill() {
     const [loadingState, setLoadingState] = useState(true);
     const [selectedGameIndex, setSelectedGameIndex] = useState<number | null>(null);
     const [currentTab, setCurrentTab] = useState(0);
@@ -221,13 +220,13 @@ export default function() {
             setSkillData(data);
             setLoadingState(false);
         });
-    }, [selectedGameIndex]);
+    }, [profileData?.games, selectedGameIndex]);
 
     useEffect(() => {
         if(selectedGameIndex === null) {
             setSelectedGameIndex(0);
         }
-    }, [loading]);
+    }, [loading, selectedGameIndex]);
 
     const onGameChange = (index: number) => {
         setSelectedGameIndex(index);
@@ -276,7 +275,7 @@ export default function() {
                      navigationState={{index: currentTab, routes}}
                      renderScene={renderScene}
                      initialLayout={{width: layout.width}}
-                     renderTabBar={renderTabBar}
+                     renderTabBar={RenderTabBar}
             />
         </>
     )

@@ -1,6 +1,5 @@
 import {GdGameMode} from "@/enums/gd-game-mode";
 import {GdDifficultyContainer} from "@/types/gd-difficulty-container";
-import {GdSkillListType} from "@/enums/gd-skill-list-type";
 
 export type GdMusicSkillItem = {
     music_id: number;

@@ -1,22 +1,25 @@
-import {Redirect} from "expo-router";
+import {router} from "expo-router";
 import {useUserData} from "@/hooks/useUserData";
 import {useEffect, useState} from "react";
 import FullScreenLoader from "@/components/FullScreenLoader";
 
-export default function logout() {
-    const [logoutLoading, setLogoutLoading] = useState(true);
-    const {loading, clear} = useUserData();
+export default function Logout() {
+    const [loading, setLoading] = useState(true);
+    const {clear} = useUserData();
+
+    console.log('loading', loading);
 
     useEffect(() => {
-        clear();
-        setLogoutLoading(false);
-    }, []);
+        clear().then(() => setLoading(false));
+    }, [clear]);
 
-    if(loading || logoutLoading) {
-        return <FullScreenLoader></FullScreenLoader>;
-    }
+    useEffect(() => {
+        if (!loading) {
+            router.replace("/login");
+        }
+    }, [loading]);
 
     return (
-        <Redirect href={"/login"} />
+        <FullScreenLoader/>
     )
 }

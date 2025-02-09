@@ -3,7 +3,7 @@ import {useTheme} from "@/hooks/useTheme";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import {Entypo} from "@expo/vector-icons";
 
-export default function() {
+export default function Layout() {
     const theme = useTheme();
 
     return (

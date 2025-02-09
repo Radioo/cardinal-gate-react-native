@@ -1,7 +1,7 @@
 import {Drawer} from "expo-router/drawer";
 import {useUserData} from "@/hooks/useUserData";
 
-export default function() {
+export default function Layout() {
     const {data} = useUserData();
 
     return (
