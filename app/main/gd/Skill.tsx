@@ -200,7 +200,7 @@ const routes = [
 
 export default function() {
     const [loadingState, setLoadingState] = useState(true);
-    const [selectedGame, setSelectedGame] = useState<Game | null>(null);
+    const [selectedGameIndex, setSelectedGameIndex] = useState<number | null>(null);
     const [currentTab, setCurrentTab] = useState(0);
     const {profileData} = useGdStore();
     const [skillData, setSkillData] = useState<GdSkillDataResponse | null>(null);
@@ -209,23 +209,29 @@ export default function() {
     const loading = loadingState || profileData === null;
 
     useEffect(() => {
-        if(selectedGame === null) {
+        if(selectedGameIndex === null) {
             return;
         }
 
+        console.log('selectedGame', selectedGameIndex);
+
         setLoadingState(true);
-        fetchApi<GdSkillDataResponse>(`/gd/skill/${selectedGame.version}`).then(data => {
+        fetchApi<GdSkillDataResponse>(`/gd/skill/${profileData?.games[selectedGameIndex].version}`).then(data => {
             console.log('skillData', data);
             setSkillData(data);
             setLoadingState(false);
         });
-    }, [selectedGame]);
+    }, [selectedGameIndex]);
 
     useEffect(() => {
-        if(selectedGame === null) {
-            setSelectedGame(profileData?.games[0] ?? null);
+        if(selectedGameIndex === null) {
+            setSelectedGameIndex(0);
         }
     }, [loading]);
+
+    const onGameChange = (index: number) => {
+        setSelectedGameIndex(index);
+    }
 
     const renderScene = SceneMap({
         hot_dm: () => <SkillList items={skillData?.skill_data.dm?.new ?? []}/>,
@@ -244,14 +250,17 @@ export default function() {
                 color: theme.text,
                 backgroundColor: theme.background,
             }}
-                    selectedValue={selectedGame}
-                    onValueChange={(itemValue) => setSelectedGame(itemValue)}
+                    selectedValue={selectedGameIndex}
+                    onValueChange={(_itemValue, itemIndex) => {
+                        onGameChange(itemIndex);
+                    }}
                     selectionColor={theme.primary}
                     dropdownIconColor={theme.text}
-                    dropdownIconRippleColor={theme.primarySurface}>
-                {profileData?.games.map(game => (
-                    <Picker.Item key={game.version} label={game.name} value={game}/>
-                ))}
+                    dropdownIconRippleColor={theme.primarySurface}
+                >
+                {profileData?.games.map(((game, index) => (
+                    <Picker.Item key={index} label={game.name} value={index}/>
+                )))}
             </Picker>
             <View style={{flexDirection: 'row', backgroundColor: theme.background}}>
                 <TotalSkill name="🥁 Skill"
