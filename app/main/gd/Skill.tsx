@@ -39,6 +39,14 @@ function SkillList({items}: {items: GdMusicSkillItem[]}) {
         )
     }
 
+    const formatValue = (value: number) => {
+        if(value < 0) {
+            return '???';
+        }
+
+        return (value / 100).toFixed(2);
+    }
+
     return (
         <FlatList data={items}
                   keyExtractor={(_item, index) => index.toString()}
@@ -64,8 +72,8 @@ function SkillList({items}: {items: GdMusicSkillItem[]}) {
                     <GdDifficulty difficulty={item.difficulty}/>
                 </View>
                 <View>
-                    <ThemedText style={{fontWeight: 'bold', textAlign: 'right'}}>{(item.skill / 100).toFixed(2)}</ThemedText>
-                    <ThemedText style={{textAlign: 'right'}}>{(item.percentage / 100).toFixed(2)}%</ThemedText>
+                    <ThemedText style={{fontWeight: 'bold', textAlign: 'right'}}>{formatValue(item.skill)}</ThemedText>
+                    <ThemedText style={{textAlign: 'right'}}>{formatValue(item.percentage)}%</ThemedText>
                 </View>
             </ThemedCard>
         )} />
