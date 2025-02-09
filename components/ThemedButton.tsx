@@ -27,7 +27,7 @@ export function ThemedButton({
                 justifyContent: 'center',
             },
             style,
-        ]} {...rest}>
+        ]} disabled={loading} {...rest}>
             {loading ? (
                 <ActivityIndicator color={theme.background} />
             ) : (

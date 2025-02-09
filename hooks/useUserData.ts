@@ -53,6 +53,7 @@ export function useUserData(): UseUserDataResult {
             }
 
             const userData: UserData = await response.json();
+            console.log('userData', userData);
             set(userData);
         } catch (err) {
             displayMessage(MessageSeverity.ERROR, 'Failed to fetch user data');
