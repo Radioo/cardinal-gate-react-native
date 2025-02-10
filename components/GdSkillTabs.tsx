@@ -1,10 +1,11 @@
-import {Route, SceneMap, TabBar, TabBarProps, TabView} from "react-native-tab-view";
+import {Route, SceneMap, TabBar, TabBarItem, TabBarProps, TabView} from "react-native-tab-view";
 import * as React from "react";
 import {useMemo, useState} from "react";
 import {SkillList} from "@/components/GdSkillList";
 import {useWindowDimensions} from "react-native";
 import {useTheme} from "@/hooks/useTheme";
 import {GdSkillDataResponse} from "@/types/gd-skill-data-response";
+import {ThemedText} from "@/components/ThemedText";
 
 type GdSkillTabsProps = {
     data: GdSkillDataResponse;
@@ -15,14 +16,31 @@ const RenderTabBar = <T extends Route, >(props: TabBarProps<T>) => {
 
     return (<TabBar {...props} style={{
         backgroundColor: theme.background,
-        borderColor: 'red',
-        outlineColor: 'red',
-        shadowColor: 'red',
     }}
                     activeColor={theme.primary}
                     inactiveColor={theme.text}
                     pressColor={theme.primarySurface}
                     indicatorStyle={{backgroundColor: theme.primary}}
+                    renderTabBarItem={(props) => {
+                        return (
+                            <TabBarItem {...props}
+                                key={props.route.key}
+                                        label={(props) => (
+                                            <ThemedText {...props}
+                                                        numberOfLines={1}
+                                                        style={{
+                                                            color: props.focused ? theme.primary : theme.text,
+                                                            fontWeight: '600',
+                                                        }}
+                                            >
+                                                {props.route.title}
+                                            </ThemedText>
+                                        )}
+
+                            />
+                        )
+
+                    }}
     />)
 }
 
