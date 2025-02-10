@@ -1,14 +1,34 @@
 import {Drawer} from "expo-router/drawer";
 import {useUserData} from "@/hooks/useUserData";
+import {useTheme} from "@/hooks/useTheme";
+import type {StyleProp, ViewStyle} from "react-native";
+import {Entypo, FontAwesome6} from "@expo/vector-icons";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 export default function Layout() {
+    const theme = useTheme();
     const {data} = useUserData();
 
+    const drawerItemStyle: StyleProp<ViewStyle> = {
+        borderRadius: 0,
+    }
+
     return (
-        <Drawer>
-            <Drawer.Screen name="Home"/>
-            <Drawer.Screen name="gd" options={{title: "GITADORA", drawerItemStyle: {display: data?.profiles.gd ? 'flex' : 'none'}}}/>
-            <Drawer.Screen name="Logout"/>
+        <Drawer screenOptions={{
+            drawerActiveTintColor: theme.primary,
+            drawerItemStyle
+        }}>
+            <Drawer.Screen name="Home" options={{
+                drawerIcon: ({color}) => <Entypo name="home" size={24} color={color} />
+            }}/>
+            <Drawer.Screen name="gd" options={{
+                title: "GITADORA",
+                drawerItemStyle: {...drawerItemStyle, display: data?.profiles.gd ? 'flex' : 'none'},
+                drawerIcon: ({color}) => <FontAwesome6 name="drum" size={24} color={color} />
+            }}/>
+            <Drawer.Screen name="Logout" options={{
+                drawerIcon: ({color}) => <MaterialIcons name="logout" size={24} color={color} />
+            }}/>
         </Drawer>
     )
 }

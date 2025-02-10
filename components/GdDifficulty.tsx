@@ -2,7 +2,7 @@ import {GdDifficultyContainer} from "@/types/gd-difficulty-container";
 import {Text, View} from "react-native";
 import {GdDifficulty} from "@/enums/gd-difficulty";
 import {useColorScheme} from "@/hooks/useColorScheme";
-import {darken, lighten} from "polished";
+import {lighten} from "polished";
 
 type GdDifficultyProps = {
     difficulty: GdDifficultyContainer;
