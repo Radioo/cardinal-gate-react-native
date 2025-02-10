@@ -14,9 +14,9 @@ export default function GdDifficultyInfo({difficulty}: GdDifficultyProps) {
     const getDifficultyColor = () => {
         switch(difficulty.difficulty) {
             case GdDifficulty.BASIC:
-                return '#5ca2bb';
+                return '#427486';
             case GdDifficulty.ADVANCED:
-                return '#9f7f4f';
+                return '#705b38';
             case GdDifficulty.EXTREME:
                 return '#a21e1e';
             case GdDifficulty.MASTER:
@@ -32,20 +32,16 @@ export default function GdDifficultyInfo({difficulty}: GdDifficultyProps) {
             <Text style={{
                 color: 'white',
                 backgroundColor: typeColor,
-                paddingLeft: 2,
-                paddingRight: 2,
-                textAlign: 'left',
-                width: 58,
+                paddingLeft: 4,
+                paddingRight: 4,
                 borderWidth: 2,
                 borderColor: '#000000',
             }}>{difficulty.type}</Text>
             <Text style={{
                 color: 'white',
                 backgroundColor: difficultyColor,
-                paddingLeft: 2,
-                paddingRight: 2,
-                width: 82,
-                textAlign: 'center',
+                paddingLeft: 4,
+                paddingRight: 4,
                 borderWidth: 2,
                 borderColor: '#000000',
                 borderLeftWidth: 0,
@@ -54,10 +50,8 @@ export default function GdDifficultyInfo({difficulty}: GdDifficultyProps) {
             <Text style={{
                 color: 'white',
                 backgroundColor: difficultyColor,
-                paddingLeft: 2,
-                paddingRight: 2,
-                width: 40,
-                textAlign: 'right',
+                paddingLeft: 4,
+                paddingRight: 4,
                 borderWidth: 2,
                 borderColor: '#000000',
             }}>
