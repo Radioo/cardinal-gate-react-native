@@ -1,5 +1,6 @@
 import {ActivityIndicator, Text, TouchableOpacity, TouchableOpacityProps} from "react-native";
 import {useTheme} from "@/hooks/useTheme";
+import {darken} from "polished";
 
 export type ThemedButtonProps = TouchableOpacityProps & {
     label: string;
@@ -12,14 +13,16 @@ export function ThemedButton({
     style,
     type = 'primary',
     loading = false,
+    disabled = undefined,
     ...rest
 }: ThemedButtonProps) {
     const theme = useTheme();
+    const backgroundColor = disabled || loading ? darken(0.3, theme[type]) : theme[type];
 
     return (
         <TouchableOpacity style={[
             {
-                backgroundColor: theme[type],
+                backgroundColor: backgroundColor,
                 height: 40,
                 paddingLeft: 10,
                 paddingRight: 10,
@@ -27,7 +30,7 @@ export function ThemedButton({
                 justifyContent: 'center',
             },
             style,
-        ]} disabled={loading} {...rest}>
+        ]} disabled={loading || disabled} {...rest}>
             {loading ? (
                 <ActivityIndicator color={theme.background} />
             ) : (

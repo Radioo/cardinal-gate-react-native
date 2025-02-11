@@ -188,6 +188,7 @@ export default function Skill() {
                         console.log('onValueChange', itemIndex);
                         onGameChange(itemIndex);
                     }}
+                    mode="dropdown"
                     {...dynamicPickerProps}
                 >
                 {profileData?.games.map(((game, index) => (

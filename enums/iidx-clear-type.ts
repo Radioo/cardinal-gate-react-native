@@ -1,0 +1,10 @@
+export enum IidxClearType {
+    NO_PLAY = 'NO PLAY',
+    FAILED = 'FAILED',
+    ASSIST_CLEAR = 'ASSIST CLEAR',
+    EASY_CLEAR = 'EASY CLEAR',
+    CLEAR = 'CLEAR',
+    HARD_CLEAR = 'HARD CLEAR',
+    EX_HARD_CLEAR = 'EX HARD CLEAR',
+    FULL_COMBO = 'FULL COMBO',
+}
