@@ -5,6 +5,7 @@ import {IidxDifficulty} from "@/enums/iidx-difficulty";
 import {useTheme} from "@/hooks/useTheme";
 import {IidxClearType} from "@/enums/iidx-clear-type";
 import IidxClearTypeItem from "@/components/IidxClearTypeItem";
+import {lighten} from "polished";
 
 export type IidxPlayRowProps = {
     play: IidxPlay;
@@ -55,11 +56,17 @@ export default function IidxPlayRow({play, style}: IidxPlayRowProps) {
         }
     }
 
+    const backgroundColor = getBackgroundColor(play.difficulty);
+
     return (
         <View style={[{
-            backgroundColor: getBackgroundColor(play.difficulty),
+            backgroundColor: backgroundColor,
+            borderColor: lighten(0.2, backgroundColor),
+            borderWidth: 2,
+            boxShadow: `0 0 10px ${lighten(0.2, backgroundColor)} inset`,
             padding: 5,
             gap: 5,
+            margin: 5,
         }, style]}>
             <View style={{
                 flexDirection: 'row',

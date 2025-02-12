@@ -8,6 +8,8 @@ import {useTheme} from "@/hooks/useTheme";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import {useUserRefresh} from "@/hooks/useUserRefresh";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import IidxClearTypeItem from "@/components/IidxClearTypeItem";
+import {IidxClearType} from "@/enums/iidx-clear-type";
 
 export default function Profile() {
     const {data, isLoading, isError, refetch, error} = useIidxProfile();
@@ -53,6 +55,17 @@ export default function Profile() {
                     <ThemedText style={{textAlign: 'right'}}>DP {data?.dp_class}</ThemedText>
                 </View>
             </ThemedCard>
+
+            <View style={{marginTop: 10, gap: 10, justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+                <IidxClearTypeItem clearType={IidxClearType.NO_PLAY} />
+                <IidxClearTypeItem clearType={IidxClearType.FAILED} />
+                <IidxClearTypeItem clearType={IidxClearType.ASSIST_CLEAR} />
+                <IidxClearTypeItem clearType={IidxClearType.EASY_CLEAR} />
+                <IidxClearTypeItem clearType={IidxClearType.CLEAR} />
+                <IidxClearTypeItem clearType={IidxClearType.HARD_CLEAR} />
+                <IidxClearTypeItem clearType={IidxClearType.EX_HARD_CLEAR} />
+                <IidxClearTypeItem clearType={IidxClearType.FULL_COMBO} />
+            </View>
         </ScrollView>
     )
 }

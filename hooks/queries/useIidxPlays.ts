@@ -6,5 +6,6 @@ export default function useIidxPlays(page: number) {
     return useQuery({
         queryKey: ['iidxPlays', page],
         queryFn: () => fetchApi2<IidxPlaysResponse>(`/iidx/plays/${page}`),
+        staleTime: Infinity,
     });
 }

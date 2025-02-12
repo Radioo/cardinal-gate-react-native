@@ -11,7 +11,7 @@ import {useTheme} from "@/hooks/useTheme";
 
 export default function Plays() {
     const [page, setPage] = useState(1);
-    const {data, isLoading, isError, refetch, error} = useIidxPlays(page);
+    const {data, isPending, isError, refetch, error} = useIidxPlays(page);
     const {refreshing, handleRefresh} = useUserRefresh(refetch);
     const [modalVisible, setModalVisible] = useState(false);
     const scrollViewRef = useRef<ScrollView>(null);
@@ -24,7 +24,7 @@ export default function Plays() {
         }
     }, [page]);
 
-    if(isLoading) {
+    if(isPending) {
         return <FullScreenLoader/>
     }
 
@@ -47,8 +47,7 @@ export default function Plays() {
                         ref={scrollViewRef}
             >
                 {data?.plays.map((play, index) => (
-                    <IidxPlayRow style={{marginBottom: (index === data?.plays.length - 1) ? 0 : 10}}
-                                 play={play}
+                    <IidxPlayRow play={play}
                                  key={play.id}
                     />
                 ))}

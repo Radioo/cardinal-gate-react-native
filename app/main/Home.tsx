@@ -1,7 +1,6 @@
 import {useUserData} from "@/hooks/useUserData";
 import FullScreenLoader from "@/components/FullScreenLoader";
-import {Animated, RefreshControl} from "react-native";
-import ScrollView = Animated.ScrollView;
+import {RefreshControl, ScrollView} from "react-native";
 import {useState} from "react";
 import {PlayCounts} from "@/components/PlayCounts";
 
