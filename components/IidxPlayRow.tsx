@@ -84,7 +84,7 @@ export default function IidxPlayRow({play, style}: IidxPlayRowProps) {
             </View>
             <View style={{height: 2, backgroundColor: theme.text}}></View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <View style={{flex: 1}}>
+                <View style={{flex: 2}}>
                     <ThemedText style={{fontSize: 20, lineHeight: 35, fontWeight: 'bold'}}>
                         {play.ex_score.toLocaleString()} EX
                     </ThemedText>
@@ -92,7 +92,7 @@ export default function IidxPlayRow({play, style}: IidxPlayRowProps) {
                         {play.percentage.toFixed(2)}%
                     </ThemedText>
                 </View>
-                <IidxClearTypeItem style={{flex: 1}} clearType={play.clear_type}/>
+                <IidxClearTypeItem style={{flex: 2}} clearType={play.clear_type}/>
                 <ThemedText style={{flex: 1, fontSize: 20, lineHeight: 35, fontWeight: 'bold', textAlign: 'center'}}>
                     {play.grade}
                 </ThemedText>
