@@ -35,10 +35,6 @@ export default function IidxPlayRow({play, style}: IidxPlayRowProps) {
         }
     }
 
-    const getClearTypeColor = (clearType: IidxClearType) => {
-
-    }
-
     const getPlayStyle = (diff: IidxDifficulty) => {
         switch(diff) {
             case IidxDifficulty.SPB:
@@ -57,13 +53,19 @@ export default function IidxPlayRow({play, style}: IidxPlayRowProps) {
     }
 
     const backgroundColor = getBackgroundColor(play.difficulty);
+    const themedBackgroundColor = theme.scheme === 'dark' ?
+        backgroundColor :
+        lighten(0.7, backgroundColor);
+    const themedBorderColor = theme.scheme === 'dark' ?
+        lighten(0.2, backgroundColor) :
+        lighten(0.5, backgroundColor);
 
     return (
         <View style={[{
-            backgroundColor: backgroundColor,
-            borderColor: lighten(0.2, backgroundColor),
+            backgroundColor: themedBackgroundColor,
+            borderColor: themedBorderColor,
             borderWidth: 2,
-            boxShadow: `0 0 10px ${lighten(0.2, backgroundColor)} inset`,
+            boxShadow: `0 0 10px ${themedBorderColor} inset`,
             padding: 5,
             gap: 5,
             margin: 5,
@@ -82,10 +84,18 @@ export default function IidxPlayRow({play, style}: IidxPlayRowProps) {
             </View>
             <View style={{height: 2, backgroundColor: theme.text}}></View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <ThemedText style={{flex: 1, fontSize: 20, lineHeight: 35, fontWeight: 'bold'}}>
-                    {play.ex_score.toLocaleString()} EX
+                <View style={{flex: 1}}>
+                    <ThemedText style={{fontSize: 20, lineHeight: 35, fontWeight: 'bold'}}>
+                        {play.ex_score.toLocaleString()} EX
+                    </ThemedText>
+                    <ThemedText style={{lineHeight: 14, fontSize: 12}}>
+                        {play.percentage.toFixed(2)}%
+                    </ThemedText>
+                </View>
+                <IidxClearTypeItem style={{flex: 1}} clearType={play.clear_type}/>
+                <ThemedText style={{flex: 1, fontSize: 20, lineHeight: 35, fontWeight: 'bold', textAlign: 'center'}}>
+                    {play.grade}
                 </ThemedText>
-                <IidxClearTypeItem clearType={play.clear_type}/>
                 <View style={{flex: 1}}>
                     <ThemedText style={{fontSize: 12, lineHeight: 14, textAlign: 'right'}}>
                         {play.perfect_count.toLocaleString()} PG

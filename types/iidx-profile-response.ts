@@ -7,5 +7,7 @@ export type IidxProfileResponse = {
     dp_play_count: number;
     sp_class: number;
     dp_class: number;
+    key_count: number;
+    scratch_count: number;
     games: Game[];
 }

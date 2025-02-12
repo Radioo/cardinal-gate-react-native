@@ -24,6 +24,10 @@ export default function Plays() {
         }
     }, [page]);
 
+    const updatePage = (newPage: number) => {
+        setPage(newPage < 1 ? 1 : newPage);
+    }
+
     if(isPending) {
         return <FullScreenLoader/>
     }
@@ -36,7 +40,7 @@ export default function Plays() {
         <View style={{flex: 1}}>
             <SetPageModal modalVisible={modalVisible}
                           onClose={page => {
-                              setPage(page);
+                              updatePage(page);
                               setModalVisible(false);
                           }}
                           initialValue={page.toString()}
@@ -60,13 +64,13 @@ export default function Plays() {
                 padding: 10,
             }}>
                 <ThemedButton label={'<'}
-                              onPress={() => setPage(page - 1)}
+                              onPress={() => updatePage(page - 1)}
                               disabled={page === 1}
                               style={{width: 50}}
                 />
                 <ThemedButton label={currentPageLabel} onPress={() => setModalVisible(true)}/>
                 <ThemedButton label={'>'}
-                              onPress={() => setPage(page + 1)}
+                              onPress={() => updatePage(page + 1)}
                               disabled={page === data?.pages}
                               style={{width: 50}}
                 />

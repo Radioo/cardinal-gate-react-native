@@ -10,6 +10,7 @@ import {useUserRefresh} from "@/hooks/useUserRefresh";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import IidxClearTypeItem from "@/components/IidxClearTypeItem";
 import {IidxClearType} from "@/enums/iidx-clear-type";
+import {MaterialCommunityIcons} from "@expo/vector-icons";
 
 export default function Profile() {
     const {data, isLoading, isError, refetch, error} = useIidxProfile();
@@ -47,7 +48,7 @@ export default function Profile() {
                     <ThemedText style={{textAlign: 'right'}}>{data?.dp_play_count.toLocaleString()} DP</ThemedText>
                 </View>
             </ThemedCard>
-            <ThemedCard style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+            <ThemedCard style={{flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 10}}>
                 <AntDesign name="staro" size={24} color={theme.text} />
                 <ThemedText style={{marginRight: 'auto'}}>Class</ThemedText>
                 <View>
@@ -55,17 +56,25 @@ export default function Profile() {
                     <ThemedText style={{textAlign: 'right'}}>DP {data?.dp_class}</ThemedText>
                 </View>
             </ThemedCard>
+            <ThemedCard style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+                <MaterialCommunityIcons name="gesture-tap-button" size={24} color={theme.text} />
+                <ThemedText style={{marginRight: 'auto'}}>Inputs</ThemedText>
+                <View>
+                    <ThemedText style={{textAlign: 'right'}}>{data?.key_count.toLocaleString()} Keys</ThemedText>
+                    <ThemedText style={{textAlign: 'right'}}>{data?.scratch_count.toLocaleString()} Scratches</ThemedText>
+                </View>
+            </ThemedCard>
 
-            <View style={{marginTop: 10, gap: 10, justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
-                <IidxClearTypeItem clearType={IidxClearType.NO_PLAY} />
-                <IidxClearTypeItem clearType={IidxClearType.FAILED} />
-                <IidxClearTypeItem clearType={IidxClearType.ASSIST_CLEAR} />
-                <IidxClearTypeItem clearType={IidxClearType.EASY_CLEAR} />
-                <IidxClearTypeItem clearType={IidxClearType.CLEAR} />
-                <IidxClearTypeItem clearType={IidxClearType.HARD_CLEAR} />
-                <IidxClearTypeItem clearType={IidxClearType.EX_HARD_CLEAR} />
-                <IidxClearTypeItem clearType={IidxClearType.FULL_COMBO} />
-            </View>
+            {/*<View style={{marginTop: 10, gap: 10, justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>*/}
+            {/*    <IidxClearTypeItem clearType={IidxClearType.NO_PLAY} />*/}
+            {/*    <IidxClearTypeItem clearType={IidxClearType.FAILED} />*/}
+            {/*    <IidxClearTypeItem clearType={IidxClearType.ASSIST_CLEAR} />*/}
+            {/*    <IidxClearTypeItem clearType={IidxClearType.EASY_CLEAR} />*/}
+            {/*    <IidxClearTypeItem clearType={IidxClearType.CLEAR} />*/}
+            {/*    <IidxClearTypeItem clearType={IidxClearType.HARD_CLEAR} />*/}
+            {/*    <IidxClearTypeItem clearType={IidxClearType.EX_HARD_CLEAR} />*/}
+            {/*    <IidxClearTypeItem clearType={IidxClearType.FULL_COMBO} />*/}
+            {/*</View>*/}
         </ScrollView>
     )
 }

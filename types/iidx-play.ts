@@ -12,6 +12,7 @@ export type IidxPlay = {
     perfect_count: number;
     great_count: number;
     grade: string;
+    percentage: number;
     miss_count: number | null;
     has_score_card: boolean;
     dts: string;

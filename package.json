@@ -16,8 +16,10 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@dev-plugins/react-query": "^0.1.0",
     "@expo/vector-icons": "^14.0.2",
+    "@react-native-community/netinfo": "11.4.1",
     "@react-native-masked-view/masked-view": "0.3.2",
     "@react-native-picker/picker": "2.9.0",
     "@react-navigation/bottom-tabs": "^7.2.0",
@@ -55,8 +57,7 @@
     "react-native-tab-view": "^4.0.5",
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.5",
-    "zustand": "^5.0.3",
-    "@react-native-community/netinfo": "11.4.1"
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

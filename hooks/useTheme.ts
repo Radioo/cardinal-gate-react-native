@@ -4,5 +4,8 @@ import {Colors} from "@/constants/Colors";
 export function useTheme() {
     const theme = useColorScheme() ?? 'light';
 
-    return Colors[theme];
+    return {
+        scheme: theme,
+        ...Colors[theme]
+    };
 }
