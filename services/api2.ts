@@ -4,6 +4,7 @@ import {SecureValue} from "@/enums/secure-value";
 export default async function fetchApi2<T>(
     endpoint: string,
     init? : RequestInit,
+    noApiRoot: boolean = false
 ): Promise<T> {
     console.log(`Fetching ${endpoint} ${new Date()}`);
 
@@ -24,10 +25,16 @@ export default async function fetchApi2<T>(
                 },
             }
 
-            const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}${endpoint}`, requestInit);
+            let url = `${process.env.EXPO_PUBLIC_API_URL}${endpoint}`;
+            if(noApiRoot) {
+                url = url.replace('/api2', '');
+            }
+
+            const response = await fetch(url, requestInit);
+            const contentType = response.headers.get('content-type');
 
             if (!response.ok) {
-                if (response.headers.get('content-type') === 'application/json') {
+                if (contentType === 'application/json') {
                     return response.json().then(json => {
                         throw new Error(json.error)
                     });
@@ -36,6 +43,13 @@ export default async function fetchApi2<T>(
                 throw new Error(`Failed to fetch ${endpoint}`);
             }
 
-            return await response.json();
+            switch(contentType) {
+                case 'application/json':
+                    return response.json();
+                case 'image/png':
+                    return response.blob();
+                default:
+                    return response.text();
+            }
         })
 }

@@ -1,10 +1,10 @@
-import {Modal, View, StyleSheet, Platform} from "react-native";
+import {View, StyleSheet} from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
 import { ThemedButton } from "@/components/ThemedButton";
 import { useTheme } from "@/hooks/useTheme";
 import { useEffect, useState } from "react";
-import { BlurView } from "expo-blur";
+import ModalBase from "@/components/ModalBase";
 
 export type SetPageModalProps = {
     initialValue?: string;
@@ -27,39 +27,28 @@ export default function SetPageModal({
     }, [initialValue]);
 
     return (
-        <Modal
-            animationType="fade"
-            visible={modalVisible}
-            transparent={true}
-        >
-            <BlurView
-                style={styles.blurContainer}
-                intensity={10}
-                tint={theme.scheme}
-                experimentalBlurMethod={Platform.OS === 'android' ? 'dimezisBlurView' : 'none'}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={[styles.modalContent, { backgroundColor: theme.background }]}>
-                        <ThemedText>Set page</ThemedText>
-                        <ThemedTextInput
-                            defaultValue={initialValue}
-                            onChangeText={(text) => setValue(text)}
-                            keyboardType="numeric"
-                        />
-                        <ThemedButton
-                            aria-valuemin={1}
-                            label="OK"
-                            onPress={() => {
-                                let result = parseInt(value ?? "1");
-                                result = result < 1 ? 1 : result;
-                                result = result > maxPage ? maxPage : result;
-                                onClose(result);
-                            }}
-                        />
-                    </View>
+        <ModalBase visible={modalVisible}>
+            <View style={styles.modalContainer}>
+                <View style={[styles.modalContent, { backgroundColor: theme.background }]}>
+                    <ThemedText>Set page</ThemedText>
+                    <ThemedTextInput
+                        defaultValue={initialValue}
+                        onChangeText={(text) => setValue(text)}
+                        keyboardType="numeric"
+                    />
+                    <ThemedButton
+                        aria-valuemin={1}
+                        label="OK"
+                        onPress={() => {
+                            let result = parseInt(value ?? "1");
+                            result = result < 1 ? 1 : result;
+                            result = result > maxPage ? maxPage : result;
+                            onClose(result);
+                        }}
+                    />
                 </View>
-            </BlurView>
-        </Modal>
+            </View>
+        </ModalBase>
     );
 }
 

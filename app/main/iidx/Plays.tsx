@@ -8,6 +8,7 @@ import {ThemedButton} from "@/components/ThemedButton";
 import SetPageModal from "@/components/SetPageModal";
 import IidxPlayRow from "@/components/IidxPlayRow";
 import {useTheme} from "@/hooks/useTheme";
+import {Entypo} from "@expo/vector-icons";
 
 export default function Plays() {
     const [page, setPage] = useState(1);
@@ -63,13 +64,13 @@ export default function Plays() {
                 backgroundColor: theme.background,
                 padding: 10,
             }}>
-                <ThemedButton label={'<'}
+                <ThemedButton icon={<Entypo name="chevron-left" size={24} color={theme.background} />}
                               onPress={() => updatePage(page - 1)}
                               disabled={page === 1}
                               style={{width: 50}}
                 />
                 <ThemedButton label={currentPageLabel} onPress={() => setModalVisible(true)}/>
-                <ThemedButton label={'>'}
+                <ThemedButton icon={<Entypo name="chevron-right" size={24} color={theme.background} />}
                               onPress={() => updatePage(page + 1)}
                               disabled={page === data?.pages}
                               style={{width: 50}}
