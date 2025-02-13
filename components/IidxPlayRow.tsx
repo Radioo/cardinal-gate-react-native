@@ -75,7 +75,7 @@ export default function IidxPlayRow({play, style}: IidxPlayRowProps) {
 
     return (
         <>
-            {data !== undefined && isFetched ? <ShareImageModal image={data} modalVisible={showModal} onClose={() => setModalVisible(false)}/> : null}
+            {data !== undefined && isFetched ? <ShareImageModal imageB64={data.b64} url={data.url} modalVisible={showModal} onClose={() => setModalVisible(false)}/> : null}
             <View style={[{
                 backgroundColor: themedBackgroundColor,
                 borderColor: themedBorderColor,

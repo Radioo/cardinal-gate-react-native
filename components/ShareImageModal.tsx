@@ -1,5 +1,5 @@
 import ModalBase from "@/components/ModalBase";
-import {View} from "react-native";
+import {Platform, View} from "react-native";
 import {ThemedButton} from "@/components/ThemedButton";
 import { Image } from 'expo-image';
 import {useTheme} from "@/hooks/useTheme";
@@ -14,12 +14,13 @@ import ErrorScreen from "@/components/ErrorScreen";
 import * as FileSystem from 'expo-file-system';
 
 export type ShareImageModalProps = {
-    image: string;
+    imageB64: string;
+    url: string;
     modalVisible: boolean;
     onClose: () => void;
 }
 
-export default function ShareImageModal({image, modalVisible, onClose}: ShareImageModalProps) {
+export default function ShareImageModal({imageB64, url, modalVisible, onClose}: ShareImageModalProps) {
     const [isChecked, setIsChecked] = useState(false);
     const theme = useTheme();
     const sharingQuery = useQuery({
@@ -29,10 +30,20 @@ export default function ShareImageModal({image, modalVisible, onClose}: ShareIma
     });
     const shareMutation = useMutation({
         mutationFn: async () => {
-            const base64 = image.split(',')[1];
-            const path = FileSystem.cacheDirectory + 'temp.png';
-            await FileSystem.writeAsStringAsync(path, base64, {encoding: FileSystem.EncodingType.Base64});
-            return Sharing.shareAsync(path);
+            let targetUrl = url;
+
+            if(Platform.OS !== 'web') {
+                const base64 = imageB64.split(',')[1];
+                const path = FileSystem.cacheDirectory + 'temp.png';
+                await FileSystem.writeAsStringAsync(path, base64, {encoding: FileSystem.EncodingType.Base64});
+                targetUrl = path;
+            }
+
+            return Sharing.shareAsync(targetUrl, {
+                mimeType: 'image/png',
+                UTI: 'image/png',
+                dialogTitle: 'Share this scorecard',
+            });
         }
     })
 
@@ -61,7 +72,7 @@ export default function ShareImageModal({image, modalVisible, onClose}: ShareIma
                 justifyContent: 'center',
                 alignItems: 'center'
             }}>
-                <Image source={{uri: image}}
+                <Image source={{uri: imageB64}}
                        style={{width: '100%', flex: 1}}
                        contentFit="contain"
                        transition={1000}
