@@ -74,65 +74,63 @@ export default function IidxPlayRow({play, style}: IidxPlayRowProps) {
         lighten(0.5, backgroundColor);
 
     return (
-        <>
+        <View style={[{
+            backgroundColor: themedBackgroundColor,
+            borderColor: themedBorderColor,
+            borderWidth: 2,
+            boxShadow: `0 0 10px ${themedBorderColor} inset`,
+            padding: 5,
+            gap: 5,
+            margin: 5,
+        }, style]}>
             {data !== undefined && isFetched ? <ShareImageModal imageB64={data.b64} url={data.url} modalVisible={showModal} onClose={() => setModalVisible(false)}/> : null}
-            <View style={[{
-                backgroundColor: themedBackgroundColor,
-                borderColor: themedBorderColor,
-                borderWidth: 2,
-                boxShadow: `0 0 10px ${themedBorderColor} inset`,
-                padding: 5,
+            <View style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
                 gap: 5,
-                margin: 5,
-            }, style]}>
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    gap: 5,
-                }}>
-                    <View style={{flex: 1}}>
-                        <ThemedText numberOfLines={1}>{play.name}</ThemedText>
-                        <ThemedText numberOfLines={1}>{play.artist}</ThemedText>
-                    </View>
-                    <ThemedText style={{lineHeight: 40, fontSize: 30, fontWeight: 'bold'}}>{getPlayStyle(play.difficulty)}</ThemedText>
-                    {play.has_score_card ? <ThemedButton loading={isLoading} onPress={() => {
-                        fetchScoreCard();
-                        setModalVisible(true);
-                    }} icon={<FontAwesome name="camera" size={24} color={theme.background} />}/> : null}
+            }}>
+                <View style={{flex: 1}}>
+                    <ThemedText numberOfLines={1}>{play.name}</ThemedText>
+                    <ThemedText numberOfLines={1}>{play.artist}</ThemedText>
+                </View>
+                <ThemedText style={{lineHeight: 40, fontSize: 30, fontWeight: 'bold'}}>{getPlayStyle(play.difficulty)}</ThemedText>
+                {play.has_score_card ? <ThemedButton loading={isLoading} onPress={() => {
+                    fetchScoreCard();
+                    setModalVisible(true);
+                }} icon={<FontAwesome name="camera" size={24} color={theme.background} />}/> : null}
 
-                </View>
-                <View style={{height: 2, backgroundColor: theme.text}}></View>
-                <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
-                    <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10}}>
-                        <View>
-                            <ThemedText style={{fontSize: 20, lineHeight: 35, fontWeight: 'bold'}}>
-                                {play.ex_score.toLocaleString()} EX
-                            </ThemedText>
-                            <ThemedText style={{lineHeight: 14, fontSize: 12}}>
-                                {play.percentage.toFixed(2)}%
-                            </ThemedText>
-                        </View>
-                        <View>
-                            <ThemedText style={{fontSize: 12, lineHeight: 14, textAlign: 'right'}}>
-                                {play.perfect_count.toLocaleString()} PG
-                            </ThemedText>
-                            <ThemedText style={{fontSize: 12, lineHeight: 14, textAlign: 'right'}}>
-                                {play.great_count.toLocaleString()} G
-                            </ThemedText>
-                            {play.miss_count === null ? null : <ThemedText style={{fontSize: 12, lineHeight: 14, textAlign: 'right'}}>
-                                {play.miss_count.toLocaleString()} MC
-                            </ThemedText>}
-                        </View>
-                    </View>
-                    <View style={{alignItems: 'center', flex: 1}}>
-                        <IidxClearTypeItem clearType={play.clear_type}/>
-                    </View>
-                    <ThemedText style={{width: 60, fontSize: 30, lineHeight: 40, fontWeight: 'bold', textAlign: 'right'}}>
-                        {play.grade}
-                    </ThemedText>
-                </View>
             </View>
-        </>
+            <View style={{height: 2, backgroundColor: theme.text}}></View>
+            <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
+                <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10}}>
+                    <View>
+                        <ThemedText style={{fontSize: 20, lineHeight: 35, fontWeight: 'bold'}}>
+                            {play.ex_score.toLocaleString()} EX
+                        </ThemedText>
+                        <ThemedText style={{lineHeight: 14, fontSize: 12}}>
+                            {play.percentage.toFixed(2)}%
+                        </ThemedText>
+                    </View>
+                    <View>
+                        <ThemedText style={{fontSize: 12, lineHeight: 14, textAlign: 'right'}}>
+                            {play.perfect_count.toLocaleString()} PG
+                        </ThemedText>
+                        <ThemedText style={{fontSize: 12, lineHeight: 14, textAlign: 'right'}}>
+                            {play.great_count.toLocaleString()} G
+                        </ThemedText>
+                        {play.miss_count === null ? null : <ThemedText style={{fontSize: 12, lineHeight: 14, textAlign: 'right'}}>
+                            {play.miss_count.toLocaleString()} MC
+                        </ThemedText>}
+                    </View>
+                </View>
+                <View style={{alignItems: 'center', flex: 1}}>
+                    <IidxClearTypeItem clearType={play.clear_type}/>
+                </View>
+                <ThemedText style={{width: 60, fontSize: 30, lineHeight: 40, fontWeight: 'bold', textAlign: 'right'}}>
+                    {play.grade}
+                </ThemedText>
+            </View>
+        </View>
     )
 }

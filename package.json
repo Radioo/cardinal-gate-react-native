@@ -60,7 +60,8 @@
     "zustand": "^5.0.3",
     "expo-image": "~2.0.5",
     "expo-checkbox": "~4.0.1",
-    "expo-sharing": "~13.0.1"
+    "expo-sharing": "~13.0.1",
+    "expo-dev-client": "~5.0.12"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
