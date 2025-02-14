@@ -31,6 +31,11 @@ export default function Layout() {
                 drawerItemStyle: {...drawerItemStyle, display: data?.profiles.gd ? 'flex' : 'none'},
                 drawerIcon: ({color}) => <FontAwesome6 name="drum" size={24} color={color} />
             }}/>
+            <Drawer.Screen name="debug" options={{
+                title: "Debug",
+                drawerItemStyle: {...drawerItemStyle},
+                drawerIcon: ({color}) => <Entypo name="bug" size={24} color={color} />
+            }}/>
             <Drawer.Screen name="Logout" options={{
                 drawerIcon: ({color}) => <MaterialIcons name="logout" size={24} color={color} />
             }}/>

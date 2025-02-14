@@ -1,18 +1,18 @@
 import {ThemedText} from "@/components/ThemedText";
 import {View} from "react-native";
-import GdDifficultyInfo from "@/components/GdDifficulty";
 import ThemedCard from "@/components/ThemedCard";
 import * as React from "react";
 import {GdMusicSkillItem} from "@/types/gd-skill-data-response";
+import {GdDifficultyInfo} from "@/components/GdDifficulty";
+import {memo} from "react";
 
 type GdSkillListItemProps = {
     item: GdMusicSkillItem;
     index: number;
-    first: boolean;
-    last: boolean;
+    theme: 'light' | 'dark';
 }
 
-export default function GdSkillListItem({item, index, first, last}: GdSkillListItemProps) {
+const Component = ({item, index, theme}: GdSkillListItemProps) => {
     const formatValue = (value: number) => {
         if(value < 0) {
             return '???';
@@ -28,8 +28,6 @@ export default function GdSkillListItem({item, index, first, last}: GdSkillListI
             alignItems: 'center',
             marginLeft: 10,
             marginRight: 10,
-            marginTop: first ? 10 : 5,
-            marginBottom: last ? 10 : 5,
             flex: 1,
         }}>
             <ThemedText style={{
@@ -40,7 +38,7 @@ export default function GdSkillListItem({item, index, first, last}: GdSkillListI
             }}>#{(index + 1).toString().padStart(2, '0')}</ThemedText>
             <View style={{flexDirection: 'column', justifyContent: 'space-between', flex: 1}}>
                 <ThemedText numberOfLines={1} ellipsizeMode="tail">{item.title}</ThemedText>
-                <GdDifficultyInfo difficulty={item.difficulty}/>
+                <GdDifficultyInfo difficulty={item.difficulty} theme={theme}/>
             </View>
             <View>
                 <ThemedText style={{fontWeight: 'bold', textAlign: 'right'}}>{formatValue(item.skill)}</ThemedText>
@@ -49,3 +47,5 @@ export default function GdSkillListItem({item, index, first, last}: GdSkillListI
         </ThemedCard>
     )
 }
+
+export const GdSkillListItem = memo(Component);

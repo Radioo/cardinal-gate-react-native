@@ -54,7 +54,7 @@ export default function LoginScreen() {
                 <Logo width="50%" height="25%"/>
                 <ThemedTextInput value={form.username}
                                  onChangeText={(text) => handleInputChange('username', text)}
-                                 placeholder="Username"
+                                 placeholder="Username or email"
                                  autoCapitalize="none"
                                  textContentType="username"
                                  style={{width: '50%', minWidth: 300}}

@@ -1,16 +1,15 @@
 import {GdDifficultyContainer} from "@/types/gd-difficulty-container";
 import {Text, View} from "react-native";
 import {GdDifficulty} from "@/enums/gd-difficulty";
-import {useColorScheme} from "@/hooks/useColorScheme";
 import {lighten} from "polished";
+import {memo} from "react";
 
 type GdDifficultyProps = {
     difficulty: GdDifficultyContainer;
+    theme: 'light' | 'dark';
 }
 
-export default function GdDifficultyInfo({difficulty}: GdDifficultyProps) {
-    const theme = useColorScheme();
-
+const Component = ({difficulty, theme}: GdDifficultyProps) => {
     const getDifficultyColor = () => {
         switch(difficulty.difficulty) {
             case GdDifficulty.BASIC:
@@ -60,3 +59,5 @@ export default function GdDifficultyInfo({difficulty}: GdDifficultyProps) {
         </View>
     )
 }
+
+export const GdDifficultyInfo = memo(Component);
