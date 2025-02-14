@@ -6,6 +6,7 @@ export type IidxPlay = {
     name: string;
     artist: string;
     difficulty: IidxDifficulty;
+    level: number;
     clear_type: IidxClearType;
     dead: boolean;
     ex_score: number;

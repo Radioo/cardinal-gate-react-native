@@ -15,7 +15,7 @@ export default function Profile() {
     const theme = useTheme();
 
     useEffect(() => {
-        fetchApi<GdProfileResponse>('/gd/profile').then(data => {
+        fetchApi<GdProfileResponse>('/api2/gd/profile').then(data => {
             console.log('data', data);
             setProfileData(data);
             setLoading(false);

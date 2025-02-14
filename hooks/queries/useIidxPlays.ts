@@ -10,7 +10,7 @@ export default function useIidxPlays(page: number) {
 
     return useQuery({
         queryKey: ['iidxPlays', properPage],
-        queryFn: () => fetchApi2<IidxPlaysResponse>(`/iidx/plays/${properPage}`),
+        queryFn: () => fetchApi2<IidxPlaysResponse>(`/api2/iidx/plays/${properPage}`),
         staleTime: Infinity,
     });
 }

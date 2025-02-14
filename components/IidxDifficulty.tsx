@@ -2,13 +2,15 @@ import {IidxDifficulty} from "@/enums/iidx-difficulty";
 import {memo} from "react";
 import {IidxPlayStyle} from "@/enums/iidx-play-style";
 import {Text, View} from "react-native";
+import {lighten} from "polished";
 
 export type IidxDifficultyProps = {
     difficulty: IidxDifficulty;
     level: number;
+    theme: 'light' | 'dark';
 }
 
-const Component = ({difficulty, level}: IidxDifficultyProps) => {
+const Component = ({difficulty, level, theme}: IidxDifficultyProps) => {
     const getPlayStyle = () => {
         switch(difficulty) {
             case IidxDifficulty.SPB:
@@ -66,24 +68,27 @@ const Component = ({difficulty, level}: IidxDifficultyProps) => {
         }
     }
 
+    const themedDifficultyColor = theme === 'dark' ? getDifficultyColor() :
+        lighten(0.5, getDifficultyColor());
+
     return (
         <View style={{flexDirection: 'row', borderWidth: 2, borderColor: 'black'}}>
             <Text style={{
-                color: 'white',
-                backgroundColor: '#4f4f4f',
+                color: theme === 'dark' ? 'white' : 'black',
+                backgroundColor: theme === 'dark' ? '#4f4f4f' : '#f0f0f0',
                 paddingInline: 4,
             }}>{getPlayStyle()}</Text>
             <View style={{width: 2, backgroundColor: 'black'}}></View>
             <Text style={{
-                color: 'white',
-                backgroundColor: getDifficultyColor(),
+                color: theme === 'dark' ? 'white' : 'black',
+                backgroundColor: themedDifficultyColor,
                 paddingInline: 4,
             }}>{getDifficultyName()}</Text>
             <View style={{width: 2, backgroundColor: 'black'}}></View>
             <Text style={{
-                color: 'white',
+                color: theme === 'dark' ? 'white' : 'black',
                 paddingInline: 4,
-                backgroundColor: getDifficultyColor(),
+                backgroundColor: themedDifficultyColor,
             }}>{level}</Text>
         </View>
     )

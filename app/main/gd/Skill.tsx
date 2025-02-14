@@ -144,7 +144,7 @@ export default function Skill() {
         console.log('selectedGame', selectedGameIndex, profileData);
 
         setLoadingState(true);
-        fetchApi<GdSkillDataResponse>(`/gd/skill/${profileData?.games[selectedGameIndex].version}`).then(data => {
+        fetchApi<GdSkillDataResponse>(`/api2/gd/skill/${profileData?.games[selectedGameIndex].version}`).then(data => {
             console.log('skillData', data);
             setSkillData(data);
             setLoadingState(false);

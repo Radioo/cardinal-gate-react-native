@@ -30,7 +30,7 @@ export default function LoginScreen() {
         console.log('login', process.env.EXPO_PUBLIC_API_URL);
         setLoading(true);
 
-        fetchApi<LoginResponse>('/authorize', {
+        fetchApi<LoginResponse>('/api2/authorize', {
             method: 'POST',
             body: JSON.stringify({
                 ...form,

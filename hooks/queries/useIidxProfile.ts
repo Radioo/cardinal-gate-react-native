@@ -5,6 +5,6 @@ import {IidxProfileResponse} from "@/types/iidx-profile-response";
 export default function useIidxProfile() {
     return useQuery({
         queryKey: ['iidxProfile'],
-        queryFn: () => fetchApi2<IidxProfileResponse>('/iidx/profile'),
+        queryFn: () => fetchApi2<IidxProfileResponse>('/api2/iidx/profile'),
     })
 }

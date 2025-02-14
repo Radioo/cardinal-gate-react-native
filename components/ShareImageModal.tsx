@@ -1,9 +1,7 @@
 import ModalBase from "@/components/ModalBase";
 import {Platform, View} from "react-native";
 import {ThemedButton} from "@/components/ThemedButton";
-import { Image } from 'expo-image';
 import {useTheme} from "@/hooks/useTheme";
-import {Checkbox} from "expo-checkbox";
 import {useState} from "react";
 import ThemedCheckbox from "@/components/ThemedCheckbox";
 import {ThemedText} from "@/components/ThemedText";
@@ -12,16 +10,51 @@ import * as Sharing from 'expo-sharing';
 import FullScreenLoader from "@/components/FullScreenLoader";
 import ErrorScreen from "@/components/ErrorScreen";
 import * as FileSystem from 'expo-file-system';
+import fetchApi2 from "@/services/api2";
+import {ApiImage} from "@/components/ApiImage";
 
 export type ShareImageModalProps = {
-    imageB64: string;
     url: string;
     modalVisible: boolean;
     onClose: () => void;
 }
 
-export default function ShareImageModal({imageB64, url, modalVisible, onClose}: ShareImageModalProps) {
+type BottomSectionProps = {
+    onPress: () => void;
+    isLoading: boolean;
+    onClose: () => void;
+    sharingQuery: ReturnType<typeof useQuery>;
+}
+
+const BottomSection = ({isLoading, onClose, onPress, sharingQuery}: BottomSectionProps) => {
     const [isChecked, setIsChecked] = useState(false);
+
+    return (
+        <>
+            {sharingQuery.data ?
+                <View style={{flexDirection: 'row', alignItems: 'center', gap: 10, padding: 30}}>
+                    <ThemedCheckbox value={isChecked} onValueChange={setIsChecked}></ThemedCheckbox>
+                    <ThemedText>
+                        I understand that sharing this image in public will result in a ban.
+                    </ThemedText>
+                </View> :
+                <View style={{padding: 30}}>
+                    <ThemedText>Sharing is not available on this platform.</ThemedText>
+                </View>}
+            <View style={{padding: 10, flexDirection: 'row', gap: 10, width: '100%'}}>
+                <ThemedButton disabled={!isChecked}
+                              loading={isLoading}
+                              onPress={onPress}
+                              style={{flex: 1}}
+                              label="Share"
+                />
+                <ThemedButton style={{flex: 1}} label="Close" onPress={onClose}/>
+            </View>
+        </>
+    )
+}
+
+export default function ShareImageModal({url, modalVisible, onClose}: ShareImageModalProps) {
     const theme = useTheme();
     const sharingQuery = useQuery({
         queryKey: ['sharingAvailable'],
@@ -33,10 +66,20 @@ export default function ShareImageModal({imageB64, url, modalVisible, onClose}: 
             let targetUrl = url;
 
             if(Platform.OS !== 'web') {
-                const base64 = imageB64.split(',')[1];
-                const path = FileSystem.cacheDirectory + 'temp.png';
-                await FileSystem.writeAsStringAsync(path, base64, {encoding: FileSystem.EncodingType.Base64});
-                targetUrl = path;
+                const response = await fetchApi2<Blob>(url, undefined, true);
+                targetUrl = FileSystem.cacheDirectory + 'scorecard.png';
+
+                const b64 = await new Promise<string>(((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        resolve(reader.result as string);
+                    }
+                    reader.onerror = reject;
+                    reader.readAsDataURL(response);
+                }));
+                const b64Data = b64.split(',')[1];
+
+                await FileSystem.writeAsStringAsync(targetUrl, b64Data, {encoding: FileSystem.EncodingType.Base64});
             }
 
             return Sharing.shareAsync(targetUrl, {
@@ -72,32 +115,15 @@ export default function ShareImageModal({imageB64, url, modalVisible, onClose}: 
                 justifyContent: 'center',
                 alignItems: 'center'
             }}>
-                <Image source={{uri: imageB64}}
-                       style={{width: '100%', flex: 1}}
-                       contentFit="contain"
-                       transition={1000}
+                <ApiImage url={url}
+                          style={{width: '100%', flex: 1}}
+                          contentFit="contain"
                 />
-                {sharingQuery.data ?
-                <View style={{flexDirection: 'row', alignItems: 'center', gap: 10, padding: 30}}>
-                    <ThemedCheckbox value={isChecked} onValueChange={setIsChecked}></ThemedCheckbox>
-                    <ThemedText>
-                        I understand that sharing this image in public will result in a ban.
-                    </ThemedText>
-                </View> :
-                <View style={{padding: 30}}>
-                    <ThemedText>Sharing is not available on this platform.</ThemedText>
-                </View>
-                }
-
-                <View style={{padding: 10, flexDirection: 'row', gap: 10}}>
-                    <ThemedButton disabled={!isChecked}
-                                  loading={shareMutation.isPending}
-                                  onPress={() => shareMutation.mutate()}
-                                  style={{flex: 1}}
-                                  label="Share"
-                    />
-                    <ThemedButton style={{flex: 1}} label="Close" onPress={onClose}/>
-                </View>
+                <BottomSection onPress={() => shareMutation.mutate()}
+                               isLoading={shareMutation.isPending}
+                               onClose={onClose}
+                               sharingQuery={sharingQuery}
+                />
             </View>
         </ModalBase>
     )

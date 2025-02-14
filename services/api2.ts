@@ -4,7 +4,7 @@ import {SecureValue} from "@/enums/secure-value";
 export default async function fetchApi2<T>(
     endpoint: string,
     init? : RequestInit,
-    noApiRoot: boolean = false
+    skipRootUrl = false,
 ): Promise<T> {
     console.log(`Fetching ${endpoint} ${new Date()}`);
 
@@ -25,10 +25,7 @@ export default async function fetchApi2<T>(
                 },
             }
 
-            let url = `${process.env.EXPO_PUBLIC_API_URL}${endpoint}`;
-            if(noApiRoot) {
-                url = url.replace('/api2', '');
-            }
+            const url = skipRootUrl ? endpoint : `${process.env.EXPO_PUBLIC_API_URL}${endpoint}`;
 
             const response = await fetch(url, requestInit);
             const contentType = response.headers.get('content-type');

@@ -44,7 +44,7 @@ export function useUserData(): UseUserDataResult {
                     return;
                 }
 
-                const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/me`, {
+                const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api2/me`, {
                     headers: {
                         "CG-Token": token
                     },

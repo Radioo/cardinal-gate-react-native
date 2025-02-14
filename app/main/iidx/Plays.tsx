@@ -1,4 +1,4 @@
-import {RefreshControl, ScrollView, View} from "react-native";
+import {FlatList, RefreshControl, ScrollView, View} from "react-native";
 import useIidxPlays from "@/hooks/queries/useIidxPlays";
 import {useUserRefresh} from "@/hooks/useUserRefresh";
 import {useEffect, useRef, useState} from "react";
@@ -9,6 +9,7 @@ import SetPageModal from "@/components/SetPageModal";
 import IidxPlayRow from "@/components/IidxPlayRow";
 import {useTheme} from "@/hooks/useTheme";
 import {Entypo} from "@expo/vector-icons";
+import IidxPlayList from "@/components/IidxPlayList";
 
 export default function Plays() {
     const [page, setPage] = useState(1);
@@ -29,26 +30,15 @@ export default function Plays() {
         setPage(newPage < 1 ? 1 : newPage);
     }
 
-    if(isPending) {
-        return <FullScreenLoader/>
-    }
-
     if(isError) {
         return <ErrorScreen error={error} onRetry={refetch}/>
     }
 
     return (
         <View style={{flex: 1}}>
-            <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh}/>}
-                        style={{flex: 1}}
-                        ref={scrollViewRef}
-            >
-                {data?.plays.map((play, index) => (
-                    <IidxPlayRow play={play}
-                                 key={play.id}
-                    />
-                ))}
-            </ScrollView>
+            {isPending ? <FullScreenLoader/> :
+                <IidxPlayList plays={data?.plays} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh}/>}/>
+            }
             <View style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -66,13 +56,16 @@ export default function Plays() {
                 />
                 <ThemedButton icon={<Entypo name="chevron-left" size={24} color={theme.background} />}
                               onPress={() => updatePage(page - 1)}
-                              disabled={page === 1}
+                              disabled={page === 1 || isPending}
                               style={{width: 50}}
                 />
-                <ThemedButton label={currentPageLabel} onPress={() => setModalVisible(true)}/>
+                <ThemedButton label={currentPageLabel}
+                              loading={isPending}
+                              onPress={() => setModalVisible(true)}
+                />
                 <ThemedButton icon={<Entypo name="chevron-right" size={24} color={theme.background} />}
                               onPress={() => updatePage(page + 1)}
-                              disabled={page === data?.pages}
+                              disabled={page === data?.pages || isPending}
                               style={{width: 50}}
                 />
             </View>

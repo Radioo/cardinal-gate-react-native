@@ -26,7 +26,7 @@ export function PlayCounts() {
     }
 
     useEffect(() => {
-        fetchApi<SummaryResponse>('/summary').then(data => {
+        fetchApi<SummaryResponse>('/api2/summary').then(data => {
             setSummary(data);
         });
     }, []);
