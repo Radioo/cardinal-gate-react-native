@@ -39,6 +39,14 @@ export default function Plays() {
             {isPending ? <FullScreenLoader/> :
                 <IidxPlayList plays={data?.plays} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh}/>}/>
             }
+            <SetPageModal modalVisible={modalVisible}
+                          onClose={page => {
+                              updatePage(page);
+                              setModalVisible(false);
+                          }}
+                          initialValue={page.toString()}
+                          maxPage={data?.pages ?? 1}
+            />
             <View style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -46,14 +54,6 @@ export default function Plays() {
                 backgroundColor: theme.background,
                 padding: 10,
             }}>
-                <SetPageModal modalVisible={modalVisible}
-                              onClose={page => {
-                                  updatePage(page);
-                                  setModalVisible(false);
-                              }}
-                              initialValue={page.toString()}
-                              maxPage={data?.pages ?? 1}
-                />
                 <ThemedButton icon={<Entypo name="chevron-left" size={24} color={theme.background} />}
                               onPress={() => updatePage(page - 1)}
                               disabled={page === 1 || isPending}

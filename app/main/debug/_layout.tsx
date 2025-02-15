@@ -2,6 +2,7 @@ import {useTheme} from "@/hooks/useTheme";
 import {Tabs} from "expo-router";
 import {tabBarLabelStyle} from "@/constants/Styles";
 import {FontAwesome6, Ionicons} from "@expo/vector-icons";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 export default function Layout() {
     const theme = useTheme();
@@ -12,6 +13,10 @@ export default function Layout() {
             tabBarActiveTintColor: theme.primary,
             tabBarLabelStyle: tabBarLabelStyle(),
         }}>
+            <Tabs.Screen name="General" options={{
+                title: "General",
+                tabBarIcon: ({color}) => <MaterialIcons name="miscellaneous-services" size={24} color={color} />
+            }}/>
             <Tabs.Screen name="Gd" options={{
                 title: "GD",
                 tabBarIcon: ({color}) => <FontAwesome6 name="drum" size={24} color={color} />

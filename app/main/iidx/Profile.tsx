@@ -8,11 +8,7 @@ import {useTheme} from "@/hooks/useTheme";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import {useUserRefresh} from "@/hooks/useUserRefresh";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import IidxClearTypeItem from "@/components/IidxClearTypeItem";
-import {IidxClearType} from "@/enums/iidx-clear-type";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
-import {Image} from "expo-image";
-import {StyleSheet} from "react-native";
 
 export default function Profile() {
     const {data, isLoading, isError, refetch, error} = useIidxProfile();
@@ -66,38 +62,6 @@ export default function Profile() {
                     <ThemedText style={{textAlign: 'right'}}>{data?.scratch_count.toLocaleString()} Scratches</ThemedText>
                 </View>
             </ThemedCard>
-
-            {/*<View style={{marginTop: 10, gap: 10, justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>*/}
-            {/*    <IidxClearTypeItem clearType={IidxClearType.NO_PLAY} />*/}
-            {/*    <IidxClearTypeItem clearType={IidxClearType.FAILED} />*/}
-            {/*    <IidxClearTypeItem clearType={IidxClearType.ASSIST_CLEAR} />*/}
-            {/*    <IidxClearTypeItem clearType={IidxClearType.EASY_CLEAR} />*/}
-            {/*    <IidxClearTypeItem clearType={IidxClearType.CLEAR} />*/}
-            {/*    <IidxClearTypeItem clearType={IidxClearType.HARD_CLEAR} />*/}
-            {/*    <IidxClearTypeItem clearType={IidxClearType.EX_HARD_CLEAR} />*/}
-            {/*    <IidxClearTypeItem clearType={IidxClearType.FULL_COMBO} />*/}
-            {/*</View>*/}
-
-            <View style={styles.container}>
-                <Image
-                    style={styles.image}
-                    source="https://i.kym-cdn.com/entries/icons/original/000/027/475/Screen_Shot_2018-10-25_at_11.02.15_AM.png"
-                    contentFit="cover"
-                    transition={1000}
-                />
-            </View>
         </ScrollView>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    image: {
-        width: 200,
-        height: 200,
-        backgroundColor: '#0553',
-    },
-});
