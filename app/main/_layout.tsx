@@ -16,7 +16,10 @@ export default function Layout() {
     return (
         <Drawer screenOptions={{
             drawerActiveTintColor: theme.primary,
-            drawerItemStyle
+            drawerContentStyle: {
+                backgroundColor: theme.background
+            },
+            drawerItemStyle,
         }}>
             <Drawer.Screen name="Home" options={{
                 drawerIcon: ({color}) => <Entypo name="home" size={24} color={color} />
