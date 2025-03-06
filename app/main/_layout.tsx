@@ -37,6 +37,11 @@ export default function Layout() {
                     drawerItemStyle: {...drawerItemStyle, display: data?.profiles.gd ? 'flex' : 'none'},
                     drawerIcon: ({color}) => <FontAwesome6 name="drum" size={24} color={color} />
                 }}/>
+                <Drawer.Screen name="settings" options={{
+                    title: "Settings",
+                    drawerItemStyle: {...drawerItemStyle},
+                    drawerIcon: ({color}) => <Ionicons name="settings-sharp" size={24} color={color} />
+                }}/>
                 <Drawer.Screen name="debug" options={{
                     title: "Debug",
                     drawerItemStyle: {...drawerItemStyle},

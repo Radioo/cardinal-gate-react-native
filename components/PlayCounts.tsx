@@ -43,14 +43,14 @@ export function PlayCounts() {
                     <ThemedText>Estimated play time: {getEstimatedPlayTimeHours()} hours</ThemedText>
                 </View>
             </ThemedCard>
-            <View>
+            <ThemedCard>
                 {summary.play_counts.map((item, index) => (
                     <View key={index} style={styles.playCountItemContainer}>
                         <ThemedText>{getSeriesName(item.game)}</ThemedText>
                         <ThemedText>{item.count.toLocaleString()} plays</ThemedText>
                     </View>
                 ))}
-            </View>
+            </ThemedCard>
         </View>
     )
 }

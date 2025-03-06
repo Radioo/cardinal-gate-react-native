@@ -26,7 +26,7 @@ export default function GradientText(props: GradientTextProps) {
                         backgroundImage: gradientString,
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
-                        backgroundColor: props.backgroundColor, // Add background color if needed
+                        backgroundColor: props.backgroundColor,
                     },
                 ]}
             >
