@@ -32,6 +32,11 @@ export default function Layout() {
                     drawerItemStyle: {...drawerItemStyle, display: data?.profiles.iidx ? 'flex' : 'none'},
                     drawerIcon: ({color}) => <Ionicons name="disc" size={24} color={color} />
                 }}/>
+                <Drawer.Screen name="sdvx" options={{
+                    title: 'SOUND VOLTEX',
+                    drawerItemStyle: {...drawerItemStyle, display: data?.profiles.sdvx ? 'flex' : 'none'},
+                    drawerIcon: ({color}) => <MaterialIcons name="hexagon" size={24} color={color} />
+                }}/>
                 <Drawer.Screen name="gd" options={{
                     title: "GITADORA",
                     drawerItemStyle: {...drawerItemStyle, display: data?.profiles.gd ? 'flex' : 'none'},
