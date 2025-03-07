@@ -1,8 +1,8 @@
 import {Drawer} from "expo-router/drawer";
 import {useUserData} from "@/hooks/useUserData";
 import {useTheme} from "@/hooks/useTheme";
-import type {StyleProp, ViewStyle} from "react-native";
-import {Entypo, FontAwesome6, Ionicons} from "@expo/vector-icons";
+import {Pressable, StyleProp, ViewStyle} from "react-native";
+import {Entypo, Feather, FontAwesome6, Ionicons} from "@expo/vector-icons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 
@@ -16,14 +16,16 @@ export default function Layout() {
 
     return (
         <GestureHandlerRootView style={{flex: 1}}>
-            <Drawer screenOptions={{
+            <Drawer screenOptions={({navigation}) => ({
                 drawerActiveTintColor: theme.primary,
                 drawerContentStyle: {
                     backgroundColor: theme.background
                 },
                 drawerItemStyle,
-                swipeEdgeWidth: 500
-            }}>
+                swipeEdgeWidth: 500,
+                headerLeft: () => <Feather name="menu" style={{padding: 10}} size={30} color={theme.text} onPress={navigation.toggleDrawer}/>,
+            })}
+            >
                 <Drawer.Screen name="Home" options={{
                     drawerIcon: ({color}) => <Entypo name="home" size={24} color={color} />
                 }}/>
