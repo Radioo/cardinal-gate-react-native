@@ -24,6 +24,10 @@ export default function Layout() {
                 drawerItemStyle,
                 swipeEdgeWidth: 500,
                 headerLeft: () => <Feather name="menu" style={{padding: 10}} size={24} color={theme.text} onPress={navigation.toggleDrawer}/>,
+                headerLeftContainerStyle: {
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }
             })}
             >
                 <Drawer.Screen name="Home" options={{
