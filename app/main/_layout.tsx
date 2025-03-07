@@ -2,7 +2,7 @@ import {Drawer} from "expo-router/drawer";
 import {useUserData} from "@/hooks/useUserData";
 import {useTheme} from "@/hooks/useTheme";
 import {StyleProp, ViewStyle} from "react-native";
-import {Entypo, Feather, FontAwesome6, Ionicons} from "@expo/vector-icons";
+import {Entypo, FontAwesome6, Ionicons} from "@expo/vector-icons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 
@@ -23,11 +23,7 @@ export default function Layout() {
                 },
                 drawerItemStyle,
                 swipeEdgeWidth: 500,
-                headerLeft: () => <Feather name="menu" style={{padding: 10}} size={24} color={theme.text} onPress={navigation.toggleDrawer}/>,
-                headerLeftContainerStyle: {
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }
+                headerTintColor: theme.text
             })}
             >
                 <Drawer.Screen name="Home" options={{
