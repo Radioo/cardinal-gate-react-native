@@ -25,6 +25,10 @@ export default function Layout() {
                 title: "IIDX",
                 tabBarIcon: ({color}) => <Ionicons name="disc" size={24} color={color} />
             }}/>
+            <Tabs.Screen name="Sdvx" options={{
+                title: "SDVX",
+                tabBarIcon: ({color}) => <MaterialIcons name="hexagon" size={24} color={color} />
+            }}/>
         </Tabs>
     )
 }
