@@ -11,8 +11,10 @@ import {LoginResponse} from "@/types/login-response";
 import fetchApi from "@/services/api";
 import {displayMessage} from "@/services/message";
 import {MessageSeverity} from "@/enums/message-severity";
+import {useQueryClient} from "@tanstack/react-query";
 
 export default function LoginScreen() {
+    const queryClient = useQueryClient();
     const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({
         username: '',
@@ -40,6 +42,7 @@ export default function LoginScreen() {
             displayMessage(MessageSeverity.SUCCESS, 'Login successful');
 
             await saveSecureValue(SecureValue.TOKEN, response.token);
+            queryClient.removeQueries();
 
             router.replace('/main/Home');
         }).finally(() => {
