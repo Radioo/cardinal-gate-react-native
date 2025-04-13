@@ -5,13 +5,14 @@ import {ThemeProvider} from "@react-navigation/core";
 import {DarkTheme, DefaultTheme} from "@react-navigation/native";
 import {useColorScheme} from "@/hooks/useColorScheme";
 import {StatusBar} from "expo-status-bar";
-import {KeyboardAvoidingView, Platform, View} from "react-native";
+import {KeyboardAvoidingView, Platform, SafeAreaView, View} from "react-native";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {useReactQueryDevTools} from "@dev-plugins/react-query";
 import ThemedCard from "@/components/ThemedCard";
 import {ThemedText} from "@/components/ThemedText";
 import {ThemedButton} from "@/components/ThemedButton";
 import {useTheme} from "@/hooks/useTheme";
+import {SafeAreaProvider} from "react-native-safe-area-context";
 
 const queryClient = new QueryClient();
 
@@ -19,12 +20,14 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
     const theme = useTheme();
 
     return (
-        <View style={{ flex: 1, backgroundColor: theme.background }}>
-            <ThemedCard style={{margin: 8, alignItems: 'center', justifyContent: 'center'}}>
-                <ThemedText>{error.message}</ThemedText>
-                <ThemedButton label="Retry" onPress={retry}/>
-            </ThemedCard>
-        </View>
+        <SafeAreaProvider style={{backgroundColor: theme.background}}>
+            <SafeAreaView style={{backgroundColor: theme.background}}>
+                <ThemedCard style={{margin: 8, alignItems: 'center', justifyContent: 'center'}}>
+                    <ThemedText>{error.message}</ThemedText>
+                    <ThemedButton label="Retry" onPress={retry}/>
+                </ThemedCard>
+            </SafeAreaView>
+        </SafeAreaProvider>
     );
 }
 
