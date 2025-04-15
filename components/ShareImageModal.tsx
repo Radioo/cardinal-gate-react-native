@@ -1,5 +1,5 @@
 import ModalBase from "@/components/ModalBase";
-import {Platform, View} from "react-native";
+import {Platform, TouchableOpacity, View} from "react-native";
 import {ThemedButton} from "@/components/ThemedButton";
 import {useTheme} from "@/hooks/useTheme";
 import {useState} from "react";
@@ -32,12 +32,15 @@ const BottomSection = ({isLoading, onClose, onPress, sharingQuery}: BottomSectio
     return (
         <>
             {sharingQuery.data ?
-                <View style={{flexDirection: 'row', alignItems: 'center', gap: 10, padding: 30}}>
+                <TouchableOpacity onPress={() => setIsChecked(prev => !prev)}
+                                  style={{flexDirection: 'row', alignItems: 'center', gap: 10, padding: 30}}
+                                  activeOpacity={1}
+                >
                     <ThemedCheckbox value={isChecked} onValueChange={setIsChecked}></ThemedCheckbox>
                     <ThemedText>
                         I understand that sharing this image in public will result in a ban.
                     </ThemedText>
-                </View> :
+                </TouchableOpacity> :
                 <View style={{padding: 30}}>
                     <ThemedText>Sharing is not available on this platform.</ThemedText>
                 </View>}
