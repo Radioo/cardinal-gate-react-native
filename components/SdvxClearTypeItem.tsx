@@ -20,6 +20,8 @@ export default function SdvxClearTypeItem(props: SdvxClearTypeItemProps) {
                 return 'COMPLETE';
             case SdvxClearType.EXCESSIVE_COMPLETE:
                 return 'EXCESSIVE COMPLETE';
+            case SdvxClearType.MAXXIVE_COMPLETE:
+                return 'MAXXIVE COMPLETE';
             case SdvxClearType.ULTIMATE_CHAIN:
                 return 'ULTIMATE CHAIN';
             case SdvxClearType.PERFECT_ULTIMATE_CHAIN:
@@ -36,6 +38,8 @@ export default function SdvxClearTypeItem(props: SdvxClearTypeItemProps) {
                 return '#39853D';
             case SdvxClearType.EXCESSIVE_COMPLETE:
                 return '#8f30d7';
+            case SdvxClearType.MAXXIVE_COMPLETE:
+                return '#b4b4b4';
             case SdvxClearType.ULTIMATE_CHAIN:
                 return '#B0283D';
             case SdvxClearType.PERFECT_ULTIMATE_CHAIN:
