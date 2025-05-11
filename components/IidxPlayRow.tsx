@@ -20,7 +20,7 @@ export default function IidxPlayRow({play, style}: IidxPlayRowProps) {
     const [modalVisible, setModalVisible] = useState(false);
 
     const getScoreCardUrl = () => {
-        return `${process.env.EXPO_PUBLIC_API_URL}/iidx/chart-screenshot/${play.id}.png`;
+        return `${process.env.EXPO_PUBLIC_API_URL}/api2/iidx/chart_screenshot/${play.id}.png`;
     }
 
     return (
