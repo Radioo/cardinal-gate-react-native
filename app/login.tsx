@@ -19,6 +19,7 @@ export default function LoginScreen() {
     const [form, setForm] = useState({
         username: '',
         password: '',
+        totp_code: '',
     });
 
     const handleInputChange = (field: string, value: string) => {
@@ -68,6 +69,14 @@ export default function LoginScreen() {
                                  autoCapitalize="none"
                                  textContentType="password"
                                  secureTextEntry={true}
+                                 style={{width: '50%', minWidth: 300}}
+                />
+                <ThemedTextInput value={form.totp_code}
+                                 onChangeText={(text) => handleInputChange('totp_code', text)}
+                                 placeholder="TOTP code (if enabled)"
+                                 autoCapitalize="none"
+                                 keyboardType="number-pad"
+                                 textContentType="oneTimeCode"
                                  style={{width: '50%', minWidth: 300}}
                 />
                 <ThemedButton loading={loading}
