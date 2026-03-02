@@ -2,8 +2,9 @@ name: Web Deploy
 
 on:
   workflow_dispatch:
-  pull_request:
   push:
+    branches:
+      - master
 
 jobs:
   web-deploy:
