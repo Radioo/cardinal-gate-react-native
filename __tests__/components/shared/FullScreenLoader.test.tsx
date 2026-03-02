@@ -1,17 +1,15 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 import FullScreenLoader from '@/components/shared/FullScreenLoader';
 
 describe('FullScreenLoader', () => {
-    it('renders without crashing', () => {
-        const tree = renderer.create(<FullScreenLoader />).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders without crashing', async () => {
+        await render(<FullScreenLoader />);
+        expect(screen.toJSON()).toBeTruthy();
     });
 
-    it('renders with custom style', () => {
-        const tree = renderer.create(
-            <FullScreenLoader style={{backgroundColor: 'red'}} />
-        ).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders with custom style', async () => {
+        await render(<FullScreenLoader style={{backgroundColor: 'red'}} />);
+        expect(screen.toJSON()).toBeTruthy();
     });
 });

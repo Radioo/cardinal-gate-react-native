@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 import GdSkillListItem from '@/components/gd/GdSkillListItem';
 
 jest.mock('@/components/gd/GdDifficulty', () => {
@@ -20,18 +20,14 @@ const mockItem = {
 };
 
 describe('GdSkillListItem', () => {
-    it('renders skill list item', () => {
-        const tree = renderer.create(
-            <GdSkillListItem item={mockItem} index={0}/>
-        ).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders skill list item', async () => {
+        await render(<GdSkillListItem item={mockItem} index={0}/>);
+        expect(screen.toJSON()).toBeTruthy();
     });
 
-    it('renders with negative skill value', () => {
+    it('renders with negative skill value', async () => {
         const itemWithNegative = {...mockItem, skill: -1};
-        const tree = renderer.create(
-            <GdSkillListItem item={itemWithNegative} index={2}/>
-        ).toJSON();
-        expect(tree).toBeTruthy();
+        await render(<GdSkillListItem item={itemWithNegative} index={2}/>);
+        expect(screen.toJSON()).toBeTruthy();
     });
 });

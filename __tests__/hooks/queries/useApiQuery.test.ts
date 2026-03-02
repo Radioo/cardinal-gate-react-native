@@ -1,4 +1,4 @@
-jest.mock('@/services/api', () => ({__esModule: true, fetchApi: jest.fn()}));
+jest.mock('@/services/api', () => ({__esModule: true, fetchApi: jest.fn().mockResolvedValue({})}));
 
 import React from 'react';
 import useApiQuery from '@/hooks/queries/useApiQuery';
@@ -28,6 +28,7 @@ describe('useApiQuery', () => {
         );
         expect(results.length).toBeGreaterThan(0);
         expect(results[0].isPending).toBe(true);
+        client.cancelQueries();
         tree.unmount();
         client.clear();
     });
@@ -42,6 +43,7 @@ describe('useApiQuery', () => {
         const queries = queryCache.getAll();
         expect(queries.length).toBeGreaterThan(0);
         expect(queries[0].options.staleTime).toBe(Infinity);
+        client.cancelQueries();
         tree.unmount();
         client.clear();
     });

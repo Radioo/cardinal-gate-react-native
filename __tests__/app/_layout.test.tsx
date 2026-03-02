@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 
 jest.mock('react-native-gesture-handler', () => {
     const {createElement} = require('react');
@@ -28,7 +28,7 @@ jest.mock('@dev-plugins/react-query', () => ({useReactQueryDevTools: jest.fn()})
 
 jest.mock('@/services/query-client', () => {
     const {QueryClient} = require('@tanstack/react-query');
-    return {queryClient: new QueryClient()};
+    return {queryClient: new QueryClient({defaultOptions: {queries: {gcTime: 0}}})};
 });
 
 jest.mock('react-native-safe-area-context', () => {
@@ -47,17 +47,15 @@ jest.mock('@/hooks/useColorScheme', () => ({useColorScheme: () => 'dark'}));
 import Layout, {ErrorBoundary} from '@/app/_layout';
 
 describe('Layout', () => {
-    it('renders without crashing', () => {
-        const tree = renderer.create(<Layout />).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders without crashing', async () => {
+        await render(<Layout />);
+        expect(screen.toJSON()).toBeTruthy();
     });
 });
 
 describe('ErrorBoundary', () => {
-    it('renders without crashing', () => {
-        const tree = renderer.create(
-            <ErrorBoundary error={new Error('test')} retry={jest.fn()} />
-        ).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders without crashing', async () => {
+        await render(<ErrorBoundary error={new Error('test')} retry={jest.fn()} />);
+        expect(screen.toJSON()).toBeTruthy();
     });
 });

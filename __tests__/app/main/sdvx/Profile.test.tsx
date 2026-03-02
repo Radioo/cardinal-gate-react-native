@@ -1,5 +1,6 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
+import {TestRendererJSON} from '../../../helpers/types';
 
 let mockUseSdvxProfile: jest.Mock;
 
@@ -30,14 +31,14 @@ jest.mock('@/components/shared/FullScreenLoader', () => {
 
 jest.mock('@/components/shared/ErrorScreen', () => {
     const {createElement} = require('react');
-    return {__esModule: true, default: ({error}: {error: Error}) => createElement('View', {testID: 'error'}, error.message)};
+    return {__esModule: true, default: ({error}: {error: Error}) => createElement('View', {testID: 'error'}, createElement('Text', null, error.message))};
 });
 
 import Profile from '@/app/main/sdvx/Profile';
 
-function findAll(node: renderer.ReactTestRendererJSON | null, predicate: (n: renderer.ReactTestRendererJSON) => boolean): renderer.ReactTestRendererJSON[] {
+function findAll(node: TestRendererJSON | null, predicate: (n: TestRendererJSON) => boolean): TestRendererJSON[] {
     if (!node) return [];
-    const results: renderer.ReactTestRendererJSON[] = [];
+    const results: TestRendererJSON[] = [];
     if (predicate(node)) results.push(node);
     if (node.children) {
         for (const child of node.children) {
@@ -49,7 +50,7 @@ function findAll(node: renderer.ReactTestRendererJSON | null, predicate: (n: ren
     return results;
 }
 
-function collectText(node: renderer.ReactTestRendererJSON | null): string[] {
+function collectText(node: TestRendererJSON | null): string[] {
     if (!node) return [];
     const texts: string[] = [];
     if (node.children) {
@@ -66,22 +67,24 @@ describe('SDVX Profile', () => {
         jest.clearAllMocks();
     });
 
-    it('shows FullScreenLoader when pending', () => {
+    it('shows FullScreenLoader when pending', async () => {
         mockUseSdvxProfile = jest.fn(() => ({data: undefined, isPending: true, isError: false, error: null, refetch: jest.fn()}));
-        const tree = renderer.create(<Profile />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<Profile />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const loaders = findAll(tree, n => n.props?.testID === 'loader');
         expect(loaders.length).toBe(1);
     });
 
-    it('shows ErrorScreen when there is an error', () => {
+    it('shows ErrorScreen when there is an error', async () => {
         mockUseSdvxProfile = jest.fn(() => ({data: undefined, isPending: false, isError: true, error: new Error('SDVX error'), refetch: jest.fn()}));
-        const tree = renderer.create(<Profile />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<Profile />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const errors = findAll(tree, n => n.props?.testID === 'error');
         expect(errors.length).toBe(1);
-        expect(errors[0].children).toContain('SDVX error');
+        expect(JSON.stringify(errors[0])).toContain('SDVX error');
     });
 
-    it('displays player name and formatted arcade ID', () => {
+    it('displays player name and formatted arcade ID', async () => {
         mockUseSdvxProfile = jest.fn(() => ({
             data: {
                 name: 'VOLTEXER',
@@ -94,13 +97,14 @@ describe('SDVX Profile', () => {
             error: null,
             refetch: jest.fn(),
         }));
-        const tree = renderer.create(<Profile />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<Profile />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const allText = collectText(tree);
         expect(allText).toContain('VOLTEXER');
         expect(allText).toContain('8765-4321');
     });
 
-    it('displays skill level', () => {
+    it('displays skill level', async () => {
         mockUseSdvxProfile = jest.fn(() => ({
             data: {
                 name: 'TEST',
@@ -113,13 +117,14 @@ describe('SDVX Profile', () => {
             error: null,
             refetch: jest.fn(),
         }));
-        const tree = renderer.create(<Profile />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<Profile />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const allText = collectText(tree);
         expect(allText).toContain('Skill Level');
         expect(allText).toContain('IMPERIAL IV');
     });
 
-    it('displays VOLFORCE when available', () => {
+    it('displays VOLFORCE when available', async () => {
         mockUseSdvxProfile = jest.fn(() => ({
             data: {
                 name: 'TEST',
@@ -132,13 +137,14 @@ describe('SDVX Profile', () => {
             error: null,
             refetch: jest.fn(),
         }));
-        const tree = renderer.create(<Profile />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<Profile />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const allText = collectText(tree);
         expect(allText).toContain('VOLFORCE');
         expect(allText).toContain('20.000 IMPERIAL IV');
     });
 
-    it('does not display VOLFORCE when null', () => {
+    it('does not display VOLFORCE when null', async () => {
         mockUseSdvxProfile = jest.fn(() => ({
             data: {
                 name: 'TEST',
@@ -151,7 +157,8 @@ describe('SDVX Profile', () => {
             error: null,
             refetch: jest.fn(),
         }));
-        const tree = renderer.create(<Profile />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<Profile />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const allText = collectText(tree);
         expect(allText).not.toContain('VOLFORCE');
         const icons = findAll(tree, n => n.props?.testID === 'icon-hexagon');

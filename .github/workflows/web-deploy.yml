@@ -25,7 +25,7 @@ jobs:
           key: expo-cli-${{ runner.os }}
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Setup EAS
         uses: expo/expo-github-action@v8

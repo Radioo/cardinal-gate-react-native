@@ -6,8 +6,8 @@ import ColorPicker, {
     Preview,
     OpacitySlider,
     HueSlider,
-    returnedResults
 } from 'reanimated-color-picker';
+import type {ColorFormatsObject} from 'reanimated-color-picker';
 import {StyleSheet, View} from "react-native";
 import useTheme from "@/hooks/useTheme";
 import {useRef} from "react";
@@ -22,7 +22,7 @@ export default function PrimaryColorSetting(props: PrimaryColorSettingProps) {
     const {primaryColor, setPrimaryColor} = useThemeStore();
     const tempColor = useRef(primaryColor);
 
-    const onSelectColor = ({hex}: returnedResults) => {
+    const onSelectColor = ({hex}: ColorFormatsObject) => {
         tempColor.current = hex;
     }
 
@@ -34,7 +34,7 @@ export default function PrimaryColorSetting(props: PrimaryColorSettingProps) {
     return (
         <ModalBase visible={props.visible}>
             <View style={[styles.content, {backgroundColor: theme.background}]}>
-                <ColorPicker style={styles.picker} value={tempColor.current} onComplete={onSelectColor}>
+                <ColorPicker style={styles.picker} value={tempColor.current} onCompleteJS={onSelectColor}>
                     <Preview style={styles.squareCorners}/>
                     <Panel1 style={styles.squareCorners} thumbInnerStyle={styles.thumb} thumbShape="rect"/>
                     <HueSlider style={styles.squareCorners} thumbShape="rect"/>

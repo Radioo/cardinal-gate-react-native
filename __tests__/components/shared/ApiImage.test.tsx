@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 import ApiImage from '@/components/shared/ApiImage';
 
 let mockHeaders: Record<string, unknown> = {'CG-Token': 'test'};
@@ -33,42 +33,34 @@ describe('ApiImage', () => {
         mockIsError = false;
     });
 
-    it('renders Image with correct source uri and auth headers', () => {
-        const root = renderer.create(
-            <ApiImage url="https://example.com/image.png" />
-        ).root;
-        const image = root.findByProps({testID: 'expo-image'});
+    it('renders Image with correct source uri and auth headers', async () => {
+        await render(<ApiImage url="https://example.com/image.png" />);
+        const image = screen.getByTestId('expo-image');
         expect(image.props.source).toEqual({
             uri: 'https://example.com/image.png',
             headers: {'CG-Token': 'test'},
         });
     });
 
-    it('passes contentFit and style props to Image', () => {
+    it('passes contentFit and style props to Image', async () => {
         const style = {width: 100, height: 100};
-        const root = renderer.create(
-            <ApiImage url="https://example.com/img.png" contentFit="cover" style={style} />
-        ).root;
-        const image = root.findByProps({testID: 'expo-image'});
+        await render(<ApiImage url="https://example.com/img.png" contentFit="cover" style={style} />);
+        const image = screen.getByTestId('expo-image');
         expect(image.props.contentFit).toBe('cover');
         expect(image.props.style).toEqual(style);
     });
 
-    it('renders FullScreenLoader when headers are pending', () => {
+    it('renders FullScreenLoader when headers are pending', async () => {
         mockIsPending = true;
-        const root = renderer.create(
-            <ApiImage url="https://example.com/img.png" />
-        ).root;
-        expect(root.findAllByProps({testID: 'loader'})).toHaveLength(1);
-        expect(root.findAllByProps({testID: 'expo-image'})).toHaveLength(0);
+        await render(<ApiImage url="https://example.com/img.png" />);
+        expect(screen.getAllByTestId('loader')).toHaveLength(1);
+        expect(screen.queryAllByTestId('expo-image')).toHaveLength(0);
     });
 
-    it('renders ErrorScreen when headers fail', () => {
+    it('renders ErrorScreen when headers fail', async () => {
         mockIsError = true;
-        const root = renderer.create(
-            <ApiImage url="https://example.com/img.png" />
-        ).root;
-        expect(root.findAllByProps({testID: 'error-screen'})).toHaveLength(1);
-        expect(root.findAllByProps({testID: 'expo-image'})).toHaveLength(0);
+        await render(<ApiImage url="https://example.com/img.png" />);
+        expect(screen.getAllByTestId('error-screen')).toHaveLength(1);
+        expect(screen.queryAllByTestId('expo-image')).toHaveLength(0);
     });
 });

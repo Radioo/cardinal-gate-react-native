@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 
 jest.mock('@/components/shared/ShareImageModal', () => {
     const {createElement} = require('react');
@@ -9,8 +9,8 @@ jest.mock('@/components/shared/ShareImageModal', () => {
 import General from '@/app/main/debug/General';
 
 describe('Debug General', () => {
-    it('renders without crashing', () => {
-        const tree = renderer.create(<General />).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders without crashing', async () => {
+        await render(<General />);
+        expect(screen.toJSON()).toBeTruthy();
     });
 });

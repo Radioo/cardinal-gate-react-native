@@ -1,5 +1,6 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
+import {TestRendererJSON} from '../../helpers/types';
 
 jest.mock('@/hooks/queries/useSummary', () => ({
     __esModule: true,
@@ -13,14 +14,14 @@ jest.mock('@/hooks/useUserRefresh', () => ({
 
 jest.mock('@/components/shared/PlayCounts', () => {
     const {createElement} = require('react');
-    return {__esModule: true, default: () => createElement('View', {testID: 'play-counts'}, 'PlayCounts')};
+    return {__esModule: true, default: () => createElement('View', {testID: 'play-counts'})};
 });
 
 import Home from '@/app/main/Home';
 
-function findAll(node: renderer.ReactTestRendererJSON | null, predicate: (n: renderer.ReactTestRendererJSON) => boolean): renderer.ReactTestRendererJSON[] {
+function findAll(node: TestRendererJSON | null, predicate: (n: TestRendererJSON) => boolean): TestRendererJSON[] {
     if (!node) return [];
-    const results: renderer.ReactTestRendererJSON[] = [];
+    const results: TestRendererJSON[] = [];
     if (predicate(node)) results.push(node);
     if (node.children) {
         for (const child of node.children) {
@@ -33,22 +34,23 @@ function findAll(node: renderer.ReactTestRendererJSON | null, predicate: (n: ren
 }
 
 describe('Home', () => {
-    it('renders a ScrollView as root element', () => {
-        const tree = renderer.create(<Home />).toJSON() as renderer.ReactTestRendererJSON;
+    it('renders a ScrollView as root element', async () => {
+        await render(<Home />);
+        const tree = screen.toJSON() as TestRendererJSON;
         expect(tree).toBeTruthy();
         expect(tree.type).toBe('RCTScrollView');
     });
 
-    it('contains PlayCounts component', () => {
-        const tree = renderer.create(<Home />).toJSON() as renderer.ReactTestRendererJSON;
+    it('contains PlayCounts component', async () => {
+        await render(<Home />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const playCounts = findAll(tree, n => n.props?.testID === 'play-counts');
         expect(playCounts.length).toBe(1);
     });
 
-    it('renders with a RefreshControl for pull-to-refresh', () => {
-        const component = renderer.create(<Home />);
-        const instance = component.root;
-        const refreshControls = instance.findAllByProps({refreshing: false});
-        expect(refreshControls.length).toBeGreaterThan(0);
+    it('renders with a RefreshControl for pull-to-refresh', async () => {
+        await render(<Home />);
+        const tree = screen.toJSON() as TestRendererJSON;
+        expect(tree.props.refreshControl).toBeDefined();
     });
 });

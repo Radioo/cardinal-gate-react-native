@@ -8,7 +8,7 @@ jest.mock('@/services/api', () => ({
 
 const mockWriteAsStringAsync = jest.fn();
 
-jest.mock('expo-file-system', () => ({
+jest.mock('expo-file-system/legacy', () => ({
     cacheDirectory: '/cache/',
     writeAsStringAsync: (...args: unknown[]) => mockWriteAsStringAsync(...args),
     EncodingType: {

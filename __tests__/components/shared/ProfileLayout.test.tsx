@@ -1,5 +1,6 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {Text} from 'react-native';
+import {render, screen} from '@testing-library/react-native';
 import ProfileLayout from '@/components/shared/ProfileLayout';
 import {UseQueryResult} from '@tanstack/react-query';
 
@@ -41,25 +42,21 @@ const createMockQuery = (overrides: Partial<UseQueryResult<string>>): UseQueryRe
 } as UseQueryResult<string>);
 
 describe('ProfileLayout', () => {
-    it('renders FullScreenLoader when query is pending', () => {
+    it('renders FullScreenLoader when query is pending', async () => {
         const query = createMockQuery({isPending: true});
-        const root = renderer.create(
-            <ProfileLayout query={query}>{(data) => <>{data}</>}</ProfileLayout>
-        ).root;
-        expect(root.findAllByProps({testID: 'loader'})).toHaveLength(1);
+        await render(<ProfileLayout query={query}>{(data) => <Text>{data}</Text>}</ProfileLayout>);
+        expect(screen.getAllByTestId('loader')).toHaveLength(1);
     });
 
-    it('renders ErrorScreen when query has error', () => {
+    it('renders ErrorScreen when query has error', async () => {
         const mockError = new Error('Test error');
         const query = createMockQuery({isPending: false, isError: true, error: mockError});
-        const root = renderer.create(
-            <ProfileLayout query={query}>{(data) => <>{data}</>}</ProfileLayout>
-        ).root;
-        const errorScreen = root.findByProps({testID: 'error-screen'});
+        await render(<ProfileLayout query={query}>{(data) => <Text>{data}</Text>}</ProfileLayout>);
+        const errorScreen = screen.getByTestId('error-screen');
         expect(errorScreen).toBeTruthy();
     });
 
-    it('renders children with data when query succeeds', () => {
+    it('renders children with data when query succeeds', async () => {
         const query = createMockQuery({
             isPending: false,
             isError: false,
@@ -67,16 +64,16 @@ describe('ProfileLayout', () => {
             data: 'profile-data',
             status: 'success',
         });
-        const root = renderer.create(
+        await render(
             <ProfileLayout query={query}>
-                {(data) => <>{data}</>}
+                {(data) => <Text>{data}</Text>}
             </ProfileLayout>
-        ).root;
-        expect(root.findAllByProps({testID: 'loader'})).toHaveLength(0);
-        expect(root.findAllByProps({testID: 'error-screen'})).toHaveLength(0);
+        );
+        expect(screen.queryAllByTestId('loader')).toHaveLength(0);
+        expect(screen.queryAllByTestId('error-screen')).toHaveLength(0);
     });
 
-    it('renders ScrollView when query succeeds', () => {
+    it('renders ScrollView when query succeeds', async () => {
         const query = createMockQuery({
             isPending: false,
             isError: false,
@@ -84,10 +81,8 @@ describe('ProfileLayout', () => {
             data: 'test',
             status: 'success',
         });
-        const root = renderer.create(
-            <ProfileLayout query={query}>{() => <></>}</ProfileLayout>
-        ).root;
-        const scrollViews = root.findAllByType('RCTScrollView' as unknown as React.ComponentClass);
-        expect(scrollViews.length).toBeGreaterThan(0);
+        await render(<ProfileLayout query={query}>{() => <></>}</ProfileLayout>);
+        const tree = screen.toJSON() as {type: string};
+        expect(tree.type).toBe('RCTScrollView');
     });
 });

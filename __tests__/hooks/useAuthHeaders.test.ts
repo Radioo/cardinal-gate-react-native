@@ -3,7 +3,8 @@ jest.mock('@/store/secure', () => ({
 }));
 
 import React from 'react';
-import renderer, {act} from 'react-test-renderer';
+import {render, cleanup} from '@testing-library/react-native';
+import {act} from 'react';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import useAuthHeaders from '@/hooks/useAuthHeaders';
 import {getSecureValue} from '@/store/secure';
@@ -25,19 +26,16 @@ function flushPromises() {
 }
 
 async function renderTest(onResult: (d: Record<string, string>) => void) {
-    const client = new QueryClient({defaultOptions: {queries: {retry: false}}});
-    let tree: renderer.ReactTestRenderer = undefined as unknown as renderer.ReactTestRenderer;
-    await act(async () => {
-        tree = renderer.create(
-            React.createElement(QueryClientProvider, {client},
-                React.createElement(TestComponent, {onResult})
-            )
-        );
-    });
+    const client = new QueryClient({defaultOptions: {queries: {retry: false, gcTime: 0}}});
+    await render(
+        React.createElement(QueryClientProvider, {client},
+            React.createElement(TestComponent, {onResult})
+        )
+    );
     await act(async () => {
         await flushPromises();
     });
-    return {tree, client};
+    return {client};
 }
 
 describe('useAuthHeaders', () => {
@@ -47,19 +45,19 @@ describe('useAuthHeaders', () => {
 
     it('returns headers with CG-Token when token exists', async () => {
         mockGetSecureValue.mockResolvedValue('test-token');
-        let result: Record<string, string> = {};
-        const {tree, client} = await renderTest((d) => { result = d; });
-        expect(result).toEqual({'CG-Token': 'test-token'});
-        tree.unmount();
+        let headers: Record<string, string> = {};
+        const {client} = await renderTest((d) => { headers = d; });
+        expect(headers).toEqual({'CG-Token': 'test-token'});
+        cleanup();
         client.clear();
     });
 
     it('returns empty headers when token is null', async () => {
         mockGetSecureValue.mockResolvedValue(null);
-        let result: Record<string, string> = {};
-        const {tree, client} = await renderTest((d) => { result = d; });
-        expect(result).toEqual({});
-        tree.unmount();
+        let headers: Record<string, string> = {};
+        const {client} = await renderTest((d) => { headers = d; });
+        expect(headers).toEqual({});
+        cleanup();
         client.clear();
     });
 });

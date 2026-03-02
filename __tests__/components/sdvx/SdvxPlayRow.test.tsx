@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 import SdvxPlayRow from '@/components/sdvx/SdvxPlayRow';
 import {SdvxPlay} from '@/types/sdvx-play';
 
@@ -29,62 +29,56 @@ const mockPlay: SdvxPlay = {
 } as SdvxPlay;
 
 describe('SdvxPlayRow', () => {
-    it('renders the song title', () => {
-        const json = JSON.stringify(
-            renderer.create(<SdvxPlayRow play={mockPlay}/>).toJSON()
-        );
+    it('renders the song title', async () => {
+        await render(<SdvxPlayRow play={mockPlay}/>);
+        const json = JSON.stringify(screen.toJSON());
         expect(json).toContain('Test Song');
     });
 
-    it('renders the score formatted with locale separators', () => {
-        const json = JSON.stringify(
-            renderer.create(<SdvxPlayRow play={mockPlay}/>).toJSON()
-        );
+    it('renders the score formatted with locale separators', async () => {
+        await render(<SdvxPlayRow play={mockPlay}/>);
+        const json = JSON.stringify(screen.toJSON());
         expect(json).toContain('9,800,000');
     });
 
-    it('renders the grade', () => {
-        const json = JSON.stringify(
-            renderer.create(<SdvxPlayRow play={mockPlay}/>).toJSON()
-        );
+    it('renders the grade', async () => {
+        await render(<SdvxPlayRow play={mockPlay}/>);
+        const json = JSON.stringify(screen.toJSON());
         expect(json).toContain('"S"');
     });
 
-    it('renders ex score when non-zero', () => {
-        const json = JSON.stringify(
-            renderer.create(<SdvxPlayRow play={mockPlay}/>).toJSON()
-        );
+    it('renders ex score when non-zero', async () => {
+        await render(<SdvxPlayRow play={mockPlay}/>);
+        const json = JSON.stringify(screen.toJSON());
         expect(json).toContain('1,500');
         expect(json).toContain(' EX');
     });
 
-    it('does not render ex score text when zero', () => {
+    it('does not render ex score text when zero', async () => {
         const playNoEx = {...mockPlay, ex_score: 0} as SdvxPlay;
-        const json = JSON.stringify(
-            renderer.create(<SdvxPlayRow play={playNoEx}/>).toJSON()
-        );
+        await render(<SdvxPlayRow play={playNoEx}/>);
+        const json = JSON.stringify(screen.toJSON());
         // "EXH" will still appear in the difficulty props, but the "X EX" text should not
         expect(json).not.toContain(' EX');
     });
 
-    it('does not render ex score text when null', () => {
+    it('does not render ex score text when null', async () => {
         const playNullEx = {...mockPlay, ex_score: null} as unknown as SdvxPlay;
-        const json = JSON.stringify(
-            renderer.create(<SdvxPlayRow play={playNullEx}/>).toJSON()
-        );
+        await render(<SdvxPlayRow play={playNullEx}/>);
+        const json = JSON.stringify(screen.toJSON());
         expect(json).not.toContain(' EX');
     });
 
-    it('passes correct props to difficulty component', () => {
-        const root = renderer.create(<SdvxPlayRow play={mockPlay}/>).root;
-        const diffItem = root.findByProps({testID: 'sdvx-difficulty'});
+    it('passes correct props to difficulty component', async () => {
+        await render(<SdvxPlayRow play={mockPlay}/>);
+        const diffItem = screen.getByTestId('sdvx-difficulty');
         expect(diffItem.props.difficulty).toBe('EXH');
         expect(diffItem.props.level).toBe(18);
     });
 
-    it('passes correct clear type to clear type component', () => {
-        const root = renderer.create(<SdvxPlayRow play={mockPlay}/>).root;
-        const clearItem = root.findByProps({testID: 'sdvx-clear-type'});
+    it('passes correct clear type to clear type component', async () => {
+        await render(<SdvxPlayRow play={mockPlay}/>);
+        const clearItem = screen.getByTestId('sdvx-clear-type');
         expect(clearItem.props.clearType).toBe('COMPLETE');
     });
 });

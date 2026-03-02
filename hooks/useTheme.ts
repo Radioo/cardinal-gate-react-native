@@ -4,7 +4,8 @@ import {useThemeStore} from "@/store/theme";
 
 export default function useTheme() {
     const {primaryColor} = useThemeStore();
-    const theme = useColorScheme() ?? 'light';
+    const colorScheme = useColorScheme();
+    const theme = (colorScheme === 'light' || colorScheme === 'dark') ? colorScheme : 'light';
     const colors = Colors(primaryColor);
 
     return {

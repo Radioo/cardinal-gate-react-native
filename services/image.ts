@@ -1,4 +1,4 @@
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 import {fetchApiBlob} from "@/services/api";
 
 export async function downloadToLocalFile(url: string, filename: string): Promise<string> {

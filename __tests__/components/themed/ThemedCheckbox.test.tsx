@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 import ThemedCheckbox from '@/components/themed/ThemedCheckbox';
 
 jest.mock('expo-checkbox', () => {
@@ -12,17 +12,13 @@ jest.mock('expo-checkbox', () => {
 });
 
 describe('ThemedCheckbox', () => {
-    it('renders without crashing', () => {
-        const tree = renderer.create(
-            <ThemedCheckbox value={false} onValueChange={jest.fn()} />
-        ).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders without crashing', async () => {
+        await render(<ThemedCheckbox value={false} onValueChange={jest.fn()} />);
+        expect(screen.toJSON()).toBeTruthy();
     });
 
-    it('renders in checked state', () => {
-        const tree = renderer.create(
-            <ThemedCheckbox value={true} onValueChange={jest.fn()} />
-        ).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders in checked state', async () => {
+        await render(<ThemedCheckbox value={true} onValueChange={jest.fn()} />);
+        expect(screen.toJSON()).toBeTruthy();
     });
 });

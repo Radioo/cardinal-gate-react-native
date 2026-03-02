@@ -3,6 +3,7 @@ import useSdvxProfile from "@/hooks/queries/useSdvxProfile";
 import {StyleSheet} from "react-native";
 import useTheme from "@/hooks/useTheme";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import {Feather} from "@expo/vector-icons";
 import ProfileRow from "@/components/shared/ProfileRow";
 import ProfileLayout from "@/components/shared/ProfileLayout";
@@ -22,7 +23,7 @@ export default function Profile() {
                         value={<ThemedText style={styles.monospace}>{formatArcadeId(data.id)}</ThemedText>}
                     />
                     <ProfileRow
-                        icon={<AntDesign name="staro" size={24} color={theme.text}/>}
+                        icon={<MaterialIcons name="star-outline" size={24} color={theme.text}/>}
                         label="Skill Level"
                         value={data.skill_level}
                     />

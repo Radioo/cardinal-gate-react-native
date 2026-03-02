@@ -1,19 +1,15 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 import ThemedTextInput from '@/components/themed/ThemedTextInput';
 
 describe('ThemedTextInput', () => {
-    it('renders with placeholder', () => {
-        const tree = renderer.create(
-            <ThemedTextInput placeholder="Enter text"/>
-        ).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders with placeholder', async () => {
+        await render(<ThemedTextInput placeholder="Enter text"/>);
+        expect(screen.toJSON()).toBeTruthy();
     });
 
-    it('renders with custom style', () => {
-        const tree = renderer.create(
-            <ThemedTextInput style={{width: 200}} placeholder="Test"/>
-        ).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders with custom style', async () => {
+        await render(<ThemedTextInput style={{width: 200}} placeholder="Test"/>);
+        expect(screen.toJSON()).toBeTruthy();
     });
 });

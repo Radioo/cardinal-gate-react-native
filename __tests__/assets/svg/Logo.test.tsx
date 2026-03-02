@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 import Logo from '@/assets/svg/Logo';
 
 jest.mock('react-native-svg', () => {
@@ -8,10 +8,8 @@ jest.mock('react-native-svg', () => {
 });
 
 describe('Logo', () => {
-    it('renders with width and height', () => {
-        const tree = renderer.create(
-            <Logo width="50%" height="25%"/>
-        ).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders with width and height', async () => {
+        await render(<Logo width="50%" height="25%"/>);
+        expect(screen.toJSON()).toBeTruthy();
     });
 });

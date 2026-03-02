@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 import {Text} from 'react-native';
 import ModalBase from '@/components/shared/ModalBase';
 
@@ -12,21 +12,21 @@ jest.mock('react-native-safe-area-context', () => ({
 }));
 
 describe('ModalBase', () => {
-    it('renders without crashing when visible', () => {
-        const tree = renderer.create(
+    it('renders without crashing when visible', async () => {
+        await render(
             <ModalBase visible={true}>
                 <Text>Content</Text>
             </ModalBase>
-        ).toJSON();
-        expect(tree).toBeTruthy();
+        );
+        expect(screen.toJSON()).toBeTruthy();
     });
 
-    it('renders without crashing when not visible', () => {
-        const tree = renderer.create(
+    it('renders without crashing when not visible', async () => {
+        await render(
             <ModalBase visible={false}>
                 <Text>Content</Text>
             </ModalBase>
-        ).toJSON();
-        expect(tree).toBeTruthy();
+        );
+        expect(screen.toJSON()).toBeTruthy();
     });
 });

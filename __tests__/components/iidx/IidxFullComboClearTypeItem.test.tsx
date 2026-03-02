@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 import IidxFullComboClearTypeItem from '@/components/iidx/IidxFullComboClearTypeItem';
 
 jest.mock('react-native-reanimated', () => {
@@ -18,10 +18,8 @@ jest.mock('react-native-reanimated', () => {
 });
 
 describe('IidxFullComboClearTypeItem', () => {
-    it('renders without crashing', () => {
-        const tree = renderer.create(
-            <IidxFullComboClearTypeItem/>
-        ).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders without crashing', async () => {
+        await render(<IidxFullComboClearTypeItem/>);
+        expect(screen.toJSON()).toBeTruthy();
     });
 });

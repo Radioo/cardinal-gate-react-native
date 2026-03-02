@@ -1,5 +1,6 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
+import {TestRendererJSON} from '../../../helpers/types';
 
 jest.mock('@/components/sdvx/SdvxDifficultyItem', () => {
     const {createElement} = require('react');
@@ -31,13 +32,14 @@ describe('Debug Sdvx', () => {
         mockTabViewProps = null;
     });
 
-    it('renders a TabView', () => {
-        const tree = renderer.create(<Sdvx />).toJSON() as renderer.ReactTestRendererJSON;
+    it('renders a TabView', async () => {
+        await render(<Sdvx />);
+        const tree = screen.toJSON() as TestRendererJSON;
         expect(tree.props.testID).toBe('tab-view');
     });
 
-    it('passes correct tab routes with Difficulties and Clear Types', () => {
-        renderer.create(<Sdvx />);
+    it('passes correct tab routes with Difficulties and Clear Types', async () => {
+        await render(<Sdvx />);
         expect(mockTabViewProps).toBeTruthy();
         const navState = (mockTabViewProps as Record<string, unknown>).navigationState as {index: number; routes: {key: string; title: string}[]};
         expect(navState.routes).toHaveLength(2);
@@ -45,14 +47,14 @@ describe('Debug Sdvx', () => {
         expect(navState.routes[1].title).toBe('Clear Types');
     });
 
-    it('starts on the first tab (index 0)', () => {
-        renderer.create(<Sdvx />);
+    it('starts on the first tab (index 0)', async () => {
+        await render(<Sdvx />);
         const navState = (mockTabViewProps as Record<string, unknown>).navigationState as {index: number; routes: {key: string; title: string}[]};
         expect(navState.index).toBe(0);
     });
 
-    it('provides a renderScene with difficulties and clearTypes scenes', () => {
-        renderer.create(<Sdvx />);
+    it('provides a renderScene with difficulties and clearTypes scenes', async () => {
+        await render(<Sdvx />);
         const renderScene = (mockTabViewProps as Record<string, unknown>).renderScene as Record<string, unknown>;
         expect(renderScene).toHaveProperty('difficulties');
         expect(renderScene).toHaveProperty('clearTypes');

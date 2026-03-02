@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 
 jest.mock('@/components/shared/GameTabLayout', () => {
     const {createElement} = require('react');
@@ -9,8 +9,8 @@ jest.mock('@/components/shared/GameTabLayout', () => {
 import Layout from '@/app/main/iidx/_layout';
 
 describe('IIDX Layout', () => {
-    it('renders without crashing', () => {
-        const tree = renderer.create(<Layout />).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders without crashing', async () => {
+        await render(<Layout />);
+        expect(screen.toJSON()).toBeTruthy();
     });
 });

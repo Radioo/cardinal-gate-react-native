@@ -1,5 +1,6 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {Text} from 'react-native';
+import {render, screen} from '@testing-library/react-native';
 import PaginatedPlaysList from '@/components/shared/PaginatedPlaysList';
 
 jest.mock('@/hooks/useUserRefresh', () => ({
@@ -44,78 +45,62 @@ describe('PaginatedPlaysList', () => {
         refetch: jest.fn().mockResolvedValue(undefined),
         page: 1,
         onPageChange: jest.fn(),
-        renderItem: (item: string) => <React.Fragment>{item}</React.Fragment>,
+        renderItem: (item: string) => <Text>{item}</Text>,
     };
 
-    it('renders FullScreenLoader when isPending is true', () => {
-        const root = renderer.create(
-            <PaginatedPlaysList {...defaultProps} isPending={true}/>
-        ).root;
-        const loaders = root.findAllByProps({testID: 'loader'});
-        expect(loaders.length).toBe(1);
+    it('renders FullScreenLoader when isPending is true', async () => {
+        await render(<PaginatedPlaysList {...defaultProps} isPending={true}/>);
+        expect(screen.getAllByTestId('loader').length).toBe(1);
     });
 
-    it('does not render FullScreenLoader when isPending is false', () => {
-        const root = renderer.create(
-            <PaginatedPlaysList {...defaultProps} isPending={false}/>
-        ).root;
-        const loaders = root.findAllByProps({testID: 'loader'});
-        expect(loaders.length).toBe(0);
+    it('does not render FullScreenLoader when isPending is false', async () => {
+        await render(<PaginatedPlaysList {...defaultProps} isPending={false}/>);
+        expect(screen.queryAllByTestId('loader').length).toBe(0);
     });
 
-    it('renders ErrorScreen when isError is true with an error', () => {
-        const root = renderer.create(
+    it('renders ErrorScreen when isError is true with an error', async () => {
+        await render(
             <PaginatedPlaysList
                 {...defaultProps}
                 isError={true}
                 error={new Error('Something went wrong')}
             />
-        ).root;
-        const errorScreen = root.findByProps({testID: 'error-screen'});
+        );
+        const errorScreen = screen.getByTestId('error-screen');
         expect(errorScreen).toBeTruthy();
         expect(errorScreen.props.message).toBe('Something went wrong');
     });
 
-    it('renders ErrorScreen with fallback message when isError is true but error is null', () => {
-        const root = renderer.create(
+    it('renders ErrorScreen with fallback message when isError is true but error is null', async () => {
+        await render(
             <PaginatedPlaysList
                 {...defaultProps}
                 isError={true}
                 error={null}
             />
-        ).root;
-        const errorScreen = root.findByProps({testID: 'error-screen'});
+        );
+        const errorScreen = screen.getByTestId('error-screen');
         expect(errorScreen).toBeTruthy();
     });
 
-    it('renders Pagination with correct page info when data is loaded', () => {
-        const root = renderer.create(
-            <PaginatedPlaysList {...defaultProps} pages={5} page={3}/>
-        ).root;
+    it('renders Pagination with correct page info when data is loaded', async () => {
+        await render(<PaginatedPlaysList {...defaultProps} pages={5} page={3}/>);
         // Pagination renders a ThemedButton with the page label
-        // Find the text "3 / 5" in the tree
-        const allText = root.findAllByType('Text' as unknown as React.ComponentClass);
-        const pageLabel = allText.find(t => {
-            const children = t.props.children;
-            return typeof children === 'string' && children.includes('3 / 5');
-        });
-        expect(pageLabel).toBeTruthy();
+        expect(screen.getByText('3 / 5')).toBeTruthy();
     });
 
-    it('renders FlatList when not pending and not error', () => {
-        const root = renderer.create(
+    it('renders FlatList when not pending and not error', async () => {
+        await render(
             <PaginatedPlaysList
                 {...defaultProps}
                 plays={['Play 1', 'Play 2']}
                 pages={2}
-                renderItem={(item: string) => <React.Fragment>{item}</React.Fragment>}
+                renderItem={(item: string) => <Text>{item}</Text>}
             />
-        ).root;
+        );
         // Should not show loader
-        const loaders = root.findAllByProps({testID: 'loader'});
-        expect(loaders.length).toBe(0);
+        expect(screen.queryAllByTestId('loader').length).toBe(0);
         // Should not show error screen
-        const errors = root.findAllByProps({testID: 'error-screen'});
-        expect(errors.length).toBe(0);
+        expect(screen.queryAllByTestId('error-screen').length).toBe(0);
     });
 });

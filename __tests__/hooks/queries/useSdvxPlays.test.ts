@@ -1,6 +1,6 @@
 jest.mock('@/services/api', () => ({
     __esModule: true,
-    fetchApi: jest.fn(),
+    fetchApi: jest.fn().mockResolvedValue({}),
 }));
 
 import React from 'react';
@@ -22,6 +22,7 @@ describe('useSdvxPlays', () => {
             client,
             React.createElement(TestComponent, {page: 1, onResult: () => {}})
         );
+        client.cancelQueries();
         tree.unmount();
         client.clear();
     });

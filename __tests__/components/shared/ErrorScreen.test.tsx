@@ -1,24 +1,24 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 import ErrorScreen from '@/components/shared/ErrorScreen';
 
 describe('ErrorScreen', () => {
-    it('renders error message', () => {
+    it('renders error message', async () => {
         const error = new Error('Something went wrong');
-        const tree = renderer.create(<ErrorScreen error={error}/>);
-        expect(tree.toJSON()).toBeTruthy();
+        await render(<ErrorScreen error={error}/>);
+        expect(screen.toJSON()).toBeTruthy();
     });
 
-    it('renders retry button when onRetry is provided', () => {
+    it('renders retry button when onRetry is provided', async () => {
         const error = new Error('Test error');
         const onRetry = jest.fn();
-        const tree = renderer.create(<ErrorScreen error={error} onRetry={onRetry}/>);
-        expect(tree.toJSON()).toBeTruthy();
+        await render(<ErrorScreen error={error} onRetry={onRetry}/>);
+        expect(screen.toJSON()).toBeTruthy();
     });
 
-    it('renders without retry button when onRetry is not provided', () => {
+    it('renders without retry button when onRetry is not provided', async () => {
         const error = new Error('Test error');
-        const tree = renderer.create(<ErrorScreen error={error}/>);
-        expect(tree.toJSON()).toBeTruthy();
+        await render(<ErrorScreen error={error}/>);
+        expect(screen.toJSON()).toBeTruthy();
     });
 });

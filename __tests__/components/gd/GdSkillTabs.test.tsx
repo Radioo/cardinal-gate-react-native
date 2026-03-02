@@ -1,5 +1,6 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
+import {TestRendererJSON} from '../../helpers/types';
 import GdSkillTabs from '@/components/gd/GdSkillTabs';
 
 let capturedTabViewProps: Record<string, unknown> = {};
@@ -27,21 +28,22 @@ describe('GdSkillTabs', () => {
         capturedTabViewProps = {};
     });
 
-    it('renders a TabView component', () => {
-        const tree = renderer.create(<GdSkillTabs data={undefined} />).toJSON() as renderer.ReactTestRendererJSON;
+    it('renders a TabView component', async () => {
+        await render(<GdSkillTabs data={undefined} />);
+        const tree = screen.toJSON() as TestRendererJSON;
         expect(tree).toBeTruthy();
         expect(tree.props.testID).toBe('tab-view');
     });
 
-    it('provides 4 routes for DM/GF hot and other tabs', () => {
-        renderer.create(<GdSkillTabs data={undefined} />);
+    it('provides 4 routes for DM/GF hot and other tabs', async () => {
+        await render(<GdSkillTabs data={undefined} />);
         const navState = capturedTabViewProps.navigationState as {routes: Array<{key: string; title: string}>};
         expect(navState.routes).toHaveLength(4);
         expect(navState.routes.map(r => r.key)).toEqual(['hot_dm', 'other_dm', 'hot_gf', 'other_gf']);
     });
 
-    it('starts on the first tab', () => {
-        renderer.create(<GdSkillTabs data={undefined} />);
+    it('starts on the first tab', async () => {
+        await render(<GdSkillTabs data={undefined} />);
         const navState = capturedTabViewProps.navigationState as {index: number};
         expect(navState.index).toBe(0);
     });

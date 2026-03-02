@@ -1,6 +1,6 @@
 jest.mock('@/services/api', () => ({
     __esModule: true,
-    fetchApi: jest.fn(),
+    fetchApi: jest.fn().mockResolvedValue({}),
 }));
 
 import React from 'react';
@@ -27,6 +27,7 @@ describe('useGdSkill', () => {
             })
         );
         expect(results.some(r => r.fetchStatus === 'idle')).toBe(true);
+        client.cancelQueries();
         tree.unmount();
         client.clear();
     });
@@ -42,6 +43,7 @@ describe('useGdSkill', () => {
             })
         );
         expect(results.some(r => r.fetchStatus === 'fetching')).toBe(true);
+        client.cancelQueries();
         tree.unmount();
         client.clear();
     });
@@ -56,6 +58,7 @@ describe('useGdSkill', () => {
         const queries = queryCache.getAll();
         expect(queries.length).toBeGreaterThan(0);
         expect(queries[0].queryKey).toEqual(['gdSkill', 10]);
+        client.cancelQueries();
         tree.unmount();
         client.clear();
     });

@@ -1,7 +1,8 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 import {Platform} from 'react-native';
 import GradientText from '@/components/themed/GradientText';
+import {TestRendererJSON} from '../../helpers/types';
 
 jest.mock('@react-native-masked-view/masked-view', () => {
     const {createElement} = require('react');
@@ -19,67 +20,74 @@ jest.mock('expo-linear-gradient', () => {
     };
 });
 
+function collectTextContent(node: TestRendererJSON | TestRendererJSON[] | string | null): string[] {
+    if (node === null) return [];
+    if (typeof node === 'string') return [node];
+    if (Array.isArray(node)) return node.flatMap(n => collectTextContent(n));
+    const results: string[] = [];
+    if (node.children) {
+        for (const child of node.children) {
+            results.push(...collectTextContent(child));
+        }
+    }
+    return results;
+}
+
 describe('GradientText', () => {
     afterEach(() => {
         Platform.OS = 'ios';
     });
 
-    it('renders children text on native platform', () => {
+    it('renders children text on native platform', async () => {
         Platform.OS = 'ios';
-        const root = renderer.create(
+        await render(
             <GradientText colors={['#ff0000', '#0000ff']} style={{fontSize: 16}}>
                 Hello Gradient
             </GradientText>
-        ).root;
-        const textNodes = root.findAllByType('Text' as unknown as React.ComponentClass);
-        const allText = textNodes.map(n => n.props.children).flat();
-        expect(allText).toContain('Hello Gradient');
+        );
+        const json = JSON.stringify(screen.toJSON());
+        expect(json).toContain('Hello Gradient');
     });
 
-    it('uses MaskedView and LinearGradient on native', () => {
+    it('uses MaskedView and LinearGradient on native', async () => {
         Platform.OS = 'ios';
-        const root = renderer.create(
+        await render(
             <GradientText colors={['#ff0000', '#0000ff']} style={{fontSize: 16}}>
                 Native Text
             </GradientText>
-        ).root;
-        const maskedViews = root.findAllByProps({testID: 'masked-view'});
-        expect(maskedViews.length).toBe(1);
-        const linearGradients = root.findAllByProps({testID: 'linear-gradient'});
-        expect(linearGradients.length).toBe(1);
+        );
+        expect(screen.getAllByTestId('masked-view').length).toBe(1);
+        expect(screen.getAllByTestId('linear-gradient').length).toBe(1);
     });
 
-    it('passes colors to LinearGradient on native', () => {
+    it('passes colors to LinearGradient on native', async () => {
         Platform.OS = 'ios';
-        const root = renderer.create(
+        await render(
             <GradientText colors={['#ff0000', '#00ff00']} style={{fontSize: 16}}>
                 Colored
             </GradientText>
-        ).root;
-        const lg = root.findByProps({testID: 'linear-gradient'});
+        );
+        const lg = screen.getByTestId('linear-gradient');
         expect(lg.props.colors).toEqual(['#ff0000', '#00ff00']);
     });
 
-    it('renders a plain Text element on web platform', () => {
+    it('renders a plain Text element on web platform', async () => {
         Platform.OS = 'web';
-        const root = renderer.create(
+        await render(
             <GradientText colors={['#ff0000', '#00ff00', '#0000ff']} style={{fontSize: 20}}>
                 Web Text
             </GradientText>
-        ).root;
+        );
         // On web, should not use MaskedView or LinearGradient
-        const maskedViews = root.findAllByProps({testID: 'masked-view'});
-        expect(maskedViews.length).toBe(0);
+        expect(screen.queryAllByTestId('masked-view').length).toBe(0);
         // Should render a Text element with children
-        const textNodes = root.findAllByType('Text' as unknown as React.ComponentClass);
-        expect(textNodes.length).toBeGreaterThanOrEqual(1);
-        const allText = textNodes.map(n => n.props.children).flat();
-        expect(allText).toContain('Web Text');
+        const json = JSON.stringify(screen.toJSON());
+        expect(json).toContain('Web Text');
     });
 
-    it('applies backgroundColor prop on web', () => {
+    it('applies backgroundColor prop on web', async () => {
         Platform.OS = 'web';
-        const root = renderer.create(
+        await render(
             <GradientText
                 colors={['#ff0000', '#0000ff']}
                 style={{fontSize: 16}}
@@ -87,12 +95,9 @@ describe('GradientText', () => {
             >
                 BG Text
             </GradientText>
-        ).root;
-        const textNode = root.findByType('Text' as unknown as React.ComponentClass);
-        const flatStyle = [].concat(...(textNode.props.style || []));
-        const hasBgColor = flatStyle.some(
-            (s: Record<string, unknown> | null) => s && s.backgroundColor === '#000000'
         );
-        expect(hasBgColor).toBe(true);
+        const tree = screen.toJSON() as TestRendererJSON;
+        const json = JSON.stringify(tree);
+        expect(json).toContain('"backgroundColor":"#000000"');
     });
 });

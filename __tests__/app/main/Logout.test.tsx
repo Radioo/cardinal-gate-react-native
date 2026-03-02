@@ -1,5 +1,6 @@
 import React from 'react';
-import renderer, {act} from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
+import {TestRendererJSON} from '../../helpers/types';
 
 const mockReplace = jest.fn();
 const mockClearSession = jest.fn().mockResolvedValue(undefined);
@@ -12,7 +13,7 @@ jest.mock('@/services/auth', () => ({
 
 jest.mock('@/components/shared/FullScreenLoader', () => {
     const {createElement} = require('react');
-    return {__esModule: true, default: () => createElement('View', {testID: 'loader'}, 'Loading')};
+    return {__esModule: true, default: () => createElement('View', {testID: 'loader'}, createElement('Text', null, 'Loading'))};
 });
 
 import Logout from '@/app/main/Logout';
@@ -25,26 +26,19 @@ describe('Logout', () => {
     });
 
     it('renders a FullScreenLoader', async () => {
-        let component: renderer.ReactTestRenderer = undefined as unknown as renderer.ReactTestRenderer;
-        await act(async () => {
-            component = renderer.create(<Logout />);
-        });
-        const tree = component.toJSON() as renderer.ReactTestRendererJSON;
+        await render(<Logout />);
+        const tree = screen.toJSON() as TestRendererJSON;
         expect(tree.props.testID).toBe('loader');
-        expect(tree.children).toContain('Loading');
+        expect(JSON.stringify(tree)).toContain('Loading');
     });
 
     it('calls clearSession on mount', async () => {
-        await act(async () => {
-            renderer.create(<Logout />);
-        });
+        await render(<Logout />);
         expect(mockClearSession).toHaveBeenCalled();
     });
 
     it('redirects to /login after clearSession completes', async () => {
-        await act(async () => {
-            renderer.create(<Logout />);
-        });
+        await render(<Logout />);
         expect(mockReplace).toHaveBeenCalledWith('/login');
     });
 });

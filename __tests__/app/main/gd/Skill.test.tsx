@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 import Skill from '@/app/main/gd/Skill';
 
 const mockProfileData = {
@@ -54,25 +54,26 @@ jest.mock('@/components/themed/GradientText', () => {
 });
 
 describe('Skill', () => {
-    it('renders the skill page with picker and skill data', () => {
-        const json = JSON.stringify(renderer.create(<Skill />).toJSON());
+    it('renders the skill page with picker and skill data', async () => {
+        await render(<Skill />);
+        const json = JSON.stringify(screen.toJSON());
         expect(json).toBeTruthy();
         expect(json).toContain('picker');
         expect(json).toContain('total-skill');
         expect(json).toContain('skill-tabs');
     });
 
-    it('renders picker items for each game version', () => {
-        const root = renderer.create(<Skill />).root;
-        const pickerItems = root.findAllByProps({testID: 'picker-item'});
+    it('renders picker items for each game version', async () => {
+        await render(<Skill />);
+        const pickerItems = screen.getAllByTestId('picker-item');
         expect(pickerItems).toHaveLength(2);
         expect(pickerItems[0].props.label).toBe('GITADORA HIGH-VOLTAGE');
         expect(pickerItems[1].props.label).toBe('GITADORA FUZZ-UP');
     });
 
-    it('renders two GdTotalSkill components for DM and GF', () => {
-        const root = renderer.create(<Skill />).root;
-        const totalSkills = root.findAllByProps({testID: 'total-skill'});
+    it('renders two GdTotalSkill components for DM and GF', async () => {
+        await render(<Skill />);
+        const totalSkills = screen.getAllByTestId('total-skill');
         expect(totalSkills).toHaveLength(2);
     });
 });

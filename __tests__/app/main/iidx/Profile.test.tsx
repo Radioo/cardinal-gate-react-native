@@ -1,5 +1,6 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
+import {TestRendererJSON} from '../../../helpers/types';
 
 let mockUseIidxProfile: jest.Mock;
 
@@ -35,14 +36,14 @@ jest.mock('@/components/shared/FullScreenLoader', () => {
 
 jest.mock('@/components/shared/ErrorScreen', () => {
     const {createElement} = require('react');
-    return {__esModule: true, default: ({error}: {error: Error}) => createElement('View', {testID: 'error'}, error.message)};
+    return {__esModule: true, default: ({error}: {error: Error}) => createElement('View', {testID: 'error'}, createElement('Text', null, error.message))};
 });
 
 import Profile from '@/app/main/iidx/Profile';
 
-function findAll(node: renderer.ReactTestRendererJSON | null, predicate: (n: renderer.ReactTestRendererJSON) => boolean): renderer.ReactTestRendererJSON[] {
+function findAll(node: TestRendererJSON | null, predicate: (n: TestRendererJSON) => boolean): TestRendererJSON[] {
     if (!node) return [];
-    const results: renderer.ReactTestRendererJSON[] = [];
+    const results: TestRendererJSON[] = [];
     if (predicate(node)) results.push(node);
     if (node.children) {
         for (const child of node.children) {
@@ -54,7 +55,7 @@ function findAll(node: renderer.ReactTestRendererJSON | null, predicate: (n: ren
     return results;
 }
 
-function collectText(node: renderer.ReactTestRendererJSON | null): string[] {
+function collectText(node: TestRendererJSON | null): string[] {
     if (!node) return [];
     const texts: string[] = [];
     if (node.children) {
@@ -71,22 +72,24 @@ describe('IIDX Profile', () => {
         jest.clearAllMocks();
     });
 
-    it('shows FullScreenLoader when pending', () => {
+    it('shows FullScreenLoader when pending', async () => {
         mockUseIidxProfile = jest.fn(() => ({data: undefined, isPending: true, isError: false, error: null, refetch: jest.fn()}));
-        const tree = renderer.create(<Profile />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<Profile />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const loaders = findAll(tree, n => n.props?.testID === 'loader');
         expect(loaders.length).toBe(1);
     });
 
-    it('shows ErrorScreen when there is an error', () => {
+    it('shows ErrorScreen when there is an error', async () => {
         mockUseIidxProfile = jest.fn(() => ({data: undefined, isPending: false, isError: true, error: new Error('IIDX error'), refetch: jest.fn()}));
-        const tree = renderer.create(<Profile />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<Profile />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const errors = findAll(tree, n => n.props?.testID === 'error');
         expect(errors.length).toBe(1);
-        expect(errors[0].children).toContain('IIDX error');
+        expect(JSON.stringify(errors[0])).toContain('IIDX error');
     });
 
-    it('displays DJ name and formatted arcade ID', () => {
+    it('displays DJ name and formatted arcade ID', async () => {
         mockUseIidxProfile = jest.fn(() => ({
             data: {
                 dj_name: 'TURNTABLE',
@@ -103,13 +106,14 @@ describe('IIDX Profile', () => {
             error: null,
             refetch: jest.fn(),
         }));
-        const tree = renderer.create(<Profile />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<Profile />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const allText = collectText(tree);
         expect(allText).toContain('DJ TURNTABLE');
         expect(allText).toContain('1234-5678');
     });
 
-    it('displays play counts for SP and DP', () => {
+    it('displays play counts for SP and DP', async () => {
         mockUseIidxProfile = jest.fn(() => ({
             data: {
                 dj_name: 'TEST',
@@ -126,14 +130,15 @@ describe('IIDX Profile', () => {
             error: null,
             refetch: jest.fn(),
         }));
-        const tree = renderer.create(<Profile />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<Profile />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const allText = collectText(tree);
         expect(allText.join(' ')).toContain('Play count');
         expect(allText.some(t => t.includes('SP'))).toBe(true);
         expect(allText.some(t => t.includes('DP'))).toBe(true);
     });
 
-    it('displays class information', () => {
+    it('displays class information', async () => {
         mockUseIidxProfile = jest.fn(() => ({
             data: {
                 dj_name: 'TEST',
@@ -150,7 +155,8 @@ describe('IIDX Profile', () => {
             error: null,
             refetch: jest.fn(),
         }));
-        const tree = renderer.create(<Profile />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<Profile />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const allText = collectText(tree);
         expect(allText.some(t => t.includes('Kaiden'))).toBe(true);
         expect(allText.some(t => t.includes('10th Dan'))).toBe(true);

@@ -1,6 +1,6 @@
 jest.mock('@/services/api', () => ({
     __esModule: true,
-    fetchApi: jest.fn(),
+    fetchApi: jest.fn().mockResolvedValue({}),
 }));
 
 import React from 'react';
@@ -22,6 +22,7 @@ describe('useSummary', () => {
             client,
             React.createElement(TestComponent, {onResult: () => {}})
         );
+        client.cancelQueries();
         tree.unmount();
         client.clear();
     });

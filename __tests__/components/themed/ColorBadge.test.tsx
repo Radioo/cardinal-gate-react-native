@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 import ColorBadge from '@/components/themed/ColorBadge';
 
 jest.mock('polished', () => ({
@@ -8,22 +8,18 @@ jest.mock('polished', () => ({
 }));
 
 describe('ColorBadge', () => {
-    it('renders text', () => {
-        const tree = renderer.create(<ColorBadge text="CLEAR" color="#00ff00"/>);
-        const root = tree.root;
-        const textElement = root.findByProps({children: 'CLEAR'});
-        expect(textElement).toBeTruthy();
+    it('renders text', async () => {
+        await render(<ColorBadge text="CLEAR" color="#00ff00"/>);
+        expect(screen.getByText('CLEAR')).toBeTruthy();
     });
 
-    it('renders with different text', () => {
-        const tree = renderer.create(<ColorBadge text="FAILED" color="#ff0000"/>);
-        const root = tree.root;
-        const textElement = root.findByProps({children: 'FAILED'});
-        expect(textElement).toBeTruthy();
+    it('renders with different text', async () => {
+        await render(<ColorBadge text="FAILED" color="#ff0000"/>);
+        expect(screen.getByText('FAILED')).toBeTruthy();
     });
 
-    it('renders without crashing', () => {
-        const tree = renderer.create(<ColorBadge text="TEST" color="#808080"/>);
-        expect(tree.toJSON()).toBeTruthy();
+    it('renders without crashing', async () => {
+        await render(<ColorBadge text="TEST" color="#808080"/>);
+        expect(screen.toJSON()).toBeTruthy();
     });
 });

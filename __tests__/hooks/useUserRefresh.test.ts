@@ -1,5 +1,6 @@
 import React from 'react';
-import renderer, {act} from 'react-test-renderer';
+import {render, screen, fireEvent} from '@testing-library/react-native';
+import {act} from 'react';
 import useUserRefresh from '@/hooks/useUserRefresh';
 
 function TestComponent({refetch}: {refetch: () => Promise<void>}) {
@@ -12,20 +13,20 @@ function TestComponent({refetch}: {refetch: () => Promise<void>}) {
 }
 
 describe('useUserRefresh', () => {
-    it('starts with refreshing as false', () => {
+    it('starts with refreshing as false', async () => {
         const refetch = jest.fn().mockResolvedValue(undefined);
-        const tree = renderer.create(React.createElement(TestComponent, {refetch}));
-        const refreshingEl = tree.root.findByProps({testID: 'refreshing'});
+        await render(React.createElement(TestComponent, {refetch}));
+        const refreshingEl = screen.getByTestId('refreshing');
         expect(refreshingEl.props.children).toBe('false');
     });
 
     it('calls refetch when handleRefresh is invoked', async () => {
         const refetch = jest.fn().mockResolvedValue(undefined);
-        const tree = renderer.create(React.createElement(TestComponent, {refetch}));
-        const triggerEl = tree.root.findByProps({testID: 'trigger'});
+        await render(React.createElement(TestComponent, {refetch}));
+        const triggerEl = screen.getByTestId('trigger');
 
         await act(async () => {
-            triggerEl.props.onPress();
+            fireEvent.press(triggerEl);
         });
 
         expect(refetch).toHaveBeenCalled();

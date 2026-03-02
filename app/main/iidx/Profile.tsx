@@ -33,7 +33,7 @@ export default function Profile() {
                         }
                     />
                     <ProfileRow
-                        icon={<AntDesign name="staro" size={24} color={theme.text}/>}
+                        icon={<MaterialIcons name="star-outline" size={24} color={theme.text}/>}
                         label="Class"
                         value={
                             <View>

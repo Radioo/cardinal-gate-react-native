@@ -1,5 +1,6 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
+import {TestRendererJSON} from '../../helpers/types';
 import PlayCounts from '@/components/shared/PlayCounts';
 
 jest.mock('@expo/vector-icons/MaterialIcons', () => 'MaterialIcons');
@@ -27,7 +28,7 @@ jest.mock('@/services/game', () => ({
     },
 }));
 
-function collectTextContent(node: renderer.ReactTestRendererJSON | renderer.ReactTestRendererJSON[] | string | null): string[] {
+function collectTextContent(node: TestRendererJSON | TestRendererJSON[] | string | null): string[] {
     if (node === null) return [];
     if (typeof node === 'string') return [node];
     if (Array.isArray(node)) return node.flatMap(n => collectTextContent(n));
@@ -41,18 +42,19 @@ function collectTextContent(node: renderer.ReactTestRendererJSON | renderer.Reac
 }
 
 describe('PlayCounts', () => {
-    it('renders loading state when isPending is true', () => {
+    it('renders loading state when isPending is true', async () => {
         mockUseSummary.mockReturnValue({
             data: undefined,
             isPending: true,
         });
-        const tree = renderer.create(<PlayCounts />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<PlayCounts />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const texts = collectTextContent(tree);
         // FullScreenLoader does not show text content like "plays"
         expect(texts.find(t => t.includes('plays'))).toBeUndefined();
     });
 
-    it('renders play count items with series names', () => {
+    it('renders play count items with series names', async () => {
         mockUseSummary.mockReturnValue({
             data: {
                 play_counts: [
@@ -62,13 +64,14 @@ describe('PlayCounts', () => {
             },
             isPending: false,
         });
-        const tree = renderer.create(<PlayCounts />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<PlayCounts />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const texts = collectTextContent(tree);
         expect(texts).toContain('beatmania IIDX');
         expect(texts).toContain('SOUND VOLTEX');
     });
 
-    it('renders play count numbers with locale formatting', () => {
+    it('renders play count numbers with locale formatting', async () => {
         mockUseSummary.mockReturnValue({
             data: {
                 play_counts: [
@@ -78,7 +81,8 @@ describe('PlayCounts', () => {
             },
             isPending: false,
         });
-        const tree = renderer.create(<PlayCounts />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<PlayCounts />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const texts = collectTextContent(tree);
         // count.toLocaleString() + " plays" renders as separate children
         expect(texts.find(t => t.includes('100'))).toBeTruthy();
@@ -86,7 +90,7 @@ describe('PlayCounts', () => {
         expect(texts.find(t => t.includes('plays'))).toBeTruthy();
     });
 
-    it('renders estimated play time', () => {
+    it('renders estimated play time', async () => {
         mockUseSummary.mockReturnValue({
             data: {
                 play_counts: [
@@ -95,7 +99,8 @@ describe('PlayCounts', () => {
             },
             isPending: false,
         });
-        const tree = renderer.create(<PlayCounts />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<PlayCounts />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const texts = collectTextContent(tree);
         // 150 plays * 2 min = 300 min = 5 hours
         expect(texts).toContain('Estimated play time: ');
@@ -103,21 +108,22 @@ describe('PlayCounts', () => {
         expect(texts).toContain(' hours');
     });
 
-    it('renders zero play time when no play counts', () => {
+    it('renders zero play time when no play counts', async () => {
         mockUseSummary.mockReturnValue({
             data: {
                 play_counts: [],
             },
             isPending: false,
         });
-        const tree = renderer.create(<PlayCounts />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<PlayCounts />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const texts = collectTextContent(tree);
         expect(texts).toContain('Estimated play time: ');
         expect(texts).toContain('0');
         expect(texts).toContain(' hours');
     });
 
-    it('renders formatted play counts with thousands separators', () => {
+    it('renders formatted play counts with thousands separators', async () => {
         mockUseSummary.mockReturnValue({
             data: {
                 play_counts: [
@@ -126,7 +132,8 @@ describe('PlayCounts', () => {
             },
             isPending: false,
         });
-        const tree = renderer.create(<PlayCounts />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<PlayCounts />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const texts = collectTextContent(tree);
         // 12345.toLocaleString() = "12,345"
         expect(texts.find(t => t.includes('12,345'))).toBeTruthy();

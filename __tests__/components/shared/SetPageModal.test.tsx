@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 import SetPageModal from '@/components/shared/SetPageModal';
 
 jest.mock('expo-blur', () => ({
@@ -11,26 +11,26 @@ jest.mock('react-native-safe-area-context', () => ({
 }));
 
 describe('SetPageModal', () => {
-    it('renders without crashing', () => {
-        const tree = renderer.create(
+    it('renders without crashing', async () => {
+        await render(
             <SetPageModal
                 visible={true}
                 onClose={jest.fn()}
                 maxPage={10}
             />
-        ).toJSON();
-        expect(tree).toBeTruthy();
+        );
+        expect(screen.toJSON()).toBeTruthy();
     });
 
-    it('renders with initialValue', () => {
-        const tree = renderer.create(
+    it('renders with initialValue', async () => {
+        await render(
             <SetPageModal
                 initialValue="5"
                 visible={true}
                 onClose={jest.fn()}
                 maxPage={10}
             />
-        ).toJSON();
-        expect(tree).toBeTruthy();
+        );
+        expect(screen.toJSON()).toBeTruthy();
     });
 });

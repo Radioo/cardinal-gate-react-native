@@ -1,5 +1,6 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
+import {TestRendererJSON} from '../../../helpers/types';
 
 let mockUseGdProfile: jest.Mock;
 
@@ -25,14 +26,14 @@ jest.mock('@/components/shared/FullScreenLoader', () => {
 
 jest.mock('@/components/shared/ErrorScreen', () => {
     const {createElement} = require('react');
-    return {__esModule: true, default: ({error}: {error: Error}) => createElement('View', {testID: 'error'}, error.message)};
+    return {__esModule: true, default: ({error}: {error: Error}) => createElement('View', {testID: 'error'}, createElement('Text', null, error.message))};
 });
 
 import Profile from '@/app/main/gd/Profile';
 
-function findAll(node: renderer.ReactTestRendererJSON | null, predicate: (n: renderer.ReactTestRendererJSON) => boolean): renderer.ReactTestRendererJSON[] {
+function findAll(node: TestRendererJSON | null, predicate: (n: TestRendererJSON) => boolean): TestRendererJSON[] {
     if (!node) return [];
-    const results: renderer.ReactTestRendererJSON[] = [];
+    const results: TestRendererJSON[] = [];
     if (predicate(node)) results.push(node);
     if (node.children) {
         for (const child of node.children) {
@@ -44,7 +45,7 @@ function findAll(node: renderer.ReactTestRendererJSON | null, predicate: (n: ren
     return results;
 }
 
-function collectText(node: renderer.ReactTestRendererJSON | null): string[] {
+function collectText(node: TestRendererJSON | null): string[] {
     if (!node) return [];
     const texts: string[] = [];
     if (node.children) {
@@ -61,22 +62,24 @@ describe('GD Profile', () => {
         jest.clearAllMocks();
     });
 
-    it('shows FullScreenLoader when pending', () => {
+    it('shows FullScreenLoader when pending', async () => {
         mockUseGdProfile = jest.fn(() => ({data: undefined, isPending: true, isError: false, error: null, refetch: jest.fn()}));
-        const tree = renderer.create(<Profile />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<Profile />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const loaders = findAll(tree, n => n.props?.testID === 'loader');
         expect(loaders.length).toBe(1);
     });
 
-    it('shows ErrorScreen when there is an error', () => {
+    it('shows ErrorScreen when there is an error', async () => {
         mockUseGdProfile = jest.fn(() => ({data: undefined, isPending: false, isError: true, error: new Error('GD error'), refetch: jest.fn()}));
-        const tree = renderer.create(<Profile />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<Profile />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const errors = findAll(tree, n => n.props?.testID === 'error');
         expect(errors.length).toBe(1);
-        expect(errors[0].children).toContain('GD error');
+        expect(JSON.stringify(errors[0])).toContain('GD error');
     });
 
-    it('displays the player name when data is loaded', () => {
+    it('displays the player name when data is loaded', async () => {
         mockUseGdProfile = jest.fn(() => ({
             data: {name: 'GUITAR_HERO'},
             isPending: false,
@@ -84,12 +87,13 @@ describe('GD Profile', () => {
             error: null,
             refetch: jest.fn(),
         }));
-        const tree = renderer.create(<Profile />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<Profile />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const allText = collectText(tree);
         expect(allText).toContain('GUITAR_HERO');
     });
 
-    it('renders a user icon when data is loaded', () => {
+    it('renders a user icon when data is loaded', async () => {
         mockUseGdProfile = jest.fn(() => ({
             data: {name: 'TEST'},
             isPending: false,
@@ -97,7 +101,8 @@ describe('GD Profile', () => {
             error: null,
             refetch: jest.fn(),
         }));
-        const tree = renderer.create(<Profile />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<Profile />);
+        const tree = screen.toJSON() as TestRendererJSON;
         const icons = findAll(tree, n => n.props?.testID === 'icon-user');
         expect(icons.length).toBe(1);
     });

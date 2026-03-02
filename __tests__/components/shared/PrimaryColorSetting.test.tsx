@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen, fireEvent} from '@testing-library/react-native';
 import PrimaryColorSetting from '@/components/shared/PrimaryColorSetting';
 
 let capturedColorPickerProps: Record<string, unknown> = {};
@@ -45,46 +45,38 @@ describe('PrimaryColorSetting', () => {
         mockSetPrimaryColor.mockClear();
     });
 
-    it('renders color picker with current primary color', () => {
-        renderer.create(<PrimaryColorSetting visible={true} onClose={jest.fn()} />);
+    it('renders color picker with current primary color', async () => {
+        await render(<PrimaryColorSetting visible={true} onClose={jest.fn()} />);
         expect(capturedColorPickerProps.value).toBe('#f28b28');
     });
 
-    it('renders all color picker sub-components', () => {
-        const root = renderer.create(
-            <PrimaryColorSetting visible={true} onClose={jest.fn()} />
-        ).root;
-        expect(root.findAllByProps({testID: 'panel1'})).toHaveLength(1);
-        expect(root.findAllByProps({testID: 'preview'})).toHaveLength(1);
-        expect(root.findAllByProps({testID: 'hue-slider'})).toHaveLength(1);
-        expect(root.findAllByProps({testID: 'opacity-slider'})).toHaveLength(1);
+    it('renders all color picker sub-components', async () => {
+        await render(<PrimaryColorSetting visible={true} onClose={jest.fn()} />);
+        expect(screen.getAllByTestId('panel1')).toHaveLength(1);
+        expect(screen.getAllByTestId('preview')).toHaveLength(1);
+        expect(screen.getAllByTestId('hue-slider')).toHaveLength(1);
+        expect(screen.getAllByTestId('opacity-slider')).toHaveLength(1);
     });
 
-    it('renders Apply and Cancel buttons', () => {
-        const root = renderer.create(
-            <PrimaryColorSetting visible={true} onClose={jest.fn()} />
-        ).root;
-        expect(root.findByProps({testID: 'btn-Apply'})).toBeTruthy();
-        expect(root.findByProps({testID: 'btn-Cancel'})).toBeTruthy();
+    it('renders Apply and Cancel buttons', async () => {
+        await render(<PrimaryColorSetting visible={true} onClose={jest.fn()} />);
+        expect(screen.getByTestId('btn-Apply')).toBeTruthy();
+        expect(screen.getByTestId('btn-Cancel')).toBeTruthy();
     });
 
-    it('calls onClose when Cancel is pressed', () => {
+    it('calls onClose when Cancel is pressed', async () => {
         const onClose = jest.fn();
-        const root = renderer.create(
-            <PrimaryColorSetting visible={true} onClose={onClose} />
-        ).root;
-        const cancelBtn = root.findByProps({testID: 'btn-Cancel'});
-        cancelBtn.props.onPress();
+        await render(<PrimaryColorSetting visible={true} onClose={onClose} />);
+        const cancelBtn = screen.getByTestId('btn-Cancel');
+        fireEvent.press(cancelBtn);
         expect(onClose).toHaveBeenCalled();
     });
 
-    it('calls setPrimaryColor and onClose when Apply is pressed', () => {
+    it('calls setPrimaryColor and onClose when Apply is pressed', async () => {
         const onClose = jest.fn();
-        const root = renderer.create(
-            <PrimaryColorSetting visible={true} onClose={onClose} />
-        ).root;
-        const applyBtn = root.findByProps({testID: 'btn-Apply'});
-        applyBtn.props.onPress();
+        await render(<PrimaryColorSetting visible={true} onClose={onClose} />);
+        const applyBtn = screen.getByTestId('btn-Apply');
+        fireEvent.press(applyBtn);
         expect(mockSetPrimaryColor).toHaveBeenCalledWith('#f28b28');
         expect(onClose).toHaveBeenCalled();
     });

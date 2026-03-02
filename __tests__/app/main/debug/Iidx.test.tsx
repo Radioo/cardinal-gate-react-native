@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 
 jest.mock('@/components/iidx/IidxDifficulty', () => {
     const {createElement} = require('react');
@@ -9,8 +9,8 @@ jest.mock('@/components/iidx/IidxDifficulty', () => {
 import Iidx from '@/app/main/debug/Iidx';
 
 describe('Debug Iidx', () => {
-    it('renders without crashing', () => {
-        const tree = renderer.create(<Iidx />).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders without crashing', async () => {
+        await render(<Iidx />);
+        expect(screen.toJSON()).toBeTruthy();
     });
 });

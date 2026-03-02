@@ -1,5 +1,6 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
+import {TestRendererJSON} from '../../../helpers/types';
 
 let mockUseIidxPlays: jest.Mock;
 
@@ -39,25 +40,26 @@ describe('IIDX Plays', () => {
         capturedPaginatedProps = null;
     });
 
-    it('renders PaginatedPlaysList', () => {
+    it('renders PaginatedPlaysList', async () => {
         mockUseIidxPlays = jest.fn(() => ({data: {plays: [], pages: 1}, isPending: false, isError: false, error: null, refetch: jest.fn()}));
-        const tree = renderer.create(<Plays />).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<Plays />);
+        const tree = screen.toJSON() as TestRendererJSON;
         expect(tree.props.testID).toBe('paginated-list');
     });
 
-    it('passes plays data to PaginatedPlaysList', () => {
+    it('passes plays data to PaginatedPlaysList', async () => {
         const plays = [{id: 1, title: 'Song A'}, {id: 2, title: 'Song B'}];
         mockUseIidxPlays = jest.fn(() => ({data: {plays, pages: 3}, isPending: false, isError: false, error: null, refetch: jest.fn()}));
-        renderer.create(<Plays />);
+        await render(<Plays />);
         const props = capturedPaginatedProps as Record<string, unknown>;
         expect(props).toBeTruthy();
         expect(props.plays).toEqual(plays);
         expect(props.pages).toBe(3);
     });
 
-    it('defaults to empty plays and page 1 when data is undefined', () => {
+    it('defaults to empty plays and page 1 when data is undefined', async () => {
         mockUseIidxPlays = jest.fn(() => ({data: undefined, isPending: true, isError: false, error: null, refetch: jest.fn()}));
-        renderer.create(<Plays />);
+        await render(<Plays />);
         const props = capturedPaginatedProps as Record<string, unknown>;
         expect(props).toBeTruthy();
         expect(props.plays).toEqual([]);
@@ -65,18 +67,18 @@ describe('IIDX Plays', () => {
         expect(props.isPending).toBe(true);
     });
 
-    it('passes error state to PaginatedPlaysList', () => {
+    it('passes error state to PaginatedPlaysList', async () => {
         const error = new Error('Failed to load');
         mockUseIidxPlays = jest.fn(() => ({data: undefined, isPending: false, isError: true, error, refetch: jest.fn()}));
-        renderer.create(<Plays />);
+        await render(<Plays />);
         const props = capturedPaginatedProps as Record<string, unknown>;
         expect(props.isError).toBe(true);
         expect(props.error).toBe(error);
     });
 
-    it('provides a renderItem function that renders IidxPlayRow', () => {
+    it('provides a renderItem function that renders IidxPlayRow', async () => {
         mockUseIidxPlays = jest.fn(() => ({data: {plays: [], pages: 1}, isPending: false, isError: false, error: null, refetch: jest.fn()}));
-        renderer.create(<Plays />);
+        await render(<Plays />);
         const props = capturedPaginatedProps as Record<string, unknown>;
         const renderItem = props.renderItem as (play: unknown) => React.ReactElement;
         const element = renderItem({id: 1, title: 'Test'});

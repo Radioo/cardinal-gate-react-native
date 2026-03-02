@@ -1,27 +1,25 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 import ThemedButton from '@/components/themed/ThemedButton';
 
 describe('ThemedButton', () => {
-    it('renders with label', () => {
-        const tree = renderer.create(<ThemedButton label="Click me" />).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders with label', async () => {
+        await render(<ThemedButton label="Click me" />);
+        expect(screen.toJSON()).toBeTruthy();
     });
 
-    it('renders in loading state', () => {
-        const tree = renderer.create(<ThemedButton label="Loading" loading />).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders in loading state', async () => {
+        await render(<ThemedButton label="Loading" loading />);
+        expect(screen.toJSON()).toBeTruthy();
     });
 
-    it('renders in disabled state', () => {
-        const tree = renderer.create(<ThemedButton label="Disabled" disabled />).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders in disabled state', async () => {
+        await render(<ThemedButton label="Disabled" disabled />);
+        expect(screen.toJSON()).toBeTruthy();
     });
 
-    it('renders with icon', () => {
-        const tree = renderer.create(
-            <ThemedButton icon={<React.Fragment />} />
-        ).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders with icon', async () => {
+        await render(<ThemedButton icon={<React.Fragment />} />);
+        expect(screen.toJSON()).toBeTruthy();
     });
 });

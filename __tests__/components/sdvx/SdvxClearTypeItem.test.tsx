@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 import SdvxClearTypeItem from '@/components/sdvx/SdvxClearTypeItem';
 import {SdvxClearType} from '@/enums/sdvx-clear-type';
 
@@ -9,17 +9,13 @@ jest.mock('polished', () => ({
 }));
 
 describe('SdvxClearTypeItem', () => {
-    it('renders COMPLETE clear type', () => {
-        const tree = renderer.create(
-            <SdvxClearTypeItem clearType={SdvxClearType.COMPLETE}/>
-        ).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders COMPLETE clear type', async () => {
+        await render(<SdvxClearTypeItem clearType={SdvxClearType.COMPLETE}/>);
+        expect(screen.toJSON()).toBeTruthy();
     });
 
-    it('renders PUC clear type', () => {
-        const tree = renderer.create(
-            <SdvxClearTypeItem clearType={SdvxClearType.PERFECT_ULTIMATE_CHAIN}/>
-        ).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders PUC clear type', async () => {
+        await render(<SdvxClearTypeItem clearType={SdvxClearType.PERFECT_ULTIMATE_CHAIN}/>);
+        expect(screen.toJSON()).toBeTruthy();
     });
 });

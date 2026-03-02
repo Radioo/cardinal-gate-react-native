@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 
 jest.mock('@/components/gd/GdDifficulty', () => {
     const {createElement} = require('react');
@@ -9,8 +9,8 @@ jest.mock('@/components/gd/GdDifficulty', () => {
 import Gd from '@/app/main/debug/Gd';
 
 describe('Debug Gd', () => {
-    it('renders without crashing', () => {
-        const tree = renderer.create(<Gd />).toJSON();
-        expect(tree).toBeTruthy();
+    it('renders without crashing', async () => {
+        await render(<Gd />);
+        expect(screen.toJSON()).toBeTruthy();
     });
 });

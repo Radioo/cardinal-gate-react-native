@@ -1,7 +1,8 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 import IidxPlayRow from '@/components/iidx/IidxPlayRow';
 import {IidxPlay} from '@/types/iidx-play';
+import {TestRendererJSON} from '../../helpers/types';
 
 jest.mock('@/components/shared/ShareImageModal', () => {
     const {createElement} = require('react');
@@ -35,7 +36,7 @@ const mockPlay: IidxPlay = {
     has_score_card: true,
 } as IidxPlay;
 
-function collectTextContent(node: renderer.ReactTestRendererJSON | renderer.ReactTestRendererJSON[] | string | null): string[] {
+function collectTextContent(node: TestRendererJSON | TestRendererJSON[] | string | null): string[] {
     if (node === null) return [];
     if (typeof node === 'string') return [node];
     if (Array.isArray(node)) return node.flatMap(n => collectTextContent(n));
@@ -49,46 +50,41 @@ function collectTextContent(node: renderer.ReactTestRendererJSON | renderer.Reac
 }
 
 describe('IidxPlayRow', () => {
-    it('renders the song name', () => {
-        const tree = renderer.create(
-            <IidxPlayRow play={mockPlay}/>
-        ).toJSON() as renderer.ReactTestRendererJSON;
+    it('renders the song name', async () => {
+        await render(<IidxPlayRow play={mockPlay}/>);
+        const tree = screen.toJSON() as TestRendererJSON;
         const texts = collectTextContent(tree);
         expect(texts).toContain('Test Song');
     });
 
-    it('renders ex score with EX suffix', () => {
-        const tree = renderer.create(
-            <IidxPlayRow play={mockPlay}/>
-        ).toJSON() as renderer.ReactTestRendererJSON;
+    it('renders ex score with EX suffix', async () => {
+        await render(<IidxPlayRow play={mockPlay}/>);
+        const tree = screen.toJSON() as TestRendererJSON;
         const texts = collectTextContent(tree);
         // toLocaleString produces "1,500" and then " EX" is appended
         const exScoreText = texts.find(t => t.includes('EX'));
         expect(exScoreText).toBeTruthy();
     });
 
-    it('renders percentage', () => {
-        const tree = renderer.create(
-            <IidxPlayRow play={mockPlay}/>
-        ).toJSON() as renderer.ReactTestRendererJSON;
+    it('renders percentage', async () => {
+        await render(<IidxPlayRow play={mockPlay}/>);
+        const tree = screen.toJSON() as TestRendererJSON;
         const texts = collectTextContent(tree);
         // percentage.toFixed(2) = "85.50" + "%"
         const pctText = texts.find(t => t.includes('85.50'));
         expect(pctText).toBeTruthy();
     });
 
-    it('renders grade text', () => {
-        const tree = renderer.create(
-            <IidxPlayRow play={mockPlay}/>
-        ).toJSON() as renderer.ReactTestRendererJSON;
+    it('renders grade text', async () => {
+        await render(<IidxPlayRow play={mockPlay}/>);
+        const tree = screen.toJSON() as TestRendererJSON;
         const texts = collectTextContent(tree);
         expect(texts).toContain('AAA');
     });
 
-    it('renders perfect and great counts', () => {
-        const tree = renderer.create(
-            <IidxPlayRow play={mockPlay}/>
-        ).toJSON() as renderer.ReactTestRendererJSON;
+    it('renders perfect and great counts', async () => {
+        await render(<IidxPlayRow play={mockPlay}/>);
+        const tree = screen.toJSON() as TestRendererJSON;
         const texts = collectTextContent(tree);
         const pgText = texts.find(t => t.includes('PG'));
         expect(pgText).toBeTruthy();
@@ -96,56 +92,46 @@ describe('IidxPlayRow', () => {
         expect(grText).toBeTruthy();
     });
 
-    it('renders miss count when present', () => {
-        const tree = renderer.create(
-            <IidxPlayRow play={mockPlay}/>
-        ).toJSON() as renderer.ReactTestRendererJSON;
+    it('renders miss count when present', async () => {
+        await render(<IidxPlayRow play={mockPlay}/>);
+        const tree = screen.toJSON() as TestRendererJSON;
         const texts = collectTextContent(tree);
         const mcText = texts.find(t => t.includes('MC'));
         expect(mcText).toBeTruthy();
     });
 
-    it('does not render miss count when null', () => {
+    it('does not render miss count when null', async () => {
         const playNoMiss = {...mockPlay, miss_count: null} as IidxPlay;
-        const tree = renderer.create(
-            <IidxPlayRow play={playNoMiss}/>
-        ).toJSON() as renderer.ReactTestRendererJSON;
+        await render(<IidxPlayRow play={playNoMiss}/>);
+        const tree = screen.toJSON() as TestRendererJSON;
         const texts = collectTextContent(tree);
         const mcText = texts.find(t => t.includes('MC'));
         expect(mcText).toBeUndefined();
     });
 
-    it('renders camera button when has_score_card is true', () => {
-        const root = renderer.create(
-            <IidxPlayRow play={mockPlay}/>
-        ).root;
-        const cameraIcons = root.findAllByType('FontAwesome' as unknown as React.ComponentClass);
-        expect(cameraIcons.length).toBe(1);
+    it('renders camera button when has_score_card is true', async () => {
+        await render(<IidxPlayRow play={mockPlay}/>);
+        const json = JSON.stringify(screen.toJSON());
+        expect((json.match(/"FontAwesome"/g) || []).length).toBe(1);
     });
 
-    it('does not render camera button when has_score_card is false', () => {
+    it('does not render camera button when has_score_card is false', async () => {
         const playWithoutCard = {...mockPlay, has_score_card: false} as IidxPlay;
-        const root = renderer.create(
-            <IidxPlayRow play={playWithoutCard}/>
-        ).root;
-        const cameraIcons = root.findAllByType('FontAwesome' as unknown as React.ComponentClass);
-        expect(cameraIcons.length).toBe(0);
+        await render(<IidxPlayRow play={playWithoutCard}/>);
+        const json = JSON.stringify(screen.toJSON());
+        expect(json).not.toContain('"FontAwesome"');
     });
 
-    it('passes correct props to difficulty component', () => {
-        const root = renderer.create(
-            <IidxPlayRow play={mockPlay}/>
-        ).root;
-        const diffItem = root.findByProps({testID: 'difficulty'});
+    it('passes correct props to difficulty component', async () => {
+        await render(<IidxPlayRow play={mockPlay}/>);
+        const diffItem = screen.getByTestId('difficulty');
         expect(diffItem.props.difficulty).toBe('SPA');
         expect(diffItem.props.level).toBe(12);
     });
 
-    it('passes correct clear type to clear type component', () => {
-        const root = renderer.create(
-            <IidxPlayRow play={mockPlay}/>
-        ).root;
-        const clearItem = root.findByProps({testID: 'clear-type'});
+    it('passes correct clear type to clear type component', async () => {
+        await render(<IidxPlayRow play={mockPlay}/>);
+        const clearItem = screen.getByTestId('clear-type');
         expect(clearItem.props.clearType).toBe('CLEAR');
     });
 });

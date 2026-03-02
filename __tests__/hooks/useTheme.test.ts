@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react-native';
 
 jest.unmock('@/hooks/useTheme');
 jest.mock('@/hooks/useColorScheme', () => ({
@@ -18,9 +18,9 @@ function TestComponent() {
 }
 
 describe('useTheme', () => {
-    it('returns theme object with scheme and colors', () => {
-        const tree = renderer.create(React.createElement(TestComponent));
-        const textElement = tree.root.findByProps({testID: 'theme'});
+    it('returns theme object with scheme and colors', async () => {
+        await render(React.createElement(TestComponent));
+        const textElement = screen.getByTestId('theme');
         const theme = JSON.parse(textElement.props.children);
         expect(theme.scheme).toBe('dark');
         expect(theme).toHaveProperty('text');
