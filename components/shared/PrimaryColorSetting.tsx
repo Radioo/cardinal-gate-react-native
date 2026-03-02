@@ -10,7 +10,15 @@ import ColorPicker, {
 import type {ColorFormatsObject} from 'reanimated-color-picker';
 import {StyleSheet, View} from "react-native";
 import useTheme from "@/hooks/useTheme";
-import {useRef} from "react";
+import {useMemo, useRef, useState} from "react";
+import {getMaterialYouAccent} from "@/modules/expo-material-you/src";
+
+function useMaterialYouAccent(): string | null {
+    return useMemo(() => {
+        try { return getMaterialYouAccent(); }
+        catch { return null; }
+    }, []);
+}
 
 type PrimaryColorSettingProps = {
     visible: boolean;
@@ -21,6 +29,8 @@ export default function PrimaryColorSetting(props: PrimaryColorSettingProps) {
     const theme = useTheme();
     const {primaryColor, setPrimaryColor} = useThemeStore();
     const tempColor = useRef(primaryColor);
+    const [pickerKey, setPickerKey] = useState(0);
+    const materialYouAccent = useMaterialYouAccent();
 
     const onSelectColor = ({hex}: ColorFormatsObject) => {
         tempColor.current = hex;
@@ -31,15 +41,25 @@ export default function PrimaryColorSetting(props: PrimaryColorSettingProps) {
         props.onClose();
     }
 
+    const onMaterialYou = () => {
+        if (!materialYouAccent) return;
+        tempColor.current = materialYouAccent;
+        setPickerKey(k => k + 1);
+    }
+
     return (
         <ModalBase visible={props.visible}>
             <View style={[styles.content, {backgroundColor: theme.background}]}>
-                <ColorPicker style={styles.picker} value={tempColor.current} onCompleteJS={onSelectColor}>
+                <ColorPicker key={pickerKey} style={styles.picker} value={tempColor.current} onCompleteJS={onSelectColor}>
                     <Preview style={styles.squareCorners}/>
                     <Panel1 style={styles.squareCorners} thumbInnerStyle={styles.thumb} thumbShape="rect"/>
                     <HueSlider style={styles.squareCorners} thumbShape="rect"/>
                     <OpacitySlider style={styles.squareCorners} thumbShape="rect"/>
                 </ColorPicker>
+
+                {materialYouAccent && (
+                    <ThemedButton label="Use Material You Color" onPress={onMaterialYou} />
+                )}
 
                 <View style={styles.buttonRow}>
                     <ThemedButton style={styles.flex1} label="Apply" onPress={() => onCloseModal()}></ThemedButton>

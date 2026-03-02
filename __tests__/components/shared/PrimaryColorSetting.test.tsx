@@ -1,4 +1,5 @@
 import React from 'react';
+import {Platform} from 'react-native';
 import {render, screen, fireEvent} from '@testing-library/react-native';
 import PrimaryColorSetting from '@/components/shared/PrimaryColorSetting';
 
@@ -20,6 +21,12 @@ jest.mock('reanimated-color-picker', () => {
     };
 });
 
+const mockGetMaterialYouAccent = jest.fn<string | null, []>(() => null);
+
+jest.mock('@/modules/expo-material-you/src', () => ({
+    getMaterialYouAccent: () => mockGetMaterialYouAccent(),
+}));
+
 const mockSetPrimaryColor = jest.fn();
 
 jest.mock('@/store/theme', () => ({
@@ -40,9 +47,14 @@ jest.mock('@/components/themed/ThemedButton', () => {
 });
 
 describe('PrimaryColorSetting', () => {
+    afterEach(() => {
+        Platform.OS = 'ios';
+    });
+
     beforeEach(() => {
         capturedColorPickerProps = {};
         mockSetPrimaryColor.mockClear();
+        mockGetMaterialYouAccent.mockReset().mockReturnValue(null);
     });
 
     it('renders color picker with current primary color', async () => {
@@ -78,6 +90,30 @@ describe('PrimaryColorSetting', () => {
         const applyBtn = screen.getByTestId('btn-Apply');
         fireEvent.press(applyBtn);
         expect(mockSetPrimaryColor).toHaveBeenCalledWith('#f28b28');
+        expect(onClose).toHaveBeenCalled();
+    });
+
+    it('hides Material You button when accent is null', async () => {
+        mockGetMaterialYouAccent.mockReturnValue(null);
+        await render(<PrimaryColorSetting visible={true} onClose={jest.fn()} />);
+        expect(screen.queryByTestId('btn-Use Material You Color')).toBeNull();
+    });
+
+    it('shows Material You button when accent is available', async () => {
+        mockGetMaterialYouAccent.mockReturnValue('#5B5EA6');
+        await render(<PrimaryColorSetting visible={true} onClose={jest.fn()} />);
+        expect(screen.getByTestId('btn-Use Material You Color')).toBeTruthy();
+    });
+
+    it('applies Material You color when button is pressed then Apply', async () => {
+        mockGetMaterialYouAccent.mockReturnValue('#5B5EA6');
+        const onClose = jest.fn();
+        await render(<PrimaryColorSetting visible={true} onClose={onClose} />);
+
+        fireEvent.press(screen.getByTestId('btn-Use Material You Color'));
+        fireEvent.press(screen.getByTestId('btn-Apply'));
+
+        expect(mockSetPrimaryColor).toHaveBeenCalledWith('#5B5EA6');
         expect(onClose).toHaveBeenCalled();
     });
 });
