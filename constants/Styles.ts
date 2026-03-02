@@ -1,11 +1,5 @@
 import {Platform, StyleProp, TextStyle} from "react-native";
 
-export const tabBarLabelStyle = () => {
-    const tabBarLabelStyle: StyleProp<TextStyle> = {};
-    if(Platform.OS === 'web') {
-        tabBarLabelStyle.lineHeight = 10;
-        tabBarLabelStyle.fontSize = 10;
-    }
-
-    return tabBarLabelStyle;
-}
+export const tabBarLabelStyle: StyleProp<TextStyle> = Platform.OS === 'web'
+    ? {lineHeight: 10, fontSize: 10}
+    : {};

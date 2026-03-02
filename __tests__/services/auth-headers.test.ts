@@ -1,0 +1,43 @@
+jest.mock('@/store/secure', () => ({
+    getSecureValue: jest.fn(),
+}));
+
+import {buildAuthRequestInit} from '@/services/auth-headers';
+import {getSecureValue} from '@/store/secure';
+
+const mockGetSecureValue = getSecureValue as jest.MockedFunction<typeof getSecureValue>;
+
+describe('buildAuthRequestInit', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it('adds CG-Token header when token exists', async () => {
+        mockGetSecureValue.mockResolvedValue('test-token');
+        const result = await buildAuthRequestInit();
+        expect(result.headers).toEqual({'CG-Token': 'test-token'});
+    });
+
+    it('does not add CG-Token header when token is null', async () => {
+        mockGetSecureValue.mockResolvedValue(null);
+        const result = await buildAuthRequestInit();
+        expect(result.headers).toEqual({});
+    });
+
+    it('merges with existing init headers', async () => {
+        mockGetSecureValue.mockResolvedValue('test-token');
+        const result = await buildAuthRequestInit({
+            headers: {'Content-Type': 'application/json'},
+        });
+        expect(result.headers).toEqual({
+            'Content-Type': 'application/json',
+            'CG-Token': 'test-token',
+        });
+    });
+
+    it('preserves other init properties', async () => {
+        mockGetSecureValue.mockResolvedValue('test-token');
+        const result = await buildAuthRequestInit({method: 'POST'});
+        expect(result.method).toBe('POST');
+    });
+});

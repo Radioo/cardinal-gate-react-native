@@ -7,6 +7,8 @@ const getTitle = (severity: MessageSeverity) => {
             return 'Error';
         case MessageSeverity.SUCCESS:
             return 'Success';
+        default:
+            return 'Info';
     }
 }
 
@@ -16,10 +18,12 @@ const getAlertType = (severity: MessageSeverity) => {
             return 'error';
         case MessageSeverity.SUCCESS:
             return 'success';
+        default:
+            return 'info';
     }
 }
 
-const displayMessage = (severity: MessageSeverity, message: string) => {
+export const displayMessage = (severity: MessageSeverity, message: string) => {
     Notifier.showNotification({
         title: getTitle(severity),
         description: message,
@@ -28,8 +32,4 @@ const displayMessage = (severity: MessageSeverity, message: string) => {
             alertType: getAlertType(severity),
         },
     });
-}
-
-export {
-    displayMessage,
 }

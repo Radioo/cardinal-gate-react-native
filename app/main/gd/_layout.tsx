@@ -1,24 +1,18 @@
-import {Tabs} from "expo-router";
-import {useTheme} from "@/hooks/useTheme";
+import GameTabLayout from "@/components/shared/GameTabLayout";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import {Entypo} from "@expo/vector-icons";
-import {tabBarLabelStyle} from "@/constants/Styles";
 
 export default function Layout() {
-    const theme = useTheme();
-
     return (
-        <Tabs screenOptions={{
-            headerShown: false,
-            tabBarActiveTintColor: theme.primary,
-            tabBarLabelStyle: tabBarLabelStyle(),
-        }}>
-            <Tabs.Screen name="Profile" options={{
-                tabBarIcon: ({color}) => <AntDesign name="user" size={24} color={color} />
-            }}/>
-            <Tabs.Screen name="Skill" options={{
-                tabBarIcon: ({color}) => <Entypo name="list" size={24} color={color} />
-            }}/>
-        </Tabs>
-    )
+        <GameTabLayout tabs={[
+            {
+                name: "Profile",
+                icon: (color) => <AntDesign name="user" size={24} color={color} />,
+            },
+            {
+                name: "Skill",
+                icon: (color) => <Entypo name="list" size={24} color={color} />,
+            },
+        ]} />
+    );
 }

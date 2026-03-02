@@ -1,0 +1,18 @@
+export const SKILL_GRADIENT_TIERS: { threshold: number; colors: readonly [string, string, ...string[]] }[] = [
+    { threshold: 850000, colors: ['#6ABBC6', '#57FF71', '#FFF147', '#FFA09B', '#C17DEE'] },
+    { threshold: 800000, colors: ['#D6A616', '#FEFC8D'] },
+    { threshold: 750000, colors: ['#9D9D9D', '#E9FCFA'] },
+    { threshold: 700000, colors: ['#D35E04', '#FDD0BB'] },
+    { threshold: 650000, colors: ['#E41122', '#FFF9FC'] },
+    { threshold: 600000, colors: ['#E41122', '#E41122'] },
+    { threshold: 550000, colors: ['#EF41F1', '#FEF9FF'] },
+    { threshold: 500000, colors: ['#EF41F1', '#EF41F1'] },
+    { threshold: 450000, colors: ['#1C84F5', '#FCFFFF'] },
+    { threshold: 400000, colors: ['#1C84F5', '#1C84F5'] },
+    { threshold: 350000, colors: ['#05CF2B', '#F7FCF8'] },
+    { threshold: 300000, colors: ['#05CF2B', '#05CF2B'] },
+    { threshold: 250000, colors: ['#FFD800', '#FFFFF8'] },
+    { threshold: 200000, colors: ['#FFD800', '#FFD800'] },
+    { threshold: 150000, colors: ['#FF8C2B', '#FBF6F2'] },
+    { threshold: 100000, colors: ['#FF8C2B', '#FF8C2B'] },
+];

@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "reset-project": "node ./scripts/reset-project.js",
     "android": "expo run:android",
     "build:android": "eas build --profile development --platform android --local",
     "ios": "expo run:ios",
@@ -14,7 +13,14 @@
     "coverage": "jest --coverage"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "setupFiles": [
+      "<rootDir>/__tests__/setup.ts"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/__tests__/setup.ts",
+      "<rootDir>/__tests__/helpers/"
+    ]
   },
   "dependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
