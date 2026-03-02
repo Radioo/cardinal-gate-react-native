@@ -1,10 +1,10 @@
 import {useCallback, useState} from "react";
 
-export function useUserRefresh<T>(refetch: () => Promise<T>) {
+export default function useUserRefresh<T>(refetch: () => Promise<T>) {
     const [refreshing, setRefreshing] = useState(false);
     const handleRefresh = useCallback(() => {
         setRefreshing(true);
-        refetch().then(() => setRefreshing(false));
+        refetch().finally(() => setRefreshing(false));
     }, [refetch]);
     return { refreshing, handleRefresh };
 }

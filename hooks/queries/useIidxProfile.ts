@@ -1,10 +1,6 @@
-import {useQuery} from "@tanstack/react-query";
-import fetchApi2 from "@/services/api2";
+import useApiQuery from "@/hooks/queries/useApiQuery";
 import {IidxProfileResponse} from "@/types/iidx-profile-response";
 
 export default function useIidxProfile() {
-    return useQuery({
-        queryKey: ['iidxProfile'],
-        queryFn: () => fetchApi2<IidxProfileResponse>('/api2/iidx/profile'),
-    })
+    return useApiQuery<IidxProfileResponse>(['iidxProfile'], '/api2/iidx/profile');
 }

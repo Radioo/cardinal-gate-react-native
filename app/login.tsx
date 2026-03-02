@@ -1,28 +1,25 @@
 import {StyleSheet, View} from "react-native";
 import {useState} from "react";
 import Logo from "@/assets/svg/Logo";
-import {ThemedTextInput} from "@/components/ThemedTextInput";
-import {ThemedButton} from "@/components/ThemedButton";
+import ThemedTextInput from "@/components/themed/ThemedTextInput";
+import ThemedButton from "@/components/themed/ThemedButton";
 import {router, Stack} from "expo-router";
 import * as Device from 'expo-device';
-import {saveSecureValue} from "@/store/secure";
-import {SecureValue} from "@/enums/secure-value";
 import {LoginResponse} from "@/types/login-response";
-import fetchApi from "@/services/api";
+import {fetchApi} from "@/services/api";
 import {displayMessage} from "@/services/message";
 import {MessageSeverity} from "@/enums/message-severity";
-import {useQueryClient} from "@tanstack/react-query";
+import {setAuthToken, clearSession} from "@/services/auth";
 
 export default function LoginScreen() {
-    const queryClient = useQueryClient();
     const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({
         username: '',
         password: '',
-        totp_code: '',
+        totpCode: '',
     });
 
-    const handleInputChange = (field: string, value: string) => {
+    const handleInputChange = (field: keyof typeof form, value: string) => {
         setForm(prevForm => ({
             ...prevForm,
             [field]: value
@@ -30,25 +27,28 @@ export default function LoginScreen() {
     };
 
     const login = async () => {
-        console.log('login', process.env.EXPO_PUBLIC_API_URL);
         setLoading(true);
 
-        fetchApi<LoginResponse>('/api2/authorize', {
-            method: 'POST',
-            body: JSON.stringify({
-                ...form,
-                device_name: Device.deviceName || 'Unknown device',
-            }),
-        }).then(async response => {
+        try {
+            const response = await fetchApi<LoginResponse>('/api2/authorize', {
+                method: 'POST',
+                body: JSON.stringify({
+                    username: form.username,
+                    password: form.password,
+                    totp_code: form.totpCode,
+                    device_name: Device.deviceName || 'Unknown device',
+                }),
+            }, {skipAuth: true});
+
             displayMessage(MessageSeverity.SUCCESS, 'Login successful');
-
-            await saveSecureValue(SecureValue.TOKEN, response.token);
-            queryClient.removeQueries();
-
+            await clearSession();
+            await setAuthToken(response.token);
             router.replace('/main/Home');
-        }).finally(() => {
+        } catch (error) {
+            displayMessage(MessageSeverity.ERROR, error instanceof Error ? error.message : 'Login failed');
+        } finally {
             setLoading(false);
-        });
+        }
     };
 
     return (
@@ -61,7 +61,7 @@ export default function LoginScreen() {
                                  placeholder="Username or email"
                                  autoCapitalize="none"
                                  textContentType="username"
-                                 style={{width: '50%', minWidth: 300}}
+                                 style={styles.input}
                 />
                 <ThemedTextInput value={form.password}
                                  onChangeText={(text) => handleInputChange('password', text)}
@@ -69,20 +69,20 @@ export default function LoginScreen() {
                                  autoCapitalize="none"
                                  textContentType="password"
                                  secureTextEntry={true}
-                                 style={{width: '50%', minWidth: 300}}
+                                 style={styles.input}
                 />
-                <ThemedTextInput value={form.totp_code}
-                                 onChangeText={(text) => handleInputChange('totp_code', text)}
+                <ThemedTextInput value={form.totpCode}
+                                 onChangeText={(text) => handleInputChange('totpCode', text)}
                                  placeholder="TOTP code (if enabled)"
                                  autoCapitalize="none"
                                  keyboardType="number-pad"
                                  textContentType="oneTimeCode"
-                                 style={{width: '50%', minWidth: 300}}
+                                 style={styles.input}
                 />
                 <ThemedButton loading={loading}
                               label="Login"
                               onPress={login}
-                              style={{width: '50%', minWidth: 300}}
+                              style={styles.input}
                 />
             </View>
         </>
@@ -95,5 +95,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         gap: 20,
-    }
+    },
+    input: {width: '50%', minWidth: 300},
 });

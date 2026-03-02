@@ -1,7 +1,7 @@
 import {ScrollView} from "react-native";
-import {ThemedButton} from "@/components/ThemedButton";
+import ThemedButton from "@/components/themed/ThemedButton";
 import { useState } from "react";
-import ShareImageModal from "@/components/ShareImageModal";
+import ShareImageModal from "@/components/shared/ShareImageModal";
 
 export default function General() {
     const [shareImageModalVisible, setShareImageModalVisible] = useState(false);
@@ -9,7 +9,7 @@ export default function General() {
     return (
         <ScrollView>
             <ShareImageModal url="https://i.kym-cdn.com/entries/icons/original/000/027/475/Screen_Shot_2018-10-25_at_11.02.15_AM.png"
-                             modalVisible={shareImageModalVisible}
+                             visible={shareImageModalVisible}
                              onClose={() => setShareImageModalVisible(false)}
             />
             <ThemedButton label="Share image" onPress={() => setShareImageModalVisible(true)}/>

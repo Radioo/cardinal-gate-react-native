@@ -12,8 +12,8 @@ export type GdMusicSkillItem = {
 type GdGameModeData = {
     skill: number;
     all_music_skill: number;
-    new?: GdMusicSkillItem[];
-    exist?: GdMusicSkillItem[];
+    new: GdMusicSkillItem[];
+    exist: GdMusicSkillItem[];
 };
 
 export type GdSkillDataResponse = {

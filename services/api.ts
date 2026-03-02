@@ -1,50 +1,54 @@
-import {getSecureValue} from "@/store/secure";
-import {SecureValue} from "@/enums/secure-value";
-import {displayMessage} from "@/services/message";
-import {MessageSeverity} from "@/enums/message-severity";
+import {buildAuthRequestInit} from "@/services/auth-headers";
+import {clearSession} from "@/services/auth";
+import {router} from "expo-router";
 
-const fetchApi = async <T>(
+type FetchApiOptions = {
+    skipRootUrl?: boolean;
+    skipAuth?: boolean;
+};
+
+async function baseFetch(
     endpoint: string,
-    init? : RequestInit,
-): Promise<T> => {
-    const url = `${process.env.EXPO_PUBLIC_API_URL}${endpoint}`;
+    init?: RequestInit,
+    options: FetchApiOptions = {},
+): Promise<Response> {
+    const requestInit = options.skipAuth ? (init ?? {}) : await buildAuthRequestInit(init);
+    const url = options.skipRootUrl ? endpoint : `${process.env.EXPO_PUBLIC_API_URL}${endpoint}`;
 
-    return getSecureValue(SecureValue.TOKEN).catch(() => {
-        displayMessage(MessageSeverity.ERROR, 'Failed to read token');
-        return Promise.reject();
-    }).then(token => {
-        let headers: any = {};
+    const response = await fetch(url, requestInit);
 
-        if(token !== null) {
-            headers['CG-Token'] = token;
-        }
+    if (response.status === 401) {
+        await clearSession();
+        router.replace('/login');
+        throw new Error('Session expired');
+    }
 
-        const requestInit = {
-            ...init,
-            headers: {
-                ...init?.headers,
-                ...headers,
-            },
-        }
-
-        return fetch(url, requestInit);
-    }).catch(() => {
-        displayMessage(MessageSeverity.ERROR, `Request failed for ${url}`);
-        return Promise.reject();
-    }).then(async response => {
-        if (response.ok) {
-            return response.json();
-        }
-
-        let errorText = 'Unknown error';
-        if (response.headers.get('content-type') === 'application/json') {
+    if (!response.ok) {
+        const contentType = response.headers.get('content-type') ?? '';
+        if (contentType.startsWith('application/json')) {
             const json = await response.json();
-            errorText = json.error;
+            throw new Error(json.error);
         }
+        throw new Error(`Failed to fetch ${endpoint}`);
+    }
 
-        displayMessage(MessageSeverity.ERROR, errorText);
-        return Promise.reject();
-    });
+    return response;
 }
 
-export default fetchApi;
+export async function fetchApi<T>(
+    endpoint: string,
+    init?: RequestInit,
+    options: FetchApiOptions = {},
+): Promise<T> {
+    const response = await baseFetch(endpoint, init, options);
+    return await response.json() as T;
+}
+
+export async function fetchApiBlob(
+    endpoint: string,
+    init?: RequestInit,
+    options: FetchApiOptions = {},
+): Promise<Blob> {
+    const response = await baseFetch(endpoint, init, options);
+    return await response.blob();
+}

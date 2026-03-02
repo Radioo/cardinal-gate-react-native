@@ -1,10 +1,9 @@
 import {Drawer} from "expo-router/drawer";
-import {useUserData} from "@/hooks/useUserData";
-import {useTheme} from "@/hooks/useTheme";
+import useUserData from "@/hooks/queries/useUserData";
+import useTheme from "@/hooks/useTheme";
 import {StyleProp, ViewStyle} from "react-native";
 import {Entypo, FontAwesome6, Ionicons} from "@expo/vector-icons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import {GestureHandlerRootView} from "react-native-gesture-handler";
 
 export default function Layout() {
     const theme = useTheme();
@@ -15,8 +14,7 @@ export default function Layout() {
     }
 
     return (
-        <GestureHandlerRootView style={{flex: 1}}>
-            <Drawer screenOptions={({navigation}) => ({
+            <Drawer screenOptions={() => ({
                 drawerActiveTintColor: theme.primary,
                 drawerContentStyle: {
                     backgroundColor: theme.background
@@ -51,13 +49,12 @@ export default function Layout() {
                 }}/>
                 <Drawer.Screen name="debug" options={{
                     title: "Debug",
-                    drawerItemStyle: {...drawerItemStyle},
+                    drawerItemStyle: {...drawerItemStyle, display: data?.developer ? 'flex' : 'none'},
                     drawerIcon: ({color}) => <Entypo name="bug" size={24} color={color} />
                 }}/>
                 <Drawer.Screen name="Logout" options={{
                     drawerIcon: ({color}) => <MaterialIcons name="logout" size={24} color={color} />
                 }}/>
             </Drawer>
-        </GestureHandlerRootView>
     )
 }
