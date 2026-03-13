@@ -1,18 +1,4 @@
-const REQUIRED_ENV_VARS = [
-    'EXPO_PUBLIC_API_URL',
-] as const;
-
-type RequiredEnvVar = typeof REQUIRED_ENV_VARS[number];
-
-function getRequiredEnv(name: RequiredEnvVar): string {
-    const value = process.env[name];
-    if (!value) {
-        throw new Error(
-            `Missing required environment variable: ${name}. ` +
-            'Ensure it is defined in your .env file.',
-        );
-    }
-    return value;
-}
-
-export const API_URL = getRequiredEnv('EXPO_PUBLIC_API_URL');
+// Metro inlines direct process.env.EXPO_PUBLIC_* references at bundle time.
+// Dynamic access like process.env[name] is NOT inlined and breaks in production.
+// Build-time validation is handled by scripts/validate-env.ts.
+export const API_URL = process.env.EXPO_PUBLIC_API_URL as string;
