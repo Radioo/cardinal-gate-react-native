@@ -1,7 +1,7 @@
 import {GdDifficultyType} from "@/enums/gd-difficulty-type";
 import {GdDifficultyContainer} from "@/types/gd-difficulty-container";
 import {GdDifficulty} from "@/enums/gd-difficulty";
-import {FlatList, StyleSheet, View} from "react-native";
+import {FlatList, View} from "react-native";
 import GdDifficultyInfo from "@/components/gd/GdDifficulty";
 import ThemedCard from "@/components/themed/ThemedCard";
 import ThemedText from "@/components/themed/ThemedText";
@@ -23,7 +23,7 @@ Object.keys(GdDifficultyType).forEach(type => {
 
 export default function Gd() {
     return (
-        <View style={styles.container}>
+        <View className="flex-1">
             <ThemedCard>
                 <ThemedText>All of these should be readable and take only one line</ThemedText>
             </ThemedCard>
@@ -34,6 +34,3 @@ export default function Gd() {
     )
 }
 
-const styles = StyleSheet.create({
-    container: {flex: 1},
-});

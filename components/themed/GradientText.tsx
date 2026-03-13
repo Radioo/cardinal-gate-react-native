@@ -5,7 +5,8 @@ import * as React from "react";
 
 type GradientTextProps = {
     colors: readonly [string, string, ...string[]];
-    style: StyleProp<TextStyle>;
+    style?: StyleProp<TextStyle>;
+    className?: string;
     start?: { x: number; y: number };
     end?: { x: number; y: number };
     children: React.ReactNode;
@@ -20,6 +21,7 @@ export default function GradientText(props: GradientTextProps) {
 
         return (
             <Text
+                className={props.className}
                 style={[
                     props.style,
                     {
@@ -38,7 +40,7 @@ export default function GradientText(props: GradientTextProps) {
     return (
         <MaskedView
             maskElement={
-                <Text style={[props.style, { backgroundColor: "transparent" }]}>
+                <Text className={props.className} style={[props.style, { backgroundColor: "transparent" }]}>
                     {props.children}
                 </Text>
             }
@@ -48,7 +50,7 @@ export default function GradientText(props: GradientTextProps) {
                 start={props.start ?? { x: 0, y: 0 }}
                 end={props.end ?? { x: 1, y: 0 }}
             >
-                <Text style={[props.style, { opacity: 0 }]}>{props.children}</Text>
+                <Text className={props.className} style={[props.style, { opacity: 0 }]}>{props.children}</Text>
             </LinearGradient>
         </MaskedView>
     );

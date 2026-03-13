@@ -1,5 +1,5 @@
-import {StyleSheet, View} from "react-native";
-import {useState} from "react";
+import {TextInput, View} from "react-native";
+import {useRef, useState} from "react";
 import Logo from "@/assets/svg/Logo";
 import ThemedTextInput from "@/components/themed/ThemedTextInput";
 import ThemedButton from "@/components/themed/ThemedButton";
@@ -12,6 +12,8 @@ import {MessageSeverity} from "@/enums/message-severity";
 import {setAuthToken, clearSession} from "@/services/auth";
 
 export default function LoginScreen() {
+    const passwordRef = useRef<TextInput>(null);
+    const totpRef = useRef<TextInput>(null);
     const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({
         username: '',
@@ -54,47 +56,47 @@ export default function LoginScreen() {
     return (
         <>
             <Stack.Screen options={{ headerShown: false, gestureEnabled: false }} />
-            <View style={styles.container}>
+            <View className="flex-1 justify-center items-center gap-5">
                 <Logo width="50%" height="25%"/>
                 <ThemedTextInput value={form.username}
                                  onChangeText={(text) => handleInputChange('username', text)}
                                  placeholder="Username or email"
                                  autoCapitalize="none"
                                  textContentType="username"
-                                 style={styles.input}
+                                 returnKeyType="next"
+                                 onSubmitEditing={() => passwordRef.current?.focus()}
+                                 blurOnSubmit={false}
+                                 className="w-1/2 min-w-[300px] max-w-[400px]"
                 />
-                <ThemedTextInput value={form.password}
+                <ThemedTextInput ref={passwordRef}
+                                 value={form.password}
                                  onChangeText={(text) => handleInputChange('password', text)}
                                  placeholder="Password"
                                  autoCapitalize="none"
                                  textContentType="password"
                                  secureTextEntry={true}
-                                 style={styles.input}
+                                 returnKeyType="next"
+                                 onSubmitEditing={() => totpRef.current?.focus()}
+                                 blurOnSubmit={false}
+                                 className="w-1/2 min-w-[300px] max-w-[400px]"
                 />
-                <ThemedTextInput value={form.totpCode}
+                <ThemedTextInput ref={totpRef}
+                                 value={form.totpCode}
                                  onChangeText={(text) => handleInputChange('totpCode', text)}
                                  placeholder="TOTP code (if enabled)"
                                  autoCapitalize="none"
                                  keyboardType="number-pad"
                                  textContentType="oneTimeCode"
-                                 style={styles.input}
+                                 returnKeyType="go"
+                                 onSubmitEditing={login}
+                                 className="w-1/2 min-w-[300px] max-w-[400px]"
                 />
                 <ThemedButton loading={loading}
                               label="Login"
                               onPress={login}
-                              style={styles.input}
+                              className="w-1/2 min-w-[300px] max-w-[400px]"
                 />
             </View>
         </>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: 20,
-    },
-    input: {width: '50%', minWidth: 300},
-});

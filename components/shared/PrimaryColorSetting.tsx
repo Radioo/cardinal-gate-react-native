@@ -8,10 +8,14 @@ import ColorPicker, {
     HueSlider,
 } from 'reanimated-color-picker';
 import type {ColorFormatsObject} from 'reanimated-color-picker';
-import {StyleSheet, View} from "react-native";
+import {View} from "react-native";
 import useTheme from "@/hooks/useTheme";
 import {useMemo, useRef, useState} from "react";
 import {getMaterialYouAccent} from "@/modules/expo-material-you/src";
+
+const squareCorners = {borderRadius: 0};
+const thumbStyle = {width: 30, height: 30};
+const pickerStyle = {gap: 10};
 
 function useMaterialYouAccent(): string | null {
     return useMemo(() => {
@@ -49,32 +53,23 @@ export default function PrimaryColorSetting(props: PrimaryColorSettingProps) {
 
     return (
         <ModalBase visible={props.visible}>
-            <View style={[styles.content, {backgroundColor: theme.background}]}>
-                <ColorPicker key={pickerKey} style={styles.picker} value={tempColor.current} onCompleteJS={onSelectColor}>
-                    <Preview style={styles.squareCorners}/>
-                    <Panel1 style={styles.squareCorners} thumbInnerStyle={styles.thumb} thumbShape="rect"/>
-                    <HueSlider style={styles.squareCorners} thumbShape="rect"/>
-                    <OpacitySlider style={styles.squareCorners} thumbShape="rect"/>
+            <View className="w-[70%] p-5 gap-2.5" style={{backgroundColor: theme.background}}>
+                <ColorPicker key={pickerKey} style={pickerStyle} value={tempColor.current} onCompleteJS={onSelectColor}>
+                    <Preview style={squareCorners}/>
+                    <Panel1 style={squareCorners} thumbInnerStyle={thumbStyle} thumbShape="rect"/>
+                    <HueSlider style={squareCorners} thumbShape="rect"/>
+                    <OpacitySlider style={squareCorners} thumbShape="rect"/>
                 </ColorPicker>
 
                 {materialYouAccent && (
                     <ThemedButton label="Use Material You Color" onPress={onMaterialYou} />
                 )}
 
-                <View style={styles.buttonRow}>
-                    <ThemedButton style={styles.flex1} label="Apply" onPress={() => onCloseModal()}></ThemedButton>
-                    <ThemedButton style={styles.flex1} label="Cancel" onPress={() => props.onClose()}></ThemedButton>
+                <View className="flex-row gap-2.5">
+                    <ThemedButton className="flex-1" label="Apply" onPress={() => onCloseModal()}></ThemedButton>
+                    <ThemedButton className="flex-1" label="Cancel" onPress={() => props.onClose()}></ThemedButton>
                 </View>
             </View>
         </ModalBase>
     )
 }
-
-const styles = StyleSheet.create({
-    content: {width: '70%', padding: 20, gap: 10},
-    picker: {gap: 10},
-    squareCorners: {borderRadius: 0},
-    thumb: {width: 30, height: 30},
-    buttonRow: {flexDirection: 'row', gap: 10},
-    flex1: {flex: 1},
-});

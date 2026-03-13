@@ -2,7 +2,7 @@ import {useMemo, useState} from "react";
 import FullScreenLoader from "@/components/shared/FullScreenLoader";
 import {Picker, PickerProps} from "@react-native-picker/picker";
 import useTheme from "@/hooks/useTheme";
-import {Platform, StyleSheet, View} from "react-native";
+import {Platform, View} from "react-native";
 import GdSkillTabs from "@/components/gd/GdSkillTabs";
 import useGdProfile from "@/hooks/queries/useGdProfile";
 import useGdSkill from "@/hooks/queries/useGdSkill";
@@ -61,7 +61,7 @@ export default function Skill() {
             </Picker>
             {skillQuery.isPending ? <FullScreenLoader/> : (
                 <>
-                    <View style={[styles.skillRow, {backgroundColor: theme.background}]}>
+                    <View className="flex-row" style={{backgroundColor: theme.background}}>
                         <GdTotalSkill name="🥁 Skill"
                                     skill={skillQuery.data?.skill_data.dm?.skill}
                                     allMusicSkill={skillQuery.data?.skill_data.dm?.all_music_skill}
@@ -78,6 +78,3 @@ export default function Skill() {
     )
 }
 
-const styles = StyleSheet.create({
-    skillRow: {flexDirection: 'row'},
-});

@@ -1,41 +1,38 @@
-import {ActivityIndicator, StyleSheet, Text, TouchableOpacity, TouchableOpacityProps} from "react-native";
-import useTheme from "@/hooks/useTheme";
-import {darken} from "polished";
+import {type StyleProp, type TextStyle, View} from "react-native";
+import {Button, type ButtonProps} from "@/components/ui/button";
+import {Text} from "@/components/ui/text";
 import React from "react";
+import {cn} from "@/lib/utils";
 
-type ThemedButtonProps = TouchableOpacityProps & {
+type ThemedButtonProps = ButtonProps & {
     label?: string;
     loading?: boolean;
     icon?: React.ReactNode;
+    labelStyle?: StyleProp<TextStyle>;
 }
 
 export default function ThemedButton({
     label,
-    style,
     loading = false,
-    disabled = undefined,
-    icon = undefined,
+    disabled,
+    icon,
+    className,
+    labelStyle,
     ...rest
 }: ThemedButtonProps) {
-    const theme = useTheme();
-    const backgroundColor = disabled || loading ? darken(0.3, theme.primary) : theme.primary;
-
     return (
-        <TouchableOpacity style={[
-            styles.button,
-            {backgroundColor},
-            style,
-        ]} disabled={loading || disabled} {...rest}>
+        <Button
+            className={cn("h-10 px-2.5", className)}
+            disabled={loading || disabled}
+            {...rest}
+        >
             {loading ? (
-                <ActivityIndicator color={theme.background} />
+                <View className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+            ) : icon ? (
+                icon
             ) : (
-                icon ? icon : <Text style={[styles.label, {color: theme.background}]}>{label}</Text>
+                <Text className="font-bold" style={labelStyle}>{label}</Text>
             )}
-        </TouchableOpacity>
-    )
+        </Button>
+    );
 }
-
-const styles = StyleSheet.create({
-    button: {height: 40, paddingHorizontal: 10, alignItems: 'center', justifyContent: 'center'},
-    label: {fontWeight: 'bold'},
-});

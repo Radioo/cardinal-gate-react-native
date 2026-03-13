@@ -1,6 +1,6 @@
 import {SdvxDifficulty} from "@/enums/sdvx-difficulty";
 import SdvxDifficultyItem from "@/components/sdvx/SdvxDifficultyItem";
-import {FlatList, useWindowDimensions, View} from "react-native";
+import {FlatList, useWindowDimensions} from "react-native";
 import {SceneMap, TabView} from "react-native-tab-view";
 import {useState} from "react";
 import {SdvxClearType} from "@/enums/sdvx-clear-type";
@@ -35,9 +35,7 @@ const DifficultiesScene = () => (
     <FlatList
         data={difficulties}
         renderItem={({item}) => (
-            <View style={{margin: 2}}>
-                <SdvxDifficultyItem difficulty={item.difficulty} level={item.level} />
-            </View>
+            <SdvxDifficultyItem difficulty={item.difficulty} level={item.level} />
         )}
     />
 );
@@ -46,9 +44,7 @@ const ClearTypesScene = () => (
     <FlatList
         data={clearTypes}
         renderItem={({item}) => (
-            <View style={{margin: 2}}>
-                <SdvxClearTypeItem clearType={item}/>
-            </View>
+            <SdvxClearTypeItem clearType={item}/>
         )}
     />
 );

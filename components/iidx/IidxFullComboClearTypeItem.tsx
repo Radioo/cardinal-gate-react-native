@@ -6,7 +6,7 @@ import {
 } from "react-native-reanimated";
 import React, { useEffect } from "react";
 import Animated from "react-native-reanimated";
-import {StyleSheet, Text} from "react-native";
+import {Text} from "react-native";
 import {IidxClearType} from "@/enums/iidx-clear-type";
 
 export default function IidxFullComboClearTypeItem() {
@@ -37,15 +37,10 @@ export default function IidxFullComboClearTypeItem() {
     });
 
     return (
-        <Animated.View style={[animatedBackground, styles.container]}>
-            <Text style={styles.text} numberOfLines={1}>
+        <Animated.View className="border-2" style={animatedBackground}>
+            <Text className="font-bold text-white p-0.5 text-center" numberOfLines={1}>
                 {IidxClearType.FULL_COMBO}
             </Text>
         </Animated.View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {borderWidth: 2},
-    text: {fontWeight: 'bold', color: 'white', padding: 2, textAlign: 'center'},
-});

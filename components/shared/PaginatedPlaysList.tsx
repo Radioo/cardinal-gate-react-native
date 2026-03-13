@@ -1,4 +1,4 @@
-import {FlatList, RefreshControl, StyleSheet, View} from "react-native";
+import {FlatList, RefreshControl, View} from "react-native";
 import {ReactElement} from "react";
 import FullScreenLoader from "@/components/shared/FullScreenLoader";
 import ErrorScreen from "@/components/shared/ErrorScreen";
@@ -27,13 +27,13 @@ export default function PaginatedPlaysList<T>({
     }
 
     return (
-        <View style={styles.container}>
+        <View className="flex-1">
             {isPending ? <FullScreenLoader/> :
                 <FlatList
                     data={plays}
                     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh}/>}
                     renderItem={({item}) => (
-                        <View style={styles.item}>
+                        <View className="m-[5px]">
                             {renderItem(item)}
                         </View>
                     )}
@@ -48,8 +48,3 @@ export default function PaginatedPlaysList<T>({
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {flex: 1},
-    item: {margin: 5},
-});

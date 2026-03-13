@@ -1,4 +1,4 @@
-import {View, StyleSheet} from "react-native";
+import {View} from "react-native";
 import ThemedText from "@/components/themed/ThemedText";
 import ThemedTextInput from "@/components/themed/ThemedTextInput";
 import ThemedButton from "@/components/themed/ThemedButton";
@@ -30,8 +30,8 @@ export default function SetPageModal({
 
     return (
         <ModalBase visible={visible}>
-            <View style={styles.modalContainer}>
-                <View style={[styles.modalContent, { backgroundColor: theme.background }]}>
+            <View className="flex-1 justify-center items-center">
+                <View className="p-5 gap-2.5 rounded-none" style={{backgroundColor: theme.background}}>
                     <ThemedText>Set page</ThemedText>
                     <ThemedTextInput
                         value={value}
@@ -51,16 +51,3 @@ export default function SetPageModal({
         </ModalBase>
     );
 }
-
-const styles = StyleSheet.create({
-    modalContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    modalContent: {
-        padding: 20,
-        gap: 10,
-        borderRadius: 10,
-    },
-});

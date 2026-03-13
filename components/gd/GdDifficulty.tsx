@@ -1,5 +1,5 @@
 import {GdDifficultyContainer} from "@/types/gd-difficulty-container";
-import {StyleSheet, Text, View} from "react-native";
+import {Text, View} from "react-native";
 import {GdDifficulty} from "@/enums/gd-difficulty";
 import {lighten} from "polished";
 import {memo} from "react";
@@ -23,14 +23,14 @@ const GdDifficultyInfoInner = ({difficulty}: GdDifficultyProps) => {
     const typeColor = theme.scheme === 'light' ? lighten(0.2, '#4f4f4f') : '#4f4f4f';
 
     return (
-        <View style={styles.row}>
-            <Text style={[styles.typeCell, {backgroundColor: typeColor}]}>
+        <View className="flex-row">
+            <Text className="text-white px-1 border-2 border-black" style={{backgroundColor: typeColor}}>
                 {difficulty.type}
             </Text>
-            <Text style={[styles.middleCell, {backgroundColor: difficultyColor}]}>
+            <Text className="text-white px-1 border-y-2 border-black" style={{backgroundColor: difficultyColor}}>
                 {difficulty.difficulty}
             </Text>
-            <Text style={[styles.levelCell, {backgroundColor: difficultyColor}]}>
+            <Text className="text-white px-1 border-2 border-black" style={{backgroundColor: difficultyColor}}>
                 {(difficulty.level / 100).toFixed(2)}
             </Text>
         </View>
@@ -38,27 +38,3 @@ const GdDifficultyInfoInner = ({difficulty}: GdDifficultyProps) => {
 }
 
 export default memo(GdDifficultyInfoInner);
-
-const styles = StyleSheet.create({
-    row: {flexDirection: 'row'},
-    typeCell: {
-        color: 'white',
-        paddingHorizontal: 4,
-        borderWidth: 2,
-        borderColor: '#000000',
-    },
-    middleCell: {
-        color: 'white',
-        paddingHorizontal: 4,
-        borderWidth: 2,
-        borderColor: '#000000',
-        borderLeftWidth: 0,
-        borderRightWidth: 0,
-    },
-    levelCell: {
-        color: 'white',
-        paddingHorizontal: 4,
-        borderWidth: 2,
-        borderColor: '#000000',
-    },
-});

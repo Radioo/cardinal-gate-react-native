@@ -1,5 +1,5 @@
 import {SdvxDifficulty} from "@/enums/sdvx-difficulty";
-import {StyleSheet, Text, View} from "react-native";
+import {Text, View} from "react-native";
 import useTheme from "@/hooks/useTheme";
 import {darken, lighten} from "polished";
 import {memo} from "react";
@@ -32,12 +32,12 @@ const SdvxDifficultyItemInner = ({difficulty, level}: SdvxDifficultyProps) => {
         : darken(0.25, difficultyColor);
 
     return (
-        <View style={[styles.row, {borderColor}]}>
-            <Text style={[styles.cell, {backgroundColor: difficultyColor, color: theme.text}]}>
+        <View className="flex-row border-2 self-start" style={{borderColor}}>
+            <Text className="px-[5px] font-bold" style={{backgroundColor: difficultyColor, color: theme.text}}>
                 {difficulty}
             </Text>
-            <View style={[styles.separator, {backgroundColor: borderColor}]} />
-            <Text style={[styles.cell, {backgroundColor: difficultyColor, color: theme.text}]}>
+            <View className="w-0.5" style={{backgroundColor: borderColor}} />
+            <Text className="px-[5px] font-bold" style={{backgroundColor: difficultyColor, color: theme.text}}>
                 {level}
             </Text>
         </View>
@@ -45,9 +45,3 @@ const SdvxDifficultyItemInner = ({difficulty, level}: SdvxDifficultyProps) => {
 }
 
 export default memo(SdvxDifficultyItemInner);
-
-const styles = StyleSheet.create({
-    row: {flexDirection: 'row', borderWidth: 2, alignSelf: 'flex-start'},
-    cell: {paddingHorizontal: 5, fontWeight: 'bold'},
-    separator: {width: 2},
-});

@@ -1,6 +1,6 @@
 import ThemedText from "@/components/themed/ThemedText";
 import FullScreenLoader from "@/components/shared/FullScreenLoader";
-import {StyleSheet, View} from "react-native";
+import {View} from "react-native";
 import ThemedCard from "@/components/themed/ThemedCard";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import useTheme from "@/hooks/useTheme";
@@ -12,20 +12,20 @@ export default function PlayCounts() {
     const theme = useTheme();
 
     if(isPending) {
-        return <FullScreenLoader style={styles.loader}/>
+        return <FullScreenLoader style={{height: 100}}/>
     }
 
     return (
-        <View style={styles.container}>
+        <View className="m-2.5 gap-[5px]">
             <ThemedCard>
-                <View style={styles.timeRow}>
+                <View className="flex-row items-center gap-[5px]">
                     <MaterialIcons name="access-time" size={24} color={theme.text} />
                     <ThemedText>Estimated play time: {estimatePlayTimeHours(data?.play_counts ?? [])} hours</ThemedText>
                 </View>
             </ThemedCard>
             <ThemedCard>
                 {data?.play_counts.map((item, index) => (
-                    <View key={index} style={styles.playCountItemContainer}>
+                    <View key={index} className="flex-row justify-between">
                         <ThemedText>{getSeriesName(item.game)}</ThemedText>
                         <ThemedText>{item.count.toLocaleString()} plays</ThemedText>
                     </View>
@@ -34,16 +34,3 @@ export default function PlayCounts() {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        margin: 10,
-        gap: 5,
-    },
-    loader: {height: 100},
-    timeRow: {flexDirection: 'row', alignItems: 'center', gap: 5},
-    playCountItemContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    }
-})

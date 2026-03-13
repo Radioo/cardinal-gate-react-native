@@ -1,7 +1,7 @@
 import {IidxDifficulty} from "@/enums/iidx-difficulty";
 import {memo} from "react";
 import {IidxPlayStyle} from "@/enums/iidx-play-style";
-import {StyleSheet, Text, View} from "react-native";
+import {Text, View} from "react-native";
 import {lighten} from "polished";
 import useTheme from "@/hooks/useTheme";
 
@@ -32,16 +32,16 @@ const IidxDifficultyItemInner = ({difficulty, level}: IidxDifficultyProps) => {
     const diffColor = isDark ? data.color : lighten(0.5, data.color);
 
     return (
-        <View style={styles.row}>
-            <Text style={[styles.cell, {color: textColor, backgroundColor: bgColor}]}>
+        <View className="flex-row border-2 border-black">
+            <Text className="px-1" style={{color: textColor, backgroundColor: bgColor}}>
                 {data.playStyle}
             </Text>
-            <View style={styles.separator} />
-            <Text style={[styles.cell, {color: textColor, backgroundColor: diffColor}]}>
+            <View className="w-0.5 bg-black" />
+            <Text className="px-1" style={{color: textColor, backgroundColor: diffColor}}>
                 {data.name}
             </Text>
-            <View style={styles.separator} />
-            <Text style={[styles.cell, {color: textColor, backgroundColor: diffColor}]}>
+            <View className="w-0.5 bg-black" />
+            <Text className="px-1" style={{color: textColor, backgroundColor: diffColor}}>
                 {level}
             </Text>
         </View>
@@ -49,9 +49,3 @@ const IidxDifficultyItemInner = ({difficulty, level}: IidxDifficultyProps) => {
 }
 
 export default memo(IidxDifficultyItemInner);
-
-const styles = StyleSheet.create({
-    row: {flexDirection: 'row', borderWidth: 2, borderColor: 'black'},
-    cell: {paddingHorizontal: 4},
-    separator: {width: 2, backgroundColor: 'black'},
-});

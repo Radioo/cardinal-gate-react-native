@@ -1,16 +1,18 @@
-import {Checkbox, CheckboxProps} from "expo-checkbox";
-import useTheme from "@/hooks/useTheme";
+import {Checkbox} from "@/components/ui/checkbox";
+import {StyleProp, ViewStyle} from "react-native";
 
-export default function ThemedCheckbox(props: CheckboxProps) {
-    const theme = useTheme();
+type ThemedCheckboxProps = {
+    value: boolean;
+    onValueChange: (value: boolean) => void;
+    style?: StyleProp<ViewStyle>;
+};
 
+export default function ThemedCheckbox({value, onValueChange, style}: ThemedCheckboxProps) {
     return (
-        <Checkbox style={{
-            backgroundColor: theme.background,
-            outlineColor: theme.primary
-        }}
-                  color={theme.primary}
-                  {...props}
-        ></Checkbox>
-    )
+        <Checkbox
+            checked={value}
+            onCheckedChange={onValueChange}
+            style={style}
+        />
+    );
 }

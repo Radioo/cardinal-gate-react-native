@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, { useRef, useState } from 'react';
+import {View} from 'react-native';
 import ThemedButton from "@/components/themed/ThemedButton";
 import useTheme from "@/hooks/useTheme";
 import { Entypo } from "@expo/vector-icons";
@@ -20,7 +20,11 @@ export default function Pagination({
                                    }: PaginationProps) {
     const [modalVisible, setModalVisible] = useState(false);
     const theme = useTheme();
+    const lastLabel = useRef('');
     const currentPageLabel = `${currentPage.toLocaleString()} / ${totalPages.toLocaleString()}`;
+    if (!isLoading) {
+        lastLabel.current = currentPageLabel;
+    }
 
     const updatePage = (newPage: number) => {
         onPageChange(Math.max(1, Math.min(totalPages, newPage)));
@@ -28,23 +32,24 @@ export default function Pagination({
 
     return (
         <View>
-            <View style={[styles.row, {backgroundColor: theme.background}]}>
+            <View className="flex-row justify-between items-center p-2.5" style={{backgroundColor: theme.background}}>
                 <ThemedButton
                     icon={<Entypo name="chevron-left" size={24} color={theme.background} />}
                     onPress={() => updatePage(currentPage - 1)}
                     disabled={currentPage === 1 || isLoading}
-                    style={styles.navButton}
+                    className="w-[50px]"
                 />
                 <ThemedButton
-                    label={currentPageLabel}
-                    loading={isLoading}
+                    label={lastLabel.current || currentPageLabel}
+                    disabled={isLoading}
                     onPress={() => setModalVisible(true)}
+                    labelStyle={isLoading ? {opacity: 0} : undefined}
                 />
                 <ThemedButton
                     icon={<Entypo name="chevron-right" size={24} color={theme.background} />}
                     onPress={() => updatePage(currentPage + 1)}
                     disabled={currentPage === totalPages || isLoading}
-                    style={styles.navButton}
+                    className="w-[50px]"
                 />
             </View>
 
@@ -60,13 +65,3 @@ export default function Pagination({
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 10,
-    },
-    navButton: {width: 50},
-});

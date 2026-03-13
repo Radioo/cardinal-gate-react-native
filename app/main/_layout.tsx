@@ -1,12 +1,12 @@
 import {Drawer} from "expo-router/drawer";
 import useUserData from "@/hooks/queries/useUserData";
-import useTheme from "@/hooks/useTheme";
+import {useThemeStore} from "@/store/theme";
 import {StyleProp, ViewStyle} from "react-native";
 import {Entypo, FontAwesome6, Ionicons} from "@expo/vector-icons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 export default function Layout() {
-    const theme = useTheme();
+    const {primaryColor} = useThemeStore();
     const {data} = useUserData();
 
     const drawerItemStyle: StyleProp<ViewStyle> = {
@@ -15,13 +15,9 @@ export default function Layout() {
 
     return (
             <Drawer screenOptions={() => ({
-                drawerActiveTintColor: theme.primary,
-                drawerContentStyle: {
-                    backgroundColor: theme.background
-                },
+                drawerActiveTintColor: primaryColor,
                 drawerItemStyle,
                 swipeEdgeWidth: 500,
-                headerTintColor: theme.text
             })}
             >
                 <Drawer.Screen name="Home" options={{

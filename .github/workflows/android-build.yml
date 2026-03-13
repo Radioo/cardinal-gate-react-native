@@ -1,16 +1,24 @@
 name: Android Build
 
 on:
+  push:
+    branches:
+      - master
   workflow_dispatch:
+
+concurrency:
+  group: android-build-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   android-build:
     name: Local Build Android
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 20.x
           cache: npm
@@ -19,13 +27,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.expo
-          key: expo-cli-${{ runner.os }}
+          key: expo-cli-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: expo-cli-${{ runner.os }}-
 
       - name: Cache Gradle
         uses: actions/cache@v4
         with:
-          path: ~/.gradle
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
           restore-keys: gradle-${{ runner.os }}-
 
       - name: Install dependencies

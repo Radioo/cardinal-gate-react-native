@@ -1,4 +1,4 @@
-import {FlatList, Pressable, StyleSheet, View} from "react-native";
+import {FlatList, Pressable, View} from "react-native";
 import PrimaryColorSetting from "@/components/shared/PrimaryColorSetting";
 import ThemedText from "@/components/themed/ThemedText";
 import useTheme from "@/hooks/useTheme";
@@ -23,14 +23,15 @@ export default function Index() {
         <View>
             <PrimaryColorSetting visible={colorPickerVisible} onClose={() => setColorPickerVisible(false)}/>
             <FlatList data={items} renderItem={({item, index}) => (
-                <Pressable style={[styles.item, index < items.length - 1 && {borderBottomWidth: 1, borderColor: theme.primary}]}
+                <Pressable className="p-[5px]"
+                           style={index < items.length - 1 ? {borderBottomWidth: 1, borderColor: theme.primary} : undefined}
                            android_ripple={{color: theme.primarySurface}}
                            onPress={item.onPress}
                 >
-                    <View style={styles.row}>
+                    <View className="flex-row gap-[5px] items-center">
                         {item.icon}
                         <View>
-                            <ThemedText style={styles.title}>{item.title}</ThemedText>
+                            <ThemedText className="text-xl font-bold">{item.title}</ThemedText>
                             <ThemedText>{item.description}</ThemedText>
                         </View>
                     </View>
@@ -40,9 +41,3 @@ export default function Index() {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    item: {padding: 5},
-    row: {flexDirection: 'row', gap: 5, alignItems: 'center'},
-    title: {fontSize: 20, fontWeight: 'bold'},
-});

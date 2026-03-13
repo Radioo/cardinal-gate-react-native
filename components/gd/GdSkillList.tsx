@@ -1,5 +1,5 @@
 import {GdMusicSkillItem} from "@/types/gd-skill-data-response";
-import {FlatList, StyleSheet, View} from "react-native";
+import {FlatList, View} from "react-native";
 import ThemedText from "@/components/themed/ThemedText";
 import * as React from "react";
 import GdSkillListItem from "@/components/gd/GdSkillListItem";
@@ -8,7 +8,7 @@ export default function GdSkillList({items}: {items: GdMusicSkillItem[]}) {
 
     if(items.length === 0) {
         return (
-            <View style={styles.empty}>
+            <View className="flex-1 justify-center items-center">
                 <ThemedText>No data</ThemedText>
             </View>
         )
@@ -17,17 +17,11 @@ export default function GdSkillList({items}: {items: GdMusicSkillItem[]}) {
     return (
         <FlatList data={items}
                   keyExtractor={(_item, index) => index.toString()}
-                  contentContainerStyle={styles.listContent}
-                  ItemSeparatorComponent={() => <View style={styles.separator} />}
+                  contentContainerStyle={{paddingVertical: 10}}
+                  ItemSeparatorComponent={() => <View className="h-2.5" />}
                   renderItem={({item, index}) => (
                       <GdSkillListItem item={item} index={index} />
                   )}
         />
     )
 }
-
-const styles = StyleSheet.create({
-    empty: {flex: 1, justifyContent: 'center', alignItems: 'center'},
-    listContent: {paddingVertical: 10, paddingHorizontal: 0},
-    separator: {height: 10},
-});

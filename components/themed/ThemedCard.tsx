@@ -1,32 +1,24 @@
-import {StyleProp, StyleSheet, View, ViewStyle} from "react-native";
+import {StyleProp, ViewStyle} from "react-native";
 import React from "react";
-import useTheme from "@/hooks/useTheme";
+import {Card} from "@/components/ui/card";
+import {cn} from "@/lib/utils";
 
 interface ThemedCardProps {
     children?: React.ReactNode;
     style?: StyleProp<ViewStyle>;
+    className?: string;
 }
 
-export default function ThemedCard({children, style}: ThemedCardProps) {
-    const theme = useTheme();
-
+export default function ThemedCard({children, style, className}: ThemedCardProps) {
     return (
-        <View style={[
-            styles.container,
-            {
-                borderColor: theme.primary,
-                backgroundColor: theme.primarySurface,
-            },
-            style
-        ]}>
+        <Card
+            className={cn(
+                "border-primary bg-primary-surface gap-0 rounded-none p-1.5 shadow-none",
+                className
+            )}
+            style={style}
+        >
             {children}
-        </View>
-    )
+        </Card>
+    );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        borderWidth: 1,
-        padding: 5,
-    }
-});

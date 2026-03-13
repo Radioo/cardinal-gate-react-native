@@ -1,6 +1,5 @@
 import ThemedText from "@/components/themed/ThemedText";
 import useSdvxProfile from "@/hooks/queries/useSdvxProfile";
-import {StyleSheet} from "react-native";
 import useTheme from "@/hooks/useTheme";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -20,7 +19,7 @@ export default function Profile() {
                     <ProfileRow
                         icon={<AntDesign name="user" size={24} color={theme.text}/>}
                         label={data.name}
-                        value={<ThemedText style={styles.monospace}>{formatArcadeId(data.id)}</ThemedText>}
+                        value={<ThemedText className="font-mono">{formatArcadeId(data.id)}</ThemedText>}
                     />
                     <ProfileRow
                         icon={<MaterialIcons name="star-outline" size={24} color={theme.text}/>}
@@ -39,7 +38,3 @@ export default function Profile() {
         </ProfileLayout>
     )
 }
-
-const styles = StyleSheet.create({
-    monospace: {fontFamily: 'monospace'},
-});

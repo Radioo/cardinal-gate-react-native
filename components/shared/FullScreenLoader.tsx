@@ -1,4 +1,4 @@
-import {ActivityIndicator, StyleProp, StyleSheet, View, ViewStyle} from "react-native";
+import {ActivityIndicator, StyleProp, View, ViewStyle} from "react-native";
 import useTheme from "@/hooks/useTheme";
 
 interface FullScreenLoaderProps {
@@ -11,16 +11,8 @@ export default function FullScreenLoader({
     const theme = useTheme();
 
     return (
-        <View style={[styles.container, style]}>
+        <View className="flex-1 justify-center items-center" style={style}>
             <ActivityIndicator color={theme.primary} size="large"></ActivityIndicator>
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
-})

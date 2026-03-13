@@ -1,5 +1,5 @@
 import {MessageSeverity} from "@/enums/message-severity";
-import {Notifier, NotifierComponents} from "react-native-notifier";
+import {useToastStore} from "@/store/toast";
 
 const getTitle = (severity: MessageSeverity) => {
     switch (severity) {
@@ -12,24 +12,10 @@ const getTitle = (severity: MessageSeverity) => {
     }
 }
 
-const getAlertType = (severity: MessageSeverity) => {
-    switch (severity) {
-        case MessageSeverity.ERROR:
-            return 'error';
-        case MessageSeverity.SUCCESS:
-            return 'success';
-        default:
-            return 'info';
-    }
-}
-
 export const displayMessage = (severity: MessageSeverity, message: string) => {
-    Notifier.showNotification({
+    useToastStore.getState().addToast({
+        severity,
         title: getTitle(severity),
         description: message,
-        Component: NotifierComponents.Alert,
-        componentProps: {
-            alertType: getAlertType(severity),
-        },
     });
 }

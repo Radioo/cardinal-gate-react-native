@@ -1,4 +1,4 @@
-import {StyleProp, StyleSheet, Text, View, ViewStyle} from "react-native";
+import {StyleProp, Text, View, ViewStyle} from "react-native";
 import {darken, lighten} from "polished";
 import useTheme from "@/hooks/useTheme";
 
@@ -19,9 +19,10 @@ export default function ColorBadge({text, color, style}: ColorBadgeProps) {
         : darken(0.25, color);
 
     return (
-        <View style={[styles.container, style]}>
+        <View className="self-start" style={style}>
             <Text
-                style={[styles.text, {color: theme.text, backgroundColor, borderColor}]}
+                className="border-2 px-[5px] font-bold text-center"
+                style={{color: theme.text, backgroundColor, borderColor}}
                 numberOfLines={1}
             >
                 {text}
@@ -29,8 +30,3 @@ export default function ColorBadge({text, color, style}: ColorBadgeProps) {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {alignSelf: 'flex-start'},
-    text: {borderWidth: 2, paddingHorizontal: 5, fontWeight: 'bold', textAlign: 'center'},
-});

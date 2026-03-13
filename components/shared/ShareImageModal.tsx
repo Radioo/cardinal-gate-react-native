@@ -1,5 +1,5 @@
 import ModalBase from "@/components/shared/ModalBase";
-import {Platform, StyleSheet, TouchableOpacity, View} from "react-native";
+import {Platform, TouchableOpacity, View} from "react-native";
 import ThemedButton from "@/components/themed/ThemedButton";
 import useTheme from "@/hooks/useTheme";
 import {useState} from "react";
@@ -32,7 +32,7 @@ const BottomSection = ({isLoading, onClose, onPress, sharingAvailable}: BottomSe
         <>
             {sharingAvailable ?
                 <TouchableOpacity onPress={() => setIsChecked(prev => !prev)}
-                                  style={styles.checkboxRow}
+                                  className="flex-row items-center gap-2.5 p-[30px]"
                                   activeOpacity={1}
                 >
                     <ThemedCheckbox value={isChecked} onValueChange={setIsChecked}></ThemedCheckbox>
@@ -40,17 +40,17 @@ const BottomSection = ({isLoading, onClose, onPress, sharingAvailable}: BottomSe
                         I understand that sharing this image in public will result in a ban.
                     </ThemedText>
                 </TouchableOpacity> :
-                <View style={styles.unavailableContainer}>
+                <View className="p-[30px]">
                     <ThemedText>Sharing is not available on this platform.</ThemedText>
                 </View>}
-            <View style={styles.buttonRow}>
+            <View className="p-2.5 flex-row gap-2.5 w-full">
                 <ThemedButton disabled={!isChecked}
                               loading={isLoading}
                               onPress={onPress}
-                              style={styles.flex1}
+                              className="flex-1"
                               label="Share"
                 />
-                <ThemedButton style={styles.flex1} label="Close" onPress={onClose}/>
+                <ThemedButton className="flex-1" label="Close" onPress={onClose}/>
             </View>
         </>
     )
@@ -95,9 +95,9 @@ export default function ShareImageModal({url, visible, onClose}: ShareImageModal
 
     return (
         <ModalBase visible={visible}>
-            <View style={[styles.content, {backgroundColor: theme.background}]}>
+            <View className="flex-1 w-full justify-center items-center" style={{backgroundColor: theme.background}}>
                 <ApiImage url={url}
-                          style={styles.image}
+                          style={{width: '100%', flex: 1}}
                           contentFit="contain"
                 />
                 <BottomSection onPress={() => shareMutation.mutate()}
@@ -109,12 +109,3 @@ export default function ShareImageModal({url, visible, onClose}: ShareImageModal
         </ModalBase>
     )
 }
-
-const styles = StyleSheet.create({
-    checkboxRow: {flexDirection: 'row', alignItems: 'center', gap: 10, padding: 30},
-    unavailableContainer: {padding: 30},
-    buttonRow: {padding: 10, flexDirection: 'row', gap: 10, width: '100%'},
-    flex1: {flex: 1},
-    content: {flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center'},
-    image: {width: '100%', flex: 1},
-});

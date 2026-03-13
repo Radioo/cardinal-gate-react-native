@@ -6,14 +6,19 @@ on:
     branches:
       - master
 
+concurrency:
+  group: web-deploy
+  cancel-in-progress: false
+
 jobs:
   web-deploy:
     name: EAS Web Deploy
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 20.x
           cache: npm
@@ -22,7 +27,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.expo
-          key: expo-cli-${{ runner.os }}
+          key: expo-cli-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: expo-cli-${{ runner.os }}-
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps

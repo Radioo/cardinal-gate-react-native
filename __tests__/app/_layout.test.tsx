@@ -6,11 +6,6 @@ jest.mock('react-native-gesture-handler', () => {
     return {GestureHandlerRootView: ({children}: {children: React.ReactNode}) => createElement('View', null, children)};
 });
 
-jest.mock('react-native-notifier', () => {
-    const {createElement} = require('react');
-    return {NotifierWrapper: ({children}: {children: React.ReactNode}) => createElement('View', null, children)};
-});
-
 jest.mock('expo-router', () => {
     const {createElement} = require('react');
     return {
@@ -43,6 +38,7 @@ jest.mock('@react-navigation/core', () => {
 
 jest.mock('@react-navigation/native', () => ({DarkTheme: {}, DefaultTheme: {}}));
 jest.mock('@/hooks/useColorScheme', () => ({useColorScheme: () => 'dark'}));
+jest.mock('@/components/ui/toast', () => ({Toaster: () => null}));
 
 import Layout, {ErrorBoundary} from '@/app/_layout';
 

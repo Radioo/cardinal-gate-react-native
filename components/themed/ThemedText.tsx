@@ -1,61 +1,33 @@
-import { Text, type TextProps, type TextStyle, StyleSheet, type StyleProp } from 'react-native';
-import useTheme from "@/hooks/useTheme";
+import {type TextProps} from 'react-native';
+import {Text} from "@/components/ui/text";
+import {cn} from "@/lib/utils";
 
 type ThemedTextType = 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link';
 
 type ThemedTextProps = TextProps & {
-  type?: ThemedTextType;
+    type?: ThemedTextType;
+    className?: string;
 };
 
-const styles = StyleSheet.create({
-  default: {
-    fontSize: 16,
-    lineHeight: 24,
-  },
-  defaultSemiBold: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: '600',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    lineHeight: 32,
-  },
-  subtitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  link: {
-    lineHeight: 30,
-    fontSize: 16,
-  },
-});
-
-const typeStyles: Record<ThemedTextType, StyleProp<TextStyle>> = {
-  default: styles.default,
-  title: styles.title,
-  defaultSemiBold: styles.defaultSemiBold,
-  subtitle: styles.subtitle,
-  link: styles.link,
+const typeClassMap: Record<ThemedTextType, string> = {
+    default: 'text-base leading-6',
+    title: 'text-[32px] font-bold leading-8',
+    defaultSemiBold: 'text-base leading-6 font-semibold',
+    subtitle: 'text-xl font-bold',
+    link: 'text-base leading-[30px] text-accent',
 };
 
 export default function ThemedText({
-  style,
-  type = 'default',
-  ...rest
+    style,
+    type = 'default',
+    className,
+    ...rest
 }: ThemedTextProps) {
-  const theme = useTheme();
-
-  return (
-    <Text
-      style={[
-        { color: theme.text },
-        typeStyles[type],
-        type === 'link' ? { color: theme.tint } : undefined,
-        style,
-      ]}
-      {...rest}
-    />
-  );
+    return (
+        <Text
+            className={cn(typeClassMap[type], className)}
+            style={style}
+            {...rest}
+        />
+    );
 }

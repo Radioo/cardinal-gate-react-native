@@ -1,21 +1,25 @@
-import {TextInput, TextInputProps} from "react-native";
-import useTheme from "@/hooks/useTheme";
+import {forwardRef} from "react";
+import {TextInput, type TextInputProps} from "react-native";
+import {Input} from "@/components/ui/input";
+import {cn} from "@/lib/utils";
 
-export default function ThemedTextInput({
+type ThemedTextInputProps = TextInputProps & {
+    className?: string;
+};
+
+const ThemedTextInput = forwardRef<TextInput, ThemedTextInputProps>(({
     style,
+    className,
     ...rest
-}: TextInputProps) {
-    const theme = useTheme();
-
+}, ref) => {
     return (
-        <TextInput style={[
-            style,
-            {
-                color: theme.text,
-                borderColor: theme.primary,
-                borderWidth: 1,
-                padding: 10,
-            }
-        ]} placeholderTextColor={theme.text} {...rest}/>
-    )
-}
+        <Input
+            ref={ref}
+            className={cn("border-primary", className)}
+            style={style}
+            {...rest}
+        />
+    );
+});
+
+export default ThemedTextInput;

@@ -1,8 +1,9 @@
-import {Modal, Platform, SafeAreaView, StyleSheet} from "react-native";
-import React from "react";
-import {BlurView} from "expo-blur";
-import useTheme from "@/hooks/useTheme";
-import {SafeAreaProvider} from "react-native-safe-area-context";
+import {useColorScheme} from "react-native";
+import React, {useMemo} from "react";
+import {Dialog, DialogContent} from "@/components/ui/dialog";
+import {useThemeStore} from "@/store/theme";
+import {hexToHslVar, lightenToHslVar, darkenToHslVar} from "@/lib/color-utils";
+import {vars} from "nativewind";
 
 type ModalBaseProps = {
     children: React.ReactNode;
@@ -10,28 +11,23 @@ type ModalBaseProps = {
 }
 
 export default function ModalBase({children, visible}: ModalBaseProps) {
-    const theme = useTheme();
+    const {primaryColor} = useThemeStore();
+    const isDark = useColorScheme() === 'dark';
+
+    const dynamicVars = useMemo(() => vars({
+        '--primary': hexToHslVar(primaryColor),
+        '--primary-surface': isDark
+            ? darkenToHslVar(primaryColor, 0.4)
+            : lightenToHslVar(primaryColor, 0.4),
+        '--input': hexToHslVar(primaryColor),
+        '--ring': hexToHslVar(primaryColor),
+    }), [primaryColor, isDark]);
 
     return (
-        <SafeAreaProvider>
-            <SafeAreaView>
-                <Modal animationType="fade"
-                       visible={visible}
-                       transparent={true}
-                >
-                    <BlurView style={styles.blurView}
-                              intensity={10}
-                              tint={theme.scheme}
-                              experimentalBlurMethod={Platform.OS === 'android' ? 'dimezisBlurView' : 'none'}
-                    >
-                        {children}
-                    </BlurView>
-                </Modal>
-            </SafeAreaView>
-        </SafeAreaProvider>
+        <Dialog open={visible}>
+            <DialogContent style={dynamicVars}>
+                {children}
+            </DialogContent>
+        </Dialog>
     )
 }
-
-const styles = StyleSheet.create({
-    blurView: {flex: 1, justifyContent: 'center', alignItems: 'center'},
-});

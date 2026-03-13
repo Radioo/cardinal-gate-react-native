@@ -1,39 +1,39 @@
 import {MessageSeverity} from '@/enums/message-severity';
-
-jest.mock('react-native-notifier', () => ({
-    Notifier: {
-        showNotification: jest.fn(),
-    },
-    NotifierComponents: {
-        Alert: 'Alert',
-    },
-}));
-
-const {Notifier} = require('react-native-notifier');
+import {useToastStore} from '@/store/toast';
+import {displayMessage} from '@/services/message';
 
 describe('displayMessage', () => {
     beforeEach(() => {
-        jest.clearAllMocks();
+        jest.useFakeTimers();
+        useToastStore.setState({toasts: []});
     });
 
-    it('displays error message', async () => {
-        const {displayMessage} = require('@/services/message');
+    afterEach(() => {
+        jest.useRealTimers();
+    });
+
+    it('displays error message', () => {
         displayMessage(MessageSeverity.ERROR, 'Something went wrong');
-        expect(Notifier.showNotification).toHaveBeenCalledWith(
+        const toasts = useToastStore.getState().toasts;
+        expect(toasts).toHaveLength(1);
+        expect(toasts[0]).toEqual(
             expect.objectContaining({
                 title: 'Error',
                 description: 'Something went wrong',
+                severity: MessageSeverity.ERROR,
             })
         );
     });
 
-    it('displays success message', async () => {
-        const {displayMessage} = require('@/services/message');
+    it('displays success message', () => {
         displayMessage(MessageSeverity.SUCCESS, 'Done');
-        expect(Notifier.showNotification).toHaveBeenCalledWith(
+        const toasts = useToastStore.getState().toasts;
+        expect(toasts).toHaveLength(1);
+        expect(toasts[0]).toEqual(
             expect.objectContaining({
                 title: 'Success',
                 description: 'Done',
+                severity: MessageSeverity.SUCCESS,
             })
         );
     });

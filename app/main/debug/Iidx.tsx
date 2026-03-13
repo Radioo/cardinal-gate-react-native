@@ -1,5 +1,5 @@
 import {IidxDifficulty} from "@/enums/iidx-difficulty";
-import {FlatList, StyleSheet, View} from "react-native";
+import {FlatList, View} from "react-native";
 import IidxDifficultyItem, {IidxDifficultyProps} from "@/components/iidx/IidxDifficulty";
 import ThemedCard from "@/components/themed/ThemedCard";
 import ThemedText from "@/components/themed/ThemedText";
@@ -16,20 +16,15 @@ Object.keys(IidxDifficulty).forEach(difficulty => {
 
 export default function Iidx() {
     return (
-        <View style={styles.container}>
+        <View className="flex-1">
             <ThemedCard>
                 <ThemedText>All of these should be readable and take only one line</ThemedText>
             </ThemedCard>
             <FlatList data={difficulties} renderItem={({item, index}) => (
-                <View style={styles.row}>
+                <View className="flex-row">
                     <IidxDifficultyItem key={index} difficulty={item.difficulty} level={item.level} />
                 </View>
             )}/>
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {flex: 1},
-    row: {flexDirection: 'row'},
-});

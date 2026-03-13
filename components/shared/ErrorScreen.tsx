@@ -1,4 +1,4 @@
-import {StyleSheet, View} from "react-native";
+import {View} from "react-native";
 import ThemedCard from "@/components/themed/ThemedCard";
 import ThemedText from "@/components/themed/ThemedText";
 import ThemedButton from "@/components/themed/ThemedButton";
@@ -10,7 +10,7 @@ type ErrorScreenProps = {
 
 export default function ErrorScreen({error, onRetry}: ErrorScreenProps) {
     return (
-        <View style={styles.container}>
+        <View className="flex-1 justify-center items-center gap-2.5">
             <ThemedCard>
                 <ThemedText>{error.message}</ThemedText>
             </ThemedCard>
@@ -18,7 +18,3 @@ export default function ErrorScreen({error, onRetry}: ErrorScreenProps) {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {flex: 1, justifyContent: 'center', alignItems: 'center', gap: 10},
-});

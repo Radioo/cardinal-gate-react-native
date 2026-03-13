@@ -13,6 +13,7 @@ export default function General() {
                              onClose={() => setShareImageModalVisible(false)}
             />
             <ThemedButton label="Share image" onPress={() => setShareImageModalVisible(true)}/>
+            <ThemedButton label="Loading button" loading={true}/>
         </ScrollView>
     )
 }

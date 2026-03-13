@@ -1,6 +1,6 @@
 import ThemedText from "@/components/themed/ThemedText";
 import useIidxProfile from "@/hooks/queries/useIidxProfile";
-import {StyleSheet, View} from "react-native";
+import {View} from "react-native";
 import useTheme from "@/hooks/useTheme";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -20,15 +20,15 @@ export default function Profile() {
                     <ProfileRow
                         icon={<AntDesign name="user" size={24} color={theme.text}/>}
                         label={`DJ ${data?.dj_name}`}
-                        value={<ThemedText style={styles.monospace}>{formatArcadeId(data?.iidx_id)}</ThemedText>}
+                        value={<ThemedText className="font-mono">{formatArcadeId(data?.iidx_id)}</ThemedText>}
                     />
                     <ProfileRow
                         icon={<MaterialIcons name="numbers" size={24} color={theme.text}/>}
                         label="Play count"
                         value={
                             <View>
-                                <ThemedText style={styles.alignRight}>{data?.sp_play_count.toLocaleString()} SP</ThemedText>
-                                <ThemedText style={styles.alignRight}>{data?.dp_play_count.toLocaleString()} DP</ThemedText>
+                                <ThemedText className="text-right">{data?.sp_play_count.toLocaleString()} SP</ThemedText>
+                                <ThemedText className="text-right">{data?.dp_play_count.toLocaleString()} DP</ThemedText>
                             </View>
                         }
                     />
@@ -37,8 +37,8 @@ export default function Profile() {
                         label="Class"
                         value={
                             <View>
-                                <ThemedText style={styles.alignRight}>SP {data?.sp_class}</ThemedText>
-                                <ThemedText style={styles.alignRight}>DP {data?.dp_class}</ThemedText>
+                                <ThemedText className="text-right">SP {data?.sp_class}</ThemedText>
+                                <ThemedText className="text-right">DP {data?.dp_class}</ThemedText>
                             </View>
                         }
                     />
@@ -47,8 +47,8 @@ export default function Profile() {
                         label="Inputs"
                         value={
                             <View>
-                                <ThemedText style={styles.alignRight}>{data?.key_count.toLocaleString()} Keys</ThemedText>
-                                <ThemedText style={styles.alignRight}>{data?.scratch_count.toLocaleString()} Scratches</ThemedText>
+                                <ThemedText className="text-right">{data?.key_count.toLocaleString()} Keys</ThemedText>
+                                <ThemedText className="text-right">{data?.scratch_count.toLocaleString()} Scratches</ThemedText>
                             </View>
                         }
                     />
@@ -57,8 +57,3 @@ export default function Profile() {
         </ProfileLayout>
     )
 }
-
-const styles = StyleSheet.create({
-    monospace: {fontFamily: 'monospace'},
-    alignRight: {textAlign: 'right'},
-});
