@@ -21,5 +21,6 @@ const ThemedTextInput = forwardRef<TextInput, ThemedTextInputProps>(({
         />
     );
 });
+ThemedTextInput.displayName = "ThemedTextInput";
 
 export default ThemedTextInput;

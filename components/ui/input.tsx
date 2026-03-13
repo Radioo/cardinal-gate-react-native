@@ -31,5 +31,6 @@ const Input = forwardRef<TextInput, TextInputProps>(({ className, placeholderTex
     />
   );
 });
+Input.displayName = "Input";
 
 export { Input };

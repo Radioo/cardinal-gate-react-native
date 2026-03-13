@@ -1,11 +1,10 @@
-import {
+import Animated, {
     useAnimatedStyle,
     useSharedValue,
     withTiming,
     interpolateColor, withRepeat,
 } from "react-native-reanimated";
 import React, { useEffect } from "react";
-import Animated from "react-native-reanimated";
 import {Text} from "react-native";
 import {IidxClearType} from "@/enums/iidx-clear-type";
 
