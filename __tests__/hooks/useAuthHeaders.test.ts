@@ -3,8 +3,7 @@ jest.mock('@/store/secure', () => ({
 }));
 
 import React from 'react';
-import {render, cleanup} from '@testing-library/react-native';
-import {act} from 'react';
+import {render, cleanup, waitFor} from '@testing-library/react-native';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import useAuthHeaders from '@/hooks/useAuthHeaders';
 import {getSecureValue} from '@/store/secure';
@@ -21,20 +20,14 @@ function TestComponent({onResult}: {onResult: (data: Record<string, string>) => 
     return React.createElement('Text', null, isSuccess ? 'done' : 'loading');
 }
 
-function flushPromises() {
-    return new Promise(resolve => setTimeout(resolve, 0));
-}
-
 async function renderTest(onResult: (d: Record<string, string>) => void) {
     const client = new QueryClient({defaultOptions: {queries: {retry: false, gcTime: 0}}});
-    await render(
+    const utils = await render(
         React.createElement(QueryClientProvider, {client},
             React.createElement(TestComponent, {onResult})
         )
     );
-    await act(async () => {
-        await flushPromises();
-    });
+    await waitFor(() => expect(utils.getByText('done')).toBeTruthy());
     return {client};
 }
 
