@@ -1,3 +1,5 @@
+process.env.EXPO_PUBLIC_API_URL = 'https://api.test.com';
+
 jest.mock('@/hooks/useTheme', () => ({
     __esModule: true,
     default: () => ({

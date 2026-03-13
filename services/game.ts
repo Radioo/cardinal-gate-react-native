@@ -1,4 +1,5 @@
 import {Series} from "@/enums/series";
+import {API_URL} from "@/services/env";
 
 const seriesNames: Record<Series, string> = {
     [Series.IIDX]: 'beatmania IIDX',
@@ -23,7 +24,7 @@ export const formatArcadeId = (id: number): string => {
 };
 
 export const getIidxScoreCardUrl = (playId: number): string =>
-    `${process.env.EXPO_PUBLIC_API_URL}/api2/iidx/chart_screenshot/${playId}.png`;
+    `${API_URL}/api2/iidx/chart_screenshot/${playId}.png`;
 
 export const formatGdSkillValue = (value: number | undefined): string => {
     if (value === undefined || value < 0) return '???';

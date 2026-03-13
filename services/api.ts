@@ -1,6 +1,7 @@
 import {buildAuthRequestInit} from "@/services/auth-headers";
 import {clearSession} from "@/services/auth";
 import {router} from "expo-router";
+import {API_URL} from "@/services/env";
 
 type FetchApiOptions = {
     skipRootUrl?: boolean;
@@ -13,7 +14,7 @@ async function baseFetch(
     options: FetchApiOptions = {},
 ): Promise<Response> {
     const requestInit = options.skipAuth ? (init ?? {}) : await buildAuthRequestInit(init);
-    const url = options.skipRootUrl ? endpoint : `${process.env.EXPO_PUBLIC_API_URL}${endpoint}`;
+    const url = options.skipRootUrl ? endpoint : `${API_URL}${endpoint}`;
 
     const response = await fetch(url, requestInit);
 
