@@ -40,7 +40,7 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build web app
-        run: APP_ENV=dev npx expo export --platform web
+        run: npx expo export --platform web
 
       - name: Deploy web app
         run: eas deploy --prod
