@@ -15,7 +15,7 @@ import {NAV_THEME} from "@/lib/theme";
 import {useColorScheme, vars} from "nativewind";
 import {useThemeStore} from "@/store/theme";
 import {hexToHslVar, lightenToHslVar, darkenToHslVar} from "@/lib/color-utils";
-import {useEffect, useMemo} from "react";
+import {useEffect, useLayoutEffect, useMemo} from "react";
 import {PortalHost} from "@rn-primitives/portal";
 
 export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
@@ -33,7 +33,7 @@ export default function Layout() {
     const {primaryColor} = useThemeStore();
     const isDark = systemColorScheme === 'dark';
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setColorScheme(systemColorScheme === 'dark' ? 'dark' : 'light');
     }, [systemColorScheme, setColorScheme]);
 
