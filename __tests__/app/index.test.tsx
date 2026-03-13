@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, screen} from '@testing-library/react-native';
+import {render, screen, waitFor} from '@testing-library/react-native';
 import {TestRendererJSON} from '../helpers/types';
 
 const mockGetSecureValue = jest.fn();
@@ -42,24 +42,30 @@ describe('Root', () => {
     it('redirects to /main/Home when token exists', async () => {
         mockGetSecureValue.mockResolvedValue('some-token');
         await renderRoot();
-        const tree = screen.toJSON() as TestRendererJSON;
-        expect(tree).toBeTruthy();
-        expect(tree.props.testID).toBe('redirect-/main/Home');
+        await waitFor(() => {
+            const tree = screen.toJSON() as TestRendererJSON;
+            expect(tree).toBeTruthy();
+            expect(tree.props.testID).toBe('redirect-/main/Home');
+        });
     });
 
     it('redirects to /login when no token exists', async () => {
         mockGetSecureValue.mockResolvedValue(null);
         await renderRoot();
-        const tree = screen.toJSON() as TestRendererJSON;
-        expect(tree).toBeTruthy();
-        expect(tree.props.testID).toBe('redirect-/login');
+        await waitFor(() => {
+            const tree = screen.toJSON() as TestRendererJSON;
+            expect(tree).toBeTruthy();
+            expect(tree.props.testID).toBe('redirect-/login');
+        });
     });
 
     it('redirects to /login on error (catch path)', async () => {
         mockGetSecureValue.mockRejectedValue(new Error('secure store error'));
         await renderRoot();
-        const tree = screen.toJSON() as TestRendererJSON;
-        expect(tree).toBeTruthy();
-        expect(tree.props.testID).toBe('redirect-/login');
+        await waitFor(() => {
+            const tree = screen.toJSON() as TestRendererJSON;
+            expect(tree).toBeTruthy();
+            expect(tree.props.testID).toBe('redirect-/login');
+        });
     });
 });
