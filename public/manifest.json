@@ -1,0 +1,16 @@
+{
+  "name": "CARDINAL GATE",
+  "short_name": "CARDINAL GATE",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f28b28",
+  "icons": [
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
