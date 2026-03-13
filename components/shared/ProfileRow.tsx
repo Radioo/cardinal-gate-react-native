@@ -1,6 +1,6 @@
 import {ReactNode} from "react";
-import ThemedCard from "@/components/themed/ThemedCard";
-import ThemedText from "@/components/themed/ThemedText";
+import {Card} from "@/components/ui/card";
+import {Text} from "@/components/ui/text";
 
 type ProfileRowProps = {
     icon: ReactNode;
@@ -10,10 +10,10 @@ type ProfileRowProps = {
 
 export default function ProfileRow({icon, label, value}: ProfileRowProps) {
     return (
-        <ThemedCard className="flex-row items-center gap-1.5 m-1.5">
+        <Card className="border-primary bg-primary-surface gap-0 rounded-none p-1.5 flex-row items-center gap-1.5 m-1.5">
             {icon}
-            <ThemedText className="mr-auto">{label}</ThemedText>
-            {typeof value === 'string' ? <ThemedText>{value}</ThemedText> : value}
-        </ThemedCard>
+            <Text className="text-base leading-6 mr-auto">{label}</Text>
+            {typeof value === 'string' ? <Text className="text-base leading-6">{value}</Text> : value}
+        </Card>
     );
 }

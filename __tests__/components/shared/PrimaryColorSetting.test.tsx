@@ -39,11 +39,6 @@ jest.mock('@/components/shared/ModalBase', () => {
         visible ? createElement('View', null, children) : null};
 });
 
-jest.mock('@/components/themed/ThemedButton', () => {
-    const {createElement} = require('react');
-    return {__esModule: true, default: (props: Record<string, unknown>) => createElement('View', {testID: `btn-${props.label}`, ...props})};
-});
-
 describe('PrimaryColorSetting', () => {
     afterEach(() => {
         Platform.OS = 'ios';
@@ -70,23 +65,21 @@ describe('PrimaryColorSetting', () => {
 
     it('renders Apply and Cancel buttons', async () => {
         await render(<PrimaryColorSetting visible={true} onClose={jest.fn()} />);
-        expect(screen.getByTestId('btn-Apply')).toBeTruthy();
-        expect(screen.getByTestId('btn-Cancel')).toBeTruthy();
+        expect(screen.getByText('Apply')).toBeTruthy();
+        expect(screen.getByText('Cancel')).toBeTruthy();
     });
 
     it('calls onClose when Cancel is pressed', async () => {
         const onClose = jest.fn();
         await render(<PrimaryColorSetting visible={true} onClose={onClose} />);
-        const cancelBtn = screen.getByTestId('btn-Cancel');
-        fireEvent.press(cancelBtn);
+        fireEvent.press(screen.getByText('Cancel'));
         expect(onClose).toHaveBeenCalled();
     });
 
     it('calls setPrimaryColor and onClose when Apply is pressed', async () => {
         const onClose = jest.fn();
         await render(<PrimaryColorSetting visible={true} onClose={onClose} />);
-        const applyBtn = screen.getByTestId('btn-Apply');
-        fireEvent.press(applyBtn);
+        fireEvent.press(screen.getByText('Apply'));
         expect(mockSetPrimaryColor).toHaveBeenCalledWith('#f28b28');
         expect(onClose).toHaveBeenCalled();
     });
@@ -94,13 +87,13 @@ describe('PrimaryColorSetting', () => {
     it('hides Material You button when accent is null', async () => {
         mockGetMaterialYouAccent.mockReturnValue(null);
         await render(<PrimaryColorSetting visible={true} onClose={jest.fn()} />);
-        expect(screen.queryByTestId('btn-Use Material You Color')).toBeNull();
+        expect(screen.queryByText('Use Material You Color')).toBeNull();
     });
 
     it('shows Material You button when accent is available', async () => {
         mockGetMaterialYouAccent.mockReturnValue('#5B5EA6');
         await render(<PrimaryColorSetting visible={true} onClose={jest.fn()} />);
-        expect(screen.getByTestId('btn-Use Material You Color')).toBeTruthy();
+        expect(screen.getByText('Use Material You Color')).toBeTruthy();
     });
 
     it('applies Material You color when button is pressed then Apply', async () => {
@@ -108,8 +101,8 @@ describe('PrimaryColorSetting', () => {
         const onClose = jest.fn();
         await render(<PrimaryColorSetting visible={true} onClose={onClose} />);
 
-        fireEvent.press(screen.getByTestId('btn-Use Material You Color'));
-        fireEvent.press(screen.getByTestId('btn-Apply'));
+        fireEvent.press(screen.getByText('Use Material You Color'));
+        fireEvent.press(screen.getByText('Apply'));
 
         expect(mockSetPrimaryColor).toHaveBeenCalledWith('#5B5EA6');
         expect(onClose).toHaveBeenCalled();

@@ -1,6 +1,6 @@
 import {GdMusicSkillItem} from "@/types/gd-skill-data-response";
 import {FlatList, View} from "react-native";
-import ThemedText from "@/components/themed/ThemedText";
+import {Text} from "@/components/ui/text";
 import * as React from "react";
 import GdSkillListItem from "@/components/gd/GdSkillListItem";
 
@@ -9,7 +9,7 @@ export default function GdSkillList({items}: {items: GdMusicSkillItem[]}) {
     if(items.length === 0) {
         return (
             <View className="flex-1 justify-center items-center">
-                <ThemedText>No data</ThemedText>
+                <Text className="text-base leading-6">No data</Text>
             </View>
         )
     }

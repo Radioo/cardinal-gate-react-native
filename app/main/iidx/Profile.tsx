@@ -1,4 +1,4 @@
-import ThemedText from "@/components/themed/ThemedText";
+import {Text} from "@/components/ui/text";
 import useIidxProfile from "@/hooks/queries/useIidxProfile";
 import {View} from "react-native";
 import useTheme from "@/hooks/useTheme";
@@ -20,15 +20,15 @@ export default function Profile() {
                     <ProfileRow
                         icon={<AntDesign name="user" size={24} color={theme.text}/>}
                         label={`DJ ${data?.dj_name}`}
-                        value={<ThemedText className="font-mono">{formatArcadeId(data?.iidx_id)}</ThemedText>}
+                        value={<Text className="text-base leading-6 font-mono">{formatArcadeId(data?.iidx_id)}</Text>}
                     />
                     <ProfileRow
                         icon={<MaterialIcons name="numbers" size={24} color={theme.text}/>}
                         label="Play count"
                         value={
                             <View>
-                                <ThemedText className="text-right">{data?.sp_play_count.toLocaleString()} SP</ThemedText>
-                                <ThemedText className="text-right">{data?.dp_play_count.toLocaleString()} DP</ThemedText>
+                                <Text className="text-base leading-6 text-right">{data?.sp_play_count.toLocaleString()} SP</Text>
+                                <Text className="text-base leading-6 text-right">{data?.dp_play_count.toLocaleString()} DP</Text>
                             </View>
                         }
                     />
@@ -37,8 +37,8 @@ export default function Profile() {
                         label="Class"
                         value={
                             <View>
-                                <ThemedText className="text-right">SP {data?.sp_class}</ThemedText>
-                                <ThemedText className="text-right">DP {data?.dp_class}</ThemedText>
+                                <Text className="text-base leading-6 text-right">SP {data?.sp_class}</Text>
+                                <Text className="text-base leading-6 text-right">DP {data?.dp_class}</Text>
                             </View>
                         }
                     />
@@ -47,8 +47,8 @@ export default function Profile() {
                         label="Inputs"
                         value={
                             <View>
-                                <ThemedText className="text-right">{data?.key_count.toLocaleString()} Keys</ThemedText>
-                                <ThemedText className="text-right">{data?.scratch_count.toLocaleString()} Scratches</ThemedText>
+                                <Text className="text-base leading-6 text-right">{data?.key_count.toLocaleString()} Keys</Text>
+                                <Text className="text-base leading-6 text-right">{data?.scratch_count.toLocaleString()} Scratches</Text>
                             </View>
                         }
                     />

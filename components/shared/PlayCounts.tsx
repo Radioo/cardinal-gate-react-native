@@ -1,7 +1,7 @@
-import ThemedText from "@/components/themed/ThemedText";
+import {Text} from "@/components/ui/text";
 import FullScreenLoader from "@/components/shared/FullScreenLoader";
 import {View} from "react-native";
-import ThemedCard from "@/components/themed/ThemedCard";
+import {Card} from "@/components/ui/card";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import useTheme from "@/hooks/useTheme";
 import {getSeriesName, estimatePlayTimeHours} from "@/services/game";
@@ -17,20 +17,20 @@ export default function PlayCounts() {
 
     return (
         <View className="m-2.5 gap-[5px]">
-            <ThemedCard>
+            <Card className="border-primary bg-primary-surface gap-0 rounded-none p-1.5 shadow-none">
                 <View className="flex-row items-center gap-[5px]">
                     <MaterialIcons name="access-time" size={24} color={theme.text} />
-                    <ThemedText>Estimated play time: {estimatePlayTimeHours(data?.play_counts ?? [])} hours</ThemedText>
+                    <Text className="text-base leading-6">Estimated play time: {estimatePlayTimeHours(data?.play_counts ?? [])} hours</Text>
                 </View>
-            </ThemedCard>
-            <ThemedCard>
+            </Card>
+            <Card className="border-primary bg-primary-surface gap-0 rounded-none p-1.5 shadow-none">
                 {data?.play_counts.map((item, index) => (
                     <View key={index} className="flex-row justify-between">
-                        <ThemedText>{getSeriesName(item.game)}</ThemedText>
-                        <ThemedText>{item.count.toLocaleString()} plays</ThemedText>
+                        <Text className="text-base leading-6">{getSeriesName(item.game)}</Text>
+                        <Text className="text-base leading-6">{item.count.toLocaleString()} plays</Text>
                     </View>
                 ))}
-            </ThemedCard>
+            </Card>
         </View>
     )
 }

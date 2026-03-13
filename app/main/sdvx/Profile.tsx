@@ -1,4 +1,4 @@
-import ThemedText from "@/components/themed/ThemedText";
+import {Text} from "@/components/ui/text";
 import useSdvxProfile from "@/hooks/queries/useSdvxProfile";
 import useTheme from "@/hooks/useTheme";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -19,7 +19,7 @@ export default function Profile() {
                     <ProfileRow
                         icon={<AntDesign name="user" size={24} color={theme.text}/>}
                         label={data.name}
-                        value={<ThemedText className="font-mono">{formatArcadeId(data.id)}</ThemedText>}
+                        value={<Text className="text-base leading-6 font-mono">{formatArcadeId(data.id)}</Text>}
                     />
                     <ProfileRow
                         icon={<MaterialIcons name="star-outline" size={24} color={theme.text}/>}

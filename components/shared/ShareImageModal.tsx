@@ -1,10 +1,10 @@
 import ModalBase from "@/components/shared/ModalBase";
 import {Platform, TouchableOpacity, View} from "react-native";
-import ThemedButton from "@/components/themed/ThemedButton";
+import {Button} from "@/components/ui/button";
+import {Text} from "@/components/ui/text";
+import {Checkbox} from "@/components/ui/checkbox";
 import useTheme from "@/hooks/useTheme";
 import {useState} from "react";
-import ThemedCheckbox from "@/components/themed/ThemedCheckbox";
-import ThemedText from "@/components/themed/ThemedText";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import * as Sharing from 'expo-sharing';
 import FullScreenLoader from "@/components/shared/FullScreenLoader";
@@ -35,22 +35,28 @@ const BottomSection = ({isLoading, onClose, onPress, sharingAvailable}: BottomSe
                                   className="flex-row items-center gap-2.5 p-[30px]"
                                   activeOpacity={1}
                 >
-                    <ThemedCheckbox value={isChecked} onValueChange={setIsChecked}></ThemedCheckbox>
-                    <ThemedText>
+                    <Checkbox checked={isChecked} onCheckedChange={setIsChecked} />
+                    <Text className="text-base leading-6">
                         I understand that sharing this image in public will result in a ban.
-                    </ThemedText>
+                    </Text>
                 </TouchableOpacity> :
                 <View className="p-[30px]">
-                    <ThemedText>Sharing is not available on this platform.</ThemedText>
+                    <Text className="text-base leading-6">Sharing is not available on this platform.</Text>
                 </View>}
             <View className="p-2.5 flex-row gap-2.5 w-full">
-                <ThemedButton disabled={!isChecked}
-                              loading={isLoading}
+                <Button disabled={!isChecked}
                               onPress={onPress}
-                              className="flex-1"
-                              label="Share"
-                />
-                <ThemedButton className="flex-1" label="Close" onPress={onClose}/>
+                              className="flex-1 h-10 px-2.5"
+                >
+                    {isLoading ? (
+                        <View className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                    ) : (
+                        <Text className="font-bold">Share</Text>
+                    )}
+                </Button>
+                <Button className="flex-1 h-10 px-2.5" onPress={onClose}>
+                    <Text className="font-bold">Close</Text>
+                </Button>
             </View>
         </>
     )

@@ -1,5 +1,6 @@
-import {ScrollView} from "react-native";
-import ThemedButton from "@/components/themed/ThemedButton";
+import {ScrollView, View} from "react-native";
+import {Button} from "@/components/ui/button";
+import {Text} from "@/components/ui/text";
 import { useState } from "react";
 import ShareImageModal from "@/components/shared/ShareImageModal";
 
@@ -12,8 +13,12 @@ export default function General() {
                              visible={shareImageModalVisible}
                              onClose={() => setShareImageModalVisible(false)}
             />
-            <ThemedButton label="Share image" onPress={() => setShareImageModalVisible(true)}/>
-            <ThemedButton label="Loading button" loading={true}/>
+            <Button className="h-10 px-2.5" onPress={() => setShareImageModalVisible(true)}>
+                <Text className="font-bold">Share image</Text>
+            </Button>
+            <Button className="h-10 px-2.5" disabled>
+                <View className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+            </Button>
         </ScrollView>
     )
 }

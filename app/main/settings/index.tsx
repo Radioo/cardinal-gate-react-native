@@ -1,6 +1,6 @@
 import {FlatList, Pressable, View} from "react-native";
 import PrimaryColorSetting from "@/components/shared/PrimaryColorSetting";
-import ThemedText from "@/components/themed/ThemedText";
+import {Text} from "@/components/ui/text";
 import useTheme from "@/hooks/useTheme";
 import {useState} from "react";
 import {Ionicons} from "@expo/vector-icons";
@@ -31,8 +31,8 @@ export default function Index() {
                     <View className="flex-row gap-[5px] items-center">
                         {item.icon}
                         <View>
-                            <ThemedText className="text-xl font-bold">{item.title}</ThemedText>
-                            <ThemedText>{item.description}</ThemedText>
+                            <Text className="text-xl font-bold">{item.title}</Text>
+                            <Text className="text-base leading-6">{item.description}</Text>
                         </View>
                     </View>
                 </Pressable>

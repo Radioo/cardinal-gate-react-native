@@ -2,10 +2,9 @@ import {Route, SceneMap, TabBar, TabBarItem, TabBarProps, TabView} from "react-n
 import * as React from "react";
 import {useMemo, useState} from "react";
 import GdSkillList from "@/components/gd/GdSkillList";
-import {useWindowDimensions} from "react-native";
+import {Text as RNText, useWindowDimensions} from "react-native";
 import useTheme from "@/hooks/useTheme";
 import {GdSkillDataResponse} from "@/types/gd-skill-data-response";
-import ThemedText from "@/components/themed/ThemedText";
 
 type GdSkillTabsProps = {
     data: GdSkillDataResponse | undefined;
@@ -15,15 +14,16 @@ const RenderTabBar = (props: TabBarProps<Route>) => {
     const theme = useTheme();
 
     const renderLabel = ({route, focused}: {route: Route; focused: boolean}) => (
-        <ThemedText
+        <RNText
             numberOfLines={1}
             style={{
                 color: focused ? theme.primary : theme.text,
                 fontWeight: '600',
+                fontSize: 14,
             }}
         >
             {route.title}
-        </ThemedText>
+        </RNText>
     );
 
     return (

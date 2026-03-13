@@ -1,4 +1,5 @@
-import ThemedButton from "@/components/themed/ThemedButton";
+import {Button} from "@/components/ui/button";
+import {Text} from "@/components/ui/text";
 import ModalBase from "@/components/shared/ModalBase";
 import {useThemeStore} from "@/store/theme";
 import ColorPicker, {
@@ -62,12 +63,18 @@ export default function PrimaryColorSetting(props: PrimaryColorSettingProps) {
                 </ColorPicker>
 
                 {materialYouAccent && (
-                    <ThemedButton label="Use Material You Color" onPress={onMaterialYou} />
+                    <Button className="h-10 px-2.5" onPress={onMaterialYou}>
+                        <Text className="font-bold">Use Material You Color</Text>
+                    </Button>
                 )}
 
                 <View className="flex-row gap-2.5">
-                    <ThemedButton className="flex-1" label="Apply" onPress={() => onCloseModal()}></ThemedButton>
-                    <ThemedButton className="flex-1" label="Cancel" onPress={() => props.onClose()}></ThemedButton>
+                    <Button className="flex-1 h-10 px-2.5" onPress={() => onCloseModal()}>
+                        <Text className="font-bold">Apply</Text>
+                    </Button>
+                    <Button className="flex-1 h-10 px-2.5" onPress={() => props.onClose()}>
+                        <Text className="font-bold">Cancel</Text>
+                    </Button>
                 </View>
             </View>
         </ModalBase>

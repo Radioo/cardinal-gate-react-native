@@ -21,9 +21,13 @@ export default function Root({children}: PropsWithChildren) {
                 <meta name="apple-mobile-web-app-title" content="CARDINAL GATE"/>
                 <link rel="apple-touch-icon" href="/icon-512.png"/>
 
-                <script dangerouslySetInnerHTML={{__html: `(function(){if(window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.classList.add('dark')}})();`}}/>
-
                 <ScrollViewStyleReset/>
+
+                <script dangerouslySetInnerHTML={{__html: `
+                    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                        document.documentElement.classList.add('dark');
+                    }
+                `}}/>
 
                 <style dangerouslySetInnerHTML={{__html: `
                     #loader {

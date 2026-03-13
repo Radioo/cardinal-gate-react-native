@@ -3,8 +3,8 @@ import {GdDifficultyContainer} from "@/types/gd-difficulty-container";
 import {GdDifficulty} from "@/enums/gd-difficulty";
 import {FlatList, View} from "react-native";
 import GdDifficultyInfo from "@/components/gd/GdDifficulty";
-import ThemedCard from "@/components/themed/ThemedCard";
-import ThemedText from "@/components/themed/ThemedText";
+import {Card} from "@/components/ui/card";
+import {Text} from "@/components/ui/text";
 
 const MAX_DIFFICULTY_LEVEL = 995;
 const LEVEL_STEP = 5;
@@ -24,13 +24,12 @@ Object.keys(GdDifficultyType).forEach(type => {
 export default function Gd() {
     return (
         <View className="flex-1">
-            <ThemedCard>
-                <ThemedText>All of these should be readable and take only one line</ThemedText>
-            </ThemedCard>
+            <Card className="border-primary bg-primary-surface gap-0 rounded-none p-1.5 shadow-none">
+                <Text className="text-base leading-6">All of these should be readable and take only one line</Text>
+            </Card>
             <FlatList data={difficulties} renderItem={({item}) => (
                 <GdDifficultyInfo difficulty={item} />
             )}/>
         </View>
     )
 }
-

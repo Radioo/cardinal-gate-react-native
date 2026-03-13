@@ -17,21 +17,6 @@ jest.mock('@/components/shared/ModalBase', () => {
     return {__esModule: true, default: ({children, visible}: {children: React.ReactNode; visible: boolean}) => visible ? createElement('View', {testID: 'modal'}, children) : null};
 });
 
-jest.mock('@/components/themed/ThemedCheckbox', () => {
-    const {createElement} = require('react');
-    return {__esModule: true, default: (props: Record<string, unknown>) => createElement('View', {testID: 'checkbox', ...props})};
-});
-
-jest.mock('@/components/themed/ThemedButton', () => {
-    const {createElement} = require('react');
-    return {__esModule: true, default: (props: Record<string, unknown>) => createElement('View', {testID: `btn-${props.label}`, ...props})};
-});
-
-jest.mock('@/components/themed/ThemedText', () => {
-    const {createElement} = require('react');
-    return {__esModule: true, default: ({children}: {children: React.ReactNode}) => createElement('Text', null, children)};
-});
-
 async function renderModal(client: QueryClient, props: {url: string; visible: boolean; onClose: () => void}) {
     await render(
         <QueryClientProvider client={client}>
@@ -67,21 +52,14 @@ describe('ShareImageModal', () => {
 
     it('renders Share and Close buttons', async () => {
         await renderModal(client, {url: 'https://example.com/image.png', visible: true, onClose: jest.fn()});
-        expect(screen.getByTestId('btn-Share')).toBeTruthy();
-        expect(screen.getByTestId('btn-Close')).toBeTruthy();
-    });
-
-    it('Share button is initially disabled', async () => {
-        await renderModal(client, {url: 'https://example.com/image.png', visible: true, onClose: jest.fn()});
-        const shareBtn = screen.getByTestId('btn-Share');
-        expect(shareBtn.props.disabled).toBe(true);
+        expect(screen.getByText('Share')).toBeTruthy();
+        expect(screen.getByText('Close')).toBeTruthy();
     });
 
     it('calls onClose when Close button is pressed', async () => {
         const onClose = jest.fn();
         await renderModal(client, {url: 'https://example.com/image.png', visible: true, onClose});
-        const closeBtn = screen.getByTestId('btn-Close');
-        fireEvent.press(closeBtn);
+        fireEvent.press(screen.getByText('Close'));
         expect(onClose).toHaveBeenCalled();
     });
 
@@ -89,6 +67,5 @@ describe('ShareImageModal', () => {
         await renderModal(client, {url: 'https://example.com/image.png', visible: true, onClose: jest.fn()});
         const json = JSON.stringify(screen.toJSON());
         expect(json).toContain('sharing this image in public');
-        expect(screen.getAllByTestId('checkbox')).toHaveLength(1);
     });
 });

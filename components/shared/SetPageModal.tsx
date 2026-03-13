@@ -1,7 +1,7 @@
 import {View} from "react-native";
-import ThemedText from "@/components/themed/ThemedText";
-import ThemedTextInput from "@/components/themed/ThemedTextInput";
-import ThemedButton from "@/components/themed/ThemedButton";
+import {Text} from "@/components/ui/text";
+import {Input} from "@/components/ui/input";
+import {Button} from "@/components/ui/button";
 import useTheme from "@/hooks/useTheme";
 import {useEffect, useState} from "react";
 import ModalBase from "@/components/shared/ModalBase";
@@ -32,20 +32,23 @@ export default function SetPageModal({
         <ModalBase visible={visible}>
             <View className="flex-1 justify-center items-center">
                 <View className="p-5 gap-2.5 rounded-none" style={{backgroundColor: theme.background}}>
-                    <ThemedText>Set page</ThemedText>
-                    <ThemedTextInput
+                    <Text className="text-base leading-6">Set page</Text>
+                    <Input
+                        className="border-primary"
                         value={value}
                         onChangeText={setValue}
                         keyboardType="numeric"
                     />
-                    <ThemedButton
+                    <Button
+                        className="h-10 px-2.5"
                         aria-valuemin={1}
-                        label="OK"
                         onPress={() => {
                             const result = Math.max(1, Math.min(maxPage, parseInt(value) || 1));
                             onClose(result);
                         }}
-                    />
+                    >
+                        <Text className="font-bold">OK</Text>
+                    </Button>
                 </View>
             </View>
         </ModalBase>

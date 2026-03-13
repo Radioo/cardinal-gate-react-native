@@ -1,13 +1,13 @@
 import {IidxPlay} from "@/types/iidx-play";
-import ThemedText from "@/components/themed/ThemedText";
+import {Text} from "@/components/ui/text";
 import {View} from "react-native";
 import useTheme from "@/hooks/useTheme";
 import IidxClearTypeItem from "@/components/iidx/IidxClearTypeItem";
-import ThemedButton from "@/components/themed/ThemedButton";
+import {Button} from "@/components/ui/button";
 import {FontAwesome} from "@expo/vector-icons";
 import {useState} from "react";
 import ShareImageModal from "@/components/shared/ShareImageModal";
-import ThemedCard from "@/components/themed/ThemedCard";
+import {Card} from "@/components/ui/card";
 import IidxDifficultyItem from "@/components/iidx/IidxDifficulty";
 import {getIidxScoreCardUrl} from "@/services/game";
 
@@ -20,35 +20,36 @@ export default function IidxPlayRow({play}: IidxPlayRowProps) {
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
-        <ThemedCard>
+        <Card className="border-primary bg-primary-surface gap-0 rounded-none p-1.5 shadow-none">
             <ShareImageModal url={getIidxScoreCardUrl(play.id)} visible={modalVisible} onClose={() => setModalVisible(false)}/>
             <View className="gap-1.5">
                 <View className="flex-row items-center gap-2">
-                    <ThemedText className="flex-1" numberOfLines={1}>{play.name}</ThemedText>
+                    <Text className="text-base leading-6 flex-1" numberOfLines={1}>{play.name}</Text>
                     {play.has_score_card ?
-                        <ThemedButton icon={<FontAwesome name="camera" size={18} color={theme.background}/>}
-                                      className="h-8 w-8 px-0"
+                        <Button className="h-8 w-8 px-0"
                                       onPress={() => setModalVisible(true)}
-                        /> : null}
+                        >
+                            <FontAwesome name="camera" size={18} color={theme.background}/>
+                        </Button> : null}
                 </View>
                 <View className="flex-row items-center gap-2">
                     <IidxDifficultyItem difficulty={play.difficulty} level={play.level}/>
                     <IidxClearTypeItem clearType={play.clear_type}/>
                 </View>
                 <View className="flex-row items-center">
-                    <ThemedText className="flex-1 font-bold text-2xl">{play.grade}</ThemedText>
+                    <Text className="text-base leading-6 flex-1 font-bold text-2xl">{play.grade}</Text>
                     <View className="flex-[2] items-center">
-                        <ThemedText className="font-bold text-lg">{play.ex_score.toLocaleString()} EX</ThemedText>
-                        <ThemedText className="text-xs opacity-70">{play.percentage.toFixed(2)}%</ThemedText>
+                        <Text className="text-base leading-6 font-bold text-lg">{play.ex_score.toLocaleString()} EX</Text>
+                        <Text className="text-base leading-6 text-xs opacity-70">{play.percentage.toFixed(2)}%</Text>
                     </View>
                     <View className="flex-1 items-end">
-                        <ThemedText className="text-xs">{play.perfect_count.toLocaleString()} PG</ThemedText>
-                        <ThemedText className="text-xs">{play.great_count.toLocaleString()} GR</ThemedText>
+                        <Text className="text-base leading-6 text-xs">{play.perfect_count.toLocaleString()} PG</Text>
+                        <Text className="text-base leading-6 text-xs">{play.great_count.toLocaleString()} GR</Text>
                         {play.miss_count === null ? null :
-                            <ThemedText className="text-xs">{play.miss_count.toLocaleString()} MC</ThemedText>}
+                            <Text className="text-base leading-6 text-xs">{play.miss_count.toLocaleString()} MC</Text>}
                     </View>
                 </View>
             </View>
-        </ThemedCard>
+        </Card>
     )
 }

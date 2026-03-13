@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import {View} from 'react-native';
-import ThemedButton from "@/components/themed/ThemedButton";
+import {Button} from "@/components/ui/button";
+import {Text} from "@/components/ui/text";
 import useTheme from "@/hooks/useTheme";
 import { Entypo } from "@expo/vector-icons";
 import SetPageModal from "@/components/shared/SetPageModal";
@@ -33,24 +34,29 @@ export default function Pagination({
     return (
         <View>
             <View className="flex-row justify-between items-center p-2.5" style={{backgroundColor: theme.background}}>
-                <ThemedButton
-                    icon={<Entypo name="chevron-left" size={24} color={theme.background} />}
+                <Button
+                    className="h-10 px-2.5 w-[50px]"
                     onPress={() => updatePage(currentPage - 1)}
                     disabled={currentPage === 1 || isLoading}
-                    className="w-[50px]"
-                />
-                <ThemedButton
-                    label={lastLabel.current || currentPageLabel}
+                >
+                    <Entypo name="chevron-left" size={24} color={theme.background} />
+                </Button>
+                <Button
+                    className="h-10 px-2.5"
                     disabled={isLoading}
                     onPress={() => setModalVisible(true)}
-                    labelStyle={isLoading ? {opacity: 0} : undefined}
-                />
-                <ThemedButton
-                    icon={<Entypo name="chevron-right" size={24} color={theme.background} />}
+                >
+                    <Text className="font-bold" style={isLoading ? {opacity: 0} : undefined}>
+                        {lastLabel.current || currentPageLabel}
+                    </Text>
+                </Button>
+                <Button
+                    className="h-10 px-2.5 w-[50px]"
                     onPress={() => updatePage(currentPage + 1)}
                     disabled={currentPage === totalPages || isLoading}
-                    className="w-[50px]"
-                />
+                >
+                    <Entypo name="chevron-right" size={24} color={theme.background} />
+                </Button>
             </View>
 
             <SetPageModal

@@ -1,4 +1,4 @@
-import ThemedText from "@/components/themed/ThemedText";
+import {Text} from "@/components/ui/text";
 import {View} from "react-native";
 import useTheme from "@/hooks/useTheme";
 import GradientText from "@/components/themed/GradientText";
@@ -28,7 +28,7 @@ export default function GdTotalSkill({name, skill, allMusicSkill}: GdTotalSkillP
 
     return (
         <View className="flex-1">
-            <ThemedText className="text-center">{name}</ThemedText>
+            <Text className="text-base leading-6 text-center">{name}</Text>
             <View className="flex-row justify-center">
                 <View className="bg-[#272727] border-[5px] border-black">
                     <GradientText style={{color: skillColor}}
@@ -41,9 +41,9 @@ export default function GdTotalSkill({name, skill, allMusicSkill}: GdTotalSkillP
                     </GradientText>
                 </View>
             </View>
-            <ThemedText className="text-center">
-                All music skill: <ThemedText style={{color: allMusicColor}}>{formatGdSkillValue(allMusicSkill)}</ThemedText>
-            </ThemedText>
+            <Text className="text-base leading-6 text-center">
+                All music skill: <Text style={{color: allMusicColor}}>{formatGdSkillValue(allMusicSkill)}</Text>
+            </Text>
         </View>
     )
 }

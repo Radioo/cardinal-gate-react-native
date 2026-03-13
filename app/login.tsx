@@ -1,8 +1,9 @@
 import {TextInput, View} from "react-native";
 import {useRef, useState} from "react";
 import Logo from "@/assets/svg/Logo";
-import ThemedTextInput from "@/components/themed/ThemedTextInput";
-import ThemedButton from "@/components/themed/ThemedButton";
+import {Input} from "@/components/ui/input";
+import {Button} from "@/components/ui/button";
+import {Text} from "@/components/ui/text";
 import {router, Stack} from "expo-router";
 import * as Device from 'expo-device';
 import {LoginResponse} from "@/types/login-response";
@@ -58,7 +59,7 @@ export default function LoginScreen() {
             <Stack.Screen options={{ headerShown: false, gestureEnabled: false }} />
             <View className="flex-1 justify-center items-center gap-5">
                 <Logo width="50%" height="25%"/>
-                <ThemedTextInput value={form.username}
+                <Input value={form.username}
                                  onChangeText={(text) => handleInputChange('username', text)}
                                  placeholder="Username or email"
                                  autoCapitalize="none"
@@ -66,9 +67,9 @@ export default function LoginScreen() {
                                  returnKeyType="next"
                                  onSubmitEditing={() => passwordRef.current?.focus()}
                                  blurOnSubmit={false}
-                                 className="w-1/2 min-w-[300px] max-w-[400px]"
+                                 className="border-primary w-1/2 min-w-[300px] max-w-[400px]"
                 />
-                <ThemedTextInput ref={passwordRef}
+                <Input ref={passwordRef}
                                  value={form.password}
                                  onChangeText={(text) => handleInputChange('password', text)}
                                  placeholder="Password"
@@ -78,9 +79,9 @@ export default function LoginScreen() {
                                  returnKeyType="next"
                                  onSubmitEditing={() => totpRef.current?.focus()}
                                  blurOnSubmit={false}
-                                 className="w-1/2 min-w-[300px] max-w-[400px]"
+                                 className="border-primary w-1/2 min-w-[300px] max-w-[400px]"
                 />
-                <ThemedTextInput ref={totpRef}
+                <Input ref={totpRef}
                                  value={form.totpCode}
                                  onChangeText={(text) => handleInputChange('totpCode', text)}
                                  placeholder="TOTP code (if enabled)"
@@ -89,13 +90,19 @@ export default function LoginScreen() {
                                  textContentType="oneTimeCode"
                                  returnKeyType="go"
                                  onSubmitEditing={login}
-                                 className="w-1/2 min-w-[300px] max-w-[400px]"
+                                 className="border-primary w-1/2 min-w-[300px] max-w-[400px]"
                 />
-                <ThemedButton loading={loading}
-                              label="Login"
-                              onPress={login}
-                              className="w-1/2 min-w-[300px] max-w-[400px]"
-                />
+                <Button
+                    className="h-10 px-2.5 w-1/2 min-w-[300px] max-w-[400px]"
+                    disabled={loading}
+                    onPress={login}
+                >
+                    {loading ? (
+                        <View className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                    ) : (
+                        <Text className="font-bold">Login</Text>
+                    )}
+                </Button>
             </View>
         </>
     );
