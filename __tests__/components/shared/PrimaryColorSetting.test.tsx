@@ -33,13 +33,11 @@ jest.mock('@/store/theme', () => ({
     useThemeStore: () => ({primaryColor: '#f28b28', setPrimaryColor: mockSetPrimaryColor}),
 }));
 
-jest.mock('expo-blur', () => ({
-    BlurView: 'BlurView',
-}));
-
-jest.mock('react-native-safe-area-context', () => ({
-    SafeAreaProvider: ({children}: {children: React.ReactNode}) => children,
-}));
+jest.mock('@/components/shared/ModalBase', () => {
+    const {createElement} = require('react');
+    return {__esModule: true, default: ({children, visible}: {children: React.ReactNode, visible: boolean}) =>
+        visible ? createElement('View', null, children) : null};
+});
 
 jest.mock('@/components/themed/ThemedButton', () => {
     const {createElement} = require('react');

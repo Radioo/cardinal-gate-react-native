@@ -1,9 +1,10 @@
 module.exports = function (api) {
-    api.cache(true);
+    const isTest = api.env('test');
+    api.cache.using(() => isTest);
     return {
         presets: [
-            ['babel-preset-expo', { jsxImportSource: 'nativewind' }],
-            'nativewind/babel',
+            ['babel-preset-expo', isTest ? {} : { jsxImportSource: 'nativewind' }],
+            ...(isTest ? [] : ['nativewind/babel']),
         ],
         plugins: [
             '@babel/plugin-transform-export-namespace-from',

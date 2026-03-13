@@ -31,12 +31,25 @@ jest.mock('react-native-safe-area-context', () => {
     return {SafeAreaProvider: ({children}: {children: React.ReactNode}) => createElement('View', null, children)};
 });
 
-jest.mock('@react-navigation/core', () => {
+jest.mock('@react-navigation/native', () => {
     const {createElement} = require('react');
-    return {ThemeProvider: ({children}: {children: React.ReactNode}) => createElement('View', null, children)};
+    return {
+        ThemeProvider: ({children}: {children: React.ReactNode}) => createElement('View', null, children),
+        DarkTheme: {},
+        DefaultTheme: {},
+    };
 });
 
-jest.mock('@react-navigation/native', () => ({DarkTheme: {}, DefaultTheme: {}}));
+jest.mock('nativewind', () => ({
+    useColorScheme: () => ({setColorScheme: jest.fn()}),
+    vars: () => ({}),
+}));
+
+jest.mock('@rn-primitives/portal', () => {
+    const {createElement} = require('react');
+    return {PortalHost: () => createElement('View')};
+});
+
 jest.mock('@/hooks/useColorScheme', () => ({useColorScheme: () => 'dark'}));
 jest.mock('@/components/ui/toast', () => ({Toaster: () => null}));
 
