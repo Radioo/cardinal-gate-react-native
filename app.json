@@ -28,7 +28,8 @@
         "monochromeImage": "./assets/images/adaptive-icon-mono.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.cardinalgate.app"
+      "package": "com.cardinalgate.app",
+      "softwareKeyboardLayoutMode": "adjustResize"
     },
     "web": {
       "bundler": "metro",

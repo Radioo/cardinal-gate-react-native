@@ -56,7 +56,7 @@ export default function Layout() {
         <QueryClientProvider client={queryClient}>
             <GestureHandlerRootView style={[{flex: 1}, dynamicVars]}>
                 <ThemeProvider value={NAV_THEME[isDark ? 'dark' : 'light']}>
-                    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{flex: 1}}>
+                    <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
                         <Stack screenOptions={{headerShown: false}}></Stack>
                         <StatusBar style="auto"/>
                     </KeyboardAvoidingView>
