@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, screen} from '@testing-library/react-native';
+import {render, screen, fireEvent, waitFor} from '@testing-library/react-native';
 import {TestRendererJSON} from '../helpers/types';
 
 jest.mock('expo-router', () => ({
@@ -20,6 +20,11 @@ jest.mock('@/assets/svg/Logo', () => {
     return {__esModule: true, default: (props: Record<string, unknown>) => createElement('View', {...props, testID: 'logo'})};
 });
 
+import {fetchApi} from '@/services/api';
+import {setAuthToken} from '@/services/auth';
+import {displayMessage} from '@/services/message';
+import {MessageSeverity} from '@/enums/message-severity';
+import {router} from 'expo-router';
 import LoginScreen from '@/app/login';
 
 function findAllInTree(nodes: (TestRendererJSON | string)[], predicate: (n: TestRendererJSON) => boolean): TestRendererJSON[] {
@@ -56,6 +61,10 @@ async function getTree(): Promise<(TestRendererJSON | string)[]> {
 }
 
 describe('LoginScreen', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
     it('renders the logo', async () => {
         const nodes = await getTree();
         const logos = findAllInTree(nodes, n => n.props?.testID === 'logo');
@@ -93,5 +102,43 @@ describe('LoginScreen', () => {
         const usernameInput = inputs.find(n => n.props.placeholder === 'Username or email');
         expect(usernameInput).toBeDefined();
         expect(usernameInput?.props.autoCapitalize).toBe('none');
+    });
+
+    it('calls fetchApi and navigates on successful login', async () => {
+        const mockFetchApi = fetchApi as jest.Mock;
+        mockFetchApi.mockResolvedValueOnce({token: 'test-token-123'});
+        (setAuthToken as jest.Mock).mockResolvedValueOnce(undefined);
+
+        await render(<LoginScreen />);
+        fireEvent.changeText(screen.getByPlaceholderText('Username or email'), 'testuser');
+        fireEvent.changeText(screen.getByPlaceholderText('Password'), 'testpass');
+        fireEvent.press(screen.getByText('Login'));
+
+        await waitFor(() => {
+            expect(mockFetchApi).toHaveBeenCalledWith(
+                '/api2/authorize',
+                expect.objectContaining({method: 'POST'}),
+                {skipAuth: true},
+            );
+        });
+        expect(displayMessage).toHaveBeenCalledWith(MessageSeverity.SUCCESS, 'Login successful');
+        expect(setAuthToken).toHaveBeenCalledWith('test-token-123');
+        expect(router.replace).toHaveBeenCalledWith('/main/Home');
+    });
+
+    it('shows error message on login failure', async () => {
+        const mockFetchApi = fetchApi as jest.Mock;
+        mockFetchApi.mockRejectedValueOnce(new Error('Invalid credentials'));
+
+        await render(<LoginScreen />);
+        fireEvent.changeText(screen.getByPlaceholderText('Username or email'), 'baduser');
+        fireEvent.changeText(screen.getByPlaceholderText('Password'), 'badpass');
+        fireEvent.press(screen.getByText('Login'));
+
+        await waitFor(() => {
+            expect(displayMessage).toHaveBeenCalledWith(MessageSeverity.ERROR, 'Invalid credentials');
+        });
+        expect(setAuthToken).not.toHaveBeenCalled();
+        expect(router.replace).not.toHaveBeenCalled();
     });
 });
