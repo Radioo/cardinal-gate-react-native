@@ -1,4 +1,46 @@
-import {hexToHsl, hexToHslVar, lightenToHslVar, darkenToHslVar, buildPrimaryColorVars} from '@/lib/color-utils';
+import {hexToHsl, hexToHslVar, hexToRgba, lightenToHslVar, darkenToHslVar, buildPrimaryColorVars, buildColorPalette} from '@/lib/color-utils';
+
+jest.mock('polished', () => ({
+    darken: (_a: number, c: string) => c,
+    lighten: (_a: number, c: string) => c,
+}));
+
+describe('hexToRgba', () => {
+    it('converts hex to rgba with given alpha', () => {
+        expect(hexToRgba('#ff0000', 0.5)).toBe('rgba(255, 0, 0, 0.5)');
+    });
+
+    it('handles full opacity', () => {
+        expect(hexToRgba('#00ff00', 1)).toBe('rgba(0, 255, 0, 1)');
+    });
+
+    it('handles zero opacity', () => {
+        expect(hexToRgba('#0000ff', 0)).toBe('rgba(0, 0, 255, 0)');
+    });
+});
+
+describe('buildColorPalette', () => {
+    it('returns light and dark themes', () => {
+        const result = buildColorPalette('#f28b28');
+        expect(result).toHaveProperty('light');
+        expect(result).toHaveProperty('dark');
+    });
+
+    it('sets primary color in both themes', () => {
+        const result = buildColorPalette('#f28b28');
+        expect(result.light.primary).toBe('#f28b28');
+        expect(result.dark.primary).toBe('#f28b28');
+    });
+
+    it('includes all required theme properties', () => {
+        const result = buildColorPalette('#f28b28');
+        const keys = ['text', 'background', 'tint', 'icon', 'tabIconDefault', 'tabIconSelected', 'primary', 'primarySurface'];
+        for (const key of keys) {
+            expect(result.light).toHaveProperty(key);
+            expect(result.dark).toHaveProperty(key);
+        }
+    });
+});
 
 describe('hexToHsl', () => {
     it('converts pure red', () => {

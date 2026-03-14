@@ -20,16 +20,11 @@ export default function GradientBackground() {
     const opacity = isDark ? 0.12 : 0.08;
 
     if (Platform.OS === 'web') {
-        return (
-            <View
-                style={[
-                    styles.gradient,
-                    {
-                        backgroundImage: `radial-gradient(ellipse at top left, ${hexToRgba(primaryColor, opacity)} 0%, transparent 60%)`,
-                    } as WebViewStyle,
-                ]}
-            />
-        );
+        const webStyle: WebViewStyle = {
+            ...styles.gradient,
+            backgroundImage: `radial-gradient(ellipse at top left, ${hexToRgba(primaryColor, opacity)} 0%, transparent 60%)`,
+        };
+        return <View style={webStyle} />;
     }
 
     const gradientColors = [
