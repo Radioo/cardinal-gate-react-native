@@ -54,7 +54,7 @@ export default function PrimaryColorSetting(props: PrimaryColorSettingProps) {
 
     return (
         <ModalBase visible={props.visible}>
-            <View className="w-[70%] p-5 gap-2.5" style={{backgroundColor: theme.background}}>
+            <View className="w-full p-5 gap-2.5" style={{backgroundColor: theme.background}}>
                 <ColorPicker key={pickerKey} style={pickerStyle} value={tempColor.current} onCompleteJS={onSelectColor}>
                     <Preview style={squareCorners}/>
                     <Panel1 style={squareCorners} thumbInnerStyle={thumbStyle} thumbShape="rect"/>
