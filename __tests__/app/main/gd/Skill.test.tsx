@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, screen} from '@testing-library/react-native';
+import {render, screen, fireEvent} from '@testing-library/react-native';
 import Skill from '@/app/main/gd/Skill';
 
 const mockProfileData = {
@@ -16,6 +16,7 @@ const mockSkillData = {
 
 let mockProfileReturn: Record<string, unknown>;
 let mockSkillReturn: Record<string, unknown>;
+let lastSkillVersion: number | undefined;
 
 jest.mock('@/hooks/queries/useGdProfile', () => ({
     __esModule: true,
@@ -24,15 +25,38 @@ jest.mock('@/hooks/queries/useGdProfile', () => ({
 
 jest.mock('@/hooks/queries/useGdSkill', () => ({
     __esModule: true,
-    default: () => mockSkillReturn,
+    default: (version: number | undefined) => {
+        lastSkillVersion = version;
+        return mockSkillReturn;
+    },
 }));
 
-jest.mock('@react-native-picker/picker', () => {
+jest.mock('@/components/ui/select', () => {
     const {createElement} = require('react');
-    const Picker = ({children, ...props}: {children: React.ReactNode} & Record<string, unknown>) =>
-        createElement('View', {testID: 'picker', ...props}, children);
-    Picker.Item = (props: Record<string, unknown>) => createElement('View', {testID: 'picker-item', ...props});
-    return {Picker};
+    let onValueChangeRef: ((option: {value: string; label: string}) => void) | null = null;
+
+    function Select({children, value, onValueChange}: {children: React.ReactNode; value: {value: string; label: string}; onValueChange: (option: {value: string; label: string}) => void}) {
+        onValueChangeRef = onValueChange;
+        return createElement('View', {testID: 'select', selectedValue: value?.value}, children);
+    }
+    function SelectTrigger({children, ...props}: {children: React.ReactNode} & Record<string, unknown>) {
+        return createElement('View', {testID: 'select-trigger', ...props}, children);
+    }
+    function SelectValue(props: Record<string, unknown>) {
+        return createElement('View', {testID: 'select-value', ...props});
+    }
+    function SelectContent({children}: {children: React.ReactNode}) {
+        return createElement('View', {testID: 'select-content'}, children);
+    }
+    function SelectItem(props: Record<string, unknown>) {
+        return createElement('View', {
+            testID: 'select-item',
+            ...props,
+            onPress: () => onValueChangeRef?.({value: props.value as string, label: props.label as string}),
+        });
+    }
+
+    return {Select, SelectTrigger, SelectValue, SelectContent, SelectItem};
 });
 
 jest.mock('@/components/gd/GdSkillTabs', () => {
@@ -64,23 +88,32 @@ describe('Skill', () => {
     beforeEach(() => {
         mockProfileReturn = {data: mockProfileData, isPending: false, isError: false, error: null, refetch: jest.fn()};
         mockSkillReturn = {data: mockSkillData, isPending: false, isError: false, error: null, refetch: jest.fn()};
+        lastSkillVersion = undefined;
     });
 
-    it('renders the skill page with picker and skill data', async () => {
+    it('renders the skill page with select and skill data', async () => {
         await render(<Skill />);
-        const json = JSON.stringify(screen.toJSON());
-        expect(json).toBeTruthy();
-        expect(json).toContain('picker');
-        expect(json).toContain('total-skill');
-        expect(json).toContain('skill-tabs');
+        expect(screen.getByTestId('select')).toBeTruthy();
+        expect(screen.getAllByTestId('total-skill')).toHaveLength(2);
+        expect(screen.getByTestId('skill-tabs')).toBeTruthy();
     });
 
-    it('renders picker items for each game version', async () => {
+    it('renders select items for each game version', async () => {
         await render(<Skill />);
-        const pickerItems = screen.getAllByTestId('picker-item');
-        expect(pickerItems).toHaveLength(2);
-        expect(pickerItems[0].props.label).toBe('GITADORA HIGH-VOLTAGE');
-        expect(pickerItems[1].props.label).toBe('GITADORA FUZZ-UP');
+        const selectItems = screen.getAllByTestId('select-item');
+        expect(selectItems).toHaveLength(2);
+        expect(selectItems[0].props.label).toBe('GITADORA HIGH-VOLTAGE');
+        expect(selectItems[1].props.label).toBe('GITADORA FUZZ-UP');
+    });
+
+    it('changes version when a different game is selected', async () => {
+        await render(<Skill />);
+        expect(lastSkillVersion).toBe(10);
+
+        const selectItems = screen.getAllByTestId('select-item');
+        fireEvent.press(selectItems[1]);
+
+        expect(lastSkillVersion).toBe(9);
     });
 
     it('renders two GdTotalSkill components for DM and GF', async () => {
