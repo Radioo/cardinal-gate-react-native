@@ -58,8 +58,8 @@ export default function Skill() {
                 ))}
             </Picker>
             <View className="flex-row" style={{backgroundColor: theme.background}}>
-                <GdTotalSkill name="🥁 Skill" skill={drumSkill?.skill} allMusicSkill={drumSkill?.all_music_skill}/>
-                <GdTotalSkill name="🎸 Skill" skill={guitarSkill?.skill} allMusicSkill={guitarSkill?.all_music_skill}/>
+                <GdTotalSkill name="🥁 Skill" skill={drumSkill.skill} allMusicSkill={drumSkill.all_music_skill}/>
+                <GdTotalSkill name="🎸 Skill" skill={guitarSkill.skill} allMusicSkill={guitarSkill.all_music_skill}/>
             </View>
             <GdSkillTabs data={skillQuery.data}/>
         </>
