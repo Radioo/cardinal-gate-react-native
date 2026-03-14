@@ -1,6 +1,6 @@
 import {IidxDifficulty} from "@/enums/iidx-difficulty";
 import {FlatList, View} from "react-native";
-import IidxDifficultyItem, {IidxDifficultyProps} from "@/components/iidx/IidxDifficulty";
+import IidxDifficultyItem, {IidxDifficultyProps} from "@/components/iidx/IidxDifficultyItem";
 import {Card} from "@/components/ui/card";
 import {Text} from "@/components/ui/text";
 
@@ -8,7 +8,7 @@ const difficulties: IidxDifficultyProps[] = [];
 Object.keys(IidxDifficulty).forEach(difficulty => {
     for(let i = 1; i <= 12; i++) {
         difficulties.push({
-            difficulty: difficulty as IidxDifficulty,
+            difficulty: IidxDifficulty[difficulty as keyof typeof IidxDifficulty],
             level: i,
         })
     }

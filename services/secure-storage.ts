@@ -2,7 +2,7 @@ import {SecureValue} from "@/enums/secure-value";
 import * as SecureStore from 'expo-secure-store';
 import {Platform} from "react-native";
 
-export const saveSecureValue = async (key: SecureValue, value: string) => {
+export async function saveSecureValue(key: SecureValue, value: string) {
     if(Platform.OS === 'web') {
         localStorage.setItem(key, value);
         return;
@@ -11,7 +11,7 @@ export const saveSecureValue = async (key: SecureValue, value: string) => {
     await SecureStore.setItemAsync(key, value);
 }
 
-export const getSecureValue = (key: SecureValue): Promise<string | null> => {
+export function getSecureValue(key: SecureValue): Promise<string | null> {
     if(Platform.OS === 'web') {
         return Promise.resolve(localStorage.getItem(key));
     }
@@ -19,7 +19,7 @@ export const getSecureValue = (key: SecureValue): Promise<string | null> => {
     return SecureStore.getItemAsync(key);
 }
 
-export const clearSecureValue = async (key: SecureValue) => {
+export async function clearSecureValue(key: SecureValue) {
     if(Platform.OS === 'web') {
         localStorage.removeItem(key);
         return;

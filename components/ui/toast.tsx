@@ -1,21 +1,19 @@
 import {useEffect, useRef} from 'react';
 import {Animated, Pressable, View} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {CircleCheck, CircleX, X} from 'lucide-react-native';
-import {Portal} from '@rn-primitives/portal';
 import {cn} from '@/lib/utils';
 import {Text} from '@/components/ui/text';
 import {Icon} from '@/components/ui/icon';
 import {MessageSeverity} from '@/enums/message-severity';
-import {useToastStore} from '@/store/toast';
 
-function ToastItem({id, severity, title, description}: {
-    id: string;
+type ToastItemProps = {
     severity: MessageSeverity;
     title: string;
     description: string;
-}) {
-    const removeToast = useToastStore((s) => s.removeToast);
+    onDismiss: () => void;
+};
+
+function ToastItem({severity, title, description, onDismiss}: ToastItemProps) {
     const translateY = useRef(new Animated.Value(-100)).current;
     const opacity = useRef(new Animated.Value(0)).current;
 
@@ -45,7 +43,7 @@ function ToastItem({id, severity, title, description}: {
                     <Text className="text-sm font-semibold">{title}</Text>
                     <Text className="text-sm text-muted-foreground">{description}</Text>
                 </View>
-                <Pressable onPress={() => removeToast(id)} hitSlop={8}>
+                <Pressable onPress={onDismiss} hitSlop={8}>
                     <Icon as={X} className="text-muted-foreground" size={16} />
                 </Pressable>
             </View>
@@ -53,23 +51,5 @@ function ToastItem({id, severity, title, description}: {
     );
 }
 
-export function Toaster() {
-    const toasts = useToastStore((s) => s.toasts);
-    const insets = useSafeAreaInsets();
-
-    if (toasts.length === 0) return null;
-
-    return (
-        <Portal name="toaster">
-            <View
-                style={{top: insets.top + 8}}
-                className="absolute left-4 right-4 z-50 gap-2"
-                pointerEvents="box-none"
-            >
-                {toasts.map((toast) => (
-                    <ToastItem key={toast.id} {...toast} />
-                ))}
-            </View>
-        </Portal>
-    );
-}
+export {ToastItem};
+export type {ToastItemProps};

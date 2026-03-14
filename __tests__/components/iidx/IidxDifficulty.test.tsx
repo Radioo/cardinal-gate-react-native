@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react-native';
-import IidxDifficultyItem from '@/components/iidx/IidxDifficulty';
+import IidxDifficultyItem from '@/components/iidx/IidxDifficultyItem';
 import {IidxDifficulty} from '@/enums/iidx-difficulty';
 
 jest.mock('polished', () => ({

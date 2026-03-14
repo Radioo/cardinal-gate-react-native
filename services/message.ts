@@ -1,7 +1,7 @@
 import {MessageSeverity} from "@/enums/message-severity";
 import {useToastStore} from "@/store/toast";
 
-const getTitle = (severity: MessageSeverity) => {
+function getTitle(severity: MessageSeverity) {
     switch (severity) {
         case MessageSeverity.ERROR:
             return 'Error';
@@ -12,7 +12,7 @@ const getTitle = (severity: MessageSeverity) => {
     }
 }
 
-export const displayMessage = (severity: MessageSeverity, message: string) => {
+export function displayMessage(severity: MessageSeverity, message: string) {
     useToastStore.getState().addToast({
         severity,
         title: getTitle(severity),

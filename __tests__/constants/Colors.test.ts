@@ -3,10 +3,10 @@ jest.mock('polished', () => ({
     lighten: (_a: number, c: string) => c,
 }));
 
-import {Colors} from '@/constants/Colors';
+import {buildColorPalette} from '@/constants/Colors';
 
-describe('Colors', () => {
-    const result = Colors('#f28b28');
+describe('buildColorPalette', () => {
+    const result = buildColorPalette('#f28b28');
 
     it('returns an object with light and dark keys', () => {
         expect(result).toHaveProperty('light');

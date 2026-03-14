@@ -8,7 +8,7 @@ import {FontAwesome} from "@expo/vector-icons";
 import {useState} from "react";
 import ShareImageModal from "@/components/shared/ShareImageModal";
 import {Card} from "@/components/ui/card";
-import IidxDifficultyItem from "@/components/iidx/IidxDifficulty";
+import IidxDifficultyItem from "@/components/iidx/IidxDifficultyItem";
 import {getIidxScoreCardUrl} from "@/services/game";
 
 type IidxPlayRowProps = {

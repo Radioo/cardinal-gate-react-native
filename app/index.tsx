@@ -11,7 +11,10 @@ export default function Root() {
     useEffect(() => {
         getSecureValue(SecureValue.TOKEN)
             .then(token => setHasToken(token !== null))
-            .catch(() => setHasToken(false))
+            .catch((error) => {
+                console.error('Failed to read secure storage:', error);
+                setHasToken(false);
+            })
             .finally(() => setLoading(false));
     }, []);
 

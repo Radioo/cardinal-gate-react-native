@@ -13,7 +13,7 @@ type GdSkillListItemProps = {
 
 const GdSkillListItemInner = ({item, index}: GdSkillListItemProps) => {
     return (
-        <Card className="border-primary bg-primary-surface gap-0 rounded-none p-1.5 shadow-none flex-row gap-[5px] items-center mx-2.5 flex-1">
+        <Card className="border-primary bg-primary-surface rounded-none p-1.5 shadow-none flex-row gap-[5px] items-center mx-2.5 flex-1">
             <Text className="leading-10 text-3xl font-mono font-bold">#{(index + 1).toString().padStart(2, '0')}</Text>
             <View className="flex-col justify-between flex-1">
                 <Text className="text-base leading-6" numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>

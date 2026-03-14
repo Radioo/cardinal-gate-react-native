@@ -4,7 +4,6 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import ShareImageModal from '@/components/shared/ShareImageModal';
 
 jest.mock('expo-sharing', () => ({isAvailableAsync: jest.fn().mockResolvedValue(true), shareAsync: jest.fn()}));
-jest.mock('expo-file-system', () => ({cacheDirectory: '/tmp/', EncodingType: {Base64: 'base64'}, writeAsStringAsync: jest.fn()}));
 jest.mock('@/services/image', () => ({downloadToLocalFile: jest.fn().mockResolvedValue('/tmp/scorecard.png')}));
 
 jest.mock('@/components/shared/ApiImage', () => {

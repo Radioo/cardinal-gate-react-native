@@ -51,7 +51,7 @@ jest.mock('@rn-primitives/portal', () => {
 });
 
 jest.mock('@/hooks/useColorScheme', () => ({useColorScheme: () => 'dark'}));
-jest.mock('@/components/ui/toast', () => ({Toaster: () => null}));
+jest.mock('@/components/shared/Toaster', () => ({Toaster: () => null}));
 
 import Layout, {ErrorBoundary} from '@/app/_layout';
 

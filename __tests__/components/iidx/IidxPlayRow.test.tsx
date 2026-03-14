@@ -9,7 +9,7 @@ jest.mock('@/components/shared/ShareImageModal', () => {
     return {__esModule: true, default: (props: Record<string, unknown>) => createElement('View', {testID: 'share-modal', ...props})};
 });
 
-jest.mock('@/components/iidx/IidxDifficulty', () => {
+jest.mock('@/components/iidx/IidxDifficultyItem', () => {
     const {createElement} = require('react');
     return {__esModule: true, default: (props: Record<string, unknown>) => createElement('View', {testID: 'difficulty', ...props})};
 });

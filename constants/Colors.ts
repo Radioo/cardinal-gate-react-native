@@ -1,6 +1,6 @@
 import {darken, lighten} from "polished";
 
-export const Colors = (primary: string) => {
+export function buildColorPalette(primary: string) {
     return {
         light: {
             text: '#11181C',
