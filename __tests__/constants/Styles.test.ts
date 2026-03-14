@@ -1,4 +1,4 @@
-import {tabBarLabelStyle} from '@/constants/Styles';
+import {tabBarLabelStyle} from '@/constants/styles';
 
 describe('tabBarLabelStyle', () => {
     it('is an object', () => {

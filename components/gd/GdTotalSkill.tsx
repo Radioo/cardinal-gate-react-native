@@ -2,7 +2,7 @@ import {Text} from "@/components/ui/text";
 import {View} from "react-native";
 import useTheme from "@/hooks/useTheme";
 import GradientText from "@/components/themed/GradientText";
-import {SKILL_GRADIENT_TIERS} from "@/constants/GdSkillTiers";
+import {SKILL_GRADIENT_TIERS} from "@/constants/gd-skill-tiers";
 import {formatGdSkillValue} from "@/services/game";
 
 const NO_DATA_COLOR = '#888888';

@@ -1,4 +1,4 @@
-import {SKILL_GRADIENT_TIERS} from '@/constants/GdSkillTiers';
+import {SKILL_GRADIENT_TIERS} from '@/constants/gd-skill-tiers';
 
 describe('SKILL_GRADIENT_TIERS', () => {
     it('has 16 entries', () => {
