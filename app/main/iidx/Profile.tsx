@@ -5,6 +5,7 @@ import useTheme from "@/hooks/useTheme";
 import {User, Hash, Star, MousePointerClick} from "lucide-react-native";
 import ProfileRow from "@/components/shared/ProfileRow";
 import ProfileLayout from "@/components/shared/ProfileLayout";
+import CardGrid from "@/components/shared/CardGrid";
 import {formatArcadeId} from "@/services/game";
 
 export default function Profile() {
@@ -14,7 +15,7 @@ export default function Profile() {
     return (
         <ProfileLayout query={query}>
             {(data) => (
-                <>
+                <CardGrid>
                     <ProfileRow
                         icon={<User size={24} color={theme.text}/>}
                         label={`DJ ${data.dj_name}`}
@@ -50,7 +51,7 @@ export default function Profile() {
                             </View>
                         }
                     />
-                </>
+                </CardGrid>
             )}
         </ProfileLayout>
     )

@@ -10,7 +10,7 @@ type ProfileRowProps = {
 
 export default function ProfileRow({icon, label, value}: ProfileRowProps) {
     return (
-        <Card className="border-primary bg-primary-surface rounded-none p-1.5 flex-row items-center gap-1.5 m-1.5">
+        <Card className="border-primary bg-primary-surface rounded-none p-1.5 flex-row items-center gap-1.5 m-1.5 flex-1">
             {icon}
             <Text className="text-base leading-6 mr-auto">{label}</Text>
             {typeof value === 'string' ? <Text className="text-base leading-6">{value}</Text> : value}

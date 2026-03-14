@@ -3,6 +3,7 @@ import {User} from "lucide-react-native";
 import useGdProfile from "@/hooks/queries/useGdProfile";
 import ProfileRow from "@/components/shared/ProfileRow";
 import ProfileLayout from "@/components/shared/ProfileLayout";
+import CardGrid from "@/components/shared/CardGrid";
 
 export default function Profile() {
     const query = useGdProfile();
@@ -11,11 +12,13 @@ export default function Profile() {
     return (
         <ProfileLayout query={query}>
             {(data) => (
-                <ProfileRow
-                    icon={<User size={24} color={theme.text}/>}
-                    label={data.name}
-                    value=""
-                />
+                <CardGrid>
+                    <ProfileRow
+                        icon={<User size={24} color={theme.text}/>}
+                        label={data.name}
+                        value=""
+                    />
+                </CardGrid>
             )}
         </ProfileLayout>
     )

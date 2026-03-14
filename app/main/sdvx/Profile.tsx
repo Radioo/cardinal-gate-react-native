@@ -4,6 +4,7 @@ import useTheme from "@/hooks/useTheme";
 import {User, Star, Hexagon} from "lucide-react-native";
 import ProfileRow from "@/components/shared/ProfileRow";
 import ProfileLayout from "@/components/shared/ProfileLayout";
+import CardGrid from "@/components/shared/CardGrid";
 import {formatArcadeId} from "@/services/game";
 
 export default function Profile() {
@@ -13,7 +14,7 @@ export default function Profile() {
     return (
         <ProfileLayout query={query}>
             {(data) => (
-                <>
+                <CardGrid>
                     <ProfileRow
                         icon={<User size={24} color={theme.text}/>}
                         label={data.name}
@@ -28,10 +29,10 @@ export default function Profile() {
                         <ProfileRow
                             icon={<Hexagon size={24} color={theme.text}/>}
                             label="VOLFORCE"
-                            value={`${data.volforce.formatted_value} ${data.volforce.name}`}
+                            value={`${data.volforce.formattedValue} ${data.volforce.name}`}
                         />
                     )}
-                </>
+                </CardGrid>
             )}
         </ProfileLayout>
     )
