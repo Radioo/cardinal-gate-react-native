@@ -1,9 +1,9 @@
-import * as FileSystem from 'expo-file-system/legacy';
+import {File, Paths} from 'expo-file-system';
 import {fetchApiBlob} from "@/services/api";
 
 export async function downloadToLocalFile(url: string, filename: string): Promise<string> {
     const response = await fetchApiBlob(url, undefined, {skipRootUrl: true});
-    const targetPath = FileSystem.cacheDirectory + filename;
+    const file = new File(Paths.cache, filename);
 
     const b64 = await new Promise<string>((resolve, reject) => {
         const reader = new FileReader();
@@ -12,9 +12,7 @@ export async function downloadToLocalFile(url: string, filename: string): Promis
         reader.readAsDataURL(response);
     });
 
-    await FileSystem.writeAsStringAsync(targetPath, b64.split(',')[1], {
-        encoding: FileSystem.EncodingType.Base64,
-    });
+    file.write(b64.split(',')[1], {encoding: 'base64'});
 
-    return targetPath;
+    return file.uri;
 }

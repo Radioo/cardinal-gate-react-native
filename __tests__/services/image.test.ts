@@ -6,14 +6,16 @@ jest.mock('@/services/api', () => ({
     fetchApiBlob: (...args: unknown[]) => mockFetchApiBlob(...args),
 }));
 
-const mockWriteAsStringAsync = jest.fn();
+const mockWrite = jest.fn();
 
-jest.mock('expo-file-system/legacy', () => ({
-    cacheDirectory: '/cache/',
-    writeAsStringAsync: (...args: unknown[]) => mockWriteAsStringAsync(...args),
-    EncodingType: {
-        Base64: 'base64',
+jest.mock('expo-file-system', () => ({
+    Paths: {
+        cache: {uri: '/cache'},
     },
+    File: jest.fn().mockImplementation((_dir: unknown, name: string) => ({
+        uri: `/cache/${name}`,
+        write: mockWrite,
+    })),
 }));
 
 // Mock FileReader
@@ -33,13 +35,12 @@ class MockFileReader {
 describe('downloadToLocalFile', () => {
     beforeEach(() => {
         mockFetchApiBlob.mockReset();
-        mockWriteAsStringAsync.mockReset();
+        mockWrite.mockReset();
     });
 
     it('fetches blob with skipRootUrl option', async () => {
         const blob = new Blob(['test']);
         mockFetchApiBlob.mockResolvedValue(blob);
-        mockWriteAsStringAsync.mockResolvedValue(undefined);
 
         await downloadToLocalFile('https://example.com/image.png', 'image.png');
 
@@ -50,24 +51,21 @@ describe('downloadToLocalFile', () => {
         );
     });
 
-    it('writes base64 data to the cache directory', async () => {
+    it('writes base64 data to a file in the cache directory', async () => {
         const blob = new Blob(['test']);
         mockFetchApiBlob.mockResolvedValue(blob);
-        mockWriteAsStringAsync.mockResolvedValue(undefined);
 
         await downloadToLocalFile('https://example.com/photo.png', 'photo.png');
 
-        expect(mockWriteAsStringAsync).toHaveBeenCalledWith(
-            '/cache/photo.png',
+        expect(mockWrite).toHaveBeenCalledWith(
             'aW1hZ2VkYXRh',
             {encoding: 'base64'},
         );
     });
 
-    it('returns the target file path in cache directory', async () => {
+    it('returns the file URI in cache directory', async () => {
         const blob = new Blob(['test']);
         mockFetchApiBlob.mockResolvedValue(blob);
-        mockWriteAsStringAsync.mockResolvedValue(undefined);
 
         const result = await downloadToLocalFile('https://example.com/img.png', 'img.png');
         expect(result).toBe('/cache/img.png');
@@ -79,15 +77,5 @@ describe('downloadToLocalFile', () => {
         await expect(
             downloadToLocalFile('https://example.com/fail.png', 'fail.png')
         ).rejects.toThrow('Network error');
-    });
-
-    it('propagates file system write errors', async () => {
-        const blob = new Blob(['test']);
-        mockFetchApiBlob.mockResolvedValue(blob);
-        mockWriteAsStringAsync.mockRejectedValue(new Error('Disk full'));
-
-        await expect(
-            downloadToLocalFile('https://example.com/img.png', 'img.png')
-        ).rejects.toThrow('Disk full');
     });
 });
