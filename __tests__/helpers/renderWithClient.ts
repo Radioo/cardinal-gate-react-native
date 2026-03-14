@@ -10,8 +10,7 @@ export async function renderWithClient(
     client: QueryClient,
     component: React.ReactElement,
 ): Promise<RenderResult> {
-    const result = render(
+    return await render(
         React.createElement(QueryClientProvider, {client}, component)
     );
-    return result;
 }
