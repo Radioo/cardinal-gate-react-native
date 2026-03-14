@@ -17,6 +17,7 @@ import {useThemeStore} from "@/store/theme";
 import {buildPrimaryColorVars} from "@/lib/color-utils";
 import {useEffect, useLayoutEffect, useMemo} from "react";
 import {PortalHost} from "@rn-primitives/portal";
+import GradientBackground from "@/components/shared/GradientBackground";
 
 export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
     return (
@@ -53,7 +54,8 @@ export default function Layout() {
     return (
         <QueryClientProvider client={queryClient}>
             <GestureHandlerRootView style={{flex: 1}}>
-                <View style={[{flex: 1}, dynamicVars]}>
+                <View style={[{flex: 1, backgroundColor: isDark ? '#151718' : '#fff'}, dynamicVars]}>
+                    <GradientBackground />
                     <ThemeProvider value={navTheme}>
                         <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
                             <Stack screenOptions={{headerShown: false}}></Stack>

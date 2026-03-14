@@ -30,7 +30,7 @@ export function getNavTheme(primaryColor: string, isDark: boolean): Theme {
   return {
     ...base,
     colors: {
-      background: colors.background,
+      background: 'transparent',
       border: colors.border,
       card: colors.card,
       notification: colors.destructive,
