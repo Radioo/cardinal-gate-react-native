@@ -14,7 +14,7 @@ jest.mock('expo-router', () => ({
 jest.mock('expo-device', () => ({deviceName: 'Test Device'}));
 jest.mock('@/services/api', () => ({__esModule: true, fetchApi: jest.fn()}));
 jest.mock('@/services/auth', () => ({setAuthToken: jest.fn(), clearSession: jest.fn().mockResolvedValue(undefined)}));
-jest.mock('@/services/message', () => ({displayMessage: jest.fn()}));
+jest.mock('@/lib/notifications', () => ({displayMessage: jest.fn()}));
 
 jest.mock('@/assets/svg/Logo', () => {
     const {createElement} = require('react');
@@ -23,7 +23,7 @@ jest.mock('@/assets/svg/Logo', () => {
 
 import {fetchApi} from '@/services/api';
 import {setAuthToken} from '@/services/auth';
-import {displayMessage} from '@/services/message';
+import {displayMessage} from '@/lib/notifications';
 import {MessageSeverity} from '@/enums/message-severity';
 import {router} from 'expo-router';
 import LoginScreen from '@/app/login';
