@@ -22,6 +22,10 @@ describe('useIidxProfile', () => {
             client,
             React.createElement(TestComponent, {onResult: () => {}})
         );
+        const queryCache = client.getQueryCache();
+        const queries = queryCache.getAll();
+        expect(queries.length).toBeGreaterThan(0);
+        expect(queries[0].queryKey).toEqual(['iidxProfile']);
         client.cancelQueries();
         tree.unmount();
         client.clear();

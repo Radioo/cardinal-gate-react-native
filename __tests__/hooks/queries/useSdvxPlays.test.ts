@@ -22,6 +22,10 @@ describe('useSdvxPlays', () => {
             client,
             React.createElement(TestComponent, {page: 1, onResult: () => {}})
         );
+        const queryCache = client.getQueryCache();
+        const queries = queryCache.getAll();
+        expect(queries.length).toBeGreaterThan(0);
+        expect(queries[0].queryKey).toEqual(['sdvxPlays', 1]);
         client.cancelQueries();
         tree.unmount();
         client.clear();
