@@ -1,5 +1,6 @@
 import {MessageSeverity} from "@/enums/message-severity";
 import {useToastStore} from "@/store/toast";
+import * as Haptics from 'expo-haptics';
 
 function getTitle(severity: MessageSeverity) {
     switch (severity) {
@@ -18,4 +19,5 @@ export function displayMessage(severity: MessageSeverity, message: string) {
         title: getTitle(severity),
         description: message,
     });
+    Haptics.notificationAsync(severity === MessageSeverity.SUCCESS ? Haptics.NotificationFeedbackType.Success : Haptics.NotificationFeedbackType.Error);
 }
