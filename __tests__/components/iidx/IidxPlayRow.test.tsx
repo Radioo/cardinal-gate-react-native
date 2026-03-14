@@ -3,6 +3,7 @@ import {render, screen} from '@testing-library/react-native';
 import IidxPlayRow from '@/components/iidx/IidxPlayRow';
 import {IidxPlay} from '@/types/iidx-play';
 import {TestRendererJSON} from '../../helpers/types';
+import {collectText} from '../../helpers/tree-utils';
 
 jest.mock('@/components/shared/ShareImageModal', () => {
     const {createElement} = require('react');
@@ -36,31 +37,18 @@ const mockPlay: IidxPlay = {
     has_score_card: true,
 } as IidxPlay;
 
-function collectTextContent(node: TestRendererJSON | TestRendererJSON[] | string | null): string[] {
-    if (node === null) return [];
-    if (typeof node === 'string') return [node];
-    if (Array.isArray(node)) return node.flatMap(n => collectTextContent(n));
-    const results: string[] = [];
-    if (node.children) {
-        for (const child of node.children) {
-            results.push(...collectTextContent(child));
-        }
-    }
-    return results;
-}
-
 describe('IidxPlayRow', () => {
     it('renders the song name', async () => {
         await render(<IidxPlayRow play={mockPlay}/>);
         const tree = screen.toJSON() as TestRendererJSON;
-        const texts = collectTextContent(tree);
+        const texts = collectText(tree);
         expect(texts).toContain('Test Song');
     });
 
     it('renders ex score with EX suffix', async () => {
         await render(<IidxPlayRow play={mockPlay}/>);
         const tree = screen.toJSON() as TestRendererJSON;
-        const texts = collectTextContent(tree);
+        const texts = collectText(tree);
         // toLocaleString produces "1,500" and then " EX" is appended
         const exScoreText = texts.find(t => t.includes('EX'));
         expect(exScoreText).toBeTruthy();
@@ -69,7 +57,7 @@ describe('IidxPlayRow', () => {
     it('renders percentage', async () => {
         await render(<IidxPlayRow play={mockPlay}/>);
         const tree = screen.toJSON() as TestRendererJSON;
-        const texts = collectTextContent(tree);
+        const texts = collectText(tree);
         // percentage.toFixed(2) = "85.50" + "%"
         const pctText = texts.find(t => t.includes('85.50'));
         expect(pctText).toBeTruthy();
@@ -78,14 +66,14 @@ describe('IidxPlayRow', () => {
     it('renders grade text', async () => {
         await render(<IidxPlayRow play={mockPlay}/>);
         const tree = screen.toJSON() as TestRendererJSON;
-        const texts = collectTextContent(tree);
+        const texts = collectText(tree);
         expect(texts).toContain('AAA');
     });
 
     it('renders perfect and great counts', async () => {
         await render(<IidxPlayRow play={mockPlay}/>);
         const tree = screen.toJSON() as TestRendererJSON;
-        const texts = collectTextContent(tree);
+        const texts = collectText(tree);
         const pgText = texts.find(t => t.includes('PG'));
         expect(pgText).toBeTruthy();
         const grText = texts.find(t => t.includes('GR'));
@@ -95,7 +83,7 @@ describe('IidxPlayRow', () => {
     it('renders miss count when present', async () => {
         await render(<IidxPlayRow play={mockPlay}/>);
         const tree = screen.toJSON() as TestRendererJSON;
-        const texts = collectTextContent(tree);
+        const texts = collectText(tree);
         const mcText = texts.find(t => t.includes('MC'));
         expect(mcText).toBeTruthy();
     });
@@ -104,7 +92,7 @@ describe('IidxPlayRow', () => {
         const playNoMiss = {...mockPlay, miss_count: null} as IidxPlay;
         await render(<IidxPlayRow play={playNoMiss}/>);
         const tree = screen.toJSON() as TestRendererJSON;
-        const texts = collectTextContent(tree);
+        const texts = collectText(tree);
         const mcText = texts.find(t => t.includes('MC'));
         expect(mcText).toBeUndefined();
     });

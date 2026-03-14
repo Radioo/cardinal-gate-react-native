@@ -1,6 +1,7 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 import {TestRendererJSON} from '../../helpers/types';
+import {collectText} from '../../helpers/tree-utils';
 import PlayCounts from '@/components/shared/PlayCounts';
 
 jest.mock('lucide-react-native', () => ({
@@ -30,19 +31,6 @@ jest.mock('@/services/game', () => ({
     },
 }));
 
-function collectTextContent(node: TestRendererJSON | TestRendererJSON[] | string | null): string[] {
-    if (node === null) return [];
-    if (typeof node === 'string') return [node];
-    if (Array.isArray(node)) return node.flatMap(n => collectTextContent(n));
-    const results: string[] = [];
-    if (node.children) {
-        for (const child of node.children) {
-            results.push(...collectTextContent(child));
-        }
-    }
-    return results;
-}
-
 describe('PlayCounts', () => {
     it('renders loading state when isPending is true', async () => {
         mockUseSummary.mockReturnValue({
@@ -51,7 +39,7 @@ describe('PlayCounts', () => {
         });
         await render(<PlayCounts />);
         const tree = screen.toJSON() as TestRendererJSON;
-        const texts = collectTextContent(tree);
+        const texts = collectText(tree);
         // FullScreenLoader does not show text content like "plays"
         expect(texts.find(t => t.includes('plays'))).toBeUndefined();
     });
@@ -68,7 +56,7 @@ describe('PlayCounts', () => {
         });
         await render(<PlayCounts />);
         const tree = screen.toJSON() as TestRendererJSON;
-        const texts = collectTextContent(tree);
+        const texts = collectText(tree);
         expect(texts).toContain('beatmania IIDX');
         expect(texts).toContain('SOUND VOLTEX');
     });
@@ -85,7 +73,7 @@ describe('PlayCounts', () => {
         });
         await render(<PlayCounts />);
         const tree = screen.toJSON() as TestRendererJSON;
-        const texts = collectTextContent(tree);
+        const texts = collectText(tree);
         // count.toLocaleString() + " plays" renders as separate children
         expect(texts.find(t => t.includes('100'))).toBeTruthy();
         expect(texts.find(t => t.includes('200'))).toBeTruthy();
@@ -103,7 +91,7 @@ describe('PlayCounts', () => {
         });
         await render(<PlayCounts />);
         const tree = screen.toJSON() as TestRendererJSON;
-        const texts = collectTextContent(tree);
+        const texts = collectText(tree);
         // 150 plays * 2 min = 300 min = 5 hours
         expect(texts).toContain('Estimated play time: ');
         expect(texts).toContain('5');
@@ -119,7 +107,7 @@ describe('PlayCounts', () => {
         });
         await render(<PlayCounts />);
         const tree = screen.toJSON() as TestRendererJSON;
-        const texts = collectTextContent(tree);
+        const texts = collectText(tree);
         expect(texts).toContain('Estimated play time: ');
         expect(texts).toContain('0');
         expect(texts).toContain(' hours');
@@ -136,7 +124,7 @@ describe('PlayCounts', () => {
         });
         await render(<PlayCounts />);
         const tree = screen.toJSON() as TestRendererJSON;
-        const texts = collectTextContent(tree);
+        const texts = collectText(tree);
         // 12345.toLocaleString() = "12,345"
         expect(texts.find(t => t.includes('12,345'))).toBeTruthy();
     });

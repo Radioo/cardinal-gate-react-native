@@ -1,7 +1,7 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 import {TestRendererJSON} from '../../../helpers/types';
-import {findAll} from '../../../helpers/tree-utils';
+import {collectText, findAll} from '../../../helpers/tree-utils';
 
 let capturedPrimaryColorSettingProps: Record<string, unknown> | null = null;
 
@@ -21,18 +21,6 @@ jest.mock('lucide-react-native', () => ({
 }));
 
 import Index from '@/app/main/settings/index';
-
-function collectText(node: TestRendererJSON | null): string[] {
-    if (!node) return [];
-    const texts: string[] = [];
-    if (node.children) {
-        for (const child of node.children) {
-            if (typeof child === 'string') texts.push(child);
-            else texts.push(...collectText(child));
-        }
-    }
-    return texts;
-}
 
 describe('Settings Index', () => {
     beforeEach(() => {

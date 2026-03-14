@@ -30,6 +30,11 @@ export function findAllInArray(
     return results;
 }
 
+export function collectText(node: TestRendererJSON | null): string[] {
+    if (!node) return [];
+    return node.children ? collectAllText(node.children) : [];
+}
+
 export function collectAllText(nodes: (TestRendererJSON | string)[]): string[] {
     const texts: string[] = [];
     for (const node of nodes) {

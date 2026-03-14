@@ -1,7 +1,7 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 import {TestRendererJSON} from '../../../helpers/types';
-import {findAll} from '../../../helpers/tree-utils';
+import {collectText, findAll} from '../../../helpers/tree-utils';
 
 let mockUseGdProfile: jest.Mock;
 
@@ -33,18 +33,6 @@ jest.mock('@/components/shared/ErrorScreen', () => {
 });
 
 import Profile from '@/app/main/gd/Profile';
-
-function collectText(node: TestRendererJSON | null): string[] {
-    if (!node) return [];
-    const texts: string[] = [];
-    if (node.children) {
-        for (const child of node.children) {
-            if (typeof child === 'string') texts.push(child);
-            else texts.push(...collectText(child));
-        }
-    }
-    return texts;
-}
 
 describe('GD Profile', () => {
     beforeEach(() => {
