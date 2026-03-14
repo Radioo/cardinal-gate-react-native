@@ -5,13 +5,13 @@ import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {Toaster} from "@/components/ui/toast";
 import {ThemeProvider} from "@react-navigation/native";
 import {StatusBar} from "expo-status-bar";
-import {KeyboardAvoidingView, Platform, useColorScheme as useSystemColorScheme} from "react-native";
+import {KeyboardAvoidingView, Platform, View, useColorScheme as useSystemColorScheme} from "react-native";
 import {QueryClientProvider} from "@tanstack/react-query";
 import {useReactQueryDevTools} from "@dev-plugins/react-query";
 import ErrorScreen from "@/components/shared/ErrorScreen";
 import {SafeAreaProvider} from "react-native-safe-area-context";
 import {queryClient} from "@/services/query-client";
-import {NAV_THEME} from "@/lib/theme";
+import {getNavTheme} from "@/lib/theme";
 import {useColorScheme, vars} from "nativewind";
 import {useThemeStore} from "@/store/theme";
 import {hexToHslVar, lightenToHslVar, darkenToHslVar} from "@/lib/color-utils";
@@ -52,17 +52,21 @@ export default function Layout() {
         '--ring': hexToHslVar(primaryColor),
     }), [primaryColor, isDark]);
 
+    const navTheme = useMemo(() => getNavTheme(primaryColor, isDark), [primaryColor, isDark]);
+
     return (
         <QueryClientProvider client={queryClient}>
-            <GestureHandlerRootView style={[{flex: 1}, dynamicVars]}>
-                <ThemeProvider value={NAV_THEME[isDark ? 'dark' : 'light']}>
-                    <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
-                        <Stack screenOptions={{headerShown: false}}></Stack>
-                        <StatusBar style="auto"/>
-                    </KeyboardAvoidingView>
-                </ThemeProvider>
-                <Toaster />
-                <PortalHost />
+            <GestureHandlerRootView style={{flex: 1}}>
+                <View style={[{flex: 1}, dynamicVars]}>
+                    <ThemeProvider value={navTheme}>
+                        <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
+                            <Stack screenOptions={{headerShown: false}}></Stack>
+                            <StatusBar style="auto"/>
+                        </KeyboardAvoidingView>
+                    </ThemeProvider>
+                    <Toaster />
+                    <PortalHost />
+                </View>
             </GestureHandlerRootView>
         </QueryClientProvider>
     )
