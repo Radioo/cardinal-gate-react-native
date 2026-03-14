@@ -69,10 +69,10 @@ export default function PrimaryColorSetting(props: PrimaryColorSettingProps) {
                 )}
 
                 <View className="flex-row gap-2.5">
-                    <Button className="flex-1 h-10 px-2.5" onPress={() => onApplyAndClose()}>
+                    <Button className="flex-1 h-10 px-2.5" onPress={onApplyAndClose}>
                         <Text className="font-bold">Apply</Text>
                     </Button>
-                    <Button className="flex-1 h-10 px-2.5" onPress={() => props.onClose()}>
+                    <Button className="flex-1 h-10 px-2.5" onPress={props.onClose}>
                         <Text className="font-bold">Cancel</Text>
                     </Button>
                 </View>
