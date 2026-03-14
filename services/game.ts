@@ -1,5 +1,4 @@
 import {Series} from "@/enums/series";
-import {API_URL} from "@/services/env";
 
 const seriesNames: Record<Series, string> = {
     [Series.IIDX]: 'beatmania IIDX',
@@ -22,10 +21,6 @@ export function getSeriesName(series: Series): string {
 export function formatArcadeId(id: number): string {
     const str = id.toString();
     return `${str.slice(0, 4)}-${str.slice(4, 8)}`;
-}
-
-export function getIidxScoreCardUrl(playId: number): string {
-    return `${API_URL}/api2/iidx/chart_screenshot/${playId}.png`;
 }
 
 export function formatGdSkillValue(value: number | undefined): string {

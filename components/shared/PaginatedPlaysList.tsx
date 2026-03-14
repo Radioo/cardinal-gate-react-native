@@ -23,7 +23,7 @@ export default function PaginatedPlaysList<T>({
     const {refreshing, handleRefresh} = useUserRefresh(refetch);
 
     if (isError) {
-        return <ErrorScreen error={error ?? new Error('Unknown error')} onRetry={refetch}/>;
+        return <ErrorScreen error={error!} onRetry={refetch}/>;
     }
 
     return (

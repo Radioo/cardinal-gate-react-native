@@ -1,6 +1,8 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 import GdSkillList from '@/components/gd/GdSkillList';
+import {GdDifficultyType} from '@/enums/gd-difficulty-type';
+import {GdDifficulty} from '@/enums/gd-difficulty';
 
 jest.mock('@/components/gd/GdSkillListItem', () => {
     const {createElement} = require('react');
@@ -20,8 +22,8 @@ describe('GdSkillList', () => {
 
     it('renders with items', async () => {
         const items = [
-            {title: 'Song A', difficulty: {type: 'DM', difficulty: 'EXT', level: 500}, skill: 15000, percentage: 9500},
-            {title: 'Song B', difficulty: {type: 'GF', difficulty: 'ADV', level: 300}, skill: 10000, percentage: 8000},
+            {music_id: 1, title: 'Song A', difficulty: {type: GdDifficultyType.DRUM, difficulty: GdDifficulty.EXTREME, level: 500}, skill: 15000, percentage: 9500},
+            {music_id: 2, title: 'Song B', difficulty: {type: GdDifficultyType.GUITAR, difficulty: GdDifficulty.ADVANCED, level: 300}, skill: 10000, percentage: 8000},
         ];
         await render(<GdSkillList items={items}/>);
         expect(screen.toJSON()).toBeTruthy();

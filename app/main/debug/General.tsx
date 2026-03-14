@@ -4,7 +4,7 @@ import {Text} from "@/components/ui/text";
 import InlineSpinner from "@/components/shared/InlineSpinner";
 import {useState} from "react";
 import ShareImageModal from "@/components/shared/ShareImageModal";
-import {displayMessage} from "@/services/message";
+import {displayMessage} from "@/lib/notifications";
 import {MessageSeverity} from "@/enums/message-severity";
 
 export default function General() {

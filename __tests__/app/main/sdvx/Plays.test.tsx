@@ -82,6 +82,6 @@ describe('SDVX Plays', () => {
         const renderItem = props.renderItem as (play: unknown) => React.ReactElement;
         const element = renderItem({id: 99, title: 'Test Track'});
         expect(element).toBeTruthy();
-        expect(element.props.play).toEqual({id: 99, title: 'Test Track'});
+        expect((element.props as Record<string, unknown>).play).toEqual({id: 99, title: 'Test Track'});
     });
 });

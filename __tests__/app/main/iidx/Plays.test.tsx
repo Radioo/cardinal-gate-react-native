@@ -83,6 +83,6 @@ describe('IIDX Plays', () => {
         const renderItem = props.renderItem as (play: unknown) => React.ReactElement;
         const element = renderItem({id: 1, title: 'Test'});
         expect(element).toBeTruthy();
-        expect(element.props.play).toEqual({id: 1, title: 'Test'});
+        expect((element.props as Record<string, unknown>).play).toEqual({id: 1, title: 'Test'});
     });
 });

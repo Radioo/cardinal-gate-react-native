@@ -1,4 +1,5 @@
-jest.mock('@/services/api', () => ({__esModule: true, fetchApi: jest.fn().mockResolvedValue({})}));
+const mockFetchApi = jest.fn().mockResolvedValue({});
+jest.mock('@/services/api', () => ({__esModule: true, fetchApi: (...args: unknown[]) => mockFetchApi(...args)}));
 
 import React from 'react';
 import useApiQuery from '@/hooks/queries/useApiQuery';
@@ -33,16 +34,14 @@ describe('useApiQuery', () => {
         client.clear();
     });
 
-    it('uses staleTime Infinity by default', async () => {
+    it('calls fetchApi with the provided endpoint', async () => {
+        mockFetchApi.mockClear();
         const client = createTestClient();
         const tree = await renderWithClient(
             client,
             React.createElement(TestComponent, {onResult: () => {}})
         );
-        const queryCache = client.getQueryCache();
-        const queries = queryCache.getAll();
-        expect(queries.length).toBeGreaterThan(0);
-        expect(queries[0].options.staleTime).toBe(Infinity);
+        expect(mockFetchApi).toHaveBeenCalledWith('/test-endpoint');
         client.cancelQueries();
         tree.unmount();
         client.clear();

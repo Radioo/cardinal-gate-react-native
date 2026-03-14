@@ -28,7 +28,7 @@ export default function Profile() {
                         <ProfileRow
                             icon={<Hexagon size={24} color={theme.text}/>}
                             label="VOLFORCE"
-                            value={`${data.volforce.formattedValue} ${data.volforce.name}`}
+                            value={`${data.volforce.formatted_value} ${data.volforce.name}`}
                         />
                     )}
                 </>

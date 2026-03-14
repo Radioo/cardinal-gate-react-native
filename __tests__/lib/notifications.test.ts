@@ -1,6 +1,6 @@
 import {MessageSeverity} from '@/enums/message-severity';
 import {useToastStore} from '@/store/toast';
-import {displayMessage} from '@/services/message';
+import {displayMessage} from '@/lib/notifications';
 
 describe('displayMessage', () => {
     beforeEach(() => {

@@ -11,7 +11,7 @@ describe('SetPageModal', () => {
         await render(
             <SetPageModal
                 visible={true}
-                onClose={jest.fn()}
+                onSubmit={jest.fn()}
                 maxPage={10}
             />
         );
@@ -23,7 +23,7 @@ describe('SetPageModal', () => {
             <SetPageModal
                 initialValue="5"
                 visible={true}
-                onClose={jest.fn()}
+                onSubmit={jest.fn()}
                 maxPage={10}
             />
         );

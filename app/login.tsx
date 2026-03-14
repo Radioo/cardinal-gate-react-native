@@ -9,7 +9,7 @@ import {router, Stack} from "expo-router";
 import * as Device from 'expo-device';
 import {LoginResponse} from "@/types/login-response";
 import {fetchApi} from "@/services/api";
-import {displayMessage} from "@/services/message";
+import {displayMessage} from "@/lib/notifications";
 import {MessageSeverity} from "@/enums/message-severity";
 import {setAuthToken, clearSession} from "@/services/auth";
 

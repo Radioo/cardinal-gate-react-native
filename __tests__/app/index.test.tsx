@@ -20,6 +20,11 @@ jest.mock('@/components/shared/FullScreenLoader', () => {
     return {__esModule: true, default: () => createElement('View', {testID: 'loader'})};
 });
 
+jest.mock('@/components/shared/ErrorScreen', () => {
+    const {createElement} = require('react');
+    return {__esModule: true, default: (props: {error: Error}) => createElement('View', {testID: 'error-screen', message: props.error.message})};
+});
+
 import Root from '@/app/index';
 
 async function renderRoot() {
@@ -59,13 +64,14 @@ describe('Root', () => {
         });
     });
 
-    it('redirects to /login on error (catch path)', async () => {
+    it('shows error screen on storage failure', async () => {
         mockGetSecureValue.mockRejectedValue(new Error('secure store error'));
         await renderRoot();
         await waitFor(() => {
             const tree = screen.toJSON() as TestRendererJSON;
             expect(tree).toBeTruthy();
-            expect(tree.props.testID).toBe('redirect-/login');
+            expect(tree.props.testID).toBe('error-screen');
+            expect(tree.props.message).toBe('secure store error');
         });
     });
 });

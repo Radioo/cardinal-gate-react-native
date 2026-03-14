@@ -41,24 +41,28 @@ const RenderTabBar = (props: TabBarProps<Route>) => {
     );
 }
 
-const routes = [
-    {key: 'hot_dm', title: '🥁 HOT'},
-    {key: 'other_dm', title: '🥁 OTHER'},
-    {key: 'hot_gf', title: '🎸 HOT'},
-    {key: 'other_gf', title: '🎸 OTHER'},
-];
+/** Maps tab keys to their game mode and skill list category (exist=HOT, new=OTHER). */
+const GD_TAB_CONFIG = [
+    {key: 'hot_dm', title: '🥁 HOT', mode: GdGameMode.DRUM_MANIA, category: 'exist' as const},
+    {key: 'other_dm', title: '🥁 OTHER', mode: GdGameMode.DRUM_MANIA, category: 'new' as const},
+    {key: 'hot_gf', title: '🎸 HOT', mode: GdGameMode.GUITAR_FREAKS, category: 'exist' as const},
+    {key: 'other_gf', title: '🎸 OTHER', mode: GdGameMode.GUITAR_FREAKS, category: 'new' as const},
+] as const;
+
+const routes = GD_TAB_CONFIG.map(({key, title}) => ({key, title}));
 
 export default function GdSkillTabs({data}: GdSkillTabsProps) {
     const layout = useWindowDimensions();
     const [currentTab, setCurrentTab] = useState(0);
 
     const renderScene = useMemo(() => {
-        return SceneMap({
-            hot_dm: () => <GdSkillList items={data.skill_data[GdGameMode.DRUM_MANIA].exist} />,
-            other_dm: () => <GdSkillList items={data.skill_data[GdGameMode.DRUM_MANIA].new} />,
-            hot_gf: () => <GdSkillList items={data.skill_data[GdGameMode.GUITAR_FREAKS].exist} />,
-            other_gf: () => <GdSkillList items={data.skill_data[GdGameMode.GUITAR_FREAKS].new} />,
-        });
+        const scenes = Object.fromEntries(
+            GD_TAB_CONFIG.map(({key, mode, category}) => [
+                key,
+                () => <GdSkillList items={data.skill_data[mode][category]} />,
+            ])
+        );
+        return SceneMap(scenes);
     }, [data]);
 
     return (

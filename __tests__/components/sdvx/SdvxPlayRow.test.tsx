@@ -2,6 +2,8 @@ import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 import SdvxPlayRow from '@/components/sdvx/SdvxPlayRow';
 import {SdvxPlay} from '@/types/sdvx-play';
+import {SdvxDifficulty} from '@/enums/sdvx-difficulty';
+import {SdvxClearType} from '@/enums/sdvx-clear-type';
 
 jest.mock('@/components/sdvx/SdvxDifficultyItem', () => {
     const {createElement} = require('react');
@@ -19,14 +21,16 @@ jest.mock('polished', () => ({
 }));
 
 const mockPlay: SdvxPlay = {
+    id: 1,
     title: 'Test Song',
-    difficulty: 'EXH',
+    artist: 'Test Artist',
+    difficulty: SdvxDifficulty.EXHAUST,
     level: 18,
-    clear_type: 'COMPLETE',
+    clear_type: SdvxClearType.COMPLETE,
     score: 9800000,
     ex_score: 1500,
     grade: 'S',
-} as SdvxPlay;
+};
 
 describe('SdvxPlayRow', () => {
     it('renders the song title', async () => {
@@ -79,6 +83,6 @@ describe('SdvxPlayRow', () => {
     it('passes correct clear type to clear type component', async () => {
         await render(<SdvxPlayRow play={mockPlay}/>);
         const clearItem = screen.getByTestId('sdvx-clear-type');
-        expect(clearItem.props.clearType).toBe('COMPLETE');
+        expect(clearItem.props.clearType).toBe(SdvxClearType.COMPLETE);
     });
 });

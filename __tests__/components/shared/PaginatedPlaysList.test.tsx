@@ -67,18 +67,6 @@ describe('PaginatedPlaysList', () => {
         expect(errorScreen.props.message).toBe('Something went wrong');
     });
 
-    it('renders ErrorScreen with fallback message when isError is true but error is null', async () => {
-        await render(
-            <PaginatedPlaysList
-                {...defaultProps}
-                isError={true}
-                error={null}
-            />
-        );
-        const errorScreen = screen.getByTestId('error-screen');
-        expect(errorScreen).toBeTruthy();
-    });
-
     it('renders Pagination with correct page info when data is loaded', async () => {
         await render(<PaginatedPlaysList {...defaultProps} pages={5} page={3}/>);
         // Pagination renders a ThemedButton with the page label

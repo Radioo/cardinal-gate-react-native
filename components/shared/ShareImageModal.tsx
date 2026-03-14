@@ -12,7 +12,7 @@ import FullScreenLoader from "@/components/shared/FullScreenLoader";
 import ErrorScreen from "@/components/shared/ErrorScreen";
 import {downloadToLocalFile} from "@/services/image";
 import ApiImage from "@/components/shared/ApiImage";
-import {displayMessage} from "@/services/message";
+import {displayMessage} from "@/lib/notifications";
 import {MessageSeverity} from "@/enums/message-severity";
 
 type ShareImageModalProps = {

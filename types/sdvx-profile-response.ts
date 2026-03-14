@@ -9,7 +9,7 @@ export type SdvxProfileResponse = {
         threshold: number;
         class: string;
         version: number;
-        formattedValue: string;
+        formatted_value: string;
     }
     games: Game[];
 }
