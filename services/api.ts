@@ -28,7 +28,7 @@ async function baseFetch(
         const contentType = response.headers.get('content-type') ?? '';
         if (contentType.startsWith('application/json')) {
             const json = await response.json();
-            throw new Error(json.error);
+            throw new Error(typeof json.error === 'string' ? json.error : `Failed to fetch ${endpoint}`);
         }
         throw new Error(`Failed to fetch ${endpoint}`);
     }

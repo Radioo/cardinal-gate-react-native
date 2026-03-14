@@ -1,4 +1,5 @@
 import {SdvxClearType} from "@/enums/sdvx-clear-type";
+import {StyleProp, ViewStyle} from "react-native";
 import ColorBadge from "@/components/themed/ColorBadge";
 
 const CLEAR_TYPE_DATA: Record<SdvxClearType, { text: string; color: string }> = {
@@ -13,9 +14,10 @@ const CLEAR_TYPE_DATA: Record<SdvxClearType, { text: string; color: string }> = 
 
 type SdvxClearTypeItemProps = {
     clearType: SdvxClearType;
+    style?: StyleProp<ViewStyle>;
 }
 
-export default function SdvxClearTypeItem({clearType}: SdvxClearTypeItemProps) {
+export default function SdvxClearTypeItem({clearType, style}: SdvxClearTypeItemProps) {
     const data = CLEAR_TYPE_DATA[clearType] ?? {text: '', color: '#000000'};
-    return <ColorBadge text={data.text} color={data.color}/>;
+    return <ColorBadge text={data.text} color={data.color} style={style}/>;
 }

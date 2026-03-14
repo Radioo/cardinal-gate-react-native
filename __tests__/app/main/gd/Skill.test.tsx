@@ -14,20 +14,17 @@ const mockSkillData = {
     },
 };
 
+let mockProfileReturn: Record<string, unknown>;
+let mockSkillReturn: Record<string, unknown>;
+
 jest.mock('@/hooks/queries/useGdProfile', () => ({
     __esModule: true,
-    default: () => ({
-        data: mockProfileData,
-        isPending: false, isError: false, error: null, refetch: jest.fn(),
-    }),
+    default: () => mockProfileReturn,
 }));
 
 jest.mock('@/hooks/queries/useGdSkill', () => ({
     __esModule: true,
-    default: () => ({
-        data: mockSkillData,
-        isPending: false, isError: false, error: null, refetch: jest.fn(),
-    }),
+    default: () => mockSkillReturn,
 }));
 
 jest.mock('@react-native-picker/picker', () => {
@@ -48,12 +45,27 @@ jest.mock('@/components/gd/GdTotalSkill', () => {
     return {__esModule: true, default: (props: Record<string, unknown>) => createElement('View', {testID: 'total-skill', ...props})};
 });
 
+jest.mock('@/components/shared/ErrorScreen', () => {
+    const {createElement} = require('react');
+    return {__esModule: true, default: (props: {error: Error}) => createElement('View', {testID: 'error-screen', message: props.error.message})};
+});
+
+jest.mock('@/components/shared/FullScreenLoader', () => {
+    const {createElement} = require('react');
+    return {__esModule: true, default: () => createElement('View', {testID: 'loader'})};
+});
+
 jest.mock('@/components/themed/GradientText', () => {
     const {createElement} = require('react');
     return {__esModule: true, default: ({children}: {children: React.ReactNode}) => createElement('View', null, children)};
 });
 
 describe('Skill', () => {
+    beforeEach(() => {
+        mockProfileReturn = {data: mockProfileData, isPending: false, isError: false, error: null, refetch: jest.fn()};
+        mockSkillReturn = {data: mockSkillData, isPending: false, isError: false, error: null, refetch: jest.fn()};
+    });
+
     it('renders the skill page with picker and skill data', async () => {
         await render(<Skill />);
         const json = JSON.stringify(screen.toJSON());
@@ -75,5 +87,31 @@ describe('Skill', () => {
         await render(<Skill />);
         const totalSkills = screen.getAllByTestId('total-skill');
         expect(totalSkills).toHaveLength(2);
+    });
+
+    it('shows loader when profile is pending', async () => {
+        mockProfileReturn = {data: undefined, isPending: true, isError: false, error: null, refetch: jest.fn()};
+        await render(<Skill />);
+        expect(screen.getByTestId('loader')).toBeTruthy();
+    });
+
+    it('shows error screen when profile query fails', async () => {
+        mockProfileReturn = {data: undefined, isPending: false, isError: true, error: new Error('Profile failed'), refetch: jest.fn()};
+        await render(<Skill />);
+        const errorScreen = screen.getByTestId('error-screen');
+        expect(errorScreen.props.message).toBe('Profile failed');
+    });
+
+    it('shows error screen when skill query fails', async () => {
+        mockSkillReturn = {data: undefined, isPending: false, isError: true, error: new Error('Skill failed'), refetch: jest.fn()};
+        await render(<Skill />);
+        const errorScreen = screen.getByTestId('error-screen');
+        expect(errorScreen.props.message).toBe('Skill failed');
+    });
+
+    it('shows loader when skill is pending', async () => {
+        mockSkillReturn = {data: undefined, isPending: true, isError: false, error: null, refetch: jest.fn()};
+        await render(<Skill />);
+        expect(screen.getByTestId('loader')).toBeTruthy();
     });
 });

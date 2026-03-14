@@ -128,4 +128,18 @@ describe('PlayCounts', () => {
         // 12345.toLocaleString() = "12,345"
         expect(texts.find(t => t.includes('12,345'))).toBeTruthy();
     });
+
+    it('renders error state when isError is true', async () => {
+        mockUseSummary.mockReturnValue({
+            data: undefined,
+            isPending: false,
+            isError: true,
+            error: new Error('Network error'),
+            refetch: jest.fn(),
+        });
+        await render(<PlayCounts />);
+        const tree = screen.toJSON() as TestRendererJSON;
+        const texts = collectText(tree);
+        expect(texts.find(t => t.includes('Network error'))).toBeTruthy();
+    });
 });
