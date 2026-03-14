@@ -2,7 +2,7 @@ import {Text} from "@/components/ui/text";
 import {View} from "react-native";
 import {Card} from "@/components/ui/card";
 import {GdMusicSkillItem} from "@/types/gd-skill-data-response";
-import GdDifficultyInfo from "@/components/gd/GdDifficultyItem";
+import GdDifficultyItem from "@/components/gd/GdDifficultyItem";
 import {memo} from "react";
 import {formatGdSkillValue} from "@/services/game";
 
@@ -17,7 +17,7 @@ const GdSkillListItemInner = ({item, index}: GdSkillListItemProps) => {
             <Text className="leading-10 text-3xl font-mono font-bold">#{(index + 1).toString().padStart(2, '0')}</Text>
             <View className="flex-col justify-between flex-1">
                 <Text className="text-base leading-6" numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>
-                <GdDifficultyInfo difficulty={item.difficulty}/>
+                <GdDifficultyItem difficulty={item.difficulty}/>
             </View>
             <View>
                 <Text className="text-base leading-6 font-bold text-right">{formatGdSkillValue(item.skill)}</Text>

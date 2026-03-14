@@ -21,7 +21,7 @@ const pickerStyle = {gap: 10};
 function useMaterialYouAccent(): string | null {
     return useMemo(() => {
         try { return getMaterialYouAccent(); }
-        catch { return null; }
+        catch (e) { console.warn('Material You accent unavailable:', e); return null; }
     }, []);
 }
 
@@ -41,7 +41,7 @@ export default function PrimaryColorSetting(props: PrimaryColorSettingProps) {
         tempColor.current = hex;
     }
 
-    const onCloseModal = () => {
+    const onApplyAndClose = () => {
         setPrimaryColor(tempColor.current);
         props.onClose();
     }
@@ -69,7 +69,7 @@ export default function PrimaryColorSetting(props: PrimaryColorSettingProps) {
                 )}
 
                 <View className="flex-row gap-2.5">
-                    <Button className="flex-1 h-10 px-2.5" onPress={() => onCloseModal()}>
+                    <Button className="flex-1 h-10 px-2.5" onPress={() => onApplyAndClose()}>
                         <Text className="font-bold">Apply</Text>
                     </Button>
                     <Button className="flex-1 h-10 px-2.5" onPress={() => props.onClose()}>

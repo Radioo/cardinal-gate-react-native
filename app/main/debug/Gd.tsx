@@ -2,7 +2,7 @@ import {GdDifficultyType} from "@/enums/gd-difficulty-type";
 import {GdDifficultyContainer} from "@/types/gd-difficulty-container";
 import {GdDifficulty} from "@/enums/gd-difficulty";
 import {FlatList, View} from "react-native";
-import GdDifficultyInfo from "@/components/gd/GdDifficultyItem";
+import GdDifficultyItem from "@/components/gd/GdDifficultyItem";
 import {Card} from "@/components/ui/card";
 import {Text} from "@/components/ui/text";
 
@@ -27,7 +27,7 @@ export default function Gd() {
                 <Text className="text-base leading-6">All of these should be readable and take only one line</Text>
             </Card>
             <FlatList data={difficulties} renderItem={({item}) => (
-                <GdDifficultyInfo difficulty={item} />
+                <GdDifficultyItem difficulty={item} />
             )}/>
         </View>
     )

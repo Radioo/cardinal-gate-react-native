@@ -9,21 +9,26 @@ interface Toast {
 }
 
 interface ToastStore {
+    nextId: number;
     toasts: Toast[];
     addToast: (toast: Omit<Toast, 'id'>) => void;
     removeToast: (id: string) => void;
 }
 
-let nextId = 0;
-
 export const useToastStore = create<ToastStore>((set) => ({
+    nextId: 0,
     toasts: [],
     addToast: (toast) => {
-        const id = String(nextId++);
-        set((state) => ({toasts: [...state.toasts, {...toast, id}]}));
-        setTimeout(() => {
-            set((state) => ({toasts: state.toasts.filter((t) => t.id !== id)}));
-        }, 3000);
+        set((state) => {
+            const id = String(state.nextId);
+            setTimeout(() => {
+                set((s) => ({toasts: s.toasts.filter((t) => t.id !== id)}));
+            }, 3000);
+            return {
+                nextId: state.nextId + 1,
+                toasts: [...state.toasts, {...toast, id}],
+            };
+        });
     },
     removeToast: (id) =>
         set((state) => ({toasts: state.toasts.filter((t) => t.id !== id)})),
