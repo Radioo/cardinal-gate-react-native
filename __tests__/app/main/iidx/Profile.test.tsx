@@ -16,18 +16,16 @@ jest.mock('@/hooks/useUserRefresh', () => ({
 
 jest.mock('@/services/game', () => ({formatArcadeId: (id: number) => `${String(id).slice(0, 4)}-${String(id).slice(4, 8)}`}));
 
-jest.mock('@expo/vector-icons/AntDesign', () => {
+jest.mock('lucide-react-native', () => {
     const {createElement} = require('react');
-    return (props: Record<string, unknown>) => createElement('View', {...props, testID: `icon-${props.name}`});
+    const makeIcon = (name: string) => (props: Record<string, unknown>) => createElement('View', {...props, testID: `icon-${name}`});
+    return {
+        User: makeIcon('user'),
+        Hash: makeIcon('hash'),
+        Star: makeIcon('star'),
+        MousePointerClick: makeIcon('mouse-pointer-click'),
+    };
 });
-jest.mock('@expo/vector-icons/MaterialIcons', () => {
-    const {createElement} = require('react');
-    return (props: Record<string, unknown>) => createElement('View', {...props, testID: `icon-${props.name}`});
-});
-jest.mock('@expo/vector-icons', () => ({
-    MaterialCommunityIcons: (props: Record<string, unknown>) => require('react').createElement('View', {...props, testID: `icon-${props.name}`}),
-    Feather: (props: Record<string, unknown>) => require('react').createElement('View', {...props, testID: `icon-${props.name}`}),
-}));
 
 jest.mock('@/components/shared/FullScreenLoader', () => {
     const {createElement} = require('react');

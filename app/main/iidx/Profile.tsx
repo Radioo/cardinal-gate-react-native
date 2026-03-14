@@ -2,9 +2,7 @@ import {Text} from "@/components/ui/text";
 import useIidxProfile from "@/hooks/queries/useIidxProfile";
 import {View} from "react-native";
 import useTheme from "@/hooks/useTheme";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import {MaterialCommunityIcons} from "@expo/vector-icons";
+import {User, Hash, Star, MousePointerClick} from "lucide-react-native";
 import ProfileRow from "@/components/shared/ProfileRow";
 import ProfileLayout from "@/components/shared/ProfileLayout";
 import {formatArcadeId} from "@/services/game";
@@ -18,12 +16,12 @@ export default function Profile() {
             {(data) => (
                 <>
                     <ProfileRow
-                        icon={<AntDesign name="user" size={24} color={theme.text}/>}
+                        icon={<User size={24} color={theme.text}/>}
                         label={`DJ ${data?.dj_name}`}
                         value={<Text className="text-base leading-6 font-mono">{formatArcadeId(data?.iidx_id)}</Text>}
                     />
                     <ProfileRow
-                        icon={<MaterialIcons name="numbers" size={24} color={theme.text}/>}
+                        icon={<Hash size={24} color={theme.text}/>}
                         label="Play count"
                         value={
                             <View>
@@ -33,7 +31,7 @@ export default function Profile() {
                         }
                     />
                     <ProfileRow
-                        icon={<MaterialIcons name="star-outline" size={24} color={theme.text}/>}
+                        icon={<Star size={24} color={theme.text}/>}
                         label="Class"
                         value={
                             <View>
@@ -43,7 +41,7 @@ export default function Profile() {
                         }
                     />
                     <ProfileRow
-                        icon={<MaterialCommunityIcons name="gesture-tap-button" size={24} color={theme.text}/>}
+                        icon={<MousePointerClick size={24} color={theme.text}/>}
                         label="Inputs"
                         value={
                             <View>

@@ -4,7 +4,7 @@ import {View} from "react-native";
 import useTheme from "@/hooks/useTheme";
 import IidxClearTypeItem from "@/components/iidx/IidxClearTypeItem";
 import {Button} from "@/components/ui/button";
-import {FontAwesome} from "@expo/vector-icons";
+import {Camera} from "lucide-react-native";
 import {useState} from "react";
 import ShareImageModal from "@/components/shared/ShareImageModal";
 import {Card} from "@/components/ui/card";
@@ -29,7 +29,7 @@ export default function IidxPlayRow({play}: IidxPlayRowProps) {
                         <Button className="h-8 w-8 px-0"
                                       onPress={() => setModalVisible(true)}
                         >
-                            <FontAwesome name="camera" size={18} color={theme.background}/>
+                            <Camera size={18} color={theme.background}/>
                         </Button> : null}
                 </View>
                 <View className="flex-row items-center gap-2">

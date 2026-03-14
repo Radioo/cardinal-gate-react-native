@@ -1,5 +1,5 @@
 import useTheme from "@/hooks/useTheme";
-import AntDesign from "@expo/vector-icons/AntDesign";
+import {User} from "lucide-react-native";
 import useGdProfile from "@/hooks/queries/useGdProfile";
 import ProfileRow from "@/components/shared/ProfileRow";
 import ProfileLayout from "@/components/shared/ProfileLayout";
@@ -12,7 +12,7 @@ export default function Profile() {
         <ProfileLayout query={query}>
             {(data) => (
                 <ProfileRow
-                    icon={<AntDesign name="user" size={24} color={theme.text}/>}
+                    icon={<User size={24} color={theme.text}/>}
                     label={data.name}
                     value=""
                 />

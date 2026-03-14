@@ -6,8 +6,7 @@ jest.mock('@/components/shared/GameTabLayout', () => {
     return {__esModule: true, default: (props: Record<string, unknown>) => createElement('View', props)};
 });
 
-jest.mock('@expo/vector-icons', () => ({FontAwesome6: 'FontAwesome6', Ionicons: 'Ionicons'}));
-jest.mock('@expo/vector-icons/MaterialIcons', () => 'MaterialIcons');
+jest.mock('lucide-react-native', () => ({Wrench: 'Wrench', Drum: 'Drum', Disc: 'Disc', Hexagon: 'Hexagon'}));
 
 import Layout from '@/app/main/debug/_layout';
 

@@ -1,7 +1,6 @@
 import {Tabs} from "expo-router";
 import useTheme from "@/hooks/useTheme";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import {Entypo} from "@expo/vector-icons";
+import {User, List} from "lucide-react-native";
 import {tabBarLabelStyle} from "@/constants/Styles";
 
 type Tab = {
@@ -13,11 +12,11 @@ type Tab = {
 const DEFAULT_TABS: Tab[] = [
     {
         name: "Profile",
-        icon: (color) => <AntDesign name="user" size={24} color={color} />,
+        icon: (color) => <User size={24} color={color} />,
     },
     {
         name: "Plays",
-        icon: (color) => <Entypo name="list" size={24} color={color} />,
+        icon: (color) => <List size={24} color={color} />,
     },
 ];
 

@@ -2,9 +2,9 @@ import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 import GameTabLayout from '@/components/shared/GameTabLayout';
 
-jest.mock('@expo/vector-icons/AntDesign', () => 'AntDesign');
-jest.mock('@expo/vector-icons', () => ({
-    Entypo: 'Entypo',
+jest.mock('lucide-react-native', () => ({
+    User: 'User',
+    List: 'List',
 }));
 
 jest.mock('expo-router', () => {

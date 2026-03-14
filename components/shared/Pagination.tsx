@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {Button} from "@/components/ui/button";
 import {Text} from "@/components/ui/text";
 import useTheme from "@/hooks/useTheme";
-import { Entypo } from "@expo/vector-icons";
+import {ChevronLeft, ChevronRight} from "lucide-react-native";
 import SetPageModal from "@/components/shared/SetPageModal";
 
 type PaginationProps = {
@@ -39,7 +39,7 @@ export default function Pagination({
                     onPress={() => updatePage(currentPage - 1)}
                     disabled={currentPage === 1 || isLoading}
                 >
-                    <Entypo name="chevron-left" size={24} color={theme.background} />
+                    <ChevronLeft size={24} color={theme.background} />
                 </Button>
                 <Button
                     className="h-10 px-2.5"
@@ -55,7 +55,7 @@ export default function Pagination({
                     onPress={() => updatePage(currentPage + 1)}
                     disabled={currentPage === totalPages || isLoading}
                 >
-                    <Entypo name="chevron-right" size={24} color={theme.background} />
+                    <ChevronRight size={24} color={theme.background} />
                 </Button>
             </View>
 

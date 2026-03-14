@@ -19,7 +19,7 @@ jest.mock('@/components/iidx/IidxClearTypeItem', () => {
     return {__esModule: true, default: (props: Record<string, unknown>) => createElement('View', {testID: 'clear-type', ...props})};
 });
 
-jest.mock('@expo/vector-icons', () => ({FontAwesome: 'FontAwesome'}));
+jest.mock('lucide-react-native', () => ({Camera: 'Camera'}));
 
 const mockPlay: IidxPlay = {
     id: 1,
@@ -112,14 +112,14 @@ describe('IidxPlayRow', () => {
     it('renders camera button when has_score_card is true', async () => {
         await render(<IidxPlayRow play={mockPlay}/>);
         const json = JSON.stringify(screen.toJSON());
-        expect((json.match(/"FontAwesome"/g) || []).length).toBe(1);
+        expect((json.match(/"Camera"/g) || []).length).toBe(1);
     });
 
     it('does not render camera button when has_score_card is false', async () => {
         const playWithoutCard = {...mockPlay, has_score_card: false} as IidxPlay;
         await render(<IidxPlayRow play={playWithoutCard}/>);
         const json = JSON.stringify(screen.toJSON());
-        expect(json).not.toContain('"FontAwesome"');
+        expect(json).not.toContain('"Camera"');
     });
 
     it('passes correct props to difficulty component', async () => {

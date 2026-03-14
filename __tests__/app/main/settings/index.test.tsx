@@ -15,8 +15,8 @@ jest.mock('@/components/shared/PrimaryColorSetting', () => {
     };
 });
 
-jest.mock('@expo/vector-icons', () => ({
-    Ionicons: (props: Record<string, unknown>) => require('react').createElement('View', {...props, testID: `icon-${props.name}`}),
+jest.mock('lucide-react-native', () => ({
+    Paintbrush: (props: Record<string, unknown>) => require('react').createElement('View', {...props, testID: 'icon-paintbrush'}),
 }));
 
 import Index from '@/app/main/settings/index';
@@ -71,7 +71,7 @@ describe('Settings Index', () => {
     it('renders the color fill icon', async () => {
         await render(<Index />);
         const tree = screen.toJSON() as TestRendererJSON;
-        const icons = findAll(tree, n => n.props?.testID === 'icon-color-fill-sharp');
+        const icons = findAll(tree, n => n.props?.testID === 'icon-paintbrush');
         expect(icons.length).toBe(1);
     });
 

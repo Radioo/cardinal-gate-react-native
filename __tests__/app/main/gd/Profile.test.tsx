@@ -14,9 +14,11 @@ jest.mock('@/hooks/useUserRefresh', () => ({
     default: () => ({refreshing: false, handleRefresh: jest.fn()}),
 }));
 
-jest.mock('@expo/vector-icons/AntDesign', () => {
+jest.mock('lucide-react-native', () => {
     const {createElement} = require('react');
-    return (props: Record<string, unknown>) => createElement('View', {...props, testID: `icon-${props.name}`});
+    return {
+        User: (props: Record<string, unknown>) => createElement('View', {...props, testID: 'icon-user'}),
+    };
 });
 
 jest.mock('@/components/shared/FullScreenLoader', () => {

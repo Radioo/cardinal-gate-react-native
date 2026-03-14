@@ -13,11 +13,10 @@ jest.mock('@/hooks/queries/useUserData', () => ({
     default: () => ({data: {profiles: {iidx: true, sdvx: true, gd: true}, developer: false}}),
 }));
 
-jest.mock('@expo/vector-icons', () => ({
-    Entypo: 'Entypo', FontAwesome6: 'FontAwesome6', Ionicons: 'Ionicons',
+jest.mock('lucide-react-native', () => ({
+    House: 'House', Disc: 'Disc', Hexagon: 'Hexagon', Drum: 'Drum',
+    Settings: 'Settings', Bug: 'Bug', LogOut: 'LogOut',
 }));
-
-jest.mock('@expo/vector-icons/MaterialIcons', () => 'MaterialIcons');
 
 import Layout from '@/app/main/_layout';
 

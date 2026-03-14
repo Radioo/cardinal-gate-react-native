@@ -3,7 +3,7 @@ import PrimaryColorSetting from "@/components/shared/PrimaryColorSetting";
 import {Text} from "@/components/ui/text";
 import useTheme from "@/hooks/useTheme";
 import {useState} from "react";
-import {Ionicons} from "@expo/vector-icons";
+import {Paintbrush} from "lucide-react-native";
 
 export default function Index() {
     const [colorPickerVisible, setColorPickerVisible] = useState(false);
@@ -15,7 +15,7 @@ export default function Index() {
             title: "Primary Color",
             description: "Change the primary color of the app",
             onPress: () => setColorPickerVisible(true),
-            icon: <Ionicons name="color-fill-sharp" size={40} color={theme.primary} />
+            icon: <Paintbrush size={40} color={theme.primary} />
         },
     ]
 

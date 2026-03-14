@@ -3,7 +3,9 @@ import {render, screen} from '@testing-library/react-native';
 import {TestRendererJSON} from '../../helpers/types';
 import PlayCounts from '@/components/shared/PlayCounts';
 
-jest.mock('@expo/vector-icons/MaterialIcons', () => 'MaterialIcons');
+jest.mock('lucide-react-native', () => ({
+    Clock: 'Clock',
+}));
 
 const mockUseSummary = jest.fn();
 

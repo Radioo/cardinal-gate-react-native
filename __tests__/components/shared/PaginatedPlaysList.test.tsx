@@ -8,16 +8,12 @@ jest.mock('@/hooks/useUserRefresh', () => ({
     default: () => ({refreshing: false, handleRefresh: jest.fn()}),
 }));
 
-jest.mock('@expo/vector-icons', () => {
+jest.mock('lucide-react-native', () => {
     const RN = require('react');
     return {
-        Entypo: (props: Record<string, unknown>) => RN.createElement('View', props),
+        ChevronLeft: (props: Record<string, unknown>) => RN.createElement('View', props),
+        ChevronRight: (props: Record<string, unknown>) => RN.createElement('View', props),
     };
-});
-
-jest.mock('@expo/vector-icons/Entypo', () => {
-    const RN = require('react');
-    return (props: Record<string, unknown>) => RN.createElement('View', props);
 });
 
 jest.mock('@/components/shared/SetPageModal', () => {

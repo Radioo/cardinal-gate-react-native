@@ -1,17 +1,16 @@
 import GameTabLayout from "@/components/shared/GameTabLayout";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import {Entypo} from "@expo/vector-icons";
+import {User, List} from "lucide-react-native";
 
 export default function Layout() {
     return (
         <GameTabLayout tabs={[
             {
                 name: "Profile",
-                icon: (color) => <AntDesign name="user" size={24} color={color} />,
+                icon: (color) => <User size={24} color={color} />,
             },
             {
                 name: "Skill",
-                icon: (color) => <Entypo name="list" size={24} color={color} />,
+                icon: (color) => <List size={24} color={color} />,
             },
         ]} />
     );

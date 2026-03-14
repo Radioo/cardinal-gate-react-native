@@ -2,16 +2,12 @@ import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 import Pagination from '@/components/shared/Pagination';
 
-jest.mock('@expo/vector-icons', () => {
+jest.mock('lucide-react-native', () => {
     const RN = require('react');
     return {
-        Entypo: (props: Record<string, unknown>) => RN.createElement('View', props),
+        ChevronLeft: (props: Record<string, unknown>) => RN.createElement('View', props),
+        ChevronRight: (props: Record<string, unknown>) => RN.createElement('View', props),
     };
-});
-
-jest.mock('@expo/vector-icons/Entypo', () => {
-    const RN = require('react');
-    return (props: Record<string, unknown>) => RN.createElement('View', props);
 });
 
 jest.mock('@/components/shared/SetPageModal', () => {

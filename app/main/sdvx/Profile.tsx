@@ -1,9 +1,7 @@
 import {Text} from "@/components/ui/text";
 import useSdvxProfile from "@/hooks/queries/useSdvxProfile";
 import useTheme from "@/hooks/useTheme";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import {Feather} from "@expo/vector-icons";
+import {User, Star, Hexagon} from "lucide-react-native";
 import ProfileRow from "@/components/shared/ProfileRow";
 import ProfileLayout from "@/components/shared/ProfileLayout";
 import {formatArcadeId} from "@/services/game";
@@ -17,18 +15,18 @@ export default function Profile() {
             {(data) => (
                 <>
                     <ProfileRow
-                        icon={<AntDesign name="user" size={24} color={theme.text}/>}
+                        icon={<User size={24} color={theme.text}/>}
                         label={data.name}
                         value={<Text className="text-base leading-6 font-mono">{formatArcadeId(data.id)}</Text>}
                     />
                     <ProfileRow
-                        icon={<MaterialIcons name="star-outline" size={24} color={theme.text}/>}
+                        icon={<Star size={24} color={theme.text}/>}
                         label="Skill Level"
                         value={data.skill_level}
                     />
                     {data.volforce !== null && (
                         <ProfileRow
-                            icon={<Feather name="hexagon" size={24} color={theme.text}/>}
+                            icon={<Hexagon size={24} color={theme.text}/>}
                             label="VOLFORCE"
                             value={`${data.volforce.formattedValue} ${data.volforce.name}`}
                         />
