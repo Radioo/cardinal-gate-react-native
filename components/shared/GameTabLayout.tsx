@@ -2,6 +2,8 @@ import {Tabs} from "expo-router";
 import useTheme from "@/hooks/useTheme";
 import {User, List} from "lucide-react-native";
 import {tabBarLabelStyle} from "@/constants/Styles";
+import GradientBackground from "@/components/shared/GradientBackground";
+import {View} from "react-native";
 
 type Tab = {
     name: string;
@@ -28,11 +30,19 @@ export default function GameTabLayout({tabs = DEFAULT_TABS}: GameTabLayoutProps)
     const theme = useTheme();
 
     return (
-        <Tabs screenOptions={{
-            headerShown: false,
-            tabBarActiveTintColor: theme.primary,
-            tabBarLabelStyle,
-        }}>
+        <Tabs
+            screenLayout={({children}) => (
+                <View style={{flex: 1, backgroundColor: theme.background}}>
+                    <GradientBackground />
+                    {children}
+                </View>
+            )}
+            screenOptions={{
+                headerShown: false,
+                tabBarActiveTintColor: theme.primary,
+                tabBarLabelStyle,
+            }}
+        >
             {tabs.map(tab => (
                 <Tabs.Screen key={tab.name} name={tab.name} options={{
                     title: tab.title,
