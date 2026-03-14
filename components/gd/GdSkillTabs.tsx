@@ -8,7 +8,7 @@ import {GdSkillDataResponse} from "@/types/gd-skill-data-response";
 import {GdGameMode} from "@/enums/gd-game-mode";
 
 type GdSkillTabsProps = {
-    data: GdSkillDataResponse | undefined;
+    data: GdSkillDataResponse;
 }
 
 const RenderTabBar = (props: TabBarProps<Route>) => {
@@ -54,10 +54,10 @@ export default function GdSkillTabs({data}: GdSkillTabsProps) {
 
     const renderScene = useMemo(() => {
         return SceneMap({
-            hot_dm: () => <GdSkillList items={data?.skill_data[GdGameMode.DRUM_MANIA].exist ?? []} />,
-            other_dm: () => <GdSkillList items={data?.skill_data[GdGameMode.DRUM_MANIA].new ?? []} />,
-            hot_gf: () => <GdSkillList items={data?.skill_data[GdGameMode.GUITAR_FREAKS].exist ?? []} />,
-            other_gf: () => <GdSkillList items={data?.skill_data[GdGameMode.GUITAR_FREAKS].new ?? []} />,
+            hot_dm: () => <GdSkillList items={data.skill_data[GdGameMode.DRUM_MANIA].exist} />,
+            other_dm: () => <GdSkillList items={data.skill_data[GdGameMode.DRUM_MANIA].new} />,
+            hot_gf: () => <GdSkillList items={data.skill_data[GdGameMode.GUITAR_FREAKS].exist} />,
+            other_gf: () => <GdSkillList items={data.skill_data[GdGameMode.GUITAR_FREAKS].new} />,
         });
     }, [data]);
 

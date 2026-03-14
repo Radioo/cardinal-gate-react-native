@@ -1,4 +1,4 @@
-import {getSecureValue} from "@/store/secure";
+import {getSecureValue} from "@/services/secure-storage";
 import {SecureValue} from "@/enums/secure-value";
 
 export async function buildAuthRequestInit(init?: RequestInit): Promise<RequestInit> {

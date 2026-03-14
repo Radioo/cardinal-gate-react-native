@@ -1,4 +1,4 @@
-jest.mock('@/store/secure', () => ({
+jest.mock('@/services/secure-storage', () => ({
     getSecureValue: jest.fn(),
 }));
 
@@ -6,7 +6,7 @@ import React from 'react';
 import {render, cleanup, waitFor} from '@testing-library/react-native';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import useAuthHeaders from '@/hooks/useAuthHeaders';
-import {getSecureValue} from '@/store/secure';
+import {getSecureValue} from '@/services/secure-storage';
 
 const mockGetSecureValue = getSecureValue as jest.MockedFunction<typeof getSecureValue>;
 

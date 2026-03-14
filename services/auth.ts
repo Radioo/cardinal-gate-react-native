@@ -1,4 +1,4 @@
-import {clearSecureValue, saveSecureValue} from "@/store/secure";
+import {clearSecureValue, saveSecureValue} from "@/services/secure-storage";
 import {SecureValue} from "@/enums/secure-value";
 import {queryClient} from "@/services/query-client";
 

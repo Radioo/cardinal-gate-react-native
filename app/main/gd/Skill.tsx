@@ -60,16 +60,16 @@ export default function Skill() {
                     <Picker.Item key={index.toString()} label={game.name} value={index.toString()}/>
                 )))}
             </Picker>
-            {skillQuery.isPending ? <FullScreenLoader/> : (
+            {skillQuery.isPending || !skillQuery.data ? <FullScreenLoader/> : (
                 <>
                     <View className="flex-row" style={{backgroundColor: theme.background}}>
                         <GdTotalSkill name="🥁 Skill"
-                                    skill={skillQuery.data?.skill_data[GdGameMode.DRUM_MANIA]?.skill}
-                                    allMusicSkill={skillQuery.data?.skill_data[GdGameMode.DRUM_MANIA]?.all_music_skill}
+                                    skill={skillQuery.data.skill_data[GdGameMode.DRUM_MANIA]?.skill}
+                                    allMusicSkill={skillQuery.data.skill_data[GdGameMode.DRUM_MANIA]?.all_music_skill}
                         />
                         <GdTotalSkill name="🎸 Skill"
-                                    skill={skillQuery.data?.skill_data[GdGameMode.GUITAR_FREAKS]?.skill}
-                                    allMusicSkill={skillQuery.data?.skill_data[GdGameMode.GUITAR_FREAKS]?.all_music_skill}
+                                    skill={skillQuery.data.skill_data[GdGameMode.GUITAR_FREAKS]?.skill}
+                                    allMusicSkill={skillQuery.data.skill_data[GdGameMode.GUITAR_FREAKS]?.all_music_skill}
                         />
                     </View>
                     <GdSkillTabs data={skillQuery.data}/>

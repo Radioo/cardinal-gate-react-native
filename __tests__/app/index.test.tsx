@@ -4,7 +4,7 @@ import {TestRendererJSON} from '../helpers/types';
 
 const mockGetSecureValue = jest.fn();
 
-jest.mock('@/store/secure', () => ({
+jest.mock('@/services/secure-storage', () => ({
     getSecureValue: (...args: unknown[]) => mockGetSecureValue(...args),
 }));
 

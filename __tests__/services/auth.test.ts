@@ -1,4 +1,4 @@
-jest.mock('@/store/secure', () => ({
+jest.mock('@/services/secure-storage', () => ({
     saveSecureValue: jest.fn(),
     clearSecureValue: jest.fn(),
 }));
@@ -10,7 +10,7 @@ jest.mock('@/services/query-client', () => ({
 }));
 
 import {setAuthToken, clearSession} from '@/services/auth';
-import {saveSecureValue, clearSecureValue} from '@/store/secure';
+import {saveSecureValue, clearSecureValue} from '@/services/secure-storage';
 import {SecureValue} from '@/enums/secure-value';
 import {queryClient} from '@/services/query-client';
 

@@ -1,9 +1,9 @@
-jest.mock('@/store/secure', () => ({
+jest.mock('@/services/secure-storage', () => ({
     getSecureValue: jest.fn(),
 }));
 
 import {buildAuthRequestInit} from '@/services/auth-headers';
-import {getSecureValue} from '@/store/secure';
+import {getSecureValue} from '@/services/secure-storage';
 
 const mockGetSecureValue = getSecureValue as jest.MockedFunction<typeof getSecureValue>;
 

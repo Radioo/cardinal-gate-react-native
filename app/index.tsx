@@ -1,5 +1,5 @@
 import {Redirect} from 'expo-router';
-import {getSecureValue} from "@/store/secure";
+import {getSecureValue} from "@/services/secure-storage";
 import {SecureValue} from "@/enums/secure-value";
 import {useEffect, useState} from "react";
 import FullScreenLoader from "@/components/shared/FullScreenLoader";
