@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {View} from 'react-native';
 import {Button} from "@/components/ui/button";
 import {Text} from "@/components/ui/text";
@@ -23,9 +23,11 @@ export default function Pagination({
     const theme = useTheme();
     const lastLabel = useRef('');
     const currentPageLabel = `${currentPage.toLocaleString()} / ${totalPages.toLocaleString()}`;
-    if (!isLoading) {
-        lastLabel.current = currentPageLabel;
-    }
+    useEffect(() => {
+        if (!isLoading) {
+            lastLabel.current = currentPageLabel;
+        }
+    }, [isLoading, currentPageLabel]);
 
     const updatePage = (newPage: number) => {
         onPageChange(Math.max(1, Math.min(totalPages, newPage)));

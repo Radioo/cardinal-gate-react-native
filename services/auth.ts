@@ -6,6 +6,11 @@ export async function setAuthToken(token: string): Promise<void> {
     await saveSecureValue(SecureValue.TOKEN, token);
 }
 
+/**
+ * Clears the auth token and evicts all cached queries.
+ * The query cache is cleared to prevent stale data from being shown
+ * after the user logs out and a different user logs in.
+ */
 export async function clearSession(): Promise<void> {
     await clearSecureValue(SecureValue.TOKEN);
     queryClient.removeQueries();

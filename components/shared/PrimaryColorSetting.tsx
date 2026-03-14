@@ -46,7 +46,7 @@ export default function PrimaryColorSetting(props: PrimaryColorSettingProps) {
         props.onClose();
     }
 
-    const onMaterialYou = () => {
+    const onApplyMaterialYou = () => {
         if (!materialYouAccent) return;
         tempColor.current = materialYouAccent;
         setPickerKey(k => k + 1);
@@ -63,7 +63,7 @@ export default function PrimaryColorSetting(props: PrimaryColorSettingProps) {
                 </ColorPicker>
 
                 {materialYouAccent && (
-                    <Button className="h-10 px-2.5" onPress={onMaterialYou}>
+                    <Button className="h-10 px-2.5" onPress={onApplyMaterialYou}>
                         <Text className="font-bold">Use Material You Color</Text>
                     </Button>
                 )}

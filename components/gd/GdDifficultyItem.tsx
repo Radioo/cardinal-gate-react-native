@@ -16,7 +16,7 @@ type GdDifficultyProps = {
     difficulty: GdDifficultyContainer;
 }
 
-const GdDifficultyInfoInner = ({difficulty}: GdDifficultyProps) => {
+const GdDifficultyItemInner = ({difficulty}: GdDifficultyProps) => {
     const theme = useTheme();
     const baseColor = difficultyColors[difficulty.difficulty] ?? '#000000';
     const difficultyColor = theme.scheme === 'light' ? lighten(0.2, baseColor) : baseColor;
@@ -37,4 +37,4 @@ const GdDifficultyInfoInner = ({difficulty}: GdDifficultyProps) => {
     )
 }
 
-export default memo(GdDifficultyInfoInner);
+export default memo(GdDifficultyItemInner);

@@ -2,7 +2,7 @@ import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 import GdSkillListItem from '@/components/gd/GdSkillListItem';
 
-jest.mock('@/components/gd/GdDifficultyInfo', () => {
+jest.mock('@/components/gd/GdDifficultyItem', () => {
     const {createElement} = require('react');
     return {__esModule: true, default: (props: Record<string, unknown>) => createElement('View', props)};
 });

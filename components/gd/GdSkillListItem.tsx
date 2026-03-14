@@ -2,7 +2,7 @@ import {Text} from "@/components/ui/text";
 import {View} from "react-native";
 import {Card} from "@/components/ui/card";
 import {GdMusicSkillItem} from "@/types/gd-skill-data-response";
-import GdDifficultyInfo from "@/components/gd/GdDifficultyInfo";
+import GdDifficultyInfo from "@/components/gd/GdDifficultyItem";
 import {memo} from "react";
 import {formatGdSkillValue} from "@/services/game";
 

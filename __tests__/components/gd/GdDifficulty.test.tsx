@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react-native';
-import GdDifficultyInfo from '@/components/gd/GdDifficultyInfo';
+import GdDifficultyInfo from '@/components/gd/GdDifficultyItem';
 import {GdDifficulty} from '@/enums/gd-difficulty';
 
 jest.mock('polished', () => ({lighten: (_a: number, c: string) => c}));

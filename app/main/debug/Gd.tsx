@@ -2,7 +2,7 @@ import {GdDifficultyType} from "@/enums/gd-difficulty-type";
 import {GdDifficultyContainer} from "@/types/gd-difficulty-container";
 import {GdDifficulty} from "@/enums/gd-difficulty";
 import {FlatList, View} from "react-native";
-import GdDifficultyInfo from "@/components/gd/GdDifficultyInfo";
+import GdDifficultyInfo from "@/components/gd/GdDifficultyItem";
 import {Card} from "@/components/ui/card";
 import {Text} from "@/components/ui/text";
 
