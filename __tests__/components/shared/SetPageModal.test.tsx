@@ -2,10 +2,6 @@ import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 import SetPageModal from '@/components/shared/SetPageModal';
 
-jest.mock('expo-blur', () => ({
-    BlurView: 'BlurView',
-}));
-
 jest.mock('react-native-safe-area-context', () => ({
     SafeAreaProvider: ({children}: {children: React.ReactNode}) => children,
 }));

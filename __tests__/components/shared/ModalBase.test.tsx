@@ -3,10 +3,6 @@ import {render, screen} from '@testing-library/react-native';
 import {Text} from 'react-native';
 import ModalBase from '@/components/shared/ModalBase';
 
-jest.mock('expo-blur', () => ({
-    BlurView: 'BlurView',
-}));
-
 jest.mock('react-native-safe-area-context', () => ({
     SafeAreaProvider: ({children}: {children: React.ReactNode}) => children,
 }));
