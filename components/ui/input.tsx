@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import { cn } from '@/lib/utils';
-import { Platform, TextInput, useColorScheme, type TextInputProps } from 'react-native';
+import { Platform, TextInput, type TextInputProps } from 'react-native';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 const Input = forwardRef<TextInput, TextInputProps>(({ className, placeholderTextColor, ...props }, ref) => {
   const colorScheme = useColorScheme();

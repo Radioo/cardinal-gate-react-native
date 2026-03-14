@@ -52,4 +52,3 @@ function ToastItem({severity, title, description, onDismiss}: ToastItemProps) {
 }
 
 export {ToastItem};
-export type {ToastItemProps};

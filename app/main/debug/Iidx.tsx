@@ -4,15 +4,11 @@ import IidxDifficultyItem, {IidxDifficultyProps} from "@/components/iidx/IidxDif
 import {Card} from "@/components/ui/card";
 import {Text} from "@/components/ui/text";
 
-const difficulties: IidxDifficultyProps[] = [];
-Object.keys(IidxDifficulty).forEach(difficulty => {
-    for(let i = 1; i <= 12; i++) {
-        difficulties.push({
-            difficulty: IidxDifficulty[difficulty as keyof typeof IidxDifficulty],
-            level: i,
-        })
-    }
-})
+const MAX_LEVEL = 12;
+
+const difficulties: IidxDifficultyProps[] = Object.values(IidxDifficulty).flatMap(difficulty =>
+    Array.from({length: MAX_LEVEL}, (_, i) => ({difficulty, level: i + 1}))
+);
 
 export default function Iidx() {
     return (

@@ -17,16 +17,16 @@ export default function Profile() {
                 <>
                     <ProfileRow
                         icon={<User size={24} color={theme.text}/>}
-                        label={`DJ ${data?.dj_name}`}
-                        value={<Text className="text-base leading-6 font-mono">{formatArcadeId(data?.iidx_id)}</Text>}
+                        label={`DJ ${data.dj_name}`}
+                        value={<Text className="text-base leading-6 font-mono">{formatArcadeId(data.iidx_id)}</Text>}
                     />
                     <ProfileRow
                         icon={<Hash size={24} color={theme.text}/>}
                         label="Play count"
                         value={
                             <View>
-                                <Text className="text-base leading-6 text-right">{data?.sp_play_count.toLocaleString()} SP</Text>
-                                <Text className="text-base leading-6 text-right">{data?.dp_play_count.toLocaleString()} DP</Text>
+                                <Text className="text-base leading-6 text-right">{data.sp_play_count.toLocaleString()} SP</Text>
+                                <Text className="text-base leading-6 text-right">{data.dp_play_count.toLocaleString()} DP</Text>
                             </View>
                         }
                     />
@@ -35,8 +35,8 @@ export default function Profile() {
                         label="Class"
                         value={
                             <View>
-                                <Text className="text-base leading-6 text-right">SP {data?.sp_class}</Text>
-                                <Text className="text-base leading-6 text-right">DP {data?.dp_class}</Text>
+                                <Text className="text-base leading-6 text-right">SP {data.sp_class}</Text>
+                                <Text className="text-base leading-6 text-right">DP {data.dp_class}</Text>
                             </View>
                         }
                     />
@@ -45,8 +45,8 @@ export default function Profile() {
                         label="Inputs"
                         value={
                             <View>
-                                <Text className="text-base leading-6 text-right">{data?.key_count.toLocaleString()} Keys</Text>
-                                <Text className="text-base leading-6 text-right">{data?.scratch_count.toLocaleString()} Scratches</Text>
+                                <Text className="text-base leading-6 text-right">{data.key_count.toLocaleString()} Keys</Text>
+                                <Text className="text-base leading-6 text-right">{data.scratch_count.toLocaleString()} Scratches</Text>
                             </View>
                         }
                     />

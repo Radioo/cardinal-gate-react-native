@@ -4,7 +4,7 @@ import {Portal} from '@rn-primitives/portal';
 import {ToastItem} from '@/components/ui/toast';
 import {useToastStore} from '@/store/toast';
 
-function Toaster() {
+export default function Toaster() {
     const toasts = useToastStore((s) => s.toasts);
     const removeToast = useToastStore((s) => s.removeToast);
     const insets = useSafeAreaInsets();
@@ -32,4 +32,3 @@ function Toaster() {
     );
 }
 
-export {Toaster};

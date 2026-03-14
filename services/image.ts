@@ -7,7 +7,14 @@ export async function downloadToLocalFile(url: string, filename: string): Promis
 
     const b64 = await new Promise<string>((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = () => resolve(reader.result as string);
+        reader.onload = () => {
+            const result = reader.result;
+            if (typeof result !== 'string') {
+                reject(new Error('Unexpected FileReader result type'));
+                return;
+            }
+            resolve(result);
+        };
         reader.onerror = reject;
         reader.readAsDataURL(response);
     });

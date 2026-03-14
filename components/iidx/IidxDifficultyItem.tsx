@@ -10,25 +10,40 @@ export type IidxDifficultyProps = {
     level: number;
 }
 
+const THEME_COLORS = {
+    DARK_TEXT: 'white',
+    LIGHT_TEXT: 'black',
+    DARK_BG: '#4f4f4f',
+    LIGHT_BG: '#f0f0f0',
+} as const;
+
+const DIFFICULTY_COLORS = {
+    BEGINNER: '#3f6934',
+    NORMAL: '#385c70',
+    HYPER: '#a28c1e',
+    ANOTHER: '#8f0000',
+    LEGGENDARIA: '#70008f',
+} as const;
+
 const DIFFICULTY_DATA: Record<IidxDifficulty, { playStyle: IidxPlayStyle; name: string; color: string }> = {
-    [IidxDifficulty.SPB]: { playStyle: IidxPlayStyle.SP, name: 'BEGINNER', color: '#3f6934' },
-    [IidxDifficulty.SPN]: { playStyle: IidxPlayStyle.SP, name: 'NORMAL', color: '#385c70' },
-    [IidxDifficulty.SPH]: { playStyle: IidxPlayStyle.SP, name: 'HYPER', color: '#a28c1e' },
-    [IidxDifficulty.SPA]: { playStyle: IidxPlayStyle.SP, name: 'ANOTHER', color: '#8f0000' },
-    [IidxDifficulty.SPL]: { playStyle: IidxPlayStyle.SP, name: 'LEGGENDARIA', color: '#70008f' },
-    [IidxDifficulty.DPB]: { playStyle: IidxPlayStyle.DP, name: 'BEGINNER', color: '#3f6934' },
-    [IidxDifficulty.DPN]: { playStyle: IidxPlayStyle.DP, name: 'NORMAL', color: '#385c70' },
-    [IidxDifficulty.DPH]: { playStyle: IidxPlayStyle.DP, name: 'HYPER', color: '#a28c1e' },
-    [IidxDifficulty.DPA]: { playStyle: IidxPlayStyle.DP, name: 'ANOTHER', color: '#8f0000' },
-    [IidxDifficulty.DPL]: { playStyle: IidxPlayStyle.DP, name: 'LEGGENDARIA', color: '#70008f' },
+    [IidxDifficulty.SPB]: { playStyle: IidxPlayStyle.SP, name: 'BEGINNER', color: DIFFICULTY_COLORS.BEGINNER },
+    [IidxDifficulty.SPN]: { playStyle: IidxPlayStyle.SP, name: 'NORMAL', color: DIFFICULTY_COLORS.NORMAL },
+    [IidxDifficulty.SPH]: { playStyle: IidxPlayStyle.SP, name: 'HYPER', color: DIFFICULTY_COLORS.HYPER },
+    [IidxDifficulty.SPA]: { playStyle: IidxPlayStyle.SP, name: 'ANOTHER', color: DIFFICULTY_COLORS.ANOTHER },
+    [IidxDifficulty.SPL]: { playStyle: IidxPlayStyle.SP, name: 'LEGGENDARIA', color: DIFFICULTY_COLORS.LEGGENDARIA },
+    [IidxDifficulty.DPB]: { playStyle: IidxPlayStyle.DP, name: 'BEGINNER', color: DIFFICULTY_COLORS.BEGINNER },
+    [IidxDifficulty.DPN]: { playStyle: IidxPlayStyle.DP, name: 'NORMAL', color: DIFFICULTY_COLORS.NORMAL },
+    [IidxDifficulty.DPH]: { playStyle: IidxPlayStyle.DP, name: 'HYPER', color: DIFFICULTY_COLORS.HYPER },
+    [IidxDifficulty.DPA]: { playStyle: IidxPlayStyle.DP, name: 'ANOTHER', color: DIFFICULTY_COLORS.ANOTHER },
+    [IidxDifficulty.DPL]: { playStyle: IidxPlayStyle.DP, name: 'LEGGENDARIA', color: DIFFICULTY_COLORS.LEGGENDARIA },
 };
 
 const IidxDifficultyItemInner = ({difficulty, level}: IidxDifficultyProps) => {
     const theme = useTheme();
     const data = DIFFICULTY_DATA[difficulty];
     const isDark = theme.scheme === 'dark';
-    const textColor = isDark ? 'white' : 'black';
-    const bgColor = isDark ? '#4f4f4f' : '#f0f0f0';
+    const textColor = isDark ? THEME_COLORS.DARK_TEXT : THEME_COLORS.LIGHT_TEXT;
+    const bgColor = isDark ? THEME_COLORS.DARK_BG : THEME_COLORS.LIGHT_BG;
     const diffColor = isDark ? data.color : lighten(0.5, data.color);
 
     return (

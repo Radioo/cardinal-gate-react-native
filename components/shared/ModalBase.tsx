@@ -1,5 +1,5 @@
-import {useColorScheme} from "react-native";
 import React, {useMemo} from "react";
+import {useColorScheme} from "@/hooks/useColorScheme";
 import {Dialog, DialogContent} from "@/components/ui/dialog";
 import {useThemeStore} from "@/store/theme";
 import {buildPrimaryColorVars} from "@/lib/color-utils";

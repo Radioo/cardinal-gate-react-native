@@ -20,19 +20,6 @@ jest.mock('expo-linear-gradient', () => {
     };
 });
 
-function collectTextContent(node: TestRendererJSON | TestRendererJSON[] | string | null): string[] {
-    if (node === null) return [];
-    if (typeof node === 'string') return [node];
-    if (Array.isArray(node)) return node.flatMap(n => collectTextContent(n));
-    const results: string[] = [];
-    if (node.children) {
-        for (const child of node.children) {
-            results.push(...collectTextContent(child));
-        }
-    }
-    return results;
-}
-
 describe('GradientText', () => {
     afterEach(() => {
         Platform.OS = 'ios';

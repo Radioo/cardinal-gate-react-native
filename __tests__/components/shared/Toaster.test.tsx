@@ -18,7 +18,7 @@ jest.mock('lucide-react-native', () => {
     return {CircleCheck: Icon, CircleX: Icon, X: Icon};
 });
 
-import {Toaster} from '@/components/shared/Toaster';
+import Toaster from '@/components/shared/Toaster';
 
 describe('Toaster', () => {
     beforeEach(() => {

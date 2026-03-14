@@ -11,6 +11,8 @@ import FullScreenLoader from "@/components/shared/FullScreenLoader";
 import ErrorScreen from "@/components/shared/ErrorScreen";
 import {downloadToLocalFile} from "@/services/image";
 import ApiImage from "@/components/shared/ApiImage";
+import {displayMessage} from "@/services/message";
+import {MessageSeverity} from "@/enums/message-severity";
 
 type ShareImageModalProps = {
     url: string;
@@ -80,7 +82,13 @@ export default function ShareImageModal({url, visible, onClose}: ShareImageModal
                 UTI: 'image/png',
                 dialogTitle: 'Share this scorecard',
             });
-        }
+        },
+        onError: (error) => {
+            displayMessage(
+                MessageSeverity.ERROR,
+                error instanceof Error ? error.message : 'Failed to share image'
+            );
+        },
     })
 
     if(sharingQuery.isPending) {

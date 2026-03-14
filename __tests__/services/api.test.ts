@@ -20,7 +20,6 @@ global.fetch = mockFetch;
 
 beforeEach(() => {
     mockFetch.mockReset();
-    process.env.EXPO_PUBLIC_API_URL = 'https://api.test.com';
 });
 
 describe('fetchApi', () => {

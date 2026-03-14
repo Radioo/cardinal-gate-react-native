@@ -2,7 +2,7 @@ import '../global.css';
 
 import {ErrorBoundaryProps, Stack} from 'expo-router';
 import {GestureHandlerRootView} from "react-native-gesture-handler";
-import {Toaster} from "@/components/shared/Toaster";
+import Toaster from "@/components/shared/Toaster";
 import {ThemeProvider} from "@react-navigation/native";
 import {StatusBar} from "expo-status-bar";
 import {KeyboardAvoidingView, Platform, View, useColorScheme as useSystemColorScheme} from "react-native";

@@ -6,7 +6,11 @@ export default function useAuthHeaders() {
         queryKey: ['authHeaders'],
         queryFn: async () => {
             const init = await buildAuthRequestInit();
-            return (init.headers as Record<string, string>) ?? {};
+            const headers = init.headers;
+            if (!headers || headers instanceof Headers || Array.isArray(headers)) {
+                return {};
+            }
+            return headers;
         },
         staleTime: Infinity,
     });

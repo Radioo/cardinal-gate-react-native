@@ -14,7 +14,7 @@ describe('getNavTheme', () => {
 
     it('returns correct light mode static colors', () => {
         const theme = getNavTheme('#3b82f6', false);
-        expect(theme.colors.background).toBe('hsl(0, 0%, 100%)');
+        expect(theme.colors.background).toBe('transparent');
         expect(theme.colors.card).toBe('hsl(0, 0%, 100%)');
         expect(theme.colors.border).toBe('hsl(0, 0%, 89.8%)');
         expect(theme.colors.text).toBe('hsl(204, 23%, 9%)');
@@ -23,7 +23,7 @@ describe('getNavTheme', () => {
 
     it('returns correct dark mode static colors', () => {
         const theme = getNavTheme('#3b82f6', true);
-        expect(theme.colors.background).toBe('hsl(200, 9%, 9%)');
+        expect(theme.colors.background).toBe('transparent');
         expect(theme.colors.card).toBe('hsl(200, 9%, 9%)');
         expect(theme.colors.border).toBe('hsl(0, 0%, 14.9%)');
         expect(theme.colors.text).toBe('hsl(200, 4%, 93%)');

@@ -1,5 +1,5 @@
 import { useColorScheme } from '@/hooks/useColorScheme';
-import {buildColorPalette} from "@/constants/Colors";
+import {buildColorPalette} from "@/lib/color-utils";
 import {useThemeStore} from "@/store/theme";
 
 export default function useTheme() {

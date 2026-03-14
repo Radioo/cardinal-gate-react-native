@@ -38,6 +38,10 @@ export default function Skill() {
         return <ErrorScreen error={skillQuery.error} onRetry={skillQuery.refetch}/>
     }
 
+    if(skillQuery.isPending || !skillQuery.data) {
+        return <FullScreenLoader/>
+    }
+
     const dynamicPickerProps: PickerProps = {}
 
     if(Platform.OS !== 'web') {
@@ -60,21 +64,17 @@ export default function Skill() {
                     <Picker.Item key={index.toString()} label={game.name} value={index.toString()}/>
                 )))}
             </Picker>
-            {skillQuery.isPending || !skillQuery.data ? <FullScreenLoader/> : (
-                <>
-                    <View className="flex-row" style={{backgroundColor: theme.background}}>
-                        <GdTotalSkill name="🥁 Skill"
-                                    skill={skillQuery.data.skill_data[GdGameMode.DRUM_MANIA]?.skill}
-                                    allMusicSkill={skillQuery.data.skill_data[GdGameMode.DRUM_MANIA]?.all_music_skill}
-                        />
-                        <GdTotalSkill name="🎸 Skill"
-                                    skill={skillQuery.data.skill_data[GdGameMode.GUITAR_FREAKS]?.skill}
-                                    allMusicSkill={skillQuery.data.skill_data[GdGameMode.GUITAR_FREAKS]?.all_music_skill}
-                        />
-                    </View>
-                    <GdSkillTabs data={skillQuery.data}/>
-                </>
-            )}
+            <View className="flex-row" style={{backgroundColor: theme.background}}>
+                <GdTotalSkill name="🥁 Skill"
+                            skill={skillQuery.data.skill_data[GdGameMode.DRUM_MANIA]?.skill}
+                            allMusicSkill={skillQuery.data.skill_data[GdGameMode.DRUM_MANIA]?.all_music_skill}
+                />
+                <GdTotalSkill name="🎸 Skill"
+                            skill={skillQuery.data.skill_data[GdGameMode.GUITAR_FREAKS]?.skill}
+                            allMusicSkill={skillQuery.data.skill_data[GdGameMode.GUITAR_FREAKS]?.all_music_skill}
+                />
+            </View>
+            <GdSkillTabs data={skillQuery.data}/>
         </>
     )
 }

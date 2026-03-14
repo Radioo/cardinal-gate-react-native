@@ -3,7 +3,7 @@ jest.mock('polished', () => ({
     lighten: (_a: number, c: string) => c,
 }));
 
-import {buildColorPalette} from '@/constants/Colors';
+import {buildColorPalette} from '@/lib/color-utils';
 
 describe('buildColorPalette', () => {
     const result = buildColorPalette('#f28b28');
