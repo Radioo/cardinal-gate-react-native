@@ -8,6 +8,7 @@ import useGdProfile from "@/hooks/queries/useGdProfile";
 import useGdSkill from "@/hooks/queries/useGdSkill";
 import ErrorScreen from "@/components/shared/ErrorScreen";
 import GdTotalSkill from "@/components/gd/GdTotalSkill";
+import {GdGameMode} from "@/enums/gd-game-mode";
 
 export default function Skill() {
     const [selectedGameIndex, setSelectedGameIndex] = useState(0);
@@ -63,12 +64,12 @@ export default function Skill() {
                 <>
                     <View className="flex-row" style={{backgroundColor: theme.background}}>
                         <GdTotalSkill name="🥁 Skill"
-                                    skill={skillQuery.data?.skill_data.dm?.skill}
-                                    allMusicSkill={skillQuery.data?.skill_data.dm?.all_music_skill}
+                                    skill={skillQuery.data?.skill_data[GdGameMode.DRUM_MANIA]?.skill}
+                                    allMusicSkill={skillQuery.data?.skill_data[GdGameMode.DRUM_MANIA]?.all_music_skill}
                         />
                         <GdTotalSkill name="🎸 Skill"
-                                    skill={skillQuery.data?.skill_data.gf?.skill}
-                                    allMusicSkill={skillQuery.data?.skill_data.gf?.all_music_skill}
+                                    skill={skillQuery.data?.skill_data[GdGameMode.GUITAR_FREAKS]?.skill}
+                                    allMusicSkill={skillQuery.data?.skill_data[GdGameMode.GUITAR_FREAKS]?.all_music_skill}
                         />
                     </View>
                     <GdSkillTabs data={skillQuery.data}/>

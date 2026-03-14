@@ -5,6 +5,7 @@ import GdSkillList from "@/components/gd/GdSkillList";
 import {Text as RNText, useWindowDimensions} from "react-native";
 import useTheme from "@/hooks/useTheme";
 import {GdSkillDataResponse} from "@/types/gd-skill-data-response";
+import {GdGameMode} from "@/enums/gd-game-mode";
 
 type GdSkillTabsProps = {
     data: GdSkillDataResponse | undefined;
@@ -53,10 +54,10 @@ export default function GdSkillTabs({data}: GdSkillTabsProps) {
 
     const renderScene = useMemo(() => {
         return SceneMap({
-            hot_dm: () => <GdSkillList items={data?.skill_data.dm.exist ?? []} />,
-            other_dm: () => <GdSkillList items={data?.skill_data.dm.new ?? []} />,
-            hot_gf: () => <GdSkillList items={data?.skill_data.gf.exist ?? []} />,
-            other_gf: () => <GdSkillList items={data?.skill_data.gf.new ?? []} />,
+            hot_dm: () => <GdSkillList items={data?.skill_data[GdGameMode.DRUM_MANIA].exist ?? []} />,
+            other_dm: () => <GdSkillList items={data?.skill_data[GdGameMode.DRUM_MANIA].new ?? []} />,
+            hot_gf: () => <GdSkillList items={data?.skill_data[GdGameMode.GUITAR_FREAKS].exist ?? []} />,
+            other_gf: () => <GdSkillList items={data?.skill_data[GdGameMode.GUITAR_FREAKS].new ?? []} />,
         });
     }, [data]);
 

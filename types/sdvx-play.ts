@@ -8,7 +8,7 @@ export type SdvxPlay = {
     difficulty: SdvxDifficulty;
     level: number;
     score: number;
-    ex_score: number;
+    ex_score: number | null;
     clear_type: SdvxClearType;
     grade: string;
 }

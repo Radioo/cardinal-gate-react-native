@@ -14,7 +14,7 @@ import {queryClient} from "@/services/query-client";
 import {getNavTheme} from "@/lib/theme";
 import {useColorScheme, vars} from "nativewind";
 import {useThemeStore} from "@/store/theme";
-import {hexToHslVar, lightenToHslVar, darkenToHslVar} from "@/lib/color-utils";
+import {buildPrimaryColorVars} from "@/lib/color-utils";
 import {useEffect, useLayoutEffect, useMemo} from "react";
 import {PortalHost} from "@rn-primitives/portal";
 
@@ -43,14 +43,10 @@ export default function Layout() {
         }
     }, []);
 
-    const dynamicVars = useMemo(() => vars({
-        '--primary': hexToHslVar(primaryColor),
-        '--primary-surface': isDark
-            ? darkenToHslVar(primaryColor, 0.4)
-            : lightenToHslVar(primaryColor, 0.4),
-        '--input': hexToHslVar(primaryColor),
-        '--ring': hexToHslVar(primaryColor),
-    }), [primaryColor, isDark]);
+    const dynamicVars = useMemo(
+        () => vars(buildPrimaryColorVars(primaryColor, isDark)),
+        [primaryColor, isDark],
+    );
 
     const navTheme = useMemo(() => getNavTheme(primaryColor, isDark), [primaryColor, isDark]);
 

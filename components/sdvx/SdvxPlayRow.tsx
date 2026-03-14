@@ -14,7 +14,7 @@ export default function SdvxPlayRow({play}: SdvxPlayRowProps) {
     const theme = useTheme();
 
     return (
-        <Card className="border-primary bg-primary-surface gap-0 rounded-none p-1.5 shadow-none gap-[5px]">
+        <Card className="border-primary bg-primary-surface rounded-none p-1.5 shadow-none gap-[5px]">
             <View className="gap-[5px]">
                 <Text className="text-base leading-6" numberOfLines={1}>{play.title}</Text>
                 <SdvxDifficultyItem difficulty={play.difficulty} level={play.level}/>

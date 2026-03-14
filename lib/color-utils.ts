@@ -1,6 +1,3 @@
-/**
- * Convert a hex color string to HSL values.
- */
 export function hexToHsl(hex: string): { h: number; s: number; l: number } {
     const r = parseInt(hex.slice(1, 3), 16) / 255;
     const g = parseInt(hex.slice(3, 5), 16) / 255;
@@ -20,6 +17,7 @@ export function hexToHsl(hex: string): { h: number; s: number; l: number } {
             case r: h = ((g - b) / d + (g < b ? 6 : 0)) * 60; break;
             case g: h = ((b - r) / d + 2) * 60; break;
             case b: h = ((r - g) / d + 4) * 60; break;
+            default: break; // max is always r, g, or b; unreachable
         }
     }
 
@@ -53,4 +51,19 @@ export function darkenToHslVar(hex: string, amount: number): string {
     const { h, s, l } = hexToHsl(hex);
     const newL = Math.max(0, l - amount * 100);
     return `${Math.round(h)} ${Math.round(s)}% ${Math.round(newL)}%`;
+}
+
+/**
+ * Build the CSS custom property values for the primary color theme.
+ * Used by the root layout and modal overlays to keep variables in sync.
+ */
+export function buildPrimaryColorVars(primaryColor: string, isDark: boolean): Record<string, string> {
+    return {
+        '--primary': hexToHslVar(primaryColor),
+        '--primary-surface': isDark
+            ? darkenToHslVar(primaryColor, 0.4)
+            : lightenToHslVar(primaryColor, 0.4),
+        '--input': hexToHslVar(primaryColor),
+        '--ring': hexToHslVar(primaryColor),
+    };
 }
