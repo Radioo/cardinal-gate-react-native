@@ -1,5 +1,6 @@
 import ModalBase from "@/components/shared/ModalBase";
 import {Platform, TouchableOpacity, View} from "react-native";
+import InlineSpinner from "@/components/shared/InlineSpinner";
 import {Button} from "@/components/ui/button";
 import {Text} from "@/components/ui/text";
 import {Checkbox} from "@/components/ui/checkbox";
@@ -51,7 +52,7 @@ const BottomSection = ({isLoading, onClose, onPress, sharingAvailable}: BottomSe
                               className="flex-1 h-10 px-2.5"
                 >
                     {isLoading ? (
-                        <View className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                        <InlineSpinner />
                     ) : (
                         <Text className="font-bold">Share</Text>
                     )}

@@ -1,19 +1,22 @@
 import {getSecureValue} from "@/services/secure-storage";
 import {SecureValue} from "@/enums/secure-value";
 
-export async function buildAuthRequestInit(init?: RequestInit): Promise<RequestInit> {
-    const token = await getSecureValue(SecureValue.TOKEN);
-    const headers: Record<string, string> = {};
+export const AUTH_HEADER_NAME = 'CG-Token';
 
-    if (token !== null) {
-        headers['CG-Token'] = token;
-    }
+export async function buildAuthHeaders(): Promise<Record<string, string>> {
+    const token = await getSecureValue(SecureValue.TOKEN);
+    if (token === null) return {};
+    return {[AUTH_HEADER_NAME]: token};
+}
+
+export async function buildAuthRequestInit(init?: RequestInit): Promise<RequestInit> {
+    const authHeaders = await buildAuthHeaders();
 
     return {
         ...init,
         headers: {
             ...init?.headers,
-            ...headers,
+            ...authHeaders,
         },
     };
 }

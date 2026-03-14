@@ -1,6 +1,8 @@
 import {fetchApi, fetchApiBlob} from '@/services/api';
+import {AUTH_HEADER_NAME} from '@/services/auth-headers';
 
 jest.mock('@/services/auth-headers', () => ({
+    AUTH_HEADER_NAME: 'CG-Token',
     buildAuthRequestInit: jest.fn(async (init?: RequestInit) => ({
         ...init,
         headers: {...(init?.headers || {}), 'CG-Token': 'test-token'},
@@ -36,7 +38,7 @@ describe('fetchApi', () => {
         expect(result).toEqual(mockData);
         expect(mockFetch).toHaveBeenCalledWith(
             expect.stringContaining('/api2/test'),
-            expect.objectContaining({headers: expect.objectContaining({'CG-Token': 'test-token'})}),
+            expect.objectContaining({headers: expect.objectContaining({[AUTH_HEADER_NAME]: 'test-token'})}),
         );
     });
 

@@ -63,7 +63,7 @@ export default function Pagination({
 
             <SetPageModal
                 visible={modalVisible}
-                onClose={page => {
+                onSubmit={page => {
                     updatePage(page);
                     setModalVisible(false);
                 }}

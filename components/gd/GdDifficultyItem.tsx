@@ -4,6 +4,7 @@ import {GdDifficulty} from "@/enums/gd-difficulty";
 import {lighten} from "polished";
 import {memo} from "react";
 import useTheme from "@/hooks/useTheme";
+import {formatGdSkillValue} from "@/services/game";
 
 const difficultyColors: Record<GdDifficulty, string> = {
     [GdDifficulty.BASIC]: '#427486',
@@ -31,7 +32,7 @@ const GdDifficultyItemInner = ({difficulty}: GdDifficultyProps) => {
                 {difficulty.difficulty}
             </Text>
             <Text className="text-white px-1 border-2 border-black" style={{backgroundColor: difficultyColor}}>
-                {(difficulty.level / 100).toFixed(2)}
+                {formatGdSkillValue(difficulty.level)}
             </Text>
         </View>
     )

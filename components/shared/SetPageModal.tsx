@@ -9,14 +9,14 @@ import ModalBase from "@/components/shared/ModalBase";
 type SetPageModalProps = {
     initialValue?: string;
     visible: boolean;
-    onClose: (page: number) => void;
+    onSubmit: (page: number) => void;
     maxPage: number;
 };
 
 export default function SetPageModal({
                                          initialValue,
                                          visible,
-                                         onClose,
+                                         onSubmit,
                                          maxPage,
                                      }: SetPageModalProps) {
     const theme = useTheme();
@@ -44,7 +44,7 @@ export default function SetPageModal({
                         aria-valuemin={1}
                         onPress={() => {
                             const result = Math.max(1, Math.min(maxPage, parseInt(value) || 1));
-                            onClose(result);
+                            onSubmit(result);
                         }}
                     >
                         <Text className="font-bold">OK</Text>

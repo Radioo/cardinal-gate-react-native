@@ -1,6 +1,7 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 import {TestRendererJSON} from '../../../helpers/types';
+import {findAll} from '../../../helpers/tree-utils';
 
 let mockUseIidxProfile: jest.Mock;
 
@@ -38,20 +39,6 @@ jest.mock('@/components/shared/ErrorScreen', () => {
 });
 
 import Profile from '@/app/main/iidx/Profile';
-
-function findAll(node: TestRendererJSON | null, predicate: (n: TestRendererJSON) => boolean): TestRendererJSON[] {
-    if (!node) return [];
-    const results: TestRendererJSON[] = [];
-    if (predicate(node)) results.push(node);
-    if (node.children) {
-        for (const child of node.children) {
-            if (typeof child !== 'string') {
-                results.push(...findAll(child, predicate));
-            }
-        }
-    }
-    return results;
-}
 
 function collectText(node: TestRendererJSON | null): string[] {
     if (!node) return [];

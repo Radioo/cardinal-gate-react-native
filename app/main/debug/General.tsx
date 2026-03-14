@@ -1,6 +1,7 @@
-import {ScrollView, View} from "react-native";
+import {ScrollView} from "react-native";
 import {Button} from "@/components/ui/button";
 import {Text} from "@/components/ui/text";
+import InlineSpinner from "@/components/shared/InlineSpinner";
 import {useState} from "react";
 import ShareImageModal from "@/components/shared/ShareImageModal";
 import {displayMessage} from "@/services/message";
@@ -19,7 +20,7 @@ export default function General() {
                 <Text className="font-bold">Share image</Text>
             </Button>
             <Button className="h-10 px-2.5" disabled>
-                <View className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                <InlineSpinner />
             </Button>
             <Button onPress={() => displayMessage(MessageSeverity.SUCCESS, "Success message")}>
                 <Text>Success Toast</Text>

@@ -1,4 +1,5 @@
 import {TextInput, View} from "react-native";
+import InlineSpinner from "@/components/shared/InlineSpinner";
 import {useRef, useState} from "react";
 import Logo from "@/assets/svg/Logo";
 import {Input} from "@/components/ui/input";
@@ -98,7 +99,7 @@ export default function LoginScreen() {
                     onPress={login}
                 >
                     {loading ? (
-                        <View className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                        <InlineSpinner />
                     ) : (
                         <Text className="font-bold">Login</Text>
                     )}

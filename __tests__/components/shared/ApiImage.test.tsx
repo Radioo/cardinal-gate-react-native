@@ -1,8 +1,9 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 import ApiImage from '@/components/shared/ApiImage';
+import {AUTH_HEADER_NAME} from '@/services/auth-headers';
 
-let mockHeaders: Record<string, unknown> = {'CG-Token': 'test'};
+let mockHeaders: Record<string, unknown> = {[AUTH_HEADER_NAME]: 'test'};
 let mockIsPending = false;
 let mockIsError = false;
 
@@ -28,7 +29,7 @@ jest.mock('@/components/shared/ErrorScreen', () => {
 
 describe('ApiImage', () => {
     beforeEach(() => {
-        mockHeaders = {'CG-Token': 'test'};
+        mockHeaders = {[AUTH_HEADER_NAME]: 'test'};
         mockIsPending = false;
         mockIsError = false;
     });
@@ -38,7 +39,7 @@ describe('ApiImage', () => {
         const image = screen.getByTestId('expo-image');
         expect(image.props.source).toEqual({
             uri: 'https://example.com/image.png',
-            headers: {'CG-Token': 'test'},
+            headers: {[AUTH_HEADER_NAME]: 'test'},
         });
     });
 

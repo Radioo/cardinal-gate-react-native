@@ -1,5 +1,6 @@
 import {Text} from "@/components/ui/text";
 import FullScreenLoader from "@/components/shared/FullScreenLoader";
+import ErrorScreen from "@/components/shared/ErrorScreen";
 import {View} from "react-native";
 import {Card} from "@/components/ui/card";
 import {Clock} from "lucide-react-native";
@@ -8,11 +9,15 @@ import {getSeriesName, estimatePlayTimeHours} from "@/services/game";
 import useSummary from "@/hooks/queries/useSummary";
 
 export default function PlayCounts() {
-    const {data, isPending} = useSummary();
+    const {data, isPending, isError, error, refetch} = useSummary();
     const theme = useTheme();
 
     if(isPending) {
         return <FullScreenLoader style={{height: 100}}/>
+    }
+
+    if(isError) {
+        return <ErrorScreen error={error} onRetry={refetch}/>
     }
 
     return (

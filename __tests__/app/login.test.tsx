@@ -1,6 +1,7 @@
 import React from 'react';
 import {render, screen, fireEvent, waitFor} from '@testing-library/react-native';
 import {TestRendererJSON} from '../helpers/types';
+import {findAllInArray, collectAllText} from '../helpers/tree-utils';
 
 jest.mock('expo-router', () => ({
     router: {replace: jest.fn()},
@@ -27,29 +28,6 @@ import {MessageSeverity} from '@/enums/message-severity';
 import {router} from 'expo-router';
 import LoginScreen from '@/app/login';
 
-function findAllInTree(nodes: (TestRendererJSON | string)[], predicate: (n: TestRendererJSON) => boolean): TestRendererJSON[] {
-    const results: TestRendererJSON[] = [];
-    for (const node of nodes) {
-        if (typeof node === 'string') continue;
-        if (predicate(node)) results.push(node);
-        if (node.children) {
-            results.push(...findAllInTree(node.children as (TestRendererJSON | string)[], predicate));
-        }
-    }
-    return results;
-}
-
-function collectAllText(nodes: (TestRendererJSON | string)[]): string[] {
-    const texts: string[] = [];
-    for (const node of nodes) {
-        if (typeof node === 'string') {
-            texts.push(node);
-        } else if (node.children) {
-            texts.push(...collectAllText(node.children as (TestRendererJSON | string)[]));
-        }
-    }
-    return texts;
-}
 
 async function getTree(): Promise<(TestRendererJSON | string)[]> {
     await render(<LoginScreen />);
@@ -67,13 +45,13 @@ describe('LoginScreen', () => {
 
     it('renders the logo', async () => {
         const nodes = await getTree();
-        const logos = findAllInTree(nodes, n => n.props?.testID === 'logo');
+        const logos = findAllInArray(nodes, n => n.props?.testID === 'logo');
         expect(logos.length).toBe(1);
     });
 
     it('renders three text input fields with correct placeholders', async () => {
         const nodes = await getTree();
-        const inputs = findAllInTree(nodes, n => n.type === 'TextInput');
+        const inputs = findAllInArray(nodes, n => n.type === 'TextInput');
         expect(inputs.length).toBe(3);
 
         const placeholders = inputs.map(n => n.props.placeholder);
@@ -90,7 +68,7 @@ describe('LoginScreen', () => {
 
     it('renders password field with secureTextEntry', async () => {
         const nodes = await getTree();
-        const inputs = findAllInTree(nodes, n => n.type === 'TextInput');
+        const inputs = findAllInArray(nodes, n => n.type === 'TextInput');
         const passwordInput = inputs.find(n => n.props.placeholder === 'Password');
         expect(passwordInput).toBeDefined();
         expect(passwordInput?.props.secureTextEntry).toBe(true);
@@ -98,7 +76,7 @@ describe('LoginScreen', () => {
 
     it('renders username field with autoCapitalize none', async () => {
         const nodes = await getTree();
-        const inputs = findAllInTree(nodes, n => n.type === 'TextInput');
+        const inputs = findAllInArray(nodes, n => n.type === 'TextInput');
         const usernameInput = inputs.find(n => n.props.placeholder === 'Username or email');
         expect(usernameInput).toBeDefined();
         expect(usernameInput?.props.autoCapitalize).toBe('none');

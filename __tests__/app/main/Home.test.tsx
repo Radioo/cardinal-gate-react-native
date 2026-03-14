@@ -1,6 +1,7 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 import {TestRendererJSON} from '../../helpers/types';
+import {findAll} from '../../helpers/tree-utils';
 
 jest.mock('@/hooks/queries/useSummary', () => ({
     __esModule: true,
@@ -18,20 +19,6 @@ jest.mock('@/components/shared/PlayCounts', () => {
 });
 
 import Home from '@/app/main/Home';
-
-function findAll(node: TestRendererJSON | null, predicate: (n: TestRendererJSON) => boolean): TestRendererJSON[] {
-    if (!node) return [];
-    const results: TestRendererJSON[] = [];
-    if (predicate(node)) results.push(node);
-    if (node.children) {
-        for (const child of node.children) {
-            if (typeof child !== 'string') {
-                results.push(...findAll(child, predicate));
-            }
-        }
-    }
-    return results;
-}
 
 describe('Home', () => {
     it('renders a ScrollView as root element', async () => {

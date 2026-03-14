@@ -7,6 +7,7 @@ import {render, cleanup, waitFor} from '@testing-library/react-native';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import useAuthHeaders from '@/hooks/useAuthHeaders';
 import {getSecureValue} from '@/services/secure-storage';
+import {AUTH_HEADER_NAME} from '@/services/auth-headers';
 
 const mockGetSecureValue = getSecureValue as jest.MockedFunction<typeof getSecureValue>;
 
@@ -40,7 +41,7 @@ describe('useAuthHeaders', () => {
         mockGetSecureValue.mockResolvedValue('test-token');
         let headers: Record<string, string> = {};
         const {client} = await renderTest((d) => { headers = d; });
-        expect(headers).toEqual({'CG-Token': 'test-token'});
+        expect(headers).toEqual({[AUTH_HEADER_NAME]: 'test-token'});
         cleanup();
         client.clear();
     });

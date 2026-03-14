@@ -1,6 +1,8 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 import GdSkillListItem from '@/components/gd/GdSkillListItem';
+import {GdDifficultyType} from '@/enums/gd-difficulty-type';
+import {GdDifficulty} from '@/enums/gd-difficulty';
 
 jest.mock('@/components/gd/GdDifficultyItem', () => {
     const {createElement} = require('react');
@@ -13,8 +15,9 @@ jest.mock('polished', () => ({
 }));
 
 const mockItem = {
+    music_id: 1,
     title: 'Test Song',
-    difficulty: {type: 'DM', difficulty: 'EXT', level: 500},
+    difficulty: {type: GdDifficultyType.DRUM, difficulty: GdDifficulty.EXTREME, level: 500},
     skill: 15000,
     percentage: 9500,
 };

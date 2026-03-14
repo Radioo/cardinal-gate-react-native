@@ -8,6 +8,7 @@ export type IidxPlay = {
     difficulty: IidxDifficulty;
     level: number;
     clear_type: IidxClearType;
+    /** Whether the play ended in a stage failure (did not clear the song). */
     dead: boolean;
     ex_score: number;
     perfect_count: number;

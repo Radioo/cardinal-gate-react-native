@@ -2,7 +2,7 @@ jest.mock('@/services/secure-storage', () => ({
     getSecureValue: jest.fn(),
 }));
 
-import {buildAuthRequestInit} from '@/services/auth-headers';
+import {buildAuthRequestInit, AUTH_HEADER_NAME} from '@/services/auth-headers';
 import {getSecureValue} from '@/services/secure-storage';
 
 const mockGetSecureValue = getSecureValue as jest.MockedFunction<typeof getSecureValue>;
@@ -15,7 +15,7 @@ describe('buildAuthRequestInit', () => {
     it('adds CG-Token header when token exists', async () => {
         mockGetSecureValue.mockResolvedValue('test-token');
         const result = await buildAuthRequestInit();
-        expect(result.headers).toEqual({'CG-Token': 'test-token'});
+        expect(result.headers).toEqual({[AUTH_HEADER_NAME]: 'test-token'});
     });
 
     it('does not add CG-Token header when token is null', async () => {
@@ -31,7 +31,7 @@ describe('buildAuthRequestInit', () => {
         });
         expect(result.headers).toEqual({
             'Content-Type': 'application/json',
-            'CG-Token': 'test-token',
+            [AUTH_HEADER_NAME]: 'test-token',
         });
     });
 
