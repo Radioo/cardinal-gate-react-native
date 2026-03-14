@@ -5,9 +5,7 @@ import FullScreenLoader from "@/components/shared/FullScreenLoader";
 
 export default function Logout() {
     useEffect(() => {
-        clearSession()
-            .then(() => router.replace("/login"))
-            .catch(() => router.replace("/login"));
+        clearSession().finally(() => router.replace("/login"));
     }, []);
 
     return (

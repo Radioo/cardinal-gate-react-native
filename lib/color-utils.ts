@@ -1,3 +1,5 @@
+import {darken, lighten} from "polished";
+
 export function hexToRgba(hex: string, alpha: number): string {
     const r = parseInt(hex.slice(1, 3), 16);
     const g = parseInt(hex.slice(3, 5), 16);
@@ -74,8 +76,6 @@ export function buildPrimaryColorVars(primaryColor: string, isDark: boolean): Re
         '--ring': hexToHslVar(primaryColor),
     };
 }
-
-import {darken, lighten} from "polished";
 
 const LIGHT_TOKENS = {
     text: '#11181C',

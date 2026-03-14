@@ -17,19 +17,13 @@ const tabRoutes = [
     }
 ];
 
-const difficulties: {difficulty: SdvxDifficulty, level: number}[] = [];
-for (let i = 1; i <= 20; i++) {
-    for (const key of Object.keys(SdvxDifficulty)) {
-        difficulties.push({
-            difficulty: SdvxDifficulty[key as keyof typeof SdvxDifficulty],
-            level: i,
-        });
-    }
-}
+const MAX_LEVEL = 20;
 
-const clearTypes: SdvxClearType[] = Object.keys(SdvxClearType).map(
-    key => SdvxClearType[key as keyof typeof SdvxClearType]
+const difficulties = Array.from({length: MAX_LEVEL}, (_, i) => i + 1).flatMap(level =>
+    Object.values(SdvxDifficulty).map(difficulty => ({difficulty, level}))
 );
+
+const clearTypes: SdvxClearType[] = Object.values(SdvxClearType);
 
 const DifficultiesScene = () => (
     <FlatList

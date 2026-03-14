@@ -1,7 +1,7 @@
 import {Platform, StyleSheet, View, ViewStyle} from "react-native";
 import {LinearGradient} from "expo-linear-gradient";
 import {useThemeStore} from "@/store/theme";
-import {useColorScheme as useSystemColorScheme} from "react-native";
+import {useColorScheme} from "@/hooks/useColorScheme";
 import {hexToRgba} from "@/lib/color-utils";
 
 type WebViewStyle = ViewStyle & { backgroundImage?: string };
@@ -14,7 +14,7 @@ const GRADIENT_DIRECTIONS = [
 
 export default function GradientBackground() {
     const {primaryColor} = useThemeStore();
-    const colorScheme = useSystemColorScheme();
+    const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
 
     const opacity = isDark ? 0.12 : 0.08;
