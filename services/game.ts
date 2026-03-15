@@ -35,7 +35,7 @@ export function getIidxChartScreenshotUrl(id: number): string {
 
 const MINUTES_PER_PLAY = 2;
 
-export function estimatePlayTimeHours(playCounts: {count: number}[]): string {
+export function formatPlayTimeHours(playCounts: {count: number}[]): string {
     const minutes = playCounts.reduce((total, item) => total + item.count * MINUTES_PER_PLAY, 0);
     const hours = minutes / 60;
     return Number.isInteger(hours) ? hours.toString() : hours.toFixed(1);

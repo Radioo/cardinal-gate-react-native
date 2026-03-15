@@ -1,4 +1,4 @@
-import {getSeriesName, formatArcadeId, formatGdSkillValue, estimatePlayTimeHours} from '@/services/game';
+import {getSeriesName, formatArcadeId, formatGdSkillValue, formatPlayTimeHours} from '@/services/game';
 import {Series} from '@/enums/series';
 
 describe('getSeriesName', () => {
@@ -63,20 +63,20 @@ describe('formatGdSkillValue', () => {
     });
 });
 
-describe('estimatePlayTimeHours', () => {
+describe('formatPlayTimeHours', () => {
     it('calculates hours from play counts', () => {
-        expect(estimatePlayTimeHours([{count: 30}])).toBe('1');
+        expect(formatPlayTimeHours([{count: 30}])).toBe('1');
     });
 
     it('returns 0 for empty array', () => {
-        expect(estimatePlayTimeHours([])).toBe('0');
+        expect(formatPlayTimeHours([])).toBe('0');
     });
 
     it('sums multiple games', () => {
-        expect(estimatePlayTimeHours([{count: 30}, {count: 60}])).toBe('3');
+        expect(formatPlayTimeHours([{count: 30}, {count: 60}])).toBe('3');
     });
 
     it('formats fractional hours with one decimal', () => {
-        expect(estimatePlayTimeHours([{count: 10}])).toBe('0.3');
+        expect(formatPlayTimeHours([{count: 10}])).toBe('0.3');
     });
 });

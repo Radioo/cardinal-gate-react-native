@@ -19,7 +19,7 @@ export async function downloadToLocalFile(url: string, filename: string): Promis
         reader.readAsDataURL(response);
     });
 
-    file.write(b64.split(',')[1], {encoding: 'base64'});
+    await file.write(b64.split(',')[1], {encoding: 'base64'});
 
     return file.uri;
 }

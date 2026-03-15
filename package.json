@@ -54,7 +54,6 @@
     "expo-sharing": "~55.0.11",
     "expo-splash-screen": "~55.0.10",
     "expo-status-bar": "~55.0.4",
-    "expo-system-ui": "~55.0.9",
     "lucide-react-native": "^0.577.0",
     "nativewind": "^4.2.2",
     "polished": "^4.3.1",

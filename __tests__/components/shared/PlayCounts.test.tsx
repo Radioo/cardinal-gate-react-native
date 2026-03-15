@@ -24,7 +24,7 @@ jest.mock('@/services/game', () => ({
         };
         return names[series] ?? 'Unknown series';
     },
-    estimatePlayTimeHours: (playCounts: {count: number}[]) => {
+    formatPlayTimeHours: (playCounts: {count: number}[]) => {
         const minutes = playCounts.reduce((total: number, item: {count: number}) => total + item.count * 2, 0);
         const hours = minutes / 60;
         return Number.isInteger(hours) ? hours.toString() : hours.toFixed(1);
@@ -48,8 +48,8 @@ describe('PlayCounts', () => {
         mockUseSummary.mockReturnValue({
             data: {
                 play_counts: [
-                    {game: 'iidx', count: 100},
-                    {game: 'sdvx', count: 200},
+                    {series: 'iidx', count: 100},
+                    {series: 'sdvx', count: 200},
                 ],
             },
             isPending: false,
@@ -65,8 +65,8 @@ describe('PlayCounts', () => {
         mockUseSummary.mockReturnValue({
             data: {
                 play_counts: [
-                    {game: 'iidx', count: 100},
-                    {game: 'sdvx', count: 200},
+                    {series: 'iidx', count: 100},
+                    {series: 'sdvx', count: 200},
                 ],
             },
             isPending: false,
@@ -84,7 +84,7 @@ describe('PlayCounts', () => {
         mockUseSummary.mockReturnValue({
             data: {
                 play_counts: [
-                    {game: 'iidx', count: 150},
+                    {series: 'iidx', count: 150},
                 ],
             },
             isPending: false,
@@ -117,7 +117,7 @@ describe('PlayCounts', () => {
         mockUseSummary.mockReturnValue({
             data: {
                 play_counts: [
-                    {game: 'iidx', count: 12345},
+                    {series: 'iidx', count: 12345},
                 ],
             },
             isPending: false,

@@ -13,26 +13,24 @@ type GradientTextProps = {
     backgroundColor?: string;
 };
 
-export default function GradientText(props: GradientTextProps) {
+export default function GradientText({colors, style, className, start, end, children, backgroundColor}: GradientTextProps) {
     if (Platform.OS === "web") {
-        const gradientString = `linear-gradient(to bottom, ${props.colors.join(
-            ", "
-        )})`;
+        const gradientString = `linear-gradient(to bottom, ${colors.join(", ")})`;
 
         return (
             <Text
-                className={props.className}
+                className={className}
                 style={[
-                    props.style,
+                    style,
                     {
                         backgroundImage: gradientString,
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
-                        backgroundColor: props.backgroundColor,
+                        backgroundColor,
                     } as TextProps['style'],
                 ]}
             >
-                {props.children}
+                {children}
             </Text>
         );
     }
@@ -40,17 +38,17 @@ export default function GradientText(props: GradientTextProps) {
     return (
         <MaskedView
             maskElement={
-                <Text className={props.className} style={[props.style, { backgroundColor: "transparent" }]}>
-                    {props.children}
+                <Text className={className} style={[style, { backgroundColor: "transparent" }]}>
+                    {children}
                 </Text>
             }
         >
             <LinearGradient
-                colors={props.colors}
-                start={props.start ?? { x: 0, y: 0 }}
-                end={props.end ?? { x: 1, y: 0 }}
+                colors={colors}
+                start={start ?? { x: 0, y: 0 }}
+                end={end ?? { x: 1, y: 0 }}
             >
-                <Text className={props.className} style={[props.style, { opacity: 0 }]}>{props.children}</Text>
+                <Text className={className} style={[style, { opacity: 0 }]}>{children}</Text>
             </LinearGradient>
         </MaskedView>
     );
