@@ -13,6 +13,8 @@ jest.mock('lucide-react-native', () => {
     return {
         ChevronLeft: (props: Record<string, unknown>) => RN.createElement('View', props),
         ChevronRight: (props: Record<string, unknown>) => RN.createElement('View', props),
+        ChevronsLeft: (props: Record<string, unknown>) => RN.createElement('View', props),
+        ChevronsRight: (props: Record<string, unknown>) => RN.createElement('View', props),
     };
 });
 
@@ -69,8 +71,8 @@ describe('PaginatedPlaysList', () => {
 
     it('renders Pagination with correct page info when data is loaded', async () => {
         await render(<PaginatedPlaysList {...defaultProps} pages={5} page={3}/>);
-        // Pagination renders a ThemedButton with the page label
-        expect(screen.getByText('3 / 5')).toBeTruthy();
+        // Pagination renders page number buttons
+        expect(screen.getByText('3')).toBeTruthy();
     });
 
     it('renders FlatList when not pending and not error', async () => {
