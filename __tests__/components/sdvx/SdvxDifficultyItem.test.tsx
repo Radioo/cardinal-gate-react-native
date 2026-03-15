@@ -9,13 +9,19 @@ jest.mock('polished', () => ({
 }));
 
 describe('SdvxDifficultyItem', () => {
-    it('renders EXHAUST difficulty', async () => {
+    it('renders difficulty name', async () => {
         await render(<SdvxDifficultyItem difficulty={SdvxDifficulty.EXHAUST} level={18}/>);
-        expect(screen.toJSON()).toBeTruthy();
+        expect(screen.getByText(SdvxDifficulty.EXHAUST)).toBeTruthy();
     });
 
-    it('renders MAXIMUM difficulty', async () => {
+    it('renders level number', async () => {
         await render(<SdvxDifficultyItem difficulty={SdvxDifficulty.MAXIMUM} level={20}/>);
-        expect(screen.toJSON()).toBeTruthy();
+        expect(screen.getByText('20')).toBeTruthy();
+    });
+
+    it('renders both difficulty and level', async () => {
+        await render(<SdvxDifficultyItem difficulty={SdvxDifficulty.NOVICE} level={5}/>);
+        expect(screen.getByText(SdvxDifficulty.NOVICE)).toBeTruthy();
+        expect(screen.getByText('5')).toBeTruthy();
     });
 });

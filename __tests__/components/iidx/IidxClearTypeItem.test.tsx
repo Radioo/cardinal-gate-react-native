@@ -10,17 +10,22 @@ jest.mock('polished', () => ({
 
 jest.mock('@/components/iidx/IidxFullComboClearTypeItem', () => {
     const {createElement} = require('react');
-    return {__esModule: true, default: () => createElement('View', null, createElement('Text', null, 'FC'))};
+    return {__esModule: true, default: () => createElement('View', {testID: 'fc-item'})};
 });
 
 describe('IidxClearTypeItem', () => {
-    it('renders CLEAR clear type', async () => {
+    it('renders ColorBadge for non-FULL_COMBO types', async () => {
         await render(<IidxClearTypeItem clearType={IidxClearType.CLEAR}/>);
-        expect(screen.toJSON()).toBeTruthy();
+        expect(screen.getByText(IidxClearType.CLEAR)).toBeTruthy();
     });
 
-    it('renders FULL_COMBO clear type', async () => {
+    it('renders FullComboClearTypeItem for FULL_COMBO', async () => {
         await render(<IidxClearTypeItem clearType={IidxClearType.FULL_COMBO}/>);
-        expect(screen.toJSON()).toBeTruthy();
+        expect(screen.getByTestId('fc-item')).toBeTruthy();
+    });
+
+    it('renders different clear types with correct text', async () => {
+        await render(<IidxClearTypeItem clearType={IidxClearType.HARD_CLEAR}/>);
+        expect(screen.getByText(IidxClearType.HARD_CLEAR)).toBeTruthy();
     });
 });
