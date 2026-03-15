@@ -22,7 +22,7 @@ export default function GradientBackground() {
     if (Platform.OS === 'web') {
         const webStyle: WebViewStyle = {
             ...styles.gradient,
-            backgroundImage: `radial-gradient(ellipse at top left, ${hexToRgba(primaryColor, opacity)} 0%, transparent 60%)`,
+            backgroundImage: `radial-gradient(circle at top left, ${hexToRgba(primaryColor, opacity)} 0%, transparent 60%)`,
         };
         return <View style={webStyle} />;
     }
