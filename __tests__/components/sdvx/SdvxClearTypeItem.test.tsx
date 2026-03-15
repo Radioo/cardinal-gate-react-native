@@ -3,11 +3,6 @@ import {render, screen} from '@testing-library/react-native';
 import SdvxClearTypeItem from '@/components/sdvx/SdvxClearTypeItem';
 import {SdvxClearType} from '@/enums/sdvx-clear-type';
 
-jest.mock('polished', () => ({
-    darken: (_amount: number, color: string) => color,
-    lighten: (_amount: number, color: string) => color,
-}));
-
 describe('SdvxClearTypeItem', () => {
     it('renders COMPLETE clear type', async () => {
         await render(<SdvxClearTypeItem clearType={SdvxClearType.COMPLETE}/>);

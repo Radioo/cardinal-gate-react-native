@@ -1,6 +1,6 @@
 import {StyleProp, Text, View, ViewStyle} from "react-native";
-import {darken, lighten} from "polished";
 import useTheme from "@/hooks/useTheme";
+import {darkenHex, lightenHex} from "@/lib/color-utils";
 
 type ColorBadgeProps = {
     text: string;
@@ -12,11 +12,11 @@ export default function ColorBadge({text, color, style}: ColorBadgeProps) {
     const theme = useTheme();
 
     const backgroundColor = theme.scheme === 'dark'
-        ? darken(0.2, color)
-        : lighten(0.25, color);
+        ? darkenHex(0.2, color)
+        : lightenHex(0.25, color);
     const borderColor = theme.scheme === 'dark'
-        ? lighten(0.2, color)
-        : darken(0.25, color);
+        ? lightenHex(0.2, color)
+        : darkenHex(0.25, color);
 
     return (
         <View className="self-start" style={style}>

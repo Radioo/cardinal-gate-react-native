@@ -3,10 +3,6 @@ import {render, screen} from '@testing-library/react-native';
 import IidxDifficultyItem from '@/components/iidx/IidxDifficultyItem';
 import {IidxDifficulty} from '@/enums/iidx-difficulty';
 
-jest.mock('polished', () => ({
-    lighten: (_amount: number, color: string) => color,
-}));
-
 describe('IidxDifficultyItem', () => {
     it('renders SP ANOTHER difficulty', async () => {
         await render(<IidxDifficultyItem difficulty={IidxDifficulty.SPA} level={12}/>);

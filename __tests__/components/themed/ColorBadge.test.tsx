@@ -2,11 +2,6 @@ import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 import ColorBadge from '@/components/themed/ColorBadge';
 
-jest.mock('polished', () => ({
-    darken: (_amount: number, color: string) => color,
-    lighten: (_amount: number, color: string) => color,
-}));
-
 describe('ColorBadge', () => {
     it('renders text', async () => {
         await render(<ColorBadge text="CLEAR" color="#00ff00"/>);

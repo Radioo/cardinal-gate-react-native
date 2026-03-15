@@ -3,11 +3,6 @@ import {render, screen} from '@testing-library/react-native';
 import SdvxDifficultyItem from '@/components/sdvx/SdvxDifficultyItem';
 import {SdvxDifficulty} from '@/enums/sdvx-difficulty';
 
-jest.mock('polished', () => ({
-    darken: (_amount: number, color: string) => color,
-    lighten: (_amount: number, color: string) => color,
-}));
-
 describe('SdvxDifficultyItem', () => {
     it('renders difficulty name', async () => {
         await render(<SdvxDifficultyItem difficulty={SdvxDifficulty.EXHAUST} level={18}/>);

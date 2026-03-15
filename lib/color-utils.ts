@@ -1,5 +1,3 @@
-import {darken, lighten} from "polished";
-
 export function hexToRgba(hex: string, alpha: number): string {
     const r = parseInt(hex.slice(1, 3), 16);
     const g = parseInt(hex.slice(3, 5), 16);
@@ -62,6 +60,35 @@ export function darkenToHslVar(hex: string, amount: number): string {
     return `${Math.round(h)} ${Math.round(s)}% ${Math.round(newL)}%`;
 }
 
+function hslToHex(h: number, s: number, l: number): string {
+    const sNorm = s / 100;
+    const lNorm = l / 100;
+    const c = (1 - Math.abs(2 * lNorm - 1)) * sNorm;
+    const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+    const m = lNorm - c / 2;
+    let r = 0, g = 0, b = 0;
+    if (h < 60)      { r = c; g = x; }
+    else if (h < 120) { r = x; g = c; }
+    else if (h < 180) { g = c; b = x; }
+    else if (h < 240) { g = x; b = c; }
+    else if (h < 300) { r = x; b = c; }
+    else               { r = c; b = x; }
+    const toHex = (v: number) => Math.round((v + m) * 255).toString(16).padStart(2, '0');
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+/** Lighten a hex color by an absolute lightness amount (0–1). Returns hex. */
+export function lightenHex(amount: number, hex: string): string {
+    const {h, s, l} = hexToHsl(hex);
+    return hslToHex(h, s, Math.min(100, l + amount * 100));
+}
+
+/** Darken a hex color by an absolute lightness amount (0–1). Returns hex. */
+export function darkenHex(amount: number, hex: string): string {
+    const {h, s, l} = hexToHsl(hex);
+    return hslToHex(h, s, Math.max(0, l - amount * 100));
+}
+
 /**
  * Build the CSS custom property values for the primary color theme.
  * Used by the root layout and modal overlays to keep variables in sync.
@@ -102,12 +129,12 @@ export function buildColorPalette(primary: string) {
         light: {
             ...LIGHT_TOKENS,
             primary: primary,
-            primarySurface: lighten(PRIMARY_SURFACE_AMOUNT, primary),
+            primarySurface: lightenHex(PRIMARY_SURFACE_AMOUNT, primary),
         },
         dark: {
             ...DARK_TOKENS,
             primary: primary,
-            primarySurface: darken(PRIMARY_SURFACE_AMOUNT, primary),
+            primarySurface: darkenHex(PRIMARY_SURFACE_AMOUNT, primary),
         },
     };
 }

@@ -9,11 +9,6 @@ jest.mock('@/components/gd/GdDifficultyItem', () => {
     return {__esModule: true, default: (props: Record<string, unknown>) => createElement('View', props)};
 });
 
-jest.mock('polished', () => ({
-    darken: (_a: number, c: string) => c,
-    lighten: (_a: number, c: string) => c,
-}));
-
 const mockItem = {
     music_id: 1,
     title: 'Test Song',

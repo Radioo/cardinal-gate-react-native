@@ -9,11 +9,6 @@ jest.mock('@/components/gd/GdSkillListItem', () => {
     return {__esModule: true, default: (props: Record<string, unknown>) => createElement('View', props)};
 });
 
-jest.mock('polished', () => ({
-    darken: (_a: number, c: string) => c,
-    lighten: (_a: number, c: string) => c,
-}));
-
 describe('GdSkillList', () => {
     it('renders empty state with no data message', async () => {
         await render(<GdSkillList items={[]}/>);

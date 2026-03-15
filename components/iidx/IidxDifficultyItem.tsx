@@ -2,8 +2,8 @@ import {IidxDifficulty} from "@/enums/iidx-difficulty";
 import {memo} from "react";
 import {IidxPlayStyle} from "@/enums/iidx-play-style";
 import {Text, View} from "react-native";
-import {lighten} from "polished";
 import useTheme from "@/hooks/useTheme";
+import {lightenHex} from "@/lib/color-utils";
 
 export type IidxDifficultyProps = {
     difficulty: IidxDifficulty;
@@ -44,7 +44,7 @@ const IidxDifficultyItemInner = ({difficulty, level}: IidxDifficultyProps) => {
     const isDark = theme.scheme === 'dark';
     const textColor = isDark ? THEME_COLORS.DARK_TEXT : THEME_COLORS.LIGHT_TEXT;
     const bgColor = isDark ? THEME_COLORS.DARK_BG : THEME_COLORS.LIGHT_BG;
-    const diffColor = isDark ? data.color : lighten(0.5, data.color);
+    const diffColor = isDark ? data.color : lightenHex(0.5, data.color);
 
     return (
         <View className="flex-row border-2 border-black">

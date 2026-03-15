@@ -4,8 +4,6 @@ import GdDifficultyItem from '@/components/gd/GdDifficultyItem';
 import {GdDifficulty} from '@/enums/gd-difficulty';
 import {GdDifficultyType} from '@/enums/gd-difficulty-type';
 
-jest.mock('polished', () => ({lighten: (_a: number, c: string) => c}));
-
 describe('GdDifficultyItem', () => {
     it('renders difficulty type text', async () => {
         await render(<GdDifficultyItem difficulty={{type: GdDifficultyType.DRUM, difficulty: GdDifficulty.EXTREME, level: 500}}/>);

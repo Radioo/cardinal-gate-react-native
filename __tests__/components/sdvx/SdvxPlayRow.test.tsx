@@ -15,11 +15,6 @@ jest.mock('@/components/sdvx/SdvxClearTypeItem', () => {
     return {__esModule: true, default: (props: Record<string, unknown>) => createElement('View', {testID: 'sdvx-clear-type', ...props})};
 });
 
-jest.mock('polished', () => ({
-    darken: (_a: number, c: string) => c,
-    lighten: (_a: number, c: string) => c,
-}));
-
 const mockPlay: SdvxPlay = {
     id: 1,
     title: 'Test Song',

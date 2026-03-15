@@ -1,9 +1,4 @@
-import {hexToHsl, hexToHslVar, hexToRgba, lightenToHslVar, darkenToHslVar, buildPrimaryColorVars, buildColorPalette} from '@/lib/color-utils';
-
-jest.mock('polished', () => ({
-    darken: (_a: number, c: string) => c,
-    lighten: (_a: number, c: string) => c,
-}));
+import {hexToHsl, hexToHslVar, hexToRgba, lightenToHslVar, darkenToHslVar, buildPrimaryColorVars, buildColorPalette, lightenHex, darkenHex} from '@/lib/color-utils';
 
 describe('hexToRgba', () => {
     it('converts hex to rgba with given alpha', () => {
@@ -125,6 +120,41 @@ describe('darkenToHslVar', () => {
     it('clamps at 0%', () => {
         const result = darkenToHslVar('#000000', 0.5);
         expect(result).toContain('0%');
+    });
+});
+
+describe('lightenHex', () => {
+    it('lightens a color', () => {
+        const result = lightenHex(0.2, '#000000');
+        expect(result).toBe('#333333');
+    });
+
+    it('clamps at white', () => {
+        const result = lightenHex(1, '#ffffff');
+        expect(result).toBe('#ffffff');
+    });
+
+    it('returns a valid hex string', () => {
+        const result = lightenHex(0.1, '#ff0000');
+        expect(result).toMatch(/^#[0-9a-f]{6}$/);
+    });
+});
+
+describe('darkenHex', () => {
+    it('darkens a color', () => {
+        const result = darkenHex(0.5, '#ffffff');
+        // white (l=100) darkened by 0.5 = l=50 → gray
+        expect(result).toBe('#808080');
+    });
+
+    it('clamps at black', () => {
+        const result = darkenHex(1, '#000000');
+        expect(result).toBe('#000000');
+    });
+
+    it('returns a valid hex string', () => {
+        const result = darkenHex(0.1, '#ff0000');
+        expect(result).toMatch(/^#[0-9a-f]{6}$/);
     });
 });
 

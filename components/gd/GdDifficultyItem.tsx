@@ -1,9 +1,9 @@
 import {GdDifficultyContainer} from "@/types/gd-difficulty-container";
 import {Text, View} from "react-native";
 import {GdDifficulty} from "@/enums/gd-difficulty";
-import {lighten} from "polished";
 import {memo} from "react";
 import useTheme from "@/hooks/useTheme";
+import {lightenHex} from "@/lib/color-utils";
 import {formatGdSkillValue} from "@/services/game";
 
 const DIFFICULTY_COLORS: Record<GdDifficulty, string> = {
@@ -25,8 +25,8 @@ type GdDifficultyProps = {
 const GdDifficultyItemInner = ({difficulty}: GdDifficultyProps) => {
     const theme = useTheme();
     const baseColor = DIFFICULTY_COLORS[difficulty.difficulty] ?? '#000000';
-    const difficultyColor = theme.scheme === 'light' ? lighten(0.2, baseColor) : baseColor;
-    const typeColor = theme.scheme === 'light' ? lighten(0.2, '#4f4f4f') : '#4f4f4f';
+    const difficultyColor = theme.scheme === 'light' ? lightenHex(0.2, baseColor) : baseColor;
+    const typeColor = theme.scheme === 'light' ? lightenHex(0.2, '#4f4f4f') : '#4f4f4f';
 
     return (
         <View className="flex-row">

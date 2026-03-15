@@ -1,7 +1,7 @@
 import {SdvxDifficulty} from "@/enums/sdvx-difficulty";
 import {Text, View} from "react-native";
 import useTheme from "@/hooks/useTheme";
-import {darken, lighten} from "polished";
+import {darkenHex, lightenHex} from "@/lib/color-utils";
 import {memo} from "react";
 
 type SdvxDifficultyProps = {
@@ -25,11 +25,11 @@ const SdvxDifficultyItemInner = ({difficulty, level}: SdvxDifficultyProps) => {
     const theme = useTheme();
     const baseColor = DIFFICULTY_COLORS[difficulty] ?? '#000';
     const difficultyColor = theme.scheme === 'dark'
-        ? darken(0.25, baseColor)
-        : lighten(0.25, baseColor);
+        ? darkenHex(0.25, baseColor)
+        : lightenHex(0.25, baseColor);
     const borderColor = theme.scheme === 'dark'
-        ? lighten(0.25, difficultyColor)
-        : darken(0.25, difficultyColor);
+        ? lightenHex(0.25, difficultyColor)
+        : darkenHex(0.25, difficultyColor);
 
     return (
         <View className="flex-row border-2 self-start" style={{borderColor}}>

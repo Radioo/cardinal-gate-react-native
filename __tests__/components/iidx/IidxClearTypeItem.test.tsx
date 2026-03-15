@@ -3,11 +3,6 @@ import {render, screen} from '@testing-library/react-native';
 import IidxClearTypeItem from '@/components/iidx/IidxClearTypeItem';
 import {IidxClearType} from '@/enums/iidx-clear-type';
 
-jest.mock('polished', () => ({
-    darken: (_amount: number, color: string) => color,
-    lighten: (_amount: number, color: string) => color,
-}));
-
 jest.mock('@/components/iidx/IidxFullComboClearTypeItem', () => {
     const {createElement} = require('react');
     return {__esModule: true, default: () => createElement('View', {testID: 'fc-item'})};
