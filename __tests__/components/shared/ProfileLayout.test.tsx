@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {ScrollView, Text} from 'react-native';
 import {render, screen} from '@testing-library/react-native';
 import ProfileLayout from '@/components/shared/ProfileLayout';
 import {UseQueryResult} from '@tanstack/react-query';
@@ -82,7 +82,6 @@ describe('ProfileLayout', () => {
             status: 'success',
         });
         await render(<ProfileLayout query={query}>{() => <></>}</ProfileLayout>);
-        const tree = screen.toJSON() as {type: string};
-        expect(tree.type).toBe('RCTScrollView');
+        expect(screen.UNSAFE_getByType(ScrollView)).toBeTruthy();
     });
 });

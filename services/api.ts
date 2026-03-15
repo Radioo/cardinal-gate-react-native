@@ -1,12 +1,28 @@
 import {buildAuthRequestInit} from "@/services/auth-headers";
 import {clearSession} from "@/services/auth";
-import {router} from "expo-router";
 import {API_URL} from "@/services/env";
 
 type FetchApiOptions = {
     skipRootUrl?: boolean;
     skipAuth?: boolean;
 };
+
+export class SessionExpiredError extends Error {
+    constructor() {
+        super('Session expired');
+        this.name = 'SessionExpiredError';
+    }
+}
+
+let _onUnauthorized: (() => void) | null = null;
+
+/**
+ * Register a handler for 401 responses. Called once from the app layout
+ * so the service layer never imports a navigation framework directly.
+ */
+export function setOnUnauthorized(handler: () => void) {
+    _onUnauthorized = handler;
+}
 
 async function baseFetch(
     endpoint: string,
@@ -20,8 +36,8 @@ async function baseFetch(
 
     if (response.status === 401) {
         await clearSession();
-        router.replace('/login');
-        throw new Error('Session expired');
+        _onUnauthorized?.();
+        throw new SessionExpiredError();
     }
 
     if (!response.ok) {

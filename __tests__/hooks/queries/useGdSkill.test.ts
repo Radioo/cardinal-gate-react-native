@@ -6,6 +6,7 @@ jest.mock('@/services/api', () => ({
 import React from 'react';
 import useGdSkill from '@/hooks/queries/useGdSkill';
 import {createTestClient, renderWithClient} from '@/__tests__/helpers/renderWithClient';
+import {fetchApi} from '@/services/api';
 
 function TestComponent({version, onResult}: {version: number | undefined; onResult: (data: {fetchStatus: string; isPending: boolean}) => void}) {
     const result = useGdSkill(version);
@@ -54,10 +55,7 @@ describe('useGdSkill', () => {
             client,
             React.createElement(TestComponent, {version: 10, onResult: () => {}})
         );
-        const queryCache = client.getQueryCache();
-        const queries = queryCache.getAll();
-        expect(queries.length).toBeGreaterThan(0);
-        expect(queries[0].queryKey).toEqual(['gdSkill', 10]);
+        expect(fetchApi).toHaveBeenCalledWith('/api2/gd/skill/10');
         client.cancelQueries();
         tree.unmount();
         client.clear();

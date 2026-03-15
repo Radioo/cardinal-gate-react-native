@@ -11,6 +11,12 @@ type ApiImageProps = {
     style?: StyleProp<ImageStyle>;
 }
 
+/**
+ * Image component for auth-gated API endpoints.
+ * Manages its own auth header query — callers should expect
+ * loading/error states while headers are being resolved.
+ */
+
 const ApiImageInner =({url, contentFit, style}: ApiImageProps) => {
     const headersQuery = useAuthHeaders();
 

@@ -6,11 +6,12 @@ jest.mock('@/services/api', () => ({
 import React from 'react';
 import useGdProfile from '@/hooks/queries/useGdProfile';
 import {createTestClient, renderWithClient} from '@/__tests__/helpers/renderWithClient';
+import {fetchApi} from '@/services/api';
 
-function TestComponent({onResult}: {onResult: (data: {queryKey: unknown}) => void}) {
+function TestComponent({onResult}: {onResult: () => void}) {
     const result = useGdProfile();
     React.useEffect(() => {
-        onResult({queryKey: result.isSuccess || result.isPending ? 'called' : 'error'});
+        onResult();
     }, [result, onResult]);
     return React.createElement('Text', null, 'test');
 }
@@ -22,10 +23,7 @@ describe('useGdProfile', () => {
             client,
             React.createElement(TestComponent, {onResult: () => {}})
         );
-        const queryCache = client.getQueryCache();
-        const queries = queryCache.getAll();
-        expect(queries.length).toBeGreaterThan(0);
-        expect(queries[0].queryKey).toEqual(['gdProfile']);
+        expect(fetchApi).toHaveBeenCalledWith('/api2/gd/profile');
         client.cancelQueries();
         tree.unmount();
         client.clear();

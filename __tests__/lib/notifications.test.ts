@@ -1,11 +1,12 @@
 import {MessageSeverity} from '@/enums/message-severity';
 import {useToastStore} from '@/store/toast';
-import {displayMessage} from '@/lib/notifications';
+import {displayMessage, registerToastHandler} from '@/lib/notifications';
 
 describe('displayMessage', () => {
     beforeEach(() => {
         jest.useFakeTimers();
         useToastStore.setState({toasts: []});
+        registerToastHandler(useToastStore.getState().addToast);
     });
 
     afterEach(() => {

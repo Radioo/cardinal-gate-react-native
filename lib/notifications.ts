@@ -1,6 +1,7 @@
 import {MessageSeverity} from "@/enums/message-severity";
-import {useToastStore} from "@/store/toast";
 import * as Haptics from 'expo-haptics';
+
+type AddToastFn = (toast: { severity: MessageSeverity; title: string; description: string }) => void;
 
 const titles: Record<MessageSeverity, string> = {
     [MessageSeverity.ERROR]: 'Error',
@@ -12,8 +13,18 @@ const hapticTypes: Record<MessageSeverity, Haptics.NotificationFeedbackType> = {
     [MessageSeverity.ERROR]: Haptics.NotificationFeedbackType.Error,
 };
 
+let _addToast: AddToastFn | null = null;
+
+/**
+ * Register the toast store's addToast function. Called once from the app layout
+ * so this module never imports from store/ directly.
+ */
+export function registerToastHandler(addToast: AddToastFn) {
+    _addToast = addToast;
+}
+
 export function displayMessage(severity: MessageSeverity, message: string) {
-    useToastStore.getState().addToast({
+    _addToast?.({
         severity,
         title: titles[severity],
         description: message,

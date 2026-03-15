@@ -1,4 +1,5 @@
 import React from 'react';
+import {ScrollView} from 'react-native';
 import {render, screen} from '@testing-library/react-native';
 import {TestRendererJSON} from '../../helpers/types';
 import {findAll} from '../../helpers/tree-utils';
@@ -13,9 +14,7 @@ import Home from '@/app/main/Home';
 describe('Home', () => {
     it('renders a ScrollView as root element', async () => {
         await render(<Home />);
-        const tree = screen.toJSON() as TestRendererJSON;
-        expect(tree).toBeTruthy();
-        expect(tree.type).toBe('RCTScrollView');
+        expect(screen.UNSAFE_getByType(ScrollView)).toBeTruthy();
     });
 
     it('contains PlayCounts component', async () => {

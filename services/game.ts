@@ -1,4 +1,5 @@
 import {Series} from "@/enums/series";
+import {API_URL} from "@/services/env";
 
 const seriesNames: Record<Series, string> = {
     [Series.IIDX]: 'beatmania IIDX',
@@ -26,6 +27,10 @@ export function formatArcadeId(id: number): string {
 export function formatGdSkillValue(value: number | undefined): string {
     if (value === undefined || value < 0) return '???';
     return (value / 100).toFixed(2);
+}
+
+export function getIidxChartScreenshotUrl(id: number): string {
+    return `${API_URL}/api2/iidx/chart_screenshot/${id}.png`;
 }
 
 const MINUTES_PER_PLAY = 2;

@@ -9,7 +9,7 @@ import {useState} from "react";
 import ShareImageModal from "@/components/shared/ShareImageModal";
 import {Card} from "@/components/ui/card";
 import IidxDifficultyItem from "@/components/iidx/IidxDifficultyItem";
-import {API_URL} from "@/services/env";
+import {getIidxChartScreenshotUrl} from "@/services/game";
 
 type IidxPlayRowProps = {
     play: IidxPlay;
@@ -21,7 +21,7 @@ export default function IidxPlayRow({play}: IidxPlayRowProps) {
 
     return (
         <Card className="border-primary bg-primary-surface gap-0 rounded-none p-1.5 shadow-none">
-            <ShareImageModal url={`${API_URL}/api2/iidx/chart_screenshot/${play.id}.png`} visible={modalVisible} onClose={() => setModalVisible(false)}/>
+            <ShareImageModal url={getIidxChartScreenshotUrl(play.id)} visible={modalVisible} onClose={() => setModalVisible(false)}/>
             <View className="gap-1.5">
                 <View className="flex-row items-center gap-2">
                     <Text className="text-base leading-6 flex-1" numberOfLines={1}>{play.name}</Text>

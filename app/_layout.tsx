@@ -1,6 +1,6 @@
 import '../global.css';
 
-import {ErrorBoundaryProps, Stack} from 'expo-router';
+import {ErrorBoundaryProps, router, Stack} from 'expo-router';
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import Toaster from "@/components/shared/Toaster";
 import {ThemeProvider} from "@react-navigation/native";
@@ -15,10 +15,13 @@ import {queryClient} from "@/services/query-client";
 import {getNavTheme} from "@/lib/theme";
 import {useColorScheme, vars} from "nativewind";
 import {useThemeStore} from "@/store/theme";
+import {useToastStore} from "@/store/toast";
 import {buildPrimaryColorVars} from "@/lib/color-utils";
 import {useEffect, useLayoutEffect, useMemo} from "react";
 import {PortalHost} from "@rn-primitives/portal";
 import GradientBackground from "@/components/shared/GradientBackground";
+import {registerToastHandler} from "@/lib/notifications";
+import {setOnUnauthorized} from "@/services/api";
 
 export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
     return (
@@ -38,6 +41,11 @@ export default function Layout() {
     useLayoutEffect(() => {
         setColorScheme(systemColorScheme === 'dark' ? 'dark' : 'light');
     }, [systemColorScheme, setColorScheme]);
+
+    useEffect(() => {
+        registerToastHandler(useToastStore.getState().addToast);
+        setOnUnauthorized(() => router.replace('/login'));
+    }, []);
 
     useEffect(() => {
         if (Platform.OS === 'web') {

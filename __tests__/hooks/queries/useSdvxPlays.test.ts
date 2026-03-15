@@ -6,11 +6,12 @@ jest.mock('@/services/api', () => ({
 import React from 'react';
 import useSdvxPlays from '@/hooks/queries/useSdvxPlays';
 import {createTestClient, renderWithClient} from '@/__tests__/helpers/renderWithClient';
+import {fetchApi} from '@/services/api';
 
-function TestComponent({page, onResult}: {page: number; onResult: (data: {queryKey: unknown}) => void}) {
+function TestComponent({page, onResult}: {page: number; onResult: () => void}) {
     const result = useSdvxPlays(page);
     React.useEffect(() => {
-        onResult({queryKey: result.isSuccess || result.isPending ? 'called' : 'error'});
+        onResult();
     }, [result, onResult]);
     return React.createElement('Text', null, 'test');
 }
@@ -22,10 +23,7 @@ describe('useSdvxPlays', () => {
             client,
             React.createElement(TestComponent, {page: 1, onResult: () => {}})
         );
-        const queryCache = client.getQueryCache();
-        const queries = queryCache.getAll();
-        expect(queries.length).toBeGreaterThan(0);
-        expect(queries[0].queryKey).toEqual(['sdvxPlays', 1]);
+        expect(fetchApi).toHaveBeenCalledWith('/api2/sdvx/plays?page=1');
         client.cancelQueries();
         tree.unmount();
         client.clear();

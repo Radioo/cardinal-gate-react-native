@@ -11,12 +11,12 @@ export async function saveSecureValue(key: SecureValue, value: string): Promise<
     await SecureStore.setItemAsync(key, value);
 }
 
-export async function getSecureValue(key: SecureValue): Promise<string | null> {
+export function getSecureValue(key: SecureValue): Promise<string | null> {
     if(Platform.OS === 'web') {
-        return localStorage.getItem(key);
+        return Promise.resolve(localStorage.getItem(key));
     }
 
-    return await SecureStore.getItemAsync(key);
+    return SecureStore.getItemAsync(key);
 }
 
 export async function clearSecureValue(key: SecureValue): Promise<void> {
