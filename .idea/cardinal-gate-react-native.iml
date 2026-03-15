@@ -6,6 +6,9 @@
       <excludeFolder url="file://$MODULE_DIR$/.desloppify" />
       <excludeFolder url="file://$MODULE_DIR$/.expo" />
       <excludeFolder url="file://$MODULE_DIR$/modules/expo-material-you/android/build" />
+      <excludeFolder url="file://$MODULE_DIR$/android" />
+      <excludeFolder url="file://$MODULE_DIR$/ios" />
+      <excludeFolder url="file://$MODULE_DIR$/node_modules" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

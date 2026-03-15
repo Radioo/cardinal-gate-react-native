@@ -24,9 +24,14 @@ export default function Root({children}: PropsWithChildren) {
                 <ScrollViewStyleReset/>
 
                 <script dangerouslySetInnerHTML={{__html: `
-                    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                        document.documentElement.classList.add('dark');
-                    }
+                    (function() {
+                        var mq = window.matchMedia('(prefers-color-scheme: dark)');
+                        function apply(dark) {
+                            document.documentElement.classList.toggle('dark', dark);
+                        }
+                        apply(mq.matches);
+                        mq.addEventListener('change', function(e) { apply(e.matches); });
+                    })();
                 `}}/>
 
                 <style dangerouslySetInnerHTML={{__html: `
