@@ -1,5 +1,6 @@
 import {Game} from "@/types/game";
 
+// Field names match the API response shape — do not rename.
 export type SdvxProfileResponse = {
     id: number;
     name: string;
@@ -9,7 +10,7 @@ export type SdvxProfileResponse = {
         threshold: number;
         class: string;
         version: number;
-        formatted_value: string;
+        formattedValue: string;
     }
     games: Game[];
 }
