@@ -3,6 +3,14 @@
 @tailwind utilities;
 
 @layer base {
+  html, body {
+    background-color: hsl(0, 0%, 100%);
+  }
+
+  .dark html, .dark body {
+    background-color: hsl(200, 9%, 9%);
+  }
+
   :root {
     --background: 0 0% 100%;
     --foreground: 204 23% 9%;
