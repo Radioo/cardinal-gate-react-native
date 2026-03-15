@@ -11,7 +11,7 @@ import ColorPicker, {
 import type {ColorFormatsObject} from 'reanimated-color-picker';
 import {View} from "react-native";
 import useTheme from "@/hooks/useTheme";
-import {useMemo, useRef, useState} from "react";
+import {useRef, useState} from "react";
 import {getMaterialYouAccent} from "@/modules/expo-material-you/src";
 
 const squareCorners = {borderRadius: 0};
@@ -19,10 +19,11 @@ const thumbStyle = {width: 30, height: 30};
 const pickerStyle = {gap: 10};
 
 function useMaterialYouAccent(): string | null {
-    return useMemo(() => {
+    const [accent] = useState<string | null>(() => {
         try { return getMaterialYouAccent(); }
         catch (e) { console.warn('Material You accent unavailable:', e); return null; }
-    }, []);
+    });
+    return accent;
 }
 
 type PrimaryColorSettingProps = {
@@ -30,7 +31,7 @@ type PrimaryColorSettingProps = {
     onClose: () => void;
 }
 
-export default function PrimaryColorSetting(props: PrimaryColorSettingProps) {
+export default function PrimaryColorSetting({visible, onClose}: PrimaryColorSettingProps) {
     const theme = useTheme();
     const {primaryColor, setPrimaryColor} = useThemeStore();
     const tempColor = useRef(primaryColor);
@@ -43,7 +44,7 @@ export default function PrimaryColorSetting(props: PrimaryColorSettingProps) {
 
     const onApplyAndClose = () => {
         setPrimaryColor(tempColor.current);
-        props.onClose();
+        onClose();
     }
 
     const onApplyMaterialYou = () => {
@@ -53,7 +54,7 @@ export default function PrimaryColorSetting(props: PrimaryColorSettingProps) {
     }
 
     return (
-        <ModalBase visible={props.visible}>
+        <ModalBase visible={visible}>
             <View className="w-full p-5 gap-2.5" style={{backgroundColor: theme.background}}>
                 <ColorPicker key={pickerKey} style={pickerStyle} value={tempColor.current} onCompleteJS={onSelectColor}>
                     <Preview style={squareCorners}/>
@@ -72,7 +73,7 @@ export default function PrimaryColorSetting(props: PrimaryColorSettingProps) {
                     <Button className="flex-1 h-10 px-2.5" onPress={onApplyAndClose}>
                         <Text className="font-bold">Apply</Text>
                     </Button>
-                    <Button className="flex-1 h-10 px-2.5" onPress={props.onClose}>
+                    <Button className="flex-1 h-10 px-2.5" onPress={onClose}>
                         <Text className="font-bold">Cancel</Text>
                     </Button>
                 </View>

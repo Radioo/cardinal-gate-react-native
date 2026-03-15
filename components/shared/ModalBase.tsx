@@ -1,9 +1,6 @@
-import React, {useMemo} from "react";
-import {useColorScheme} from "@/hooks/useColorScheme";
+import React from "react";
 import {Dialog, DialogContent} from "@/components/ui/dialog";
-import {useThemeStore} from "@/store/theme";
-import {buildPrimaryColorVars} from "@/lib/color-utils";
-import {vars} from "nativewind";
+import usePrimaryColorVars from "@/hooks/usePrimaryColorVars";
 
 type ModalBaseProps = {
     children: React.ReactNode;
@@ -11,13 +8,7 @@ type ModalBaseProps = {
 }
 
 export default function ModalBase({children, visible}: ModalBaseProps) {
-    const {primaryColor} = useThemeStore();
-    const isDark = useColorScheme() === 'dark';
-
-    const dynamicVars = useMemo(
-        () => vars(buildPrimaryColorVars(primaryColor, isDark)),
-        [primaryColor, isDark],
-    );
+    const dynamicVars = usePrimaryColorVars();
 
     return (
         <Dialog open={visible}>

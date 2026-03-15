@@ -4,7 +4,7 @@ import {useMemo, useState} from "react";
 import GdSkillList from "@/components/gd/GdSkillList";
 import {Text as RNText, useWindowDimensions} from "react-native";
 import useTheme from "@/hooks/useTheme";
-import {GdSkillDataResponse} from "@/types/gd-skill-data-response";
+import {GdSkillCategory, GdSkillDataResponse} from "@/types/gd-skill-data-response";
 import {GdGameMode} from "@/enums/gd-game-mode";
 
 type GdSkillTabsProps = {
@@ -42,12 +42,12 @@ const RenderTabBar = (props: TabBarProps<Route>) => {
 }
 
 /** Maps tab keys to their game mode and skill list category (exist=HOT, new=OTHER). */
-const GD_TAB_CONFIG = [
-    {key: 'hot_dm', title: '🥁 HOT', mode: GdGameMode.DRUM_MANIA, category: 'exist' as const},
-    {key: 'other_dm', title: '🥁 OTHER', mode: GdGameMode.DRUM_MANIA, category: 'new' as const},
-    {key: 'hot_gf', title: '🎸 HOT', mode: GdGameMode.GUITAR_FREAKS, category: 'exist' as const},
-    {key: 'other_gf', title: '🎸 OTHER', mode: GdGameMode.GUITAR_FREAKS, category: 'new' as const},
-] as const;
+const GD_TAB_CONFIG: readonly {key: string; title: string; mode: GdGameMode; category: GdSkillCategory}[] = [
+    {key: 'hot_dm', title: '🥁 HOT', mode: GdGameMode.DRUM_MANIA, category: 'exist'},
+    {key: 'other_dm', title: '🥁 OTHER', mode: GdGameMode.DRUM_MANIA, category: 'new'},
+    {key: 'hot_gf', title: '🎸 HOT', mode: GdGameMode.GUITAR_FREAKS, category: 'exist'},
+    {key: 'other_gf', title: '🎸 OTHER', mode: GdGameMode.GUITAR_FREAKS, category: 'new'},
+];
 
 const routes = GD_TAB_CONFIG.map(({key, title}) => ({key, title}));
 

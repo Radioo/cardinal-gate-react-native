@@ -9,7 +9,9 @@ export type GdMusicSkillItem = {
     title: string;
 }
 
-type GdGameModeData = {
+export type GdSkillCategory = 'exist' | 'new';
+
+export type GdGameModeData = {
     skill: number;
     all_music_skill: number;
     new: GdMusicSkillItem[];

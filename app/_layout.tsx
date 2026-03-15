@@ -13,11 +13,11 @@ import ErrorScreen from "@/components/shared/ErrorScreen";
 import {SafeAreaProvider} from "react-native-safe-area-context";
 import {queryClient} from "@/services/query-client";
 import {getNavTheme} from "@/lib/theme";
-import {useColorScheme, vars} from "nativewind";
+import {useColorScheme} from "nativewind";
 import {useThemeStore} from "@/store/theme";
 import {useToastStore} from "@/store/toast";
-import {buildPrimaryColorVars} from "@/lib/color-utils";
 import {useEffect, useLayoutEffect, useMemo} from "react";
+import usePrimaryColorVars from "@/hooks/usePrimaryColorVars";
 import {PortalHost} from "@rn-primitives/portal";
 import GradientBackground from "@/components/shared/GradientBackground";
 import {registerToastHandler} from "@/lib/notifications";
@@ -37,6 +37,7 @@ export default function Layout() {
     const {setColorScheme} = useColorScheme();
     const {primaryColor} = useThemeStore();
     const isDark = systemColorScheme === 'dark';
+    const dynamicVars = usePrimaryColorVars();
 
     useLayoutEffect(() => {
         setColorScheme(systemColorScheme === 'dark' ? 'dark' : 'light');
@@ -52,11 +53,6 @@ export default function Layout() {
             document.getElementById('loader')?.remove();
         }
     }, []);
-
-    const dynamicVars = useMemo(
-        () => vars(buildPrimaryColorVars(primaryColor, isDark)),
-        [primaryColor, isDark],
-    );
 
     const navTheme = useMemo(() => getNavTheme(primaryColor, isDark), [primaryColor, isDark]);
 

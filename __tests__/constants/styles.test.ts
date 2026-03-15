@@ -1,7 +1,7 @@
-import {tabBarLabelStyle} from '@/constants/styles';
+import {TAB_BAR_LABEL_STYLE} from '@/constants/styles';
 
-describe('tabBarLabelStyle', () => {
+describe('TAB_BAR_LABEL_STYLE', () => {
     it('is an object', () => {
-        expect(typeof tabBarLabelStyle).toBe('object');
+        expect(typeof TAB_BAR_LABEL_STYLE).toBe('object');
     });
 });

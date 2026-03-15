@@ -23,11 +23,16 @@ export function registerToastHandler(addToast: AddToastFn) {
     _addToast = addToast;
 }
 
+/**
+ * Display a toast notification. No-op until {@link registerToastHandler} is called
+ * (typically by the root layout on mount).
+ */
 export function displayMessage(severity: MessageSeverity, message: string) {
-    _addToast?.({
+    if (!_addToast) return;
+    _addToast({
         severity,
         title: titles[severity],
         description: message,
     });
-    Haptics.notificationAsync(hapticTypes[severity]);
+    void Haptics.notificationAsync(hapticTypes[severity]).catch(() => {});
 }

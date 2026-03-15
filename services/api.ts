@@ -7,7 +7,7 @@ type FetchApiOptions = {
     skipAuth?: boolean;
 };
 
-export class SessionExpiredError extends Error {
+class SessionExpiredError extends Error {
     constructor() {
         super('Session expired');
         this.name = 'SessionExpiredError';

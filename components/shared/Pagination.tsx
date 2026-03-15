@@ -146,11 +146,7 @@ export default function Pagination({
                             key={slot.page}
                             style={[
                                 styles.slot,
-                                styles.pageSlot,
                                 isCurrent && {backgroundColor: theme.primary},
-                                {
-                                    borderRadius: 0,
-                                }
                             ]}
                             onPress={() => onPageChange(slot.page)}
                             disabled={isLoading}
@@ -188,7 +184,7 @@ export default function Pagination({
                     setModalVisible(false);
                 }}
                 initialValue={currentPage.toString()}
-                maxPage={totalPages}
+                maxPage={stableTotalPages}
             />
         </View>
     );
@@ -217,9 +213,6 @@ const styles = StyleSheet.create({
         height: SLOT_SIZE,
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    pageSlot: {
-        borderRadius: 6,
     },
     pageText: {
         fontSize: 14,

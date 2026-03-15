@@ -3,11 +3,7 @@ import {cn} from '@/lib/utils';
 import {Platform, StyleSheet, View} from 'react-native';
 import {ChevronDown, Check} from 'lucide-react-native';
 import {Icon} from '@/components/ui/icon';
-import {useThemeStore} from '@/store/theme';
-import {useColorScheme} from '@/hooks/useColorScheme';
-import {buildPrimaryColorVars} from '@/lib/color-utils';
-import {useMemo} from 'react';
-import {vars} from 'nativewind';
+import usePrimaryColorVars from '@/hooks/usePrimaryColorVars';
 
 const Select = SelectPrimitive.Root;
 
@@ -36,17 +32,8 @@ function SelectValue({className, ...props}: React.ComponentPropsWithoutRef<typeo
     );
 }
 
-function useDynamicVars() {
-    const {primaryColor} = useThemeStore();
-    const isDark = useColorScheme() === 'dark';
-    return useMemo(
-        () => vars(buildPrimaryColorVars(primaryColor, isDark)),
-        [primaryColor, isDark],
-    );
-}
-
 function SelectContent({className, children, ...props}: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>) {
-    const dynamicVars = useDynamicVars();
+    const dynamicVars = usePrimaryColorVars();
 
     return (
         <SelectPrimitive.Portal>

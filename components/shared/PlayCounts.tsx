@@ -25,11 +25,11 @@ export default function PlayCounts() {
             <Card className="border-primary bg-primary-surface gap-0 rounded-none p-1.5 shadow-none">
                 <View className="flex-row items-center gap-[5px]">
                     <Clock size={24} color={theme.text} />
-                    <Text className="text-base leading-6">Estimated play time: {formatPlayTimeHours(data?.play_counts ?? [])} hours</Text>
+                    <Text className="text-base leading-6">Estimated play time: {formatPlayTimeHours(data.play_counts)} hours</Text>
                 </View>
             </Card>
             <Card className="border-primary bg-primary-surface gap-0 rounded-none p-1.5 shadow-none">
-                {data?.play_counts.map((item, index) => (
+                {data.play_counts.map((item, index) => (
                     <View key={index} className="flex-row justify-between">
                         <Text className="text-base leading-6">{getSeriesName(item.game)}</Text>
                         <Text className="text-base leading-6">{item.count.toLocaleString()} plays</Text>
