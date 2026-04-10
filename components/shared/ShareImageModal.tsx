@@ -110,9 +110,9 @@ export default function ShareImageModal({url, visible, onClose}: ShareImageModal
 
     return (
         <ModalBase visible={visible}>
-            <View className="flex-1 w-full justify-center items-center" style={{backgroundColor: theme.background}}>
+            <View className="w-full" style={{backgroundColor: theme.background}}>
                 <ApiImage url={url}
-                          style={{width: '100%', flex: 1}}
+                          style={{width: '100%', aspectRatio: 1}}
                           contentFit="contain"
                 />
                 <BottomSection onPress={() => shareMutation.mutate()}

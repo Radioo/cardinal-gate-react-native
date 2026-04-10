@@ -42,3 +42,4 @@ app-example
 /.desloppify/
 /.claude/
 /modules/expo-material-you/android/build/
+/coverage/

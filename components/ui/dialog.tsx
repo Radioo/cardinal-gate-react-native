@@ -25,7 +25,7 @@ function DialogContent({className, ...props}: React.ComponentPropsWithoutRef<typ
                     aria-describedby={undefined}
                     className={cn(
                         'web:animate-in web:fade-in-0 web:zoom-in-95',
-                        'min-w-[300px] max-w-full',
+                        'w-full max-w-[500px]',
                         className
                     )}
                     {...props}

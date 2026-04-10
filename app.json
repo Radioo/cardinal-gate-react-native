@@ -65,7 +65,8 @@
         {
           "initialOrientation": "DEFAULT"
         }
-      ]
+      ],
+      "react-native-edge-to-edge"
     ],
     "experiments": {
       "typedRoutes": true

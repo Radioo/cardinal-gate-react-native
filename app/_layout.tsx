@@ -59,17 +59,19 @@ export default function Layout() {
     return (
         <QueryClientProvider client={queryClient}>
             <GestureHandlerRootView style={{flex: 1}}>
-                <View style={[{flex: 1, backgroundColor: isDark ? '#151718' : '#fff'}, dynamicVars]}>
-                    <GradientBackground />
-                    <ThemeProvider value={navTheme}>
-                        <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
-                            <Stack screenOptions={{headerShown: false}}></Stack>
-                            <StatusBar style="auto"/>
-                        </KeyboardAvoidingView>
-                    </ThemeProvider>
-                    <Toaster />
-                    <PortalHost />
-                </View>
+                <SafeAreaProvider>
+                    <View style={[{flex: 1, backgroundColor: isDark ? '#151718' : '#fff'}, dynamicVars]}>
+                        <GradientBackground />
+                        <ThemeProvider value={navTheme}>
+                            <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
+                                <Stack screenOptions={{headerShown: false}}></Stack>
+                                <StatusBar style="auto"/>
+                            </KeyboardAvoidingView>
+                        </ThemeProvider>
+                        <Toaster />
+                        <PortalHost />
+                    </View>
+                </SafeAreaProvider>
             </GestureHandlerRootView>
         </QueryClientProvider>
     )
