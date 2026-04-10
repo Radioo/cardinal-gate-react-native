@@ -1,6 +1,9 @@
 name: Build iOS
 
 on:
+  push:
+    branches:
+      - master
   workflow_dispatch:
     inputs:
       configuration:
@@ -15,6 +18,8 @@ on:
 jobs:
   build:
     runs-on: macos-latest
+    env:
+      CONFIGURATION: ${{ inputs.configuration || 'Release' }}
 
     steps:
       - name: Checkout repository
@@ -61,15 +66,15 @@ jobs:
         uses: actions/cache@v5
         with:
           path: DerivedData
-          key: ios-derived-data-${{ inputs.configuration }}-${{ steps.fingerprint.outputs.hash }}-${{ github.sha }}
+          key: ios-derived-data-${{ env.CONFIGURATION }}-${{ steps.fingerprint.outputs.hash }}-${{ github.sha }}
           restore-keys: |
-            ios-derived-data-${{ inputs.configuration }}-${{ steps.fingerprint.outputs.hash }}-
+            ios-derived-data-${{ env.CONFIGURATION }}-${{ steps.fingerprint.outputs.hash }}-
 
       - name: Build Archive (Unsigned)
         run: |
           xcodebuild -workspace ios/CARDINALGATE.xcworkspace \
             -scheme CARDINALGATE \
-            -configuration ${{ inputs.configuration }} \
+            -configuration ${{ env.CONFIGURATION }} \
             -derivedDataPath DerivedData \
             -archivePath ios/buildArchive/CARDINALGATE.xcarchive \
             CODE_SIGNING_ALLOWED=NO \
@@ -88,7 +93,7 @@ jobs:
         run: |
           COMMIT_ID=$(git rev-parse --short HEAD)
           DATE=$(date +"%Y-%m-%d_%H-%M")
-          CONFIG=${{ inputs.configuration }}
+          CONFIG=${{ env.CONFIGURATION }}
 
           mkdir -p Payload
           cp -r ios/buildArchive/CARDINALGATE.xcarchive/Products/Applications/CARDINALGATE.app Payload/
