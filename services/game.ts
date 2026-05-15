@@ -16,7 +16,7 @@ const seriesNames: Record<Series, string> = {
 };
 
 export function getSeriesName(series: Series): string {
-    return seriesNames[series] ?? 'Unknown series';
+    return seriesNames[series];
 }
 
 export function formatArcadeId(id: number): string {

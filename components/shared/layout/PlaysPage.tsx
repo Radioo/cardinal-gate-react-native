@@ -16,18 +16,12 @@ export default function PlaysPage<T>({usePlaysQuery, renderItem}: PlaysPageProps
     const [page, setPage] = useState(1);
     const query = usePlaysQuery(page);
 
-    const baseProps = {
-        plays: query.data?.plays ?? [],
-        pages: query.data?.pages ?? 1,
-        isPending: query.isPending,
-        refetch: query.refetch,
-        page,
-        onPageChange: setPage,
-        renderItem,
-    };
-
-    if (query.isError) {
-        return <PaginatedPlaysList<T> {...baseProps} isError={true} error={query.error}/>;
-    }
-    return <PaginatedPlaysList<T> {...baseProps} isError={false} error={null}/>;
+    return (
+        <PaginatedPlaysList<T>
+            query={query}
+            page={page}
+            onPageChange={setPage}
+            renderItem={renderItem}
+        />
+    );
 }

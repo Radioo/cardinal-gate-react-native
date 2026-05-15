@@ -34,8 +34,9 @@ function SetPageModalBody({
                 className="h-10 px-2.5"
                 aria-valuemin={1}
                 onPress={() => {
-                    const result = Math.max(1, Math.min(maxPage, parseInt(value) || 1));
-                    onSubmit(result);
+                    const parsed = parseInt(value, 10);
+                    const safe = Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+                    onSubmit(Math.max(1, Math.min(maxPage, safe)));
                 }}
             >
                 <Text className="font-bold">OK</Text>

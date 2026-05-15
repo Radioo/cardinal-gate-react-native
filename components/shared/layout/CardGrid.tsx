@@ -9,7 +9,7 @@ type CardGridProps = {
     maxColumns?: 2 | 3;
 };
 
-function getNumColumns(width: number, maxColumns: number): number {
+function getGridColumnsForBreakpoints(width: number, maxColumns: number): number {
     if (width >= BREAKPOINT_LG) return maxColumns;
     if (width >= BREAKPOINT_MD) return 2;
     return 1;
@@ -17,7 +17,7 @@ function getNumColumns(width: number, maxColumns: number): number {
 
 export default function CardGrid({children, maxColumns = 2}: CardGridProps) {
     const {width} = useWindowDimensions();
-    const columns = getNumColumns(width, maxColumns);
+    const columns = getGridColumnsForBreakpoints(width, maxColumns);
 
     if (columns === 1) {
         return <>{children}</>;

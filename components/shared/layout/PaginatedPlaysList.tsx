@@ -1,5 +1,6 @@
 import {FlatList, RefreshControl, useWindowDimensions, View} from "react-native";
 import {ReactElement} from "react";
+import {UseQueryResult} from "@tanstack/react-query";
 import FullScreenLoader from "@/components/shared/feedback/FullScreenLoader";
 import ErrorScreen from "@/components/shared/feedback/ErrorScreen";
 import Pagination from "@/components/shared/Pagination";
@@ -11,34 +12,28 @@ export function getNumColumns(width: number): number {
     return Math.max(1, Math.floor(width / MIN_CARD_WIDTH));
 }
 
-type PaginatedPlaysListBaseProps<T> = {
-    plays: T[];
-    pages: number;
-    isPending: boolean;
-    refetch: () => Promise<unknown>;
+type PaginatedPlaysListProps<T> = {
+    query: UseQueryResult<{plays: T[]; pages: number}>;
     page: number;
     onPageChange: (page: number) => void;
     renderItem: (item: T) => ReactElement;
 };
 
-type PaginatedPlaysListProps<T> = PaginatedPlaysListBaseProps<T> & (
-    | {isError: true; error: Error}
-    | {isError: false; error: null}
-);
-
-export default function PaginatedPlaysList<T>(props: PaginatedPlaysListProps<T>) {
-    const {plays, pages, isPending, refetch, page, onPageChange, renderItem} = props;
-    const {refreshing, handleRefresh} = usePullToRefresh(refetch);
+export default function PaginatedPlaysList<T>({query, page, onPageChange, renderItem}: PaginatedPlaysListProps<T>) {
+    const {refreshing, handleRefresh} = usePullToRefresh(query.refetch);
     const {width} = useWindowDimensions();
     const numColumns = getNumColumns(width);
 
-    if (props.isError) {
-        return <ErrorScreen error={props.error} onRetry={refetch}/>;
+    if (query.isError) {
+        return <ErrorScreen error={query.error} onRetry={query.refetch}/>;
     }
+
+    const plays = query.data?.plays ?? [];
+    const pages = query.data?.pages ?? 1;
 
     return (
         <View className="flex-1">
-            {isPending ? <FullScreenLoader/> :
+            {query.isPending ? <FullScreenLoader/> :
                 <FlatList
                     key={numColumns}
                     data={plays}
@@ -55,7 +50,7 @@ export default function PaginatedPlaysList<T>(props: PaginatedPlaysListProps<T>)
                 currentPage={page}
                 totalPages={pages}
                 onPageChange={onPageChange}
-                isLoading={isPending}
+                isLoading={query.isPending}
             />
         </View>
     );

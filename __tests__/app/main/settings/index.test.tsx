@@ -5,7 +5,7 @@ import {collectText, findAll} from '../../../helpers/tree-utils';
 
 let capturedPrimaryColorSettingProps: Record<string, unknown> | null = null;
 
-jest.mock('@/components/shared/PrimaryColorSetting', () => {
+jest.mock('@/components/shared/modal/PrimaryColorSetting', () => {
     const {createElement} = require('react');
     return {
         __esModule: true,

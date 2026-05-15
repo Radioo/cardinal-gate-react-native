@@ -1,4 +1,4 @@
-import {Platform} from 'react-native';
+import {Platform} from "react-native";
 
 type ExpoMaterialYouModule = {
     getAccentColor(): string | null | undefined;

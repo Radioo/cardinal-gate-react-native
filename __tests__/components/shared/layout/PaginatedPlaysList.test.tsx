@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text} from 'react-native';
 import {render, screen} from '@testing-library/react-native';
+import {UseQueryResult} from '@tanstack/react-query';
 import PaginatedPlaysList, {getNumColumns} from '@/components/shared/layout/PaginatedPlaysList';
 
 jest.mock('@/hooks/usePullToRefresh', () => ({
@@ -33,58 +34,79 @@ jest.mock('@/components/shared/feedback/ErrorScreen', () => {
     return {__esModule: true, default: (props: {error: Error}) => ReactLib.createElement('View', {testID: 'error-screen', message: props.error.message})};
 });
 
-describe('PaginatedPlaysList', () => {
-    const defaultProps = {
-        plays: [] as string[],
-        pages: 1,
+type Resp = {plays: string[]; pages: number};
+
+function mockQuery(partial: Partial<UseQueryResult<Resp>>): UseQueryResult<Resp> {
+    return {
+        data: partial.data,
         isPending: false,
-        isError: false as const,
+        isError: false,
         error: null,
         refetch: jest.fn().mockResolvedValue(undefined),
-        page: 1,
-        onPageChange: jest.fn(),
-        renderItem: (item: string) => <Text>{item}</Text>,
-    };
+        ...partial,
+    } as unknown as UseQueryResult<Resp>;
+}
 
-    it('renders FullScreenLoader when isPending is true', async () => {
-        await render(<PaginatedPlaysList {...defaultProps} isPending={true}/>);
+describe('PaginatedPlaysList', () => {
+    const renderItem = (item: string) => <Text>{item}</Text>;
+
+    it('renders FullScreenLoader when query is pending', async () => {
+        await render(
+            <PaginatedPlaysList<string>
+                query={mockQuery({isPending: true})}
+                page={1}
+                onPageChange={jest.fn()}
+                renderItem={renderItem}
+            />,
+        );
         expect(screen.getAllByTestId('loader').length).toBe(1);
     });
 
-    it('does not render FullScreenLoader when isPending is false', async () => {
-        await render(<PaginatedPlaysList {...defaultProps} isPending={false}/>);
+    it('does not render FullScreenLoader when query is not pending', async () => {
+        await render(
+            <PaginatedPlaysList<string>
+                query={mockQuery({data: {plays: [], pages: 1}})}
+                page={1}
+                onPageChange={jest.fn()}
+                renderItem={renderItem}
+            />,
+        );
         expect(screen.queryAllByTestId('loader').length).toBe(0);
     });
 
-    it('renders ErrorScreen when isError is true with an error', async () => {
-        const {error, isError, ...rest} = defaultProps;
-        void error;
-        void isError;
+    it('renders ErrorScreen when query has errored', async () => {
         await render(
-            <PaginatedPlaysList
-                {...rest}
-                isError={true}
-                error={new Error('Something went wrong')}
-            />
+            <PaginatedPlaysList<string>
+                query={mockQuery({isError: true, error: new Error('Something went wrong')})}
+                page={1}
+                onPageChange={jest.fn()}
+                renderItem={renderItem}
+            />,
         );
         const errorScreen = screen.getByTestId('error-screen');
-        expect(errorScreen).toBeTruthy();
         expect(errorScreen.props.message).toBe('Something went wrong');
     });
 
-    it('renders Pagination with correct page info when data is loaded', async () => {
-        await render(<PaginatedPlaysList {...defaultProps} pages={5} page={3}/>);
+    it('renders Pagination with the current page when data is loaded', async () => {
+        await render(
+            <PaginatedPlaysList<string>
+                query={mockQuery({data: {plays: [], pages: 5}})}
+                page={3}
+                onPageChange={jest.fn()}
+                renderItem={renderItem}
+            />,
+        );
         expect(screen.getByText('3')).toBeTruthy();
     });
 
     it('renders FlatList when not pending and not error', async () => {
         await render(
-            <PaginatedPlaysList
-                {...defaultProps}
-                plays={['Play 1', 'Play 2']}
-                pages={2}
-                renderItem={(item: string) => <Text>{item}</Text>}
-            />
+            <PaginatedPlaysList<string>
+                query={mockQuery({data: {plays: ['Play 1', 'Play 2'], pages: 2}})}
+                page={1}
+                onPageChange={jest.fn()}
+                renderItem={renderItem}
+            />,
         );
         expect(screen.queryAllByTestId('loader').length).toBe(0);
         expect(screen.queryAllByTestId('error-screen').length).toBe(0);
@@ -118,7 +140,6 @@ describe('PaginatedPlaysList', () => {
         });
 
         it('treats the column boundary exactly at the min card width', () => {
-            // Exactly at the threshold floor returns the next column count
             expect(getNumColumns(380)).toBe(1);
             expect(getNumColumns(379)).toBe(1);
         });

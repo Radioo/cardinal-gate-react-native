@@ -7,7 +7,7 @@ import ColorPicker, {
     Preview,
     OpacitySlider,
     HueSlider,
-} from 'reanimated-color-picker';
+} from "reanimated-color-picker";
 import type {ColorFormatsObject} from "reanimated-color-picker";
 import {View} from "react-native";
 import useTheme from "@/hooks/useTheme";

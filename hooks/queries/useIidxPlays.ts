@@ -4,12 +4,12 @@ import {IidxPlay} from "@/types/iidx-play";
 import {IidxPlaysResponse} from "@/types/iidx-plays-response";
 
 type IidxPlaysWireResponse = Omit<IidxPlaysResponse, 'plays'> & {
-    plays: Array<Omit<IidxPlay, 'title'> & {name: string}>;
+    plays: Array<Omit<IidxPlay, 'title' | 'recordedAt'> & {name: string; dts: string}>;
 };
 
 // Backend uses path-param pagination here; see useSdvxPlays for the query-param sibling.
-// Backend ships song labels under `name` for IIDX while SDVX uses `title`; normalise
-// on `title` at this boundary so downstream consumers see one canonical field.
+// Backend ships `name` and `dts` for IIDX; normalize on `title` and `recordedAt` at
+// this boundary so downstream consumers see canonical fields.
 export default function useIidxPlays(page: number) {
     return useQuery<IidxPlaysResponse>({
         queryKey: ['iidxPlays', page],
@@ -17,7 +17,7 @@ export default function useIidxPlays(page: number) {
             const wire = await fetchApi<IidxPlaysWireResponse>(`/api2/iidx/plays/${page}`);
             return {
                 pages: wire.pages,
-                plays: wire.plays.map(({name, ...rest}) => ({...rest, title: name})),
+                plays: wire.plays.map(({name, dts, ...rest}) => ({...rest, title: name, recordedAt: dts})),
             };
         },
         staleTime: Infinity,

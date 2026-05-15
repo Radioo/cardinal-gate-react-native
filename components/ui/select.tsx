@@ -17,6 +17,7 @@ function SelectTrigger({className, children, ...props}: React.ComponentPropsWith
             )}
             {...props}
         >
+            {/* @rn-primitives/select types children as a render function but accepts plain ReactNode at runtime. */}
             {children as React.ReactNode}
             <Icon as={ChevronDown} className="text-foreground opacity-50" size={16}/>
         </SelectPrimitive.Trigger>

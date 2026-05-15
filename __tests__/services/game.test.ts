@@ -18,12 +18,7 @@ describe('getSeriesName', () => {
         Object.values(Series).forEach(series => {
             const name = getSeriesName(series);
             expect(name).toBeTruthy();
-            expect(name).not.toBe('Unknown series');
         });
-    });
-
-    it('returns Unknown series for invalid value', () => {
-        expect(getSeriesName('invalid' as Series)).toBe('Unknown series');
     });
 });
 

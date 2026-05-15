@@ -1,5 +1,5 @@
 import {FlatList, Pressable, View} from "react-native";
-import PrimaryColorSetting from "@/components/shared/PrimaryColorSetting";
+import PrimaryColorSetting from "@/components/shared/modal/PrimaryColorSetting";
 import {Text} from "@/components/ui/text";
 import useTheme from "@/hooks/useTheme";
 import {useState} from "react";

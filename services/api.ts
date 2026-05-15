@@ -1,6 +1,6 @@
 import {buildAuthRequestInit} from "@/services/auth-headers";
 import {clearSession} from "@/services/auth";
-import {API_URL} from "@/services/env";
+import {requireApiUrl} from "@/services/env";
 
 type FetchApiOptions = {
     skipRootUrl?: boolean;
@@ -36,7 +36,7 @@ async function baseFetch(
     options: FetchApiOptions = {},
 ): Promise<Response> {
     const requestInit = options.skipAuth ? (init ?? {}) : await buildAuthRequestInit(init);
-    const url = options.skipRootUrl ? endpoint : `${API_URL}${endpoint}`;
+    const url = options.skipRootUrl ? endpoint : `${requireApiUrl()}${endpoint}`;
 
     const response = await fetch(url, requestInit);
 

@@ -34,24 +34,16 @@ describe('PlaysPage', () => {
         expect(tree.props.testID).toBe('paginated-list');
     });
 
-    it('passes query data to PaginatedPlaysList', async () => {
-        const plays = [{id: 1}, {id: 2}];
-        const useQuery = jest.fn(() => ({data: {plays, pages: 3}, isPending: false, isError: false, error: null, refetch: jest.fn()}));
+    it('forwards the query object to PaginatedPlaysList', async () => {
+        const queryResult = {data: {plays: [{id: 1}, {id: 2}], pages: 3}, isPending: false, isError: false, error: null, refetch: jest.fn()};
+        const useQuery = jest.fn(() => queryResult);
         await render(<PlaysPage usePlaysQuery={useQuery as never} renderItem={() => <></>}/>);
         expect(capturedPaginatedProps).toBeTruthy();
-        expect((capturedPaginatedProps as Record<string, unknown>).plays).toEqual(plays);
-        expect((capturedPaginatedProps as Record<string, unknown>).pages).toBe(3);
+        expect((capturedPaginatedProps as Record<string, unknown>).query).toBe(queryResult);
+        expect((capturedPaginatedProps as Record<string, unknown>).page).toBe(1);
     });
 
-    it('defaults to empty plays and page 1 when data is undefined', async () => {
-        const useQuery = jest.fn(() => ({data: undefined, isPending: true, isError: false, error: null, refetch: jest.fn()}));
-        await render(<PlaysPage usePlaysQuery={useQuery as never} renderItem={() => <></>}/>);
-        expect((capturedPaginatedProps as Record<string, unknown>).plays).toEqual([]);
-        expect((capturedPaginatedProps as Record<string, unknown>).pages).toBe(1);
-        expect((capturedPaginatedProps as Record<string, unknown>).isPending).toBe(true);
-    });
-
-    it('calls useQuery with page 1 initially', async () => {
+    it('calls usePlaysQuery with page 1 initially', async () => {
         const useQuery = jest.fn(() => ({data: {plays: [], pages: 1}, isPending: false, isError: false, error: null, refetch: jest.fn()}));
         await render(<PlaysPage usePlaysQuery={useQuery as never} renderItem={() => <></>}/>);
         expect(useQuery).toHaveBeenCalledWith(1);

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Platform} from 'react-native';
 import {render, screen, fireEvent} from '@testing-library/react-native';
-import PrimaryColorSetting from '@/components/shared/PrimaryColorSetting';
+import PrimaryColorSetting from '@/components/shared/modal/PrimaryColorSetting';
 
 let capturedColorPickerProps: Record<string, unknown> = {};
 

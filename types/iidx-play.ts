@@ -17,6 +17,6 @@ export type IidxPlay = {
     percentage: number;
     miss_count: number | null;
     has_score_card: boolean;
-    /** Date-time string when the play was recorded (ISO format from API). */
-    dts: string;
+    /** ISO date-time string when the play was recorded. */
+    recordedAt: string;
 }

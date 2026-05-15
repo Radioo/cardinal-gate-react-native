@@ -47,32 +47,20 @@ describe('SDVX Plays', () => {
         expect(tree.props.testID).toBe('paginated-list');
     });
 
-    it('passes plays data to PaginatedPlaysList', async () => {
+    it('forwards the query object to PaginatedPlaysList', async () => {
         const plays = [{id: 1, title: 'Track A'}, {id: 2, title: 'Track B'}];
-        mockUseSdvxPlays = jest.fn(() => ({data: {plays, pages: 5}, isPending: false, isError: false, error: null, refetch: jest.fn()}));
+        const queryResult = {data: {plays, pages: 5}, isPending: false, isError: false, error: null, refetch: jest.fn()};
+        mockUseSdvxPlays = jest.fn(() => queryResult);
         await render(<Plays />);
         const props = capturedPaginatedProps as Record<string, unknown>;
-        expect(props).toBeTruthy();
-        expect(props.plays).toEqual(plays);
-        expect(props.pages).toBe(5);
+        expect(props.query).toBe(queryResult);
     });
 
-    it('defaults to empty plays and page 1 when data is undefined', async () => {
+    it('starts pagination at page 1', async () => {
         mockUseSdvxPlays = jest.fn(() => ({data: undefined, isPending: true, isError: false, error: null, refetch: jest.fn()}));
         await render(<Plays />);
         const props = capturedPaginatedProps as Record<string, unknown>;
-        expect(props.plays).toEqual([]);
-        expect(props.pages).toBe(1);
-        expect(props.isPending).toBe(true);
-    });
-
-    it('passes error state to PaginatedPlaysList', async () => {
-        const error = new Error('Failed to fetch');
-        mockUseSdvxPlays = jest.fn(() => ({data: undefined, isPending: false, isError: true, error, refetch: jest.fn()}));
-        await render(<Plays />);
-        const props = capturedPaginatedProps as Record<string, unknown>;
-        expect(props.isError).toBe(true);
-        expect(props.error).toBe(error);
+        expect(props.page).toBe(1);
     });
 
     it('provides a renderItem function that renders SdvxPlayRow', async () => {

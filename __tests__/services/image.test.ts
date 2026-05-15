@@ -38,16 +38,29 @@ describe('downloadToLocalFile', () => {
         mockWrite.mockReset();
     });
 
-    it('fetches blob with skipRootUrl option', async () => {
+    it('fetches a same-origin blob with auth headers attached', async () => {
         const blob = new Blob(['test']);
         mockFetchApiBlob.mockResolvedValue(blob);
 
-        await downloadToLocalFile('https://example.com/image.png', 'image.png');
+        await downloadToLocalFile('https://api.test.com/scorecard.png', 'scorecard.png');
 
         expect(mockFetchApiBlob).toHaveBeenCalledWith(
-            'https://example.com/image.png',
+            'https://api.test.com/scorecard.png',
             undefined,
-            {skipRootUrl: true},
+            {skipRootUrl: true, skipAuth: false},
+        );
+    });
+
+    it('strips the auth header for third-party origins', async () => {
+        const blob = new Blob(['test']);
+        mockFetchApiBlob.mockResolvedValue(blob);
+
+        await downloadToLocalFile('https://i.kym-cdn.com/some.png', 'meme.png');
+
+        expect(mockFetchApiBlob).toHaveBeenCalledWith(
+            'https://i.kym-cdn.com/some.png',
+            undefined,
+            {skipRootUrl: true, skipAuth: true},
         );
     });
 
