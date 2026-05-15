@@ -20,9 +20,11 @@ type ChipProps = {
     /**
      * Layout mode. 'fill' (default) lets the chip stretch to fill its parent's
      * cross-axis (used by play-row difficulty chips alongside a song title).
-     * 'tight' wraps the chip to its content via alignSelf: flex-start and
-     * vertically centers the text (used by single-segment clear-type chips
-     * rendered inside a column flex parent).
+     * 'tight' wraps the chip to its content width via alignSelf: flex-start
+     * (used by single-segment clear-type chips inside a column flex parent).
+     * In both modes segments stretch vertically to fill the chip's height so
+     * their backgrounds tile the full chip; text is vertically centered by
+     * the segment View's justifyContent.
      */
     layout?: 'fill' | 'tight';
     segments: ChipSegment[];
@@ -60,7 +62,7 @@ export default function Chip({height, border, borderWidth = 1, showDividers = tr
                     borderWidth,
                     borderColor: border,
                     overflow: 'hidden',
-                    ...(isTight ? {alignSelf: 'flex-start', alignItems: 'center'} : null),
+                    ...(isTight ? {alignSelf: 'flex-start'} : null),
                 },
                 style,
             ]}
