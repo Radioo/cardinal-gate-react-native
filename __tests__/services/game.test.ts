@@ -1,4 +1,4 @@
-import {getSeriesName, formatArcadeId, formatGdSkillValue, formatPlayTimeHours} from '@/services/game';
+import {getSeriesName, formatArcadeId, formatGdHundredthsValue, formatPlayTimeHours} from '@/services/game';
 import {Series} from '@/enums/series';
 
 describe('getSeriesName', () => {
@@ -41,25 +41,25 @@ describe('formatArcadeId', () => {
     });
 });
 
-describe('formatGdSkillValue', () => {
+describe('formatGdHundredthsValue', () => {
     it('formats a normal value with two decimal places', () => {
-        expect(formatGdSkillValue(15000)).toBe('150.00');
+        expect(formatGdHundredthsValue(15000)).toBe('150.00');
     });
 
     it('formats zero as 0.00', () => {
-        expect(formatGdSkillValue(0)).toBe('0.00');
+        expect(formatGdHundredthsValue(0)).toBe('0.00');
     });
 
     it('returns ??? for undefined', () => {
-        expect(formatGdSkillValue(undefined)).toBe('???');
+        expect(formatGdHundredthsValue(undefined)).toBe('???');
     });
 
     it('returns ??? for negative values', () => {
-        expect(formatGdSkillValue(-1)).toBe('???');
+        expect(formatGdHundredthsValue(-1)).toBe('???');
     });
 
     it('formats small values correctly', () => {
-        expect(formatGdSkillValue(1)).toBe('0.01');
+        expect(formatGdHundredthsValue(1)).toBe('0.01');
     });
 });
 

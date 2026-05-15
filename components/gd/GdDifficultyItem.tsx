@@ -4,7 +4,7 @@ import {GdDifficulty} from "@/enums/gd-difficulty";
 import {memo} from "react";
 import useTheme from "@/hooks/useTheme";
 import {lightenHex} from "@/lib/color-utils";
-import {formatGdSkillValue} from "@/services/game";
+import {formatGdHundredthsValue} from "@/services/game";
 
 const DIFFICULTY_COLORS: Record<GdDifficulty, string> = {
     [GdDifficulty.BASIC]: '#427486',
@@ -24,9 +24,9 @@ type GdDifficultyProps = {
 
 const GdDifficultyItemInner = ({difficulty}: GdDifficultyProps) => {
     const theme = useTheme();
-    const baseColor = DIFFICULTY_COLORS[difficulty.difficulty] ?? '#000000';
-    const difficultyColor = theme.scheme === 'light' ? lightenHex(0.2, baseColor) : baseColor;
-    const typeColor = theme.scheme === 'light' ? lightenHex(0.2, '#4f4f4f') : '#4f4f4f';
+    const baseColor = DIFFICULTY_COLORS[difficulty.difficulty];
+    const difficultyColor = theme.scheme === 'light' ? lightenHex(baseColor, 0.2) : baseColor;
+    const typeColor = theme.scheme === 'light' ? lightenHex('#4f4f4f', 0.2) : '#4f4f4f';
 
     return (
         <View className="flex-row">
@@ -37,7 +37,7 @@ const GdDifficultyItemInner = ({difficulty}: GdDifficultyProps) => {
                 {difficulty.difficulty}
             </Text>
             <Text className="text-white px-1 border-2 border-black" style={{backgroundColor: difficultyColor}}>
-                {formatGdSkillValue(difficulty.level)}
+                {formatGdHundredthsValue(difficulty.level)}
             </Text>
         </View>
     )

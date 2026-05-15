@@ -4,7 +4,7 @@ import {Card} from "@/components/ui/card";
 import {GdMusicSkillItem} from "@/types/gd-skill-data-response";
 import GdDifficultyItem from "@/components/gd/GdDifficultyItem";
 import {memo} from "react";
-import {formatGdSkillValue} from "@/services/game";
+import {formatGdHundredthsValue} from "@/services/game";
 
 type GdSkillListItemProps = {
     item: GdMusicSkillItem;
@@ -20,8 +20,8 @@ const GdSkillListItemInner = ({item, index}: GdSkillListItemProps) => {
                 <GdDifficultyItem difficulty={item.difficulty}/>
             </View>
             <View>
-                <Text className="text-base leading-6 font-bold text-right">{formatGdSkillValue(item.skill)}</Text>
-                <Text className="text-base leading-6 text-right">{formatGdSkillValue(item.percentage)}%</Text>
+                <Text className="text-base leading-6 font-bold text-right">{formatGdHundredthsValue(item.skill)}</Text>
+                <Text className="text-base leading-6 text-right">{formatGdHundredthsValue(item.percentage)}%</Text>
             </View>
         </Card>
     )

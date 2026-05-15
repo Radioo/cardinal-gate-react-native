@@ -1,8 +1,8 @@
 import {SdvxDifficulty} from "@/enums/sdvx-difficulty";
-import {Text, View} from "react-native";
 import useTheme from "@/hooks/useTheme";
-import {darkenHex, lightenHex} from "@/lib/color-utils";
+import {deriveDifficultyChipPalette} from "@/lib/color-utils";
 import {memo} from "react";
+import Chip from "@/components/shared/Chip";
 
 type SdvxDifficultyProps = {
     difficulty: SdvxDifficulty;
@@ -25,46 +25,24 @@ const DIFFICULTY_COLORS: Record<SdvxDifficulty, string> = {
 
 const SdvxDifficultyItemInner = ({difficulty, level}: SdvxDifficultyProps) => {
     const theme = useTheme();
-    const baseColor = DIFFICULTY_COLORS[difficulty] ?? '#666666';
-    const isDark = theme.scheme === 'dark';
-
-    const tintBg = isDark ? darkenHex(0.30, baseColor) : lightenHex(0.40, baseColor);
-    const tintText = isDark ? lightenHex(0.28, baseColor) : darkenHex(0.18, baseColor);
-    const border = isDark ? lightenHex(0.05, baseColor) : darkenHex(0.05, baseColor);
-    const accentBg = baseColor;
-    const accentText = isDark ? darkenHex(0.40, baseColor) : '#ffffff';
+    const baseColor = DIFFICULTY_COLORS[difficulty];
+    const palette = deriveDifficultyChipPalette(baseColor, theme.scheme === 'dark');
 
     return (
-        <View
-            style={{
-                flexDirection: 'row',
-                flexShrink: 0,
-                minHeight: SDVX_CHIP_HEIGHT,
-                borderWidth: 1,
-                borderColor: border,
-                overflow: 'hidden',
-            }}
-        >
-            <View style={{justifyContent: 'center', paddingHorizontal: 8, backgroundColor: tintBg}}>
-                <Text
-                    className="font-bold text-[10px]"
-                    style={{color: tintText, letterSpacing: 1.6, lineHeight: 12}}
-                    numberOfLines={1}
-                >
-                    {difficulty}
-                </Text>
-            </View>
-            <View style={{width: 1, backgroundColor: border}}/>
-            <View style={{justifyContent: 'center', paddingHorizontal: 7, backgroundColor: accentBg}}>
-                <Text
-                    className="font-mono font-bold text-[12px]"
-                    style={{color: accentText, lineHeight: 12, letterSpacing: 0.3}}
-                    numberOfLines={1}
-                >
-                    {String(level).padStart(2, '0')}
-                </Text>
-            </View>
-        </View>
+        <Chip
+            height={SDVX_CHIP_HEIGHT}
+            border={palette.border}
+            segments={[
+                {text: difficulty, background: palette.bg, textColor: palette.text},
+                {
+                    text: String(level).padStart(2, '0'),
+                    background: baseColor,
+                    textColor: palette.accentText,
+                    textStyle: 'mono',
+                    paddingHorizontal: 7,
+                },
+            ]}
+        />
     );
 };
 

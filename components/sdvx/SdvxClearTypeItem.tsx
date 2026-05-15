@@ -1,9 +1,10 @@
 import {SdvxClearType} from "@/enums/sdvx-clear-type";
-import {StyleProp, Text, View, ViewStyle} from "react-native";
+import {StyleProp, ViewStyle} from "react-native";
 import useTheme from "@/hooks/useTheme";
-import {darkenHex, lightenHex} from "@/lib/color-utils";
+import {deriveClearTypeChipPalette} from "@/lib/color-utils";
 import {SDVX_CHIP_HEIGHT} from "@/components/sdvx/SdvxDifficultyItem";
 import SdvxPerfectUltimateChainItem from "@/components/sdvx/SdvxPerfectUltimateChainItem";
+import Chip from "@/components/shared/Chip";
 
 export const SDVX_CLEAR_TYPE_DATA: Record<SdvxClearType, { text: string; color: string }> = {
     [SdvxClearType.NO_PLAY]: {text: 'NO PLAY', color: '#7d7d7d'},
@@ -27,38 +28,15 @@ export default function SdvxClearTypeItem({clearType, style}: SdvxClearTypeItemP
         return <SdvxPerfectUltimateChainItem style={style}/>;
     }
 
-    const data = SDVX_CLEAR_TYPE_DATA[clearType] ?? {text: '', color: '#000000'};
-    const isDark = theme.scheme === 'dark';
-
-    const bg = isDark ? darkenHex(0.30, data.color) : lightenHex(0.38, data.color);
-    const text = isDark ? lightenHex(0.28, data.color) : darkenHex(0.22, data.color);
-    const border = isDark ? lightenHex(0.05, data.color) : darkenHex(0.08, data.color);
+    const data = SDVX_CLEAR_TYPE_DATA[clearType];
+    const palette = deriveClearTypeChipPalette(data.color, theme.scheme === 'dark');
 
     return (
-        <View
-            style={[
-                {
-                    flexDirection: 'row',
-                    alignSelf: 'flex-start',
-                    flexShrink: 0,
-                    alignItems: 'center',
-                    height: SDVX_CHIP_HEIGHT,
-                    paddingHorizontal: 8,
-                    backgroundColor: bg,
-                    borderWidth: 1,
-                    borderColor: border,
-                    overflow: 'hidden',
-                },
-                style,
-            ]}
-        >
-            <Text
-                className="font-bold text-[10px]"
-                style={{color: text, letterSpacing: 1.6, lineHeight: 12}}
-                numberOfLines={1}
-            >
-                {data.text}
-            </Text>
-        </View>
+        <Chip
+            height={SDVX_CHIP_HEIGHT}
+            border={palette.border}
+            segments={[{text: data.text, background: palette.bg, textColor: palette.text}]}
+            style={style}
+        />
     );
 }

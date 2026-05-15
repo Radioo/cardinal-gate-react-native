@@ -6,39 +6,13 @@ import IidxClearTypeItem from "@/components/iidx/IidxClearTypeItem";
 import {Camera} from "lucide-react-native";
 import {useState} from "react";
 import ShareImageModal from "@/components/shared/ShareImageModal";
+import StatCell from "@/components/shared/StatCell";
 import IidxDifficultyItem from "@/components/iidx/IidxDifficultyItem";
 import {getIidxChartScreenshotUrl} from "@/services/game";
 import {hexToRgba} from "@/lib/color-utils";
 
 type IidxPlayRowProps = {
     play: IidxPlay;
-}
-
-type StatCellProps = {
-    label: string;
-    children: React.ReactNode;
-    align?: 'left' | 'center' | 'right';
-};
-
-function StatCell({label, children, align = 'center'}: StatCellProps) {
-    const theme = useTheme();
-    const mutedText = hexToRgba(theme.text, 0.55);
-    const alignClass = align === 'left' ? 'items-start' : align === 'right' ? 'items-end' : 'items-center';
-
-    return (
-        <View className={`flex-1 ${alignClass} justify-start`}>
-            <Text
-                className="text-[9px] font-semibold"
-                style={{color: mutedText, letterSpacing: 2.2, lineHeight: 12}}
-                numberOfLines={1}
-            >
-                {label}
-            </Text>
-            <View className="mt-1">
-                {children}
-            </View>
-        </View>
-    );
 }
 
 export default function IidxPlayRow({play}: IidxPlayRowProps) {
@@ -64,7 +38,6 @@ export default function IidxPlayRow({play}: IidxPlayRowProps) {
             />
 
             <View className="px-3 pt-2 pb-2.5">
-                {/* ── CHART INFO ─────────────────────────────── */}
                 <View className="flex-row items-stretch gap-2">
                     <View className="flex-1 min-w-0 justify-center">
                         <Text
@@ -107,12 +80,9 @@ export default function IidxPlayRow({play}: IidxPlayRowProps) {
                     </View>
                 </View>
 
-                {/* ── DIVIDER ────────────────────────────────── */}
                 <View style={{height: 1, backgroundColor: divider, marginVertical: 10}}/>
 
-                {/* ── SCORE INFO ─────────────────────────────── */}
                 <View className="gap-3">
-                    {/* Row 1: Grade · EX score · Clear lamp */}
                     <View className="flex-row items-start">
                         <StatCell label="GRADE">
                             <Text
@@ -152,7 +122,6 @@ export default function IidxPlayRow({play}: IidxPlayRowProps) {
                         </StatCell>
                     </View>
 
-                    {/* Row 2: Judgements (PG · GR · MC) */}
                     <View className="flex-row items-start">
                         <StatCell label="PERFECT">
                             <Text

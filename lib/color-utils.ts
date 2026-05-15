@@ -77,14 +77,49 @@ function hslToHex(h: number, s: number, l: number): string {
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
 
+export type ChipPalette = {
+    bg: string;
+    text: string;
+    border: string;
+};
+
+export type DifficultyChipPalette = ChipPalette & {
+    accentText: string;
+};
+
+/**
+ * Chip palette for clear-type chips (IIDX/SDVX clear type, ColorBadge-like single-section chips).
+ * Slightly higher contrast than the difficulty palette in light mode.
+ */
+export function deriveClearTypeChipPalette(baseColor: string, isDark: boolean): ChipPalette {
+    return {
+        bg: isDark ? darkenHex(baseColor, 0.30) : lightenHex(baseColor, 0.38),
+        text: isDark ? lightenHex(baseColor, 0.28) : darkenHex(baseColor, 0.22),
+        border: isDark ? lightenHex(baseColor, 0.05) : darkenHex(baseColor, 0.08),
+    };
+}
+
+/**
+ * Chip palette for difficulty chips with a tint segment + accent (level) segment.
+ * The accent segment uses baseColor directly; accentText flips for contrast.
+ */
+export function deriveDifficultyChipPalette(baseColor: string, isDark: boolean): DifficultyChipPalette {
+    return {
+        bg: isDark ? darkenHex(baseColor, 0.30) : lightenHex(baseColor, 0.40),
+        text: isDark ? lightenHex(baseColor, 0.28) : darkenHex(baseColor, 0.18),
+        border: isDark ? lightenHex(baseColor, 0.05) : darkenHex(baseColor, 0.05),
+        accentText: isDark ? darkenHex(baseColor, 0.40) : '#ffffff',
+    };
+}
+
 /** Lighten a hex color by an absolute lightness amount (0–1). Returns hex. */
-export function lightenHex(amount: number, hex: string): string {
+export function lightenHex(hex: string, amount: number): string {
     const {h, s, l} = hexToHsl(hex);
     return hslToHex(h, s, Math.min(100, l + amount * 100));
 }
 
 /** Darken a hex color by an absolute lightness amount (0–1). Returns hex. */
-export function darkenHex(amount: number, hex: string): string {
+export function darkenHex(hex: string, amount: number): string {
     const {h, s, l} = hexToHsl(hex);
     return hslToHex(h, s, Math.max(0, l - amount * 100));
 }
@@ -129,12 +164,12 @@ export function buildColorPalette(primary: string) {
         light: {
             ...LIGHT_TOKENS,
             primary: primary,
-            primarySurface: lightenHex(PRIMARY_SURFACE_AMOUNT, primary),
+            primarySurface: lightenHex(primary, PRIMARY_SURFACE_AMOUNT),
         },
         dark: {
             ...DARK_TOKENS,
             primary: primary,
-            primarySurface: darkenHex(PRIMARY_SURFACE_AMOUNT, primary),
+            primarySurface: darkenHex(primary, PRIMARY_SURFACE_AMOUNT),
         },
     };
 }

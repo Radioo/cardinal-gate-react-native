@@ -3,7 +3,7 @@ import {View} from "react-native";
 import useTheme from "@/hooks/useTheme";
 import GradientText from "@/components/themed/GradientText";
 import {SKILL_GRADIENT_TIERS} from "@/constants/gd-skill-tiers";
-import {formatGdSkillValue} from "@/services/game";
+import {formatGdHundredthsValue} from "@/services/game";
 
 const NO_DATA_COLOR = '#888888';
 
@@ -37,12 +37,12 @@ export default function GdTotalSkill({name, skill, allMusicSkill}: GdTotalSkillP
                                   start={{x: 0.5, y: 0.25}}
                                   end={{x: 0.5, y: 0.75}}
                     >
-                        {formatGdSkillValue(skill)}
+                        {formatGdHundredthsValue(skill)}
                     </GradientText>
                 </View>
             </View>
             <Text className="text-base leading-6 text-center">
-                All music skill: <Text style={{color: allMusicColor}}>{formatGdSkillValue(allMusicSkill)}</Text>
+                All music skill: <Text style={{color: allMusicColor}}>{formatGdHundredthsValue(allMusicSkill)}</Text>
             </Text>
         </View>
     )

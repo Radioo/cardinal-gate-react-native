@@ -1,8 +1,8 @@
-import {View} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Portal} from '@rn-primitives/portal';
-import {ToastItem} from '@/components/ui/toast';
-import {useToastStore} from '@/store/toast';
+import {View} from "react-native";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
+import {Portal} from "@rn-primitives/portal";
+import {ToastItem} from "@/components/ui/toast";
+import {useToastStore} from "@/store/toast";
 
 export default function Toaster() {
     const toasts = useToastStore((s) => s.toasts);

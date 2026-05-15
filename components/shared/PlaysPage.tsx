@@ -8,13 +8,13 @@ type PlaysResponse<T> = {
 }
 
 type PlaysPageProps<T> = {
-    useQuery: (page: number) => UseQueryResult<PlaysResponse<T>>;
+    usePlaysQuery: (page: number) => UseQueryResult<PlaysResponse<T>>;
     renderItem: (play: T) => ReactElement;
 }
 
-export default function PlaysPage<T>({useQuery, renderItem}: PlaysPageProps<T>) {
+export default function PlaysPage<T>({usePlaysQuery, renderItem}: PlaysPageProps<T>) {
     const [page, setPage] = useState(1);
-    const {data, isPending, isError, error, refetch} = useQuery(page);
+    const {data, isPending, isError, error, refetch} = usePlaysQuery(page);
 
     return (
         <PaginatedPlaysList<T>

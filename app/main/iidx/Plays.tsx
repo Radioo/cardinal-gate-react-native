@@ -6,7 +6,7 @@ import {IidxPlay} from "@/types/iidx-play";
 export default function Plays() {
     return (
         <PlaysPage<IidxPlay>
-            useQuery={useIidxPlays}
+            usePlaysQuery={useIidxPlays}
             renderItem={(play) => <IidxPlayRow play={play}/>}
         />
     );

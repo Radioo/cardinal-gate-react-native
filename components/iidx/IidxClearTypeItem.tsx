@@ -1,9 +1,10 @@
 import {IidxClearType} from "@/enums/iidx-clear-type";
-import {StyleProp, Text, View, ViewStyle} from "react-native";
+import {StyleProp, ViewStyle} from "react-native";
 import IidxFullComboClearTypeItem from "@/components/iidx/IidxFullComboClearTypeItem";
 import {IIDX_CHIP_HEIGHT} from "@/components/iidx/IidxDifficultyItem";
 import useTheme from "@/hooks/useTheme";
-import {darkenHex, lightenHex} from "@/lib/color-utils";
+import {deriveClearTypeChipPalette} from "@/lib/color-utils";
+import Chip from "@/components/shared/Chip";
 
 export const IIDX_CLEAR_TYPE_COLORS: Record<IidxClearType, string> = {
     [IidxClearType.NO_PLAY]: '#7d7d7d',
@@ -28,38 +29,15 @@ export default function IidxClearTypeItem({clearType, style}: IidxClearTypeProps
         return <IidxFullComboClearTypeItem style={style}/>;
     }
 
-    const base = IIDX_CLEAR_TYPE_COLORS[clearType] ?? '#000';
-    const isDark = theme.scheme === 'dark';
-
-    const bg = isDark ? darkenHex(0.30, base) : lightenHex(0.38, base);
-    const text = isDark ? lightenHex(0.28, base) : darkenHex(0.22, base);
-    const border = isDark ? lightenHex(0.05, base) : darkenHex(0.08, base);
+    const base = IIDX_CLEAR_TYPE_COLORS[clearType];
+    const palette = deriveClearTypeChipPalette(base, theme.scheme === 'dark');
 
     return (
-        <View
-            style={[
-                {
-                    flexDirection: 'row',
-                    alignSelf: 'flex-start',
-                    flexShrink: 0,
-                    alignItems: 'center',
-                    height: IIDX_CHIP_HEIGHT,
-                    paddingHorizontal: 8,
-                    backgroundColor: bg,
-                    borderWidth: 1,
-                    borderColor: border,
-                    overflow: 'hidden',
-                },
-                style,
-            ]}
-        >
-            <Text
-                className="font-bold text-[10px]"
-                style={{color: text, letterSpacing: 1.6, lineHeight: 12}}
-                numberOfLines={1}
-            >
-                {clearType}
-            </Text>
-        </View>
+        <Chip
+            height={IIDX_CHIP_HEIGHT}
+            border={palette.border}
+            segments={[{text: clearType, background: palette.bg, textColor: palette.text}]}
+            style={style}
+        />
     );
 }

@@ -1,10 +1,10 @@
-import React, {useRef, useState} from 'react';
-import {Pressable, StyleSheet, View} from 'react-native';
-import {Button} from '@/components/ui/button';
-import {Text} from '@/components/ui/text';
-import useTheme from '@/hooks/useTheme';
-import {ChevronLeft, ChevronRight} from 'lucide-react-native';
-import SetPageModal from '@/components/shared/SetPageModal';
+import React, {useRef, useState} from "react";
+import {Pressable, StyleSheet, View} from "react-native";
+import {Button} from "@/components/ui/button";
+import {Text} from "@/components/ui/text";
+import useTheme from "@/hooks/useTheme";
+import {ChevronLeft, ChevronRight} from "lucide-react-native";
+import SetPageModal from "@/components/shared/SetPageModal";
 
 const SLOT_COUNT = 7;
 

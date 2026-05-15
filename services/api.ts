@@ -7,7 +7,13 @@ type FetchApiOptions = {
     skipAuth?: boolean;
 };
 
-class SessionExpiredError extends Error {
+/**
+ * Thrown by fetchApi/fetchApiBlob when the server returns 401. The session
+ * has been cleared and any registered unauthorized handler invoked before
+ * this is thrown — callers typically don't need to react to it, but `instanceof`
+ * checks are supported.
+ */
+export class SessionExpiredError extends Error {
     constructor() {
         super('Session expired');
         this.name = 'SessionExpiredError';
@@ -52,6 +58,11 @@ async function baseFetch(
     return response;
 }
 
+/**
+ * Fetch JSON from the API.
+ * @throws {SessionExpiredError} on 401 — session has already been cleared.
+ * @throws {Error} on other non-OK responses (server `error` field if present, otherwise a generic message).
+ */
 export async function fetchApi<T>(
     endpoint: string,
     init?: RequestInit,
@@ -61,6 +72,11 @@ export async function fetchApi<T>(
     return await response.json() as T;
 }
 
+/**
+ * Fetch a binary blob from the API.
+ * @throws {SessionExpiredError} on 401 — session has already been cleared.
+ * @throws {Error} on other non-OK responses (server `error` field if present, otherwise a generic message).
+ */
 export async function fetchApiBlob(
     endpoint: string,
     init?: RequestInit,

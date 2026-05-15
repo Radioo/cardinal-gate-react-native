@@ -125,35 +125,35 @@ describe('darkenToHslVar', () => {
 
 describe('lightenHex', () => {
     it('lightens a color', () => {
-        const result = lightenHex(0.2, '#000000');
+        const result = lightenHex('#000000', 0.2);
         expect(result).toBe('#333333');
     });
 
     it('clamps at white', () => {
-        const result = lightenHex(1, '#ffffff');
+        const result = lightenHex('#ffffff', 1);
         expect(result).toBe('#ffffff');
     });
 
     it('returns a valid hex string', () => {
-        const result = lightenHex(0.1, '#ff0000');
+        const result = lightenHex('#ff0000', 0.1);
         expect(result).toMatch(/^#[0-9a-f]{6}$/);
     });
 });
 
 describe('darkenHex', () => {
     it('darkens a color', () => {
-        const result = darkenHex(0.5, '#ffffff');
+        const result = darkenHex('#ffffff', 0.5);
         // white (l=100) darkened by 0.5 = l=50 → gray
         expect(result).toBe('#808080');
     });
 
     it('clamps at black', () => {
-        const result = darkenHex(1, '#000000');
+        const result = darkenHex('#000000', 1);
         expect(result).toBe('#000000');
     });
 
     it('returns a valid hex string', () => {
-        const result = darkenHex(0.1, '#ff0000');
+        const result = darkenHex('#ff0000', 0.1);
         expect(result).toMatch(/^#[0-9a-f]{6}$/);
     });
 });

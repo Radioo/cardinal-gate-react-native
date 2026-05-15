@@ -4,37 +4,11 @@ import {View} from "react-native";
 import useTheme from "@/hooks/useTheme";
 import SdvxDifficultyItem from "@/components/sdvx/SdvxDifficultyItem";
 import SdvxClearTypeItem from "@/components/sdvx/SdvxClearTypeItem";
+import StatCell from "@/components/shared/StatCell";
 import {hexToRgba} from "@/lib/color-utils";
 
 type SdvxPlayRowProps = {
     play: SdvxPlay;
-}
-
-type StatCellProps = {
-    label: string;
-    children: React.ReactNode;
-    align?: 'left' | 'center' | 'right';
-};
-
-function StatCell({label, children, align = 'center'}: StatCellProps) {
-    const theme = useTheme();
-    const mutedText = hexToRgba(theme.text, 0.55);
-    const alignClass = align === 'left' ? 'items-start' : align === 'right' ? 'items-end' : 'items-center';
-
-    return (
-        <View className={`flex-1 ${alignClass} justify-start`}>
-            <Text
-                className="text-[9px] font-semibold"
-                style={{color: mutedText, letterSpacing: 2.2, lineHeight: 12}}
-                numberOfLines={1}
-            >
-                {label}
-            </Text>
-            <View className="mt-1">
-                {children}
-            </View>
-        </View>
-    );
 }
 
 export default function SdvxPlayRow({play}: SdvxPlayRowProps) {
@@ -42,7 +16,8 @@ export default function SdvxPlayRow({play}: SdvxPlayRowProps) {
 
     const divider = hexToRgba(theme.primary, 0.30);
     const mutedText = hexToRgba(theme.text, 0.55);
-    const hasExScore = play.ex_score !== null && play.ex_score > 0;
+    const exScore = play.ex_score;
+    const hasExScore = exScore !== null && exScore > 0;
 
     return (
         <View
@@ -54,7 +29,6 @@ export default function SdvxPlayRow({play}: SdvxPlayRowProps) {
             }}
         >
             <View className="px-3 pt-2 pb-2.5">
-                {/* ── CHART INFO ─────────────────────────────── */}
                 <View className="flex-row items-stretch gap-2">
                     <View className="flex-1 min-w-0 justify-center">
                         <Text
@@ -78,10 +52,8 @@ export default function SdvxPlayRow({play}: SdvxPlayRowProps) {
                     </View>
                 </View>
 
-                {/* ── DIVIDER ────────────────────────────────── */}
                 <View style={{height: 1, backgroundColor: divider, marginVertical: 10}}/>
 
-                {/* ── SCORE INFO ─────────────────────────────── */}
                 <View className="flex-row items-start">
                     <StatCell label="GRADE">
                         <Text
@@ -112,7 +84,7 @@ export default function SdvxPlayRow({play}: SdvxPlayRowProps) {
                                     style={{color: mutedText, letterSpacing: 0.3}}
                                     numberOfLines={1}
                                 >
-                                    {play.ex_score!.toLocaleString()} EX
+                                    {exScore.toLocaleString()} EX
                                 </Text>
                             ) : null}
                         </View>

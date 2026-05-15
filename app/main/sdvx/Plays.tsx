@@ -6,7 +6,7 @@ import {SdvxPlay} from "@/types/sdvx-play";
 export default function Plays() {
     return (
         <PlaysPage<SdvxPlay>
-            useQuery={useSdvxPlays}
+            usePlaysQuery={useSdvxPlays}
             renderItem={(play) => <SdvxPlayRow play={play}/>}
         />
     );

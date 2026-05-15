@@ -24,7 +24,12 @@ export function formatArcadeId(id: number): string {
     return `${str.slice(0, 4)}-${str.slice(4, 8)}`;
 }
 
-export function formatGdSkillValue(value: number | undefined): string {
+/**
+ * Format a GD value stored as a 1/100-scaled integer (skill points, percentages,
+ * and difficulty levels all share this encoding in the GD backend).
+ * Returns '???' for undefined or negative values.
+ */
+export function formatGdHundredthsValue(value: number | undefined): string {
     if (value === undefined || value < 0) return '???';
     return (value / 100).toFixed(2);
 }

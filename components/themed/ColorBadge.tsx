@@ -12,11 +12,11 @@ export default function ColorBadge({text, color, style}: ColorBadgeProps) {
     const theme = useTheme();
 
     const backgroundColor = theme.scheme === 'dark'
-        ? darkenHex(0.2, color)
-        : lightenHex(0.25, color);
+        ? darkenHex(color, 0.2)
+        : lightenHex(color, 0.25);
     const borderColor = theme.scheme === 'dark'
-        ? lightenHex(0.2, color)
-        : darkenHex(0.25, color);
+        ? lightenHex(color, 0.2)
+        : darkenHex(color, 0.25);
 
     return (
         <View className="self-start" style={style}>
