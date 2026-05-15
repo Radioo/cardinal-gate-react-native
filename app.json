@@ -29,7 +29,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.cardinalgate.app",
-      "softwareKeyboardLayoutMode": "adjustResize"
+      "softwareKeyboardLayoutMode": "resize"
     },
     "web": {
       "bundler": "metro",

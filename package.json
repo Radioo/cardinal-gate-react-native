@@ -12,6 +12,14 @@
     "lint": "expo lint",
     "coverage": "jest --coverage"
   },
+  "expo": {
+    "install": {
+      "exclude": [
+        "@react-navigation/native",
+        "react-native-pager-view"
+      ]
+    }
+  },
   "jest": {
     "preset": "jest-expo",
     "setupFiles": [
@@ -50,7 +58,6 @@
     "expo-image": "~55.0.10",
     "expo-linear-gradient": "~55.0.14",
     "expo-linking": "~55.0.15",
-    "expo-modules-core": "~55.0.25",
     "expo-router": "~55.0.14",
     "expo-screen-orientation": "~55.0.15",
     "expo-secure-store": "~55.0.14",
