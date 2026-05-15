@@ -1,7 +1,6 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react-native';
-import IidxFullComboClearTypeItem from '@/components/iidx/IidxFullComboClearTypeItem';
-import {IidxClearType} from '@/enums/iidx-clear-type';
+import SdvxPerfectUltimateChainItem from '@/components/sdvx/SdvxPerfectUltimateChainItem';
 
 jest.mock('react-native-reanimated', () => {
     const {createElement} = require('react');
@@ -19,19 +18,19 @@ jest.mock('react-native-reanimated', () => {
     };
 });
 
-describe('IidxFullComboClearTypeItem', () => {
+describe('SdvxPerfectUltimateChainItem', () => {
     it('renders without crashing', async () => {
-        await render(<IidxFullComboClearTypeItem/>);
+        await render(<SdvxPerfectUltimateChainItem/>);
         expect(screen.toJSON()).toBeTruthy();
     });
 
-    it('renders the FULL COMBO label', async () => {
-        await render(<IidxFullComboClearTypeItem/>);
-        expect(screen.getByText(IidxClearType.FULL_COMBO)).toBeTruthy();
+    it('renders the PUC label', async () => {
+        await render(<SdvxPerfectUltimateChainItem/>);
+        expect(screen.getByText('PUC')).toBeTruthy();
     });
 
     it('accepts a style prop', async () => {
-        await render(<IidxFullComboClearTypeItem style={{marginLeft: 12}}/>);
+        await render(<SdvxPerfectUltimateChainItem style={{marginLeft: 12}}/>);
         expect(screen.toJSON()).toBeTruthy();
     });
 });

@@ -1,15 +1,18 @@
 import {SdvxClearType} from "@/enums/sdvx-clear-type";
-import {StyleProp, ViewStyle} from "react-native";
-import ColorBadge from "@/components/themed/ColorBadge";
+import {StyleProp, Text, View, ViewStyle} from "react-native";
+import useTheme from "@/hooks/useTheme";
+import {darkenHex, lightenHex} from "@/lib/color-utils";
+import {SDVX_CHIP_HEIGHT} from "@/components/sdvx/SdvxDifficultyItem";
+import SdvxPerfectUltimateChainItem from "@/components/sdvx/SdvxPerfectUltimateChainItem";
 
-const CLEAR_TYPE_DATA: Record<SdvxClearType, { text: string; color: string }> = {
-    [SdvxClearType.NO_PLAY]: {text: 'NO PLAY', color: '#808080'},
-    [SdvxClearType.PLAYED]: {text: 'PLAYED', color: '#808080'},
-    [SdvxClearType.COMPLETE]: {text: 'COMPLETE', color: '#39853D'},
-    [SdvxClearType.EXCESSIVE_COMPLETE]: {text: 'EXCESSIVE COMPLETE', color: '#8f30d7'},
-    [SdvxClearType.MAXXIVE_COMPLETE]: {text: 'MAXXIVE COMPLETE', color: '#b4b4b4'},
-    [SdvxClearType.ULTIMATE_CHAIN]: {text: 'ULTIMATE CHAIN', color: '#B0283D'},
-    [SdvxClearType.PERFECT_ULTIMATE_CHAIN]: {text: 'PUC', color: '#b2af00'},
+export const SDVX_CLEAR_TYPE_DATA: Record<SdvxClearType, { text: string; color: string }> = {
+    [SdvxClearType.NO_PLAY]: {text: 'NO PLAY', color: '#7d7d7d'},
+    [SdvxClearType.PLAYED]: {text: 'PLAYED', color: '#7d7d7d'},
+    [SdvxClearType.COMPLETE]: {text: 'CLEAR', color: '#39c44d'},
+    [SdvxClearType.EXCESSIVE_COMPLETE]: {text: 'EXC CLEAR', color: '#a040dc'},
+    [SdvxClearType.MAXXIVE_COMPLETE]: {text: 'MAXXIVE', color: '#c0c0c0'},
+    [SdvxClearType.ULTIMATE_CHAIN]: {text: 'ULT CHAIN', color: '#d33046'},
+    [SdvxClearType.PERFECT_ULTIMATE_CHAIN]: {text: 'PUC', color: '#d4c500'},
 };
 
 type SdvxClearTypeItemProps = {
@@ -18,6 +21,44 @@ type SdvxClearTypeItemProps = {
 }
 
 export default function SdvxClearTypeItem({clearType, style}: SdvxClearTypeItemProps) {
-    const data = CLEAR_TYPE_DATA[clearType] ?? {text: '', color: '#000000'};
-    return <ColorBadge text={data.text} color={data.color} style={style}/>;
+    const theme = useTheme();
+
+    if (clearType === SdvxClearType.PERFECT_ULTIMATE_CHAIN) {
+        return <SdvxPerfectUltimateChainItem style={style}/>;
+    }
+
+    const data = SDVX_CLEAR_TYPE_DATA[clearType] ?? {text: '', color: '#000000'};
+    const isDark = theme.scheme === 'dark';
+
+    const bg = isDark ? darkenHex(0.30, data.color) : lightenHex(0.38, data.color);
+    const text = isDark ? lightenHex(0.28, data.color) : darkenHex(0.22, data.color);
+    const border = isDark ? lightenHex(0.05, data.color) : darkenHex(0.08, data.color);
+
+    return (
+        <View
+            style={[
+                {
+                    flexDirection: 'row',
+                    alignSelf: 'flex-start',
+                    flexShrink: 0,
+                    alignItems: 'center',
+                    height: SDVX_CHIP_HEIGHT,
+                    paddingHorizontal: 8,
+                    backgroundColor: bg,
+                    borderWidth: 1,
+                    borderColor: border,
+                    overflow: 'hidden',
+                },
+                style,
+            ]}
+        >
+            <Text
+                className="font-bold text-[10px]"
+                style={{color: text, letterSpacing: 1.6, lineHeight: 12}}
+                numberOfLines={1}
+            >
+                {data.text}
+            </Text>
+        </View>
+    );
 }

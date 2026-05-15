@@ -7,23 +7,22 @@ import Animated, {
 } from "react-native-reanimated";
 import React, {useEffect} from "react";
 import {StyleProp, ViewStyle} from "react-native";
-import {IidxClearType} from "@/enums/iidx-clear-type";
-import {IIDX_CHIP_HEIGHT} from "@/components/iidx/IidxDifficultyItem";
+import {SDVX_CHIP_HEIGHT} from "@/components/sdvx/SdvxDifficultyItem";
 import useTheme from "@/hooks/useTheme";
 
-const LIGHT_BG = ['#dce5ff', '#ffd6ee', '#d2f1e1', '#dce5ff'];
-const LIGHT_TEXT = ['#274dc1', '#a72d77', '#1f7a52', '#274dc1'];
-const LIGHT_BORDER = ['#7a96e8', '#e08fc1', '#6cb893', '#7a96e8'];
+const LIGHT_BG = ['#fff4cc', '#ffe1d2', '#ecf6cf', '#fff4cc'];
+const LIGHT_TEXT = ['#8c7700', '#b94f1f', '#467c1f', '#8c7700'];
+const LIGHT_BORDER = ['#dbb840', '#e89366', '#9bb853', '#dbb840'];
 
-const DARK_BG = ['#1d2548', '#3a1d34', '#1c3a2f', '#1d2548'];
-const DARK_TEXT = ['#b7c8ff', '#ffb4dd', '#9be4c1', '#b7c8ff'];
-const DARK_BORDER = ['#7faaff', '#ff8fe0', '#a4ffd4', '#7faaff'];
+const DARK_BG = ['#3a3015', '#3a2418', '#22341a', '#3a3015'];
+const DARK_TEXT = ['#ffe27a', '#ffb280', '#bce283', '#ffe27a'];
+const DARK_BORDER = ['#d4b542', '#e89466', '#7ec854', '#d4b542'];
 
 type Props = {
     style?: StyleProp<ViewStyle>;
 };
 
-export default function IidxFullComboClearTypeItem({style}: Props) {
+export default function SdvxPerfectUltimateChainItem({style}: Props) {
     const theme = useTheme();
     const isDark = theme.scheme === 'dark';
     const progress = useSharedValue(0);
@@ -53,7 +52,7 @@ export default function IidxFullComboClearTypeItem({style}: Props) {
                     alignSelf: 'flex-start',
                     flexShrink: 0,
                     alignItems: 'center',
-                    height: IIDX_CHIP_HEIGHT,
+                    height: SDVX_CHIP_HEIGHT,
                     paddingHorizontal: 8,
                     borderWidth: 1,
                     overflow: 'hidden',
@@ -67,7 +66,7 @@ export default function IidxFullComboClearTypeItem({style}: Props) {
                 style={[{letterSpacing: 1.6, lineHeight: 12}, textAnimated]}
                 numberOfLines={1}
             >
-                {IidxClearType.FULL_COMBO}
+                PUC
             </Animated.Text>
         </Animated.View>
     );

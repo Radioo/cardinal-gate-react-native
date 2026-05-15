@@ -45,22 +45,25 @@ describe('IidxPlayRow', () => {
         expect(texts).toContain('Test Song');
     });
 
-    it('renders ex score with EX suffix', async () => {
+    it('renders the EX SCORE label', async () => {
         await render(<IidxPlayRow play={mockPlay}/>);
         const tree = screen.toJSON() as TestRendererJSON;
         const texts = collectText(tree);
-        // toLocaleString produces "1,500" and then " EX" is appended
-        const exScoreText = texts.find(t => t.includes('EX'));
-        expect(exScoreText).toBeTruthy();
+        expect(texts).toContain('EX SCORE');
     });
 
-    it('renders percentage', async () => {
+    it('renders the formatted ex score value', async () => {
         await render(<IidxPlayRow play={mockPlay}/>);
         const tree = screen.toJSON() as TestRendererJSON;
         const texts = collectText(tree);
-        // percentage.toFixed(2) = "85.50" + "%"
-        const pctText = texts.find(t => t.includes('85.50'));
-        expect(pctText).toBeTruthy();
+        expect(texts).toContain('1,500');
+    });
+
+    it('renders percentage with two decimal places', async () => {
+        await render(<IidxPlayRow play={mockPlay}/>);
+        const tree = screen.toJSON() as TestRendererJSON;
+        const texts = collectText(tree);
+        expect(texts.find(t => t.includes('85.50'))).toBeTruthy();
     });
 
     it('renders grade text', async () => {
@@ -70,31 +73,44 @@ describe('IidxPlayRow', () => {
         expect(texts).toContain('AAA');
     });
 
-    it('renders perfect and great counts', async () => {
+    it('renders artist below title', async () => {
+        await render(<IidxPlayRow play={{...mockPlay, artist: 'BEMANI'} as IidxPlay}/>);
+        const tree = screen.toJSON() as TestRendererJSON;
+        const texts = collectText(tree);
+        expect(texts).toContain('BEMANI');
+    });
+
+    it('renders PERFECT label with locale-formatted count', async () => {
         await render(<IidxPlayRow play={mockPlay}/>);
         const tree = screen.toJSON() as TestRendererJSON;
         const texts = collectText(tree);
-        const pgText = texts.find(t => t.includes('PG'));
-        expect(pgText).toBeTruthy();
-        const grText = texts.find(t => t.includes('GR'));
-        expect(grText).toBeTruthy();
+        expect(texts).toContain('PERFECT');
+        expect(texts).toContain('1,000');
     });
 
-    it('renders miss count when present', async () => {
+    it('renders GREAT label with locale-formatted count', async () => {
         await render(<IidxPlayRow play={mockPlay}/>);
         const tree = screen.toJSON() as TestRendererJSON;
         const texts = collectText(tree);
-        const mcText = texts.find(t => t.includes('MC'));
-        expect(mcText).toBeTruthy();
+        expect(texts).toContain('GREAT');
+        expect(texts).toContain('500');
     });
 
-    it('does not render miss count when null', async () => {
+    it('renders MISS COUNT label with the miss count when present', async () => {
+        await render(<IidxPlayRow play={mockPlay}/>);
+        const tree = screen.toJSON() as TestRendererJSON;
+        const texts = collectText(tree);
+        expect(texts).toContain('MISS COUNT');
+        expect(texts).toContain('10');
+    });
+
+    it('renders an em-dash in the MISS COUNT cell when null', async () => {
         const playNoMiss = {...mockPlay, miss_count: null} as IidxPlay;
         await render(<IidxPlayRow play={playNoMiss}/>);
         const tree = screen.toJSON() as TestRendererJSON;
         const texts = collectText(tree);
-        const mcText = texts.find(t => t.includes('MC'));
-        expect(mcText).toBeUndefined();
+        expect(texts).toContain('MISS COUNT');
+        expect(texts).toContain('—');
     });
 
     it('renders camera button when has_score_card is true', async () => {

@@ -63,7 +63,7 @@ export default function Layout() {
                     <View style={[{flex: 1, backgroundColor: isDark ? '#151718' : '#fff'}, dynamicVars]}>
                         <GradientBackground />
                         <ThemeProvider value={navTheme}>
-                            <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
+                            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{flex: 1}}>
                                 <Stack screenOptions={{headerShown: false}}></Stack>
                                 <StatusBar style="auto"/>
                             </KeyboardAvoidingView>

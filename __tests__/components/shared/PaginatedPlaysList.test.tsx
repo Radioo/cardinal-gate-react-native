@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text} from 'react-native';
 import {render, screen} from '@testing-library/react-native';
-import PaginatedPlaysList from '@/components/shared/PaginatedPlaysList';
+import PaginatedPlaysList, {computeNumColumns} from '@/components/shared/PaginatedPlaysList';
 
 jest.mock('@/hooks/useUserRefresh', () => ({
     __esModule: true,
@@ -9,28 +9,28 @@ jest.mock('@/hooks/useUserRefresh', () => ({
 }));
 
 jest.mock('lucide-react-native', () => {
-    const RN = require('react');
+    const ReactLib = require('react');
     return {
-        ChevronLeft: (props: Record<string, unknown>) => RN.createElement('View', props),
-        ChevronRight: (props: Record<string, unknown>) => RN.createElement('View', props),
-        ChevronsLeft: (props: Record<string, unknown>) => RN.createElement('View', props),
-        ChevronsRight: (props: Record<string, unknown>) => RN.createElement('View', props),
+        ChevronLeft: (props: Record<string, unknown>) => ReactLib.createElement('View', props),
+        ChevronRight: (props: Record<string, unknown>) => ReactLib.createElement('View', props),
+        ChevronsLeft: (props: Record<string, unknown>) => ReactLib.createElement('View', props),
+        ChevronsRight: (props: Record<string, unknown>) => ReactLib.createElement('View', props),
     };
 });
 
 jest.mock('@/components/shared/SetPageModal', () => {
-    const RN = require('react');
-    return () => RN.createElement('View');
+    const ReactLib = require('react');
+    return () => ReactLib.createElement('View');
 });
 
 jest.mock('@/components/shared/FullScreenLoader', () => {
-    const RN = require('react');
-    return {__esModule: true, default: () => RN.createElement('View', {testID: 'loader'})};
+    const ReactLib = require('react');
+    return {__esModule: true, default: () => ReactLib.createElement('View', {testID: 'loader'})};
 });
 
 jest.mock('@/components/shared/ErrorScreen', () => {
-    const RN = require('react');
-    return {__esModule: true, default: (props: {error: Error}) => RN.createElement('View', {testID: 'error-screen', message: props.error.message})};
+    const ReactLib = require('react');
+    return {__esModule: true, default: (props: {error: Error}) => ReactLib.createElement('View', {testID: 'error-screen', message: props.error.message})};
 });
 
 describe('PaginatedPlaysList', () => {
@@ -71,7 +71,6 @@ describe('PaginatedPlaysList', () => {
 
     it('renders Pagination with correct page info when data is loaded', async () => {
         await render(<PaginatedPlaysList {...defaultProps} pages={5} page={3}/>);
-        // Pagination renders page number buttons
         expect(screen.getByText('3')).toBeTruthy();
     });
 
@@ -84,9 +83,41 @@ describe('PaginatedPlaysList', () => {
                 renderItem={(item: string) => <Text>{item}</Text>}
             />
         );
-        // Should not show loader
         expect(screen.queryAllByTestId('loader').length).toBe(0);
-        // Should not show error screen
         expect(screen.queryAllByTestId('error-screen').length).toBe(0);
+    });
+
+    describe('computeNumColumns', () => {
+        it('returns 1 for narrow phone widths', () => {
+            expect(computeNumColumns(360)).toBe(1);
+            expect(computeNumColumns(379)).toBe(1);
+        });
+
+        it('returns 2 once the window is at least twice the min card width', () => {
+            expect(computeNumColumns(760)).toBe(2);
+            expect(computeNumColumns(800)).toBe(2);
+        });
+
+        it('returns 3 at typical desktop widths', () => {
+            expect(computeNumColumns(1140)).toBe(3);
+            expect(computeNumColumns(1280)).toBe(3);
+        });
+
+        it('returns 4 at large desktop widths', () => {
+            expect(computeNumColumns(1520)).toBe(4);
+            expect(computeNumColumns(1920)).toBe(5);
+        });
+
+        it('returns at least 1 column for any positive width', () => {
+            expect(computeNumColumns(50)).toBe(1);
+            expect(computeNumColumns(1)).toBe(1);
+            expect(computeNumColumns(0)).toBe(1);
+        });
+
+        it('treats the column boundary exactly at the min card width', () => {
+            // Exactly at the threshold floor returns the next column count
+            expect(computeNumColumns(380)).toBe(1);
+            expect(computeNumColumns(379)).toBe(1);
+        });
     });
 });
