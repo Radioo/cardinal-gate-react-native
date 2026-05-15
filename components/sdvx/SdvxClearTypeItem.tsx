@@ -36,6 +36,7 @@ export default function SdvxClearTypeItem({clearType, style}: SdvxClearTypeItemP
         <Chip
             height={SDVX_CHIP_HEIGHT}
             border={palette.border}
+            layout="tight"
             segments={[{text: data.text, background: palette.bg, textColor: palette.text}]}
             style={style}
         />

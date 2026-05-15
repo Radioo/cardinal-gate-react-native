@@ -37,6 +37,7 @@ export default function IidxClearTypeItem({clearType, style}: IidxClearTypeProps
         <Chip
             height={IIDX_CHIP_HEIGHT}
             border={palette.border}
+            layout="tight"
             segments={[{text: data.text, background: palette.bg, textColor: palette.text}]}
             style={style}
         />

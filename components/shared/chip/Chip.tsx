@@ -17,6 +17,14 @@ type ChipProps = {
     borderWidth?: number;
     /** Whether to render a 1px divider between segments. Defaults to true. */
     showDividers?: boolean;
+    /**
+     * Layout mode. 'fill' (default) lets the chip stretch to fill its parent's
+     * cross-axis (used by play-row difficulty chips alongside a song title).
+     * 'tight' wraps the chip to its content via alignSelf: flex-start and
+     * vertically centers the text (used by single-segment clear-type chips
+     * rendered inside a column flex parent).
+     */
+    layout?: 'fill' | 'tight';
     segments: ChipSegment[];
     style?: StyleProp<ViewStyle>;
 };
@@ -40,19 +48,19 @@ const TEXT_STYLE: Record<NonNullable<ChipSegment['textStyle']>, {letterSpacing: 
  * Each segment is rendered with the supplied background; segments are separated
  * by an optional 1px divider in the chip's border color.
  */
-export default function Chip({height, border, borderWidth = 1, showDividers = true, segments, style}: ChipProps) {
+export default function Chip({height, border, borderWidth = 1, showDividers = true, layout = 'fill', segments, style}: ChipProps) {
+    const isTight = layout === 'tight';
     return (
         <View
             style={[
                 {
                     flexDirection: 'row',
-                    alignSelf: 'flex-start',
                     flexShrink: 0,
-                    alignItems: 'center',
                     minHeight: height,
                     borderWidth,
                     borderColor: border,
                     overflow: 'hidden',
+                    ...(isTight ? {alignSelf: 'flex-start', alignItems: 'center'} : null),
                 },
                 style,
             ]}
