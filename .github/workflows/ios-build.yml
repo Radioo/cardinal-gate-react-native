@@ -43,6 +43,11 @@ jobs:
           path: node_modules
           key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
+      # Match the npm version contributors run locally so the lockfile resolves
+      # the same way (npm 10 vs 11 disagree on optional peer-dep dedupe).
+      - run: npm install -g npm@11
+        if: steps.cache-modules.outputs.cache-hit != 'true'
+
       - name: Install dependencies
         if: steps.cache-modules.outputs.cache-hit != 'true'
         run: npm ci

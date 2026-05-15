@@ -31,6 +31,10 @@ jobs:
           node-version: 20.x
           cache: npm
 
+      # Match the npm version contributors run locally so the lockfile resolves
+      # the same way (npm 10 vs 11 disagree on optional peer-dep dedupe).
+      - run: npm install -g npm@11
+
       - name: Install dependencies
         run: npm ci
 
