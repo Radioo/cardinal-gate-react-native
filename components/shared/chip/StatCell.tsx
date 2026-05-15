@@ -6,13 +6,13 @@ import {hexToRgba} from "@/lib/color-utils";
 type StatCellProps = {
     label: string;
     children: React.ReactNode;
-    align?: 'left' | 'center' | 'right';
+    align?: "left" | "center" | "right";
 };
 
-export default function StatCell({label, children, align = 'center'}: StatCellProps) {
+export default function StatCell({label, children, align = "center"}: StatCellProps) {
     const theme = useTheme();
     const mutedText = hexToRgba(theme.text, 0.55);
-    const alignClass = align === 'left' ? 'items-start' : align === 'right' ? 'items-end' : 'items-center';
+    const alignClass = align === "left" ? "items-start" : align === "right" ? "items-end" : "items-center";
 
     return (
         <View className={`flex-1 ${alignClass} justify-start`}>

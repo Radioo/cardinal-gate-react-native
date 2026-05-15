@@ -14,7 +14,7 @@ import useTheme from "@/hooks/useTheme";
 // NativeWind by default, so className is silently dropped on it. Register
 // once at module load so `font-bold text-[10px]` applies the same way it
 // does to the plain <Text> used by the static Chip primitive.
-cssInterop(Animated.Text, {className: 'style'});
+cssInterop(Animated.Text, {className: "style"});
 
 export type AnimatedChipPalette = {
     bg: string[];
@@ -40,7 +40,7 @@ const ANIMATION_DURATION_MS = 2400;
  */
 export default function AnimatedClearChip({label, height, light, dark, style}: AnimatedClearChipProps) {
     const theme = useTheme();
-    const palette = theme.scheme === 'dark' ? dark : light;
+    const palette = theme.scheme === "dark" ? dark : light;
     const progress = useSharedValue(0);
 
     useEffect(() => {
@@ -62,14 +62,14 @@ export default function AnimatedClearChip({label, height, light, dark, style}: A
         <Animated.View
             style={[
                 {
-                    flexDirection: 'row',
-                    alignSelf: 'flex-start',
+                    flexDirection: "row",
+                    alignSelf: "flex-start",
                     flexShrink: 0,
-                    alignItems: 'center',
+                    alignItems: "center",
                     height,
                     paddingHorizontal: 8,
                     borderWidth: 1,
-                    overflow: 'hidden',
+                    overflow: "hidden",
                 },
                 containerAnimated,
                 style,

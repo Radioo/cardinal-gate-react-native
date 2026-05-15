@@ -39,7 +39,7 @@ export default function IidxPlayRow({play}: IidxPlayRowProps) {
                             borderWidth: 1,
                             borderColor: hexToRgba(theme.primary, 0.5),
                             backgroundColor: hexToRgba(theme.primary, 0.08),
-                            ...webStyle({cursor: 'pointer'}),
+                            ...webStyle({cursor: "pointer"}),
                         }}
                         accessibilityRole="button"
                         accessibilityLabel="View score card"

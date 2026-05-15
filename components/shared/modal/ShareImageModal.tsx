@@ -68,26 +68,26 @@ const BottomSection = ({isLoading, onClose, onPress, sharingAvailable}: BottomSe
 export default function ShareImageModal({url, visible, onClose}: ShareImageModalProps) {
     const theme = useTheme();
     const sharingQuery = useQuery({
-        queryKey: ['sharingAvailable'],
+        queryKey: ["sharingAvailable"],
         queryFn: Sharing.isAvailableAsync,
         staleTime: Infinity,
     });
     const shareMutation = useMutation({
         mutationFn: async () => {
-            const targetUrl = Platform.OS !== 'web'
-                ? await downloadToLocalFile(url, 'scorecard.png')
+            const targetUrl = Platform.OS !== "web"
+                ? await downloadToLocalFile(url, "scorecard.png")
                 : url;
 
             return Sharing.shareAsync(targetUrl, {
-                mimeType: 'image/png',
-                UTI: 'image/png',
-                dialogTitle: 'Share this scorecard',
+                mimeType: "image/png",
+                UTI: "image/png",
+                dialogTitle: "Share this scorecard",
             });
         },
         onError: (error) => {
             displayMessage(
                 MessageSeverity.ERROR,
-                error instanceof Error ? error.message : 'Failed to share image'
+                error instanceof Error ? error.message : "Failed to share image"
             );
         },
     })
@@ -101,7 +101,7 @@ export default function ShareImageModal({url, visible, onClose}: ShareImageModal
             ) : (
                 <View className="w-full" style={{backgroundColor: theme.background}}>
                     <ApiImage url={url}
-                              style={{width: '100%', aspectRatio: 1}}
+                              style={{width: "100%", aspectRatio: 1}}
                               contentFit="contain"
                     />
                     <BottomSection onPress={() => shareMutation.mutate()}

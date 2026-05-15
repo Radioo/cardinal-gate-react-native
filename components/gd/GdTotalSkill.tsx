@@ -5,7 +5,7 @@ import GradientText from "@/components/shared/GradientText";
 import {SKILL_GRADIENT_TIERS} from "@/constants/gd-skill-tiers";
 import {formatGdHundredthsValue} from "@/services/game";
 
-const NO_DATA_COLOR = '#888888';
+const NO_DATA_COLOR = "#888888";
 
 type GdTotalSkillProps = {
     name: string;
@@ -18,7 +18,7 @@ const getSkillGradient = (value: number | undefined): readonly [string, string, 
     for (const tier of SKILL_GRADIENT_TIERS) {
         if (value >= tier.threshold) return tier.colors;
     }
-    return ['#ffffff', '#ffffff'];
+    return ["#ffffff", "#ffffff"];
 };
 
 export default function GdTotalSkill({name, skill, allMusicSkill}: GdTotalSkillProps) {

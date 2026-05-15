@@ -13,28 +13,28 @@ export type IidxDifficultyProps = {
 export const IIDX_CHIP_HEIGHT = 22;
 
 const DIFFICULTY_DATA: Record<IidxDifficulty, { playStyle: IidxPlayStyle; name: string; color: string }> = {
-    [IidxDifficulty.SPB]: {playStyle: IidxPlayStyle.SP, name: 'BEGINNER', color: '#3f9d34'},
-    [IidxDifficulty.SPN]: {playStyle: IidxPlayStyle.SP, name: 'NORMAL', color: '#3a85b8'},
-    [IidxDifficulty.SPH]: {playStyle: IidxPlayStyle.SP, name: 'HYPER', color: '#c79a1e'},
-    [IidxDifficulty.SPA]: {playStyle: IidxPlayStyle.SP, name: 'ANOTHER', color: '#c92626'},
-    [IidxDifficulty.SPL]: {playStyle: IidxPlayStyle.SP, name: 'LEGGENDARIA', color: '#9333c9'},
-    [IidxDifficulty.DPB]: {playStyle: IidxPlayStyle.DP, name: 'BEGINNER', color: '#3f9d34'},
-    [IidxDifficulty.DPN]: {playStyle: IidxPlayStyle.DP, name: 'NORMAL', color: '#3a85b8'},
-    [IidxDifficulty.DPH]: {playStyle: IidxPlayStyle.DP, name: 'HYPER', color: '#c79a1e'},
-    [IidxDifficulty.DPA]: {playStyle: IidxPlayStyle.DP, name: 'ANOTHER', color: '#c92626'},
-    [IidxDifficulty.DPL]: {playStyle: IidxPlayStyle.DP, name: 'LEGGENDARIA', color: '#9333c9'},
+    [IidxDifficulty.SPB]: {playStyle: IidxPlayStyle.SP, name: "BEGINNER", color: "#3f9d34"},
+    [IidxDifficulty.SPN]: {playStyle: IidxPlayStyle.SP, name: "NORMAL", color: "#3a85b8"},
+    [IidxDifficulty.SPH]: {playStyle: IidxPlayStyle.SP, name: "HYPER", color: "#c79a1e"},
+    [IidxDifficulty.SPA]: {playStyle: IidxPlayStyle.SP, name: "ANOTHER", color: "#c92626"},
+    [IidxDifficulty.SPL]: {playStyle: IidxPlayStyle.SP, name: "LEGGENDARIA", color: "#9333c9"},
+    [IidxDifficulty.DPB]: {playStyle: IidxPlayStyle.DP, name: "BEGINNER", color: "#3f9d34"},
+    [IidxDifficulty.DPN]: {playStyle: IidxPlayStyle.DP, name: "NORMAL", color: "#3a85b8"},
+    [IidxDifficulty.DPH]: {playStyle: IidxPlayStyle.DP, name: "HYPER", color: "#c79a1e"},
+    [IidxDifficulty.DPA]: {playStyle: IidxPlayStyle.DP, name: "ANOTHER", color: "#c92626"},
+    [IidxDifficulty.DPL]: {playStyle: IidxPlayStyle.DP, name: "LEGGENDARIA", color: "#9333c9"},
 };
 
-const UNKNOWN_DIFFICULTY_DATA = {playStyle: IidxPlayStyle.SP, name: '???', color: '#666666'};
+const UNKNOWN_DIFFICULTY_DATA = {playStyle: IidxPlayStyle.SP, name: "???", color: "#666666"};
 
 const IidxDifficultyItemInner = ({difficulty, level}: IidxDifficultyProps) => {
     const theme = useTheme();
     // Wire-format runtime safety: API can ship unknown IIDX difficulty values.
     const data = DIFFICULTY_DATA[difficulty] ?? UNKNOWN_DIFFICULTY_DATA;
-    const isDark = theme.scheme === 'dark';
+    const isDark = theme.scheme === "dark";
     const palette = deriveDifficultyChipPalette(data.color, isDark);
-    const stampBg = isDark ? '#2a2c2e' : '#e8e8ea';
-    const stampText = isDark ? '#c4c6c8' : '#3a3c3e';
+    const stampBg = isDark ? "#2a2c2e" : "#e8e8ea";
+    const stampText = isDark ? "#c4c6c8" : "#3a3c3e";
 
     return (
         <Chip
@@ -45,15 +45,15 @@ const IidxDifficultyItemInner = ({difficulty, level}: IidxDifficultyProps) => {
                     text: data.playStyle,
                     background: stampBg,
                     textColor: stampText,
-                    textStyle: 'stamp',
+                    textStyle: "stamp",
                     paddingHorizontal: 6,
                 },
                 {text: data.name, background: palette.bg, textColor: palette.text},
                 {
-                    text: String(level).padStart(2, '0'),
+                    text: String(level).padStart(2, "0"),
                     background: data.color,
                     textColor: palette.accentText,
-                    textStyle: 'mono',
+                    textStyle: "mono",
                     paddingHorizontal: 7,
                 },
             ]}

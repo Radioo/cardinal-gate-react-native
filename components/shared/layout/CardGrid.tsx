@@ -39,9 +39,9 @@ export default function CardGrid({children, maxColumns = 2}: CardGridProps) {
 
 const styles = StyleSheet.create({
     grid: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        alignItems: 'stretch',
+        flexDirection: "row",
+        flexWrap: "wrap",
+        alignItems: "stretch",
     },
     cell: {
         flexShrink: 0,

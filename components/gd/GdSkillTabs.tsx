@@ -19,7 +19,7 @@ const RenderTabBar = (props: TabBarProps<Route>) => {
             numberOfLines={1}
             style={{
                 color: focused ? theme.primary : theme.text,
-                fontWeight: '600',
+                fontWeight: "600",
                 fontSize: 14,
             }}
         >
@@ -43,10 +43,10 @@ const RenderTabBar = (props: TabBarProps<Route>) => {
 
 /** Maps tab keys to their game mode and skill list category (exist=HOT, new=OTHER). */
 const GD_TAB_CONFIG: readonly {key: string; title: string; mode: GdGameMode; category: GdSkillCategory}[] = [
-    {key: 'hot_dm', title: '🥁 HOT', mode: GdGameMode.DRUM_MANIA, category: 'exist'},
-    {key: 'other_dm', title: '🥁 OTHER', mode: GdGameMode.DRUM_MANIA, category: 'new'},
-    {key: 'hot_gf', title: '🎸 HOT', mode: GdGameMode.GUITAR_FREAKS, category: 'exist'},
-    {key: 'other_gf', title: '🎸 OTHER', mode: GdGameMode.GUITAR_FREAKS, category: 'new'},
+    {key: "hot_dm", title: "🥁 HOT", mode: GdGameMode.DRUM_MANIA, category: "exist"},
+    {key: "other_dm", title: "🥁 OTHER", mode: GdGameMode.DRUM_MANIA, category: "new"},
+    {key: "hot_gf", title: "🎸 HOT", mode: GdGameMode.GUITAR_FREAKS, category: "exist"},
+    {key: "other_gf", title: "🎸 OTHER", mode: GdGameMode.GUITAR_FREAKS, category: "new"},
 ];
 
 const routes = GD_TAB_CONFIG.map(({key, title}) => ({key, title}));

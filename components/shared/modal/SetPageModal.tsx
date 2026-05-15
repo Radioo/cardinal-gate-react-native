@@ -17,7 +17,7 @@ function SetPageModalBody({
                               initialValue,
                               onSubmit,
                               maxPage,
-                          }: Omit<SetPageModalProps, 'visible'>) {
+                          }: Omit<SetPageModalProps, "visible">) {
     const theme = useTheme();
     const [value, setValue] = useState(initialValue);
 

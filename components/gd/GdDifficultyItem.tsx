@@ -7,15 +7,15 @@ import {formatGdHundredthsValue} from "@/services/game";
 import Chip from "@/components/shared/chip/Chip";
 
 const DIFFICULTY_COLORS: Record<GdDifficulty, string> = {
-    [GdDifficulty.BASIC]: '#427486',
-    [GdDifficulty.ADVANCED]: '#705b38',
-    [GdDifficulty.EXTREME]: '#a21e1e',
-    [GdDifficulty.MASTER]: '#8f008f',
+    [GdDifficulty.BASIC]: "#427486",
+    [GdDifficulty.ADVANCED]: "#705b38",
+    [GdDifficulty.EXTREME]: "#a21e1e",
+    [GdDifficulty.MASTER]: "#8f008f",
 };
 
-const TYPE_COLOR_DARK = '#4f4f4f';
+const TYPE_COLOR_DARK = "#4f4f4f";
 const GD_CHIP_HEIGHT = 24;
-const UNKNOWN_DIFFICULTY_COLOR = '#666666';
+const UNKNOWN_DIFFICULTY_COLOR = "#666666";
 
 /**
  * GdDifficultyItem takes a compound GdDifficultyContainer prop (type + difficulty + level)
@@ -28,7 +28,7 @@ type GdDifficultyProps = {
 
 const GdDifficultyItemInner = ({difficulty}: GdDifficultyProps) => {
     const theme = useTheme();
-    const isLight = theme.scheme === 'light';
+    const isLight = theme.scheme === "light";
     // Wire-format runtime safety: API can ship unknown GD difficulty values.
     const baseColor = DIFFICULTY_COLORS[difficulty.difficulty] ?? UNKNOWN_DIFFICULTY_COLOR;
     const difficultyColor = isLight ? lightenHex(baseColor, 0.2) : baseColor;
@@ -41,9 +41,9 @@ const GdDifficultyItemInner = ({difficulty}: GdDifficultyProps) => {
             borderWidth={2}
             showDividers={false}
             segments={[
-                {text: difficulty.type, background: typeColor, textColor: '#ffffff', textStyle: 'gd', paddingHorizontal: 4},
-                {text: difficulty.difficulty, background: difficultyColor, textColor: '#ffffff', textStyle: 'gd', paddingHorizontal: 4},
-                {text: formatGdHundredthsValue(difficulty.level), background: difficultyColor, textColor: '#ffffff', textStyle: 'gd', paddingHorizontal: 4},
+                {text: difficulty.type, background: typeColor, textColor: "#ffffff", textStyle: "gd", paddingHorizontal: 4},
+                {text: difficulty.difficulty, background: difficultyColor, textColor: "#ffffff", textStyle: "gd", paddingHorizontal: 4},
+                {text: formatGdHundredthsValue(difficulty.level), background: difficultyColor, textColor: "#ffffff", textStyle: "gd", paddingHorizontal: 4},
             ]}
         />
     );

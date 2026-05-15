@@ -15,7 +15,7 @@ type PaginationProps = {
     isLoading?: boolean;
 };
 
-type Slot = {type: 'page'; page: number} | {type: 'ellipsis'} | {type: 'empty'};
+type Slot = {type: "page"; page: number} | {type: "ellipsis"} | {type: "empty"};
 
 /**
  * Build exactly SLOT_COUNT (7) slots for the pagination strip.
@@ -29,16 +29,16 @@ type Slot = {type: 'page'; page: number} | {type: 'ellipsis'} | {type: 'empty'};
  */
 function buildSlots(current: number, total: number): Slot[] {
     if (total <= 0) {
-        return Array.from({length: SLOT_COUNT}, (): Slot => ({type: 'empty'}));
+        return Array.from({length: SLOT_COUNT}, (): Slot => ({type: "empty"}));
     }
 
     if (total <= SLOT_COUNT) {
         const slots: Slot[] = [];
         for (let i = 1; i <= total; i++) {
-            slots.push({type: 'page', page: i});
+            slots.push({type: "page", page: i});
         }
         while (slots.length < SLOT_COUNT) {
-            slots.push({type: 'empty'});
+            slots.push({type: "empty"});
         }
         return slots;
     }
@@ -51,38 +51,38 @@ function buildSlots(current: number, total: number): Slot[] {
     if (nearStart) {
         // 1 2 3 4 5 … N
         return [
-            {type: 'page', page: 1},
-            {type: 'page', page: 2},
-            {type: 'page', page: 3},
-            {type: 'page', page: 4},
-            {type: 'page', page: 5},
-            {type: 'ellipsis'},
-            {type: 'page', page: total},
+            {type: "page", page: 1},
+            {type: "page", page: 2},
+            {type: "page", page: 3},
+            {type: "page", page: 4},
+            {type: "page", page: 5},
+            {type: "ellipsis"},
+            {type: "page", page: total},
         ];
     }
 
     if (nearEnd) {
         // 1 … N-4 N-3 N-2 N-1 N
         return [
-            {type: 'page', page: 1},
-            {type: 'ellipsis'},
-            {type: 'page', page: total - 4},
-            {type: 'page', page: total - 3},
-            {type: 'page', page: total - 2},
-            {type: 'page', page: total - 1},
-            {type: 'page', page: total},
+            {type: "page", page: 1},
+            {type: "ellipsis"},
+            {type: "page", page: total - 4},
+            {type: "page", page: total - 3},
+            {type: "page", page: total - 2},
+            {type: "page", page: total - 1},
+            {type: "page", page: total},
         ];
     }
 
     // Middle: 1 … current-1 current current+1 … N
     return [
-        {type: 'page', page: 1},
-        {type: 'ellipsis'},
-        {type: 'page', page: current - 1},
-        {type: 'page', page: current},
-        {type: 'page', page: current + 1},
-        {type: 'ellipsis'},
-        {type: 'page', page: total},
+        {type: "page", page: 1},
+        {type: "ellipsis"},
+        {type: "page", page: current - 1},
+        {type: "page", page: current},
+        {type: "page", page: current + 1},
+        {type: "ellipsis"},
+        {type: "page", page: total},
     ];
 }
 
@@ -125,10 +125,10 @@ export default function Pagination({
 
                 {/* Fixed-width page slots */}
                 {slots.map((slot, index) => {
-                    if (slot.type === 'empty') {
+                    if (slot.type === "empty") {
                         return <View key={`empty-${index}`} style={styles.slot} />;
                     }
-                    if (slot.type === 'ellipsis') {
+                    if (slot.type === "ellipsis") {
                         return (
                             <Pressable
                                 key={`ellipsis-${index}`}
@@ -155,7 +155,7 @@ export default function Pagination({
                                 style={[
                                     styles.pageText,
                                     isCurrent
-                                        ? {color: theme.background, fontWeight: '700'}
+                                        ? {color: theme.background, fontWeight: "700"}
                                         : {color: theme.text},
                                 ]}
                             >
@@ -199,9 +199,9 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
     },
     row: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
         gap: 2,
     },
     navButton: {
@@ -211,8 +211,8 @@ const styles = StyleSheet.create({
     slot: {
         width: SLOT_SIZE,
         height: SLOT_SIZE,
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: "center",
+        justifyContent: "center",
     },
     pageText: {
         fontSize: 14,

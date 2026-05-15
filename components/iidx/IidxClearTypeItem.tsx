@@ -7,14 +7,14 @@ import {deriveClearTypeChipPalette} from "@/lib/color-utils";
 import Chip from "@/components/shared/chip/Chip";
 
 export const IIDX_CLEAR_TYPE_DATA: Record<IidxClearType, {text: string; color: string}> = {
-    [IidxClearType.NO_PLAY]: {text: IidxClearType.NO_PLAY, color: '#7d7d7d'},
-    [IidxClearType.FAILED]: {text: IidxClearType.FAILED, color: '#d63636'},
-    [IidxClearType.ASSIST_CLEAR]: {text: IidxClearType.ASSIST_CLEAR, color: '#c63bc6'},
-    [IidxClearType.EASY_CLEAR]: {text: IidxClearType.EASY_CLEAR, color: '#33b347'},
-    [IidxClearType.CLEAR]: {text: IidxClearType.CLEAR, color: '#2dafff'},
-    [IidxClearType.HARD_CLEAR]: {text: IidxClearType.HARD_CLEAR, color: '#9aa0a6'},
-    [IidxClearType.EX_HARD_CLEAR]: {text: IidxClearType.EX_HARD_CLEAR, color: '#e0c020'},
-    [IidxClearType.FULL_COMBO]: {text: IidxClearType.FULL_COMBO, color: '#a8c2ff'},
+    [IidxClearType.NO_PLAY]: {text: IidxClearType.NO_PLAY, color: "#7d7d7d"},
+    [IidxClearType.FAILED]: {text: IidxClearType.FAILED, color: "#d63636"},
+    [IidxClearType.ASSIST_CLEAR]: {text: IidxClearType.ASSIST_CLEAR, color: "#c63bc6"},
+    [IidxClearType.EASY_CLEAR]: {text: IidxClearType.EASY_CLEAR, color: "#33b347"},
+    [IidxClearType.CLEAR]: {text: IidxClearType.CLEAR, color: "#2dafff"},
+    [IidxClearType.HARD_CLEAR]: {text: IidxClearType.HARD_CLEAR, color: "#9aa0a6"},
+    [IidxClearType.EX_HARD_CLEAR]: {text: IidxClearType.EX_HARD_CLEAR, color: "#e0c020"},
+    [IidxClearType.FULL_COMBO]: {text: IidxClearType.FULL_COMBO, color: "#a8c2ff"},
 };
 
 type IidxClearTypeProps = {
@@ -30,8 +30,8 @@ export default function IidxClearTypeItem({clearType, style}: IidxClearTypeProps
     }
 
     // Wire-format runtime safety: API can ship unknown clear-type values.
-    const data = IIDX_CLEAR_TYPE_DATA[clearType] ?? {text: '', color: '#666666'};
-    const palette = deriveClearTypeChipPalette(data.color, theme.scheme === 'dark');
+    const data = IIDX_CLEAR_TYPE_DATA[clearType] ?? {text: "", color: "#666666"};
+    const palette = deriveClearTypeChipPalette(data.color, theme.scheme === "dark");
 
     return (
         <Chip

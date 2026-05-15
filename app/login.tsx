@@ -18,9 +18,9 @@ export default function LoginScreen() {
     const totpRef = useRef<TextInput>(null);
     const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({
-        username: '',
-        password: '',
-        totpCode: '',
+        username: "",
+        password: "",
+        totpCode: "",
     });
 
     const handleInputChange = (field: keyof typeof form, value: string) => {
@@ -34,22 +34,22 @@ export default function LoginScreen() {
         setLoading(true);
 
         try {
-            const response = await fetchApi<LoginResponse>('/api2/authorize', {
-                method: 'POST',
+            const response = await fetchApi<LoginResponse>("/api2/authorize", {
+                method: "POST",
                 body: JSON.stringify({
                     username: form.username,
                     password: form.password,
                     totp_code: form.totpCode,
-                    device_name: Device.deviceName || 'Unknown device',
+                    device_name: Device.deviceName || "Unknown device",
                 }),
             }, {skipAuth: true});
 
-            displayMessage(MessageSeverity.SUCCESS, 'Login successful');
+            displayMessage(MessageSeverity.SUCCESS, "Login successful");
             await clearSession();
             await setAuthToken(response.token);
-            router.replace('/main/home');
+            router.replace("/main/home");
         } catch (error) {
-            displayMessage(MessageSeverity.ERROR, error instanceof Error ? error.message : 'Login failed');
+            displayMessage(MessageSeverity.ERROR, error instanceof Error ? error.message : "Login failed");
         } finally {
             setLoading(false);
         }
@@ -61,7 +61,7 @@ export default function LoginScreen() {
             <View className="flex-1 justify-center items-center gap-5">
                 <Logo width="50%" height="25%"/>
                 <Input value={form.username}
-                                 onChangeText={(text) => handleInputChange('username', text)}
+                                 onChangeText={(text) => handleInputChange("username", text)}
                                  placeholder="Username or email"
                                  autoCapitalize="none"
                                  textContentType="username"
@@ -72,7 +72,7 @@ export default function LoginScreen() {
                 />
                 <Input ref={passwordRef}
                                  value={form.password}
-                                 onChangeText={(text) => handleInputChange('password', text)}
+                                 onChangeText={(text) => handleInputChange("password", text)}
                                  placeholder="Password"
                                  autoCapitalize="none"
                                  textContentType="password"
@@ -84,7 +84,7 @@ export default function LoginScreen() {
                 />
                 <Input ref={totpRef}
                                  value={form.totpCode}
-                                 onChangeText={(text) => handleInputChange('totpCode', text)}
+                                 onChangeText={(text) => handleInputChange("totpCode", text)}
                                  placeholder="TOTP code (if enabled)"
                                  autoCapitalize="none"
                                  keyboardType="number-pad"

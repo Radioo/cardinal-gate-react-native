@@ -11,7 +11,7 @@ export default function Logout() {
             try {
                 await clearSession();
             } catch (error) {
-                displayMessage(MessageSeverity.ERROR, error instanceof Error ? error.message : 'Failed to log out');
+                displayMessage(MessageSeverity.ERROR, error instanceof Error ? error.message : "Failed to log out");
             } finally {
                 router.replace("/login");
             }

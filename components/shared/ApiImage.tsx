@@ -8,7 +8,7 @@ import {isApiOrigin} from "@/services/url";
 
 type ApiImageProps = {
     url: string;
-    contentFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
+    contentFit?: "contain" | "cover" | "fill" | "none" | "scale-down";
     style?: StyleProp<ImageStyle>;
 }
 

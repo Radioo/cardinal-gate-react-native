@@ -32,12 +32,12 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
 }
 
 function redirectToLogin() {
-    router.replace('/login');
+    router.replace("/login");
 }
 
 function removeWebLoader() {
-    if (Platform.OS === 'web') {
-        document.getElementById('loader')?.remove();
+    if (Platform.OS === "web") {
+        document.getElementById("loader")?.remove();
     }
 }
 
@@ -46,11 +46,11 @@ export default function Layout() {
     const systemColorScheme = useSystemColorScheme();
     const {setColorScheme} = useColorScheme();
     const {primaryColor} = useThemeStore();
-    const isDark = systemColorScheme === 'dark';
+    const isDark = systemColorScheme === "dark";
     const dynamicVars = usePrimaryColorVars();
 
     useLayoutEffect(() => {
-        setColorScheme(systemColorScheme === 'dark' ? 'dark' : 'light');
+        setColorScheme(systemColorScheme === "dark" ? "dark" : "light");
     }, [systemColorScheme, setColorScheme]);
 
     useEffect(() => {
@@ -66,10 +66,10 @@ export default function Layout() {
         <QueryClientProvider client={queryClient}>
             <GestureHandlerRootView style={{flex: 1}}>
                 <SafeAreaProvider>
-                    <View style={[{flex: 1, backgroundColor: isDark ? '#151718' : '#fff'}, dynamicVars]}>
+                    <View style={[{flex: 1, backgroundColor: isDark ? "#151718" : "#fff"}, dynamicVars]}>
                         <GradientBackground />
                         <ThemeProvider value={navTheme}>
-                            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{flex: 1}}>
+                            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{flex: 1}}>
                                 <Stack screenOptions={{headerShown: false}}></Stack>
                                 <StatusBar style="auto"/>
                             </KeyboardAvoidingView>

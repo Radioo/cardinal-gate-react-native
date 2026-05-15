@@ -15,11 +15,11 @@ const GRADIENT_DIRECTIONS = [
 export default function GradientBackground() {
     const {primaryColor} = useThemeStore();
     const colorScheme = useColorScheme();
-    const isDark = colorScheme === 'dark';
+    const isDark = colorScheme === "dark";
 
     const opacity = isDark ? 0.12 : 0.08;
 
-    if (Platform.OS === 'web') {
+    if (Platform.OS === "web") {
         const webStyle: WebViewStyle = {
             ...styles.gradient,
             backgroundImage: `radial-gradient(circle at top left, ${hexToRgba(primaryColor, opacity)} 0%, transparent 60%)`,
@@ -30,7 +30,7 @@ export default function GradientBackground() {
     const gradientColors = [
         hexToRgba(primaryColor, opacity),
         hexToRgba(primaryColor, opacity * 0.3),
-        'transparent',
+        "transparent",
     ] as const;
 
     return (
@@ -51,7 +51,7 @@ export default function GradientBackground() {
 
 const styles = StyleSheet.create({
     gradient: {
-        position: 'absolute',
+        position: "absolute",
         top: 0,
         left: 0,
         right: 0,

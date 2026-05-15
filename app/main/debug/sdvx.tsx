@@ -8,12 +8,12 @@ import SdvxClearTypeItem from "@/components/sdvx/SdvxClearTypeItem";
 
 const tabRoutes = [
     {
-        key: 'difficulties',
-        title: 'Difficulties',
+        key: "difficulties",
+        title: "Difficulties",
     },
     {
-        key: 'clearTypes',
-        title: 'Clear Types',
+        key: "clearTypes",
+        title: "Clear Types",
     }
 ];
 
