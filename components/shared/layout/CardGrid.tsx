@@ -29,7 +29,7 @@ export default function CardGrid({children, maxColumns = 2}: CardGridProps) {
     return (
         <View style={styles.grid}>
             {childArray.map((child, index) => (
-                <View key={index} style={[styles.cell, {width: cellWidth}]}>
+                <View key={index} testID="card-grid-cell" style={[styles.cell, {width: cellWidth}]}>
                     {child}
                 </View>
             ))}

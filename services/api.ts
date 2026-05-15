@@ -20,13 +20,27 @@ export class SessionExpiredError extends Error {
     }
 }
 
+/**
+ * Thrown by fetchApi/fetchApiBlob for non-OK responses other than 401. Carries
+ * the HTTP status so callers can distinguish 404/500/etc.; `message` is the
+ * server's `error` field when present, otherwise a generic 'Failed to fetch'.
+ */
+export class ApiError extends Error {
+    readonly status: number;
+    constructor(message: string, status: number) {
+        super(message);
+        this.name = 'ApiError';
+        this.status = status;
+    }
+}
+
 let _onUnauthorized: (() => void) | null = null;
 
 /**
  * Register a handler for 401 responses. Called once from the app layout
  * so the service layer never imports a navigation framework directly.
  */
-export function setOnUnauthorized(handler: () => void) {
+export function registerUnauthorizedHandler(handler: () => void) {
     _onUnauthorized = handler;
 }
 
@@ -48,11 +62,12 @@ async function baseFetch(
 
     if (!response.ok) {
         const contentType = response.headers.get('content-type') ?? '';
+        let message = `Failed to fetch ${endpoint}`;
         if (contentType.startsWith('application/json')) {
             const json = await response.json();
-            throw new Error(typeof json.error === 'string' ? json.error : `Failed to fetch ${endpoint}`);
+            if (typeof json.error === 'string') message = json.error;
         }
-        throw new Error(`Failed to fetch ${endpoint}`);
+        throw new ApiError(message, response.status);
     }
 
     return response;
@@ -61,7 +76,7 @@ async function baseFetch(
 /**
  * Fetch JSON from the API.
  * @throws {SessionExpiredError} on 401 — session has already been cleared.
- * @throws {Error} on other non-OK responses (server `error` field if present, otherwise a generic message).
+ * @throws {ApiError} on other non-OK responses — carries the HTTP status code; message is the server's `error` field if present, otherwise a generic message.
  */
 export async function fetchApi<T>(
     endpoint: string,
@@ -75,7 +90,7 @@ export async function fetchApi<T>(
 /**
  * Fetch a binary blob from the API.
  * @throws {SessionExpiredError} on 401 — session has already been cleared.
- * @throws {Error} on other non-OK responses (server `error` field if present, otherwise a generic message).
+ * @throws {ApiError} on other non-OK responses — carries the HTTP status code; message is the server's `error` field if present, otherwise a generic message.
  */
 export async function fetchApiBlob(
     endpoint: string,

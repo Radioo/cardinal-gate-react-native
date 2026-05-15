@@ -48,20 +48,35 @@ describe('GdDifficultyItem', () => {
         expect(screen.getByText('9.99')).toBeTruthy();
     });
 
+    type WalkableNode = {parent: WalkableNode | null; props?: {style?: unknown}};
+    function findSegmentBg(label: string): string | undefined {
+        const node = screen.getByText(label) as unknown as WalkableNode;
+        let current: WalkableNode | null = node.parent;
+        while (current) {
+            const style = current.props?.style;
+            const flat = Array.isArray(style) ? style : [style];
+            for (const entry of flat) {
+                const bg = (entry as {backgroundColor?: string} | undefined)?.backgroundColor;
+                if (typeof bg === 'string') return bg;
+            }
+            current = current.parent;
+        }
+        return undefined;
+    }
+
     it('uses the base difficulty color in dark mode', async () => {
         mockUseTheme.mockReturnValue(DARK_THEME);
         await render(<GdDifficultyItem difficulty={{type: GdDifficultyType.DRUM, difficulty: GdDifficulty.EXTREME, level: 500}}/>);
-        const difficultyText = screen.getByText(GdDifficulty.EXTREME);
-        // EXTREME maps to '#a21e1e' (base color) — should be used directly without lightening.
-        expect(difficultyText.props.style.backgroundColor).toBe('#a21e1e');
+        // EXTREME maps to '#a21e1e' (base color) — used directly without lightening.
+        expect(findSegmentBg(GdDifficulty.EXTREME)).toBe('#a21e1e');
     });
 
     it('lightens the difficulty color in light mode', async () => {
         mockUseTheme.mockReturnValue(LIGHT_THEME);
         await render(<GdDifficultyItem difficulty={{type: GdDifficultyType.DRUM, difficulty: GdDifficulty.EXTREME, level: 500}}/>);
-        const difficultyText = screen.getByText(GdDifficulty.EXTREME);
+        const bg = findSegmentBg(GdDifficulty.EXTREME);
         // Base #a21e1e lightened by 0.2 — not the raw base color
-        expect(difficultyText.props.style.backgroundColor).not.toBe('#a21e1e');
-        expect(difficultyText.props.style.backgroundColor).toMatch(/^#[0-9a-f]{6}$/i);
+        expect(bg).not.toBe('#a21e1e');
+        expect(bg).toMatch(/^#[0-9a-f]{6}$/i);
     });
 });

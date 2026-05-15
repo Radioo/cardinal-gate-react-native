@@ -15,12 +15,15 @@ describe('GdSkillList', () => {
         expect(screen.getByText('No data')).toBeTruthy();
     });
 
-    it('renders with items', async () => {
+    it('renders no empty-state and includes each item when given data', async () => {
         const items = [
             {music_id: 1, title: 'Song A', difficulty: {type: GdDifficultyType.DRUM, difficulty: GdDifficulty.EXTREME, level: 500}, skill: 15000, percentage: 9500},
             {music_id: 2, title: 'Song B', difficulty: {type: GdDifficultyType.GUITAR, difficulty: GdDifficulty.ADVANCED, level: 300}, skill: 10000, percentage: 8000},
         ];
         await render(<GdSkillList items={items}/>);
-        expect(screen.toJSON()).toBeTruthy();
+        const json = JSON.stringify(screen.toJSON());
+        expect(json).toContain('Song A');
+        expect(json).toContain('Song B');
+        expect(screen.queryByText('No data')).toBeNull();
     });
 });

@@ -8,13 +8,17 @@ jest.mock('@/components/shared/GradientText', () => {
 });
 
 describe('GdTotalSkill', () => {
-    it('renders with skill data', async () => {
-        await render(<GdTotalSkill name="Drums" skill={500000} allMusicSkill={400000} />);
-        expect(screen.toJSON()).toBeTruthy();
+    it('renders the title and formatted skill values', async () => {
+        await render(<GdTotalSkill name="Drums" skill={50000} allMusicSkill={40000} />);
+        // skill is 1/100-scaled: 50000 → 500.00
+        expect(screen.getByText('Drums')).toBeTruthy();
+        expect(screen.getByText('500.00')).toBeTruthy();
+        expect(screen.getByText('400.00')).toBeTruthy();
     });
 
-    it('renders with undefined skill', async () => {
+    it('renders ??? for undefined skill values', async () => {
         await render(<GdTotalSkill name="Guitar" />);
-        expect(screen.toJSON()).toBeTruthy();
+        expect(screen.getByText('Guitar')).toBeTruthy();
+        expect(screen.getAllByText('???').length).toBeGreaterThan(0);
     });
 });

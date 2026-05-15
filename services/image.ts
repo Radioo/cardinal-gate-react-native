@@ -1,10 +1,6 @@
 import {File, Paths} from "expo-file-system";
 import {fetchApiBlob} from "@/services/api";
-import {API_URL} from "@/services/env";
-
-function isApiOrigin(url: string): boolean {
-    return url.startsWith('/') || url.startsWith(API_URL);
-}
+import {isApiOrigin} from "@/services/url";
 
 export async function downloadToLocalFile(url: string, filename: string): Promise<string> {
     // Only attach auth headers to same-origin URLs so the CG-Token never leaks

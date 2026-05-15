@@ -21,7 +21,7 @@ import usePrimaryColorVars from "@/hooks/usePrimaryColorVars";
 import {PortalHost} from "@rn-primitives/portal";
 import GradientBackground from "@/components/shared/GradientBackground";
 import {registerToastHandler} from "@/lib/notifications";
-import {setOnUnauthorized} from "@/services/api";
+import {registerUnauthorizedHandler} from "@/services/api";
 
 export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
     return (
@@ -55,7 +55,7 @@ export default function Layout() {
 
     useEffect(() => {
         registerToastHandler(useToastStore.getState().addToast);
-        setOnUnauthorized(redirectToLogin);
+        registerUnauthorizedHandler(redirectToLogin);
     }, []);
 
     useEffect(removeWebLoader, []);

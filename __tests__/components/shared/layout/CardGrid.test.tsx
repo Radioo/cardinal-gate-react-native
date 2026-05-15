@@ -11,12 +11,17 @@ jest.mock('react-native/Libraries/Utilities/useWindowDimensions', () => ({
 
 import CardGrid from '@/components/shared/layout/CardGrid';
 
+function flattenStyle(style: unknown): Record<string, unknown> {
+    const list = Array.isArray(style) ? style : [style];
+    return Object.assign({}, ...list.filter(Boolean) as object[]);
+}
+
 describe('CardGrid', () => {
     beforeEach(() => {
         mockWidth = 400;
     });
 
-    it('renders children directly on narrow screens', async () => {
+    it('renders children directly on narrow screens (no grid cells)', async () => {
         await render(
             <CardGrid>
                 <Text>Card 1</Text>
@@ -25,11 +30,10 @@ describe('CardGrid', () => {
         );
         expect(screen.getByText('Card 1')).toBeTruthy();
         expect(screen.getByText('Card 2')).toBeTruthy();
-        const tree = screen.toJSON();
-        expect(Array.isArray(tree)).toBe(true);
+        expect(screen.queryAllByTestId('card-grid-cell')).toHaveLength(0);
     });
 
-    it('wraps children in grid on medium screens', async () => {
+    it('wraps children in grid cells on medium screens', async () => {
         mockWidth = 800;
         await render(
             <CardGrid>
@@ -37,13 +41,11 @@ describe('CardGrid', () => {
                 <Text>Card 2</Text>
             </CardGrid>
         );
-        expect(screen.getByText('Card 1')).toBeTruthy();
-        expect(screen.getByText('Card 2')).toBeTruthy();
-        const tree = screen.toJSON();
-        expect(Array.isArray(tree)).toBe(false);
+        const cells = screen.getAllByTestId('card-grid-cell');
+        expect(cells).toHaveLength(2);
     });
 
-    it('uses 2 columns on medium screens with 50% width cells', async () => {
+    it('uses 50% cell width on medium screens (2 columns)', async () => {
         mockWidth = 800;
         await render(
             <CardGrid>
@@ -51,15 +53,11 @@ describe('CardGrid', () => {
                 <Text>Card 2</Text>
             </CardGrid>
         );
-        const tree = screen.toJSON() as any;
-        const cell = tree.children[0];
-        const cellStyle = Array.isArray(cell.props.style)
-            ? Object.assign({}, ...cell.props.style)
-            : cell.props.style;
-        expect(cellStyle.width).toBe('50%');
+        const [cell] = screen.getAllByTestId('card-grid-cell');
+        expect(flattenStyle(cell.props.style).width).toBe('50%');
     });
 
-    it('uses maxColumns on large screens', async () => {
+    it('uses ~33% cell width on large screens with maxColumns=3', async () => {
         mockWidth = 1200;
         await render(
             <CardGrid maxColumns={3}>
@@ -68,15 +66,11 @@ describe('CardGrid', () => {
                 <Text>Card 3</Text>
             </CardGrid>
         );
-        const tree = screen.toJSON() as any;
-        const cell = tree.children[0];
-        const cellStyle = Array.isArray(cell.props.style)
-            ? Object.assign({}, ...cell.props.style)
-            : cell.props.style;
-        expect(cellStyle.width).toContain('33');
+        const [cell] = screen.getAllByTestId('card-grid-cell');
+        expect(String(flattenStyle(cell.props.style).width)).toContain('33');
     });
 
-    it('defaults maxColumns to 2', async () => {
+    it('defaults maxColumns to 2 (50% width on large screens)', async () => {
         mockWidth = 1200;
         await render(
             <CardGrid>
@@ -84,11 +78,7 @@ describe('CardGrid', () => {
                 <Text>Card 2</Text>
             </CardGrid>
         );
-        const tree = screen.toJSON() as any;
-        const cell = tree.children[0];
-        const cellStyle = Array.isArray(cell.props.style)
-            ? Object.assign({}, ...cell.props.style)
-            : cell.props.style;
-        expect(cellStyle.width).toBe('50%');
+        const [cell] = screen.getAllByTestId('card-grid-cell');
+        expect(flattenStyle(cell.props.style).width).toBe('50%');
     });
 });

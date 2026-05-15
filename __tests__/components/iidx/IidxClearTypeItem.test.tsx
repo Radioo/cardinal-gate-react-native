@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react-native';
-import IidxClearTypeItem, {IIDX_CLEAR_TYPE_COLORS} from '@/components/iidx/IidxClearTypeItem';
+import IidxClearTypeItem, {IIDX_CLEAR_TYPE_DATA} from '@/components/iidx/IidxClearTypeItem';
 import {IidxClearType} from '@/enums/iidx-clear-type';
 
 jest.mock('@/components/iidx/IidxFullComboClearTypeItem', () => {
@@ -34,9 +34,10 @@ describe('IidxClearTypeItem', () => {
         expect(screen.getByTestId('fc-item')).toBeTruthy();
     });
 
-    it('exposes a color for every clear type', () => {
+    it('exposes a text/color entry for every clear type', () => {
         for (const clearType of Object.values(IidxClearType)) {
-            expect(IIDX_CLEAR_TYPE_COLORS[clearType]).toMatch(/^#[0-9a-fA-F]{6}$/);
+            expect(IIDX_CLEAR_TYPE_DATA[clearType].color).toMatch(/^#[0-9a-fA-F]{6}$/);
+            expect(IIDX_CLEAR_TYPE_DATA[clearType].text).toBeTruthy();
         }
     });
 });

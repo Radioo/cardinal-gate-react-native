@@ -12,6 +12,8 @@ type SdvxPlayRowProps = {
     play: SdvxPlay;
 }
 
+const STAT_VALUE_LG_STYLE = {letterSpacing: 0.5, lineHeight: 22} as const;
+
 export default function SdvxPlayRow({play}: SdvxPlayRowProps) {
     const theme = useTheme();
     const mutedText = hexToRgba(theme.text, 0.55);
@@ -43,7 +45,7 @@ export default function SdvxPlayRow({play}: SdvxPlayRowProps) {
                     <View className="items-center">
                         <Text
                             className="font-mono font-bold text-[20px]"
-                            style={{letterSpacing: 0.5, lineHeight: 22}}
+                            style={STAT_VALUE_LG_STYLE}
                             numberOfLines={1}
                         >
                             {play.score.toLocaleString()}

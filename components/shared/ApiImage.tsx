@@ -4,7 +4,7 @@ import {Image} from "expo-image";
 import {memo} from "react";
 import {ImageStyle, StyleProp} from "react-native";
 import useAuthHeaders from "@/hooks/queries/useAuthHeaders";
-import {API_URL} from "@/services/env";
+import {isApiOrigin} from "@/services/url";
 
 type ApiImageProps = {
     url: string;
@@ -16,12 +16,9 @@ type ApiImageProps = {
  * Image component for auth-gated API endpoints.
  * Manages its own auth header query — callers should expect
  * loading/error states while headers are being resolved.
- * The auth header is only attached to same-origin URLs (API_URL or relative
- * paths) so tokens are never leaked to third-party image hosts.
+ * The auth header is only attached to same-origin URLs (see isApiOrigin)
+ * so tokens are never leaked to third-party image hosts.
  */
-function isApiOrigin(url: string): boolean {
-    return url.startsWith('/') || url.startsWith(API_URL);
-}
 
 const ApiImageInner =({url, contentFit, style}: ApiImageProps) => {
     const headersQuery = useAuthHeaders();

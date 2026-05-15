@@ -88,7 +88,7 @@ export type DifficultyChipPalette = ChipPalette & {
 };
 
 /**
- * Chip palette for clear-type chips (IIDX/SDVX clear type, ColorBadge-like single-section chips).
+ * Chip palette for clear-type chips (IIDX/SDVX single-section chips).
  * Slightly higher contrast than the difficulty palette in light mode.
  */
 export function deriveClearTypeChipPalette(baseColor: string, isDark: boolean): ChipPalette {
