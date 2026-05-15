@@ -2,7 +2,7 @@ import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 
 const capturedTabs: unknown[] = [];
-jest.mock('@/components/shared/GameTabLayout', () => {
+jest.mock('@/components/shared/layout/GameTabLayout', () => {
     const {createElement} = require('react');
     return {
         __esModule: true,

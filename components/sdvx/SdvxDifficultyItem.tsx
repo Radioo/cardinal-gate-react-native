@@ -2,7 +2,7 @@ import {SdvxDifficulty} from "@/enums/sdvx-difficulty";
 import useTheme from "@/hooks/useTheme";
 import {deriveDifficultyChipPalette} from "@/lib/color-utils";
 import {memo} from "react";
-import Chip from "@/components/shared/Chip";
+import Chip from "@/components/shared/chip/Chip";
 
 type SdvxDifficultyProps = {
     difficulty: SdvxDifficulty;

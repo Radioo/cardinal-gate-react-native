@@ -5,7 +5,7 @@ import {IidxPlay} from '@/types/iidx-play';
 import {TestRendererJSON} from '../../helpers/types';
 import {collectText} from '../../helpers/tree-utils';
 
-jest.mock('@/components/shared/ShareImageModal', () => {
+jest.mock('@/components/shared/modal/ShareImageModal', () => {
     const {createElement} = require('react');
     return {__esModule: true, default: (props: Record<string, unknown>) => createElement('View', {testID: 'share-modal', ...props})};
 });
@@ -24,7 +24,7 @@ jest.mock('lucide-react-native', () => ({Camera: 'Camera'}));
 
 const mockPlay: IidxPlay = {
     id: 1,
-    name: 'Test Song',
+    title: 'Test Song',
     difficulty: 'SPA',
     level: 12,
     clear_type: 'CLEAR',

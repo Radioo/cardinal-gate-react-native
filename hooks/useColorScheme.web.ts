@@ -1,5 +1,5 @@
-import {useSyncExternalStore} from 'react';
-import type {ColorSchemeName} from 'react-native';
+import {useSyncExternalStore} from "react";
+import type {ColorSchemeName} from "react-native";
 
 const query = '(prefers-color-scheme: dark)';
 

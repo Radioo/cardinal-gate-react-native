@@ -1,6 +1,6 @@
-import {Redirect} from 'expo-router';
-import FullScreenLoader from "@/components/shared/FullScreenLoader";
-import ErrorScreen from "@/components/shared/ErrorScreen";
+import {Redirect} from "expo-router";
+import FullScreenLoader from "@/components/shared/feedback/FullScreenLoader";
+import ErrorScreen from "@/components/shared/feedback/ErrorScreen";
 import useAuthToken from "@/hooks/queries/useAuthToken";
 
 export default function Root() {

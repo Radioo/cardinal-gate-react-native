@@ -4,7 +4,7 @@ import useTheme from "@/hooks/useTheme";
 import {deriveClearTypeChipPalette} from "@/lib/color-utils";
 import {SDVX_CHIP_HEIGHT} from "@/components/sdvx/SdvxDifficultyItem";
 import SdvxPerfectUltimateChainItem from "@/components/sdvx/SdvxPerfectUltimateChainItem";
-import Chip from "@/components/shared/Chip";
+import Chip from "@/components/shared/chip/Chip";
 
 export const SDVX_CLEAR_TYPE_DATA: Record<SdvxClearType, { text: string; color: string }> = {
     [SdvxClearType.NO_PLAY]: {text: 'NO PLAY', color: '#7d7d7d'},

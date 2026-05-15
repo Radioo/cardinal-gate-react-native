@@ -1,4 +1,4 @@
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useColorScheme } from "@/hooks/useColorScheme";
 import {buildColorPalette} from "@/lib/color-utils";
 import {useThemeStore} from "@/store/theme";
 

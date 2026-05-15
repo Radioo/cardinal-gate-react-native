@@ -1,5 +1,5 @@
 import {SecureValue} from "@/enums/secure-value";
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store";
 import {Platform} from "react-native";
 
 /**

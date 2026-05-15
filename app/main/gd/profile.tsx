@@ -2,8 +2,8 @@ import useTheme from "@/hooks/useTheme";
 import {User} from "lucide-react-native";
 import useGdProfile from "@/hooks/queries/useGdProfile";
 import ProfileRow from "@/components/shared/ProfileRow";
-import ProfileLayout from "@/components/shared/ProfileLayout";
-import CardGrid from "@/components/shared/CardGrid";
+import ProfileLayout from "@/components/shared/layout/ProfileLayout";
+import CardGrid from "@/components/shared/layout/CardGrid";
 
 export default function Profile() {
     const query = useGdProfile();

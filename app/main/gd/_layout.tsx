@@ -1,4 +1,4 @@
-import GameTabLayout from "@/components/shared/GameTabLayout";
+import GameTabLayout from "@/components/shared/layout/GameTabLayout";
 import {User, List} from "lucide-react-native";
 
 export default function Layout() {

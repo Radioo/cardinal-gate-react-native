@@ -1,6 +1,6 @@
 import {Button} from "@/components/ui/button";
 import {Text} from "@/components/ui/text";
-import ModalBase from "@/components/shared/ModalBase";
+import ModalBase from "@/components/shared/modal/ModalBase";
 import {useThemeStore} from "@/store/theme";
 import ColorPicker, {
     Panel1,
@@ -8,7 +8,7 @@ import ColorPicker, {
     OpacitySlider,
     HueSlider,
 } from 'reanimated-color-picker';
-import type {ColorFormatsObject} from 'reanimated-color-picker';
+import type {ColorFormatsObject} from "reanimated-color-picker";
 import {View} from "react-native";
 import useTheme from "@/hooks/useTheme";
 import {useRef, useState} from "react";

@@ -16,7 +16,7 @@ jest.mock('@/lib/notifications', () => ({
     displayMessage: (...args: unknown[]) => mockDisplayMessage(...args),
 }));
 
-jest.mock('@/components/shared/FullScreenLoader', () => {
+jest.mock('@/components/shared/feedback/FullScreenLoader', () => {
     const {createElement} = require('react');
     return {__esModule: true, default: () => createElement('View', {testID: 'loader'}, createElement('Text', null, 'Loading'))};
 });

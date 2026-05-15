@@ -10,7 +10,7 @@ jest.mock('lucide-react-native', () => {
     };
 });
 
-jest.mock('@/components/shared/SetPageModal', () => {
+jest.mock('@/components/shared/modal/SetPageModal', () => {
     const RN = require('react');
     return {__esModule: true, default: () => RN.createElement('View')};
 });

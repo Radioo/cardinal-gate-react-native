@@ -22,12 +22,12 @@ jest.mock('lucide-react-native', () => {
     };
 });
 
-jest.mock('@/components/shared/FullScreenLoader', () => {
+jest.mock('@/components/shared/feedback/FullScreenLoader', () => {
     const {createElement} = require('react');
     return {__esModule: true, default: () => createElement('View', {testID: 'loader'})};
 });
 
-jest.mock('@/components/shared/ErrorScreen', () => {
+jest.mock('@/components/shared/feedback/ErrorScreen', () => {
     const {createElement} = require('react');
     return {__esModule: true, default: ({error}: {error: Error}) => createElement('View', {testID: 'error'}, createElement('Text', null, error.message))};
 });

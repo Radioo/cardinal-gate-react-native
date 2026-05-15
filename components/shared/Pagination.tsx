@@ -4,7 +4,7 @@ import {Button} from "@/components/ui/button";
 import {Text} from "@/components/ui/text";
 import useTheme from "@/hooks/useTheme";
 import {ChevronLeft, ChevronRight} from "lucide-react-native";
-import SetPageModal from "@/components/shared/SetPageModal";
+import SetPageModal from "@/components/shared/modal/SetPageModal";
 
 const SLOT_COUNT = 7;
 

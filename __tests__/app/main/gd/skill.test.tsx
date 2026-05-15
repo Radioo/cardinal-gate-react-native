@@ -69,12 +69,12 @@ jest.mock('@/components/gd/GdTotalSkill', () => {
     return {__esModule: true, default: (props: Record<string, unknown>) => createElement('View', {testID: 'total-skill', ...props})};
 });
 
-jest.mock('@/components/shared/ErrorScreen', () => {
+jest.mock('@/components/shared/feedback/ErrorScreen', () => {
     const {createElement} = require('react');
     return {__esModule: true, default: (props: {error: Error}) => createElement('View', {testID: 'error-screen', message: props.error.message})};
 });
 
-jest.mock('@/components/shared/FullScreenLoader', () => {
+jest.mock('@/components/shared/feedback/FullScreenLoader', () => {
     const {createElement} = require('react');
     return {__esModule: true, default: () => createElement('View', {testID: 'loader'})};
 });

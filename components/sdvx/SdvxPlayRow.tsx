@@ -4,7 +4,7 @@ import {View} from "react-native";
 import useTheme from "@/hooks/useTheme";
 import SdvxDifficultyItem from "@/components/sdvx/SdvxDifficultyItem";
 import SdvxClearTypeItem from "@/components/sdvx/SdvxClearTypeItem";
-import StatCell from "@/components/shared/StatCell";
+import StatCell from "@/components/shared/chip/StatCell";
 import {hexToRgba} from "@/lib/color-utils";
 
 type SdvxPlayRowProps = {

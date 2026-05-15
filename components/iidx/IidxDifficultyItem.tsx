@@ -3,7 +3,7 @@ import {memo} from "react";
 import {IidxPlayStyle} from "@/enums/iidx-play-style";
 import useTheme from "@/hooks/useTheme";
 import {deriveDifficultyChipPalette} from "@/lib/color-utils";
-import Chip from "@/components/shared/Chip";
+import Chip from "@/components/shared/chip/Chip";
 
 export type IidxDifficultyProps = {
     difficulty: IidxDifficulty;

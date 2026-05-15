@@ -1,4 +1,4 @@
-import GameTabLayout from "@/components/shared/GameTabLayout";
+import GameTabLayout from "@/components/shared/layout/GameTabLayout";
 
 export default function Layout() {
     return <GameTabLayout />;

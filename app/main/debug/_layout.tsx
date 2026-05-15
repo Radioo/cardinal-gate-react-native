@@ -1,4 +1,4 @@
-import GameTabLayout from "@/components/shared/GameTabLayout";
+import GameTabLayout from "@/components/shared/layout/GameTabLayout";
 import {Wrench, Drum, Disc, Hexagon} from "lucide-react-native";
 import useUserData from "@/hooks/queries/useUserData";
 import {Redirect} from "expo-router";
@@ -13,21 +13,22 @@ export default function Layout() {
     return (
         <GameTabLayout tabs={[
             {
-                name: "General",
+                name: "general",
+                title: "General",
                 icon: (color) => <Wrench size={24} color={color} />,
             },
             {
-                name: "Gd",
+                name: "gd",
                 title: "GD",
                 icon: (color) => <Drum size={24} color={color} />,
             },
             {
-                name: "Iidx",
+                name: "iidx",
                 title: "IIDX",
                 icon: (color) => <Disc size={24} color={color} />,
             },
             {
-                name: "Sdvx",
+                name: "sdvx",
                 title: "SDVX",
                 icon: (color) => <Hexagon size={24} color={color} />,
             },

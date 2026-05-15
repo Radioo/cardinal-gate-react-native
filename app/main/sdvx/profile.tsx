@@ -3,8 +3,8 @@ import useSdvxProfile from "@/hooks/queries/useSdvxProfile";
 import useTheme from "@/hooks/useTheme";
 import {User, Star, Hexagon} from "lucide-react-native";
 import ProfileRow from "@/components/shared/ProfileRow";
-import ProfileLayout from "@/components/shared/ProfileLayout";
-import CardGrid from "@/components/shared/CardGrid";
+import ProfileLayout from "@/components/shared/layout/ProfileLayout";
+import CardGrid from "@/components/shared/layout/CardGrid";
 import {formatArcadeId} from "@/services/game";
 
 export default function Profile() {

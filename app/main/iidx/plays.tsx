@@ -1,6 +1,6 @@
 import useIidxPlays from "@/hooks/queries/useIidxPlays";
 import IidxPlayRow from "@/components/iidx/IidxPlayRow";
-import PlaysPage from "@/components/shared/PlaysPage";
+import PlaysPage from "@/components/shared/layout/PlaysPage";
 import {IidxPlay} from "@/types/iidx-play";
 
 export default function Plays() {

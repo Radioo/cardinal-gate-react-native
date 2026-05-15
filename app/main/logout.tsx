@@ -1,7 +1,7 @@
 import {router} from "expo-router";
 import {clearSession} from "@/services/auth";
 import {useEffect} from "react";
-import FullScreenLoader from "@/components/shared/FullScreenLoader";
+import FullScreenLoader from "@/components/shared/feedback/FullScreenLoader";
 import {displayMessage} from "@/lib/notifications";
 import {MessageSeverity} from "@/enums/message-severity";
 

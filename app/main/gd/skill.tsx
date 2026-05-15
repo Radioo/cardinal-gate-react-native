@@ -1,10 +1,10 @@
 import {useState} from "react";
-import FullScreenLoader from "@/components/shared/FullScreenLoader";
+import FullScreenLoader from "@/components/shared/feedback/FullScreenLoader";
 import {View} from "react-native";
 import GdSkillTabs from "@/components/gd/GdSkillTabs";
 import useGdProfile from "@/hooks/queries/useGdProfile";
 import useGdSkill from "@/hooks/queries/useGdSkill";
-import ErrorScreen from "@/components/shared/ErrorScreen";
+import ErrorScreen from "@/components/shared/feedback/ErrorScreen";
 import GdTotalSkill from "@/components/gd/GdTotalSkill";
 import {GdGameMode} from "@/enums/gd-game-mode";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";

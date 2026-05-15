@@ -1,12 +1,12 @@
 import {TextInput, View} from "react-native";
-import InlineSpinner from "@/components/shared/InlineSpinner";
+import InlineSpinner from "@/components/shared/feedback/InlineSpinner";
 import {useRef, useState} from "react";
 import Logo from "@/assets/svg/Logo";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {Text} from "@/components/ui/text";
 import {router, Stack} from "expo-router";
-import * as Device from 'expo-device';
+import * as Device from "expo-device";
 import {LoginResponse} from "@/types/login-response";
 import {fetchApi} from "@/services/api";
 import {displayMessage} from "@/lib/notifications";

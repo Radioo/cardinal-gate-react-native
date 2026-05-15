@@ -33,7 +33,7 @@ jest.mock('@/store/theme', () => ({
     useThemeStore: () => ({primaryColor: '#f28b28', setPrimaryColor: mockSetPrimaryColor}),
 }));
 
-jest.mock('@/components/shared/ModalBase', () => {
+jest.mock('@/components/shared/modal/ModalBase', () => {
     const {createElement} = require('react');
     return {__esModule: true, default: ({children, visible}: {children: React.ReactNode, visible: boolean}) =>
         visible ? createElement('View', null, children) : null};

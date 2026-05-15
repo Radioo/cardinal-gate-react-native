@@ -1,15 +1,15 @@
-import '../global.css';
+import "../global.css";
 
-import {ErrorBoundaryProps, router, Stack} from 'expo-router';
+import {ErrorBoundaryProps, router, Stack} from "expo-router";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
-import Toaster from "@/components/shared/Toaster";
+import Toaster from "@/components/shared/feedback/Toaster";
 import {ThemeProvider} from "@react-navigation/native";
 import {StatusBar} from "expo-status-bar";
 import {KeyboardAvoidingView, Platform, View} from "react-native";
 import {useColorScheme as useSystemColorScheme} from "@/hooks/useColorScheme";
 import {QueryClientProvider} from "@tanstack/react-query";
 import {useReactQueryDevTools} from "@dev-plugins/react-query";
-import ErrorScreen from "@/components/shared/ErrorScreen";
+import ErrorScreen from "@/components/shared/feedback/ErrorScreen";
 import {SafeAreaProvider} from "react-native-safe-area-context";
 import {queryClient} from "@/services/query-client";
 import {getNavTheme} from "@/lib/theme";
@@ -31,6 +31,16 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
     );
 }
 
+function redirectToLogin() {
+    router.replace('/login');
+}
+
+function removeWebLoader() {
+    if (Platform.OS === 'web') {
+        document.getElementById('loader')?.remove();
+    }
+}
+
 export default function Layout() {
     useReactQueryDevTools(queryClient);
     const systemColorScheme = useSystemColorScheme();
@@ -45,14 +55,10 @@ export default function Layout() {
 
     useEffect(() => {
         registerToastHandler(useToastStore.getState().addToast);
-        setOnUnauthorized(() => router.replace('/login'));
+        setOnUnauthorized(redirectToLogin);
     }, []);
 
-    useEffect(() => {
-        if (Platform.OS === 'web') {
-            document.getElementById('loader')?.remove();
-        }
-    }, []);
+    useEffect(removeWebLoader, []);
 
     const navTheme = useMemo(() => getNavTheme(primaryColor, isDark), [primaryColor, isDark]);
 

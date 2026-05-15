@@ -4,7 +4,7 @@ import IidxFullComboClearTypeItem from "@/components/iidx/IidxFullComboClearType
 import {IIDX_CHIP_HEIGHT} from "@/components/iidx/IidxDifficultyItem";
 import useTheme from "@/hooks/useTheme";
 import {deriveClearTypeChipPalette} from "@/lib/color-utils";
-import Chip from "@/components/shared/Chip";
+import Chip from "@/components/shared/chip/Chip";
 
 export const IIDX_CLEAR_TYPE_COLORS: Record<IidxClearType, string> = {
     [IidxClearType.NO_PLAY]: '#7d7d7d',

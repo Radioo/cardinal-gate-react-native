@@ -4,8 +4,8 @@ import {View} from "react-native";
 import useTheme from "@/hooks/useTheme";
 import {User, Hash, Star, MousePointerClick} from "lucide-react-native";
 import ProfileRow from "@/components/shared/ProfileRow";
-import ProfileLayout from "@/components/shared/ProfileLayout";
-import CardGrid from "@/components/shared/CardGrid";
+import ProfileLayout from "@/components/shared/layout/ProfileLayout";
+import CardGrid from "@/components/shared/layout/CardGrid";
 import {formatArcadeId} from "@/services/game";
 
 export default function Profile() {

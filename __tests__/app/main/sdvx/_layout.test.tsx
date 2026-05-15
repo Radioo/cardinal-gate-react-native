@@ -1,7 +1,7 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 
-jest.mock('@/components/shared/GameTabLayout', () => {
+jest.mock('@/components/shared/layout/GameTabLayout', () => {
     const {createElement} = require('react');
     return {__esModule: true, default: (props: Record<string, unknown>) => createElement('View', props)};
 });

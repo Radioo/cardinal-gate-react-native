@@ -1,5 +1,5 @@
 import {MessageSeverity} from "@/enums/message-severity";
-import * as Haptics from 'expo-haptics';
+import * as Haptics from "expo-haptics";
 
 type AddToastFn = (toast: { severity: MessageSeverity; title: string; description: string }) => void;
 

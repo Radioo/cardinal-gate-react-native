@@ -1,4 +1,4 @@
-import {File, Paths} from 'expo-file-system';
+import {File, Paths} from "expo-file-system";
 import {fetchApiBlob} from "@/services/api";
 
 export async function downloadToLocalFile(url: string, filename: string): Promise<string> {

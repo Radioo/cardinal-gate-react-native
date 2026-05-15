@@ -16,12 +16,12 @@ jest.mock('expo-router', () => {
     };
 });
 
-jest.mock('@/components/shared/FullScreenLoader', () => {
+jest.mock('@/components/shared/feedback/FullScreenLoader', () => {
     const {createElement} = require('react');
     return {__esModule: true, default: () => createElement('View', {testID: 'loader'})};
 });
 
-jest.mock('@/components/shared/ErrorScreen', () => {
+jest.mock('@/components/shared/feedback/ErrorScreen', () => {
     const {createElement} = require('react');
     return {__esModule: true, default: (props: {error: Error}) => createElement('View', {testID: 'error-screen', message: props.error.message})};
 });

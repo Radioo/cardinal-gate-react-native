@@ -1,5 +1,5 @@
-import {create} from 'zustand';
-import {MessageSeverity} from '@/enums/message-severity';
+import {create} from "zustand";
+import {MessageSeverity} from "@/enums/message-severity";
 
 interface Toast {
     id: string;

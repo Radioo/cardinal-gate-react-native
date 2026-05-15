@@ -3,7 +3,7 @@ import {IidxClearType} from "@/enums/iidx-clear-type";
 
 export type IidxPlay = {
     id: number;
-    name: string;
+    title: string;
     artist: string;
     difficulty: IidxDifficulty;
     level: number;

@@ -1,8 +1,8 @@
-import {useThemeStore} from '@/store/theme';
-import {useColorScheme} from '@/hooks/useColorScheme';
-import {buildPrimaryColorVars} from '@/lib/color-utils';
-import {useMemo} from 'react';
-import {vars} from 'nativewind';
+import {useThemeStore} from "@/store/theme";
+import {useColorScheme} from "@/hooks/useColorScheme";
+import {buildPrimaryColorVars} from "@/lib/color-utils";
+import {useMemo} from "react";
+import {vars} from "nativewind";
 
 /**
  * Returns memoized NativeWind dynamic vars for the current primary color.

@@ -1,15 +1,16 @@
 import {IidxPlay} from "@/types/iidx-play";
 import {Text} from "@/components/ui/text";
-import {Platform, Pressable, View} from "react-native";
+import {Pressable, View} from "react-native";
 import useTheme from "@/hooks/useTheme";
 import IidxClearTypeItem from "@/components/iidx/IidxClearTypeItem";
 import {Camera} from "lucide-react-native";
 import {useState} from "react";
-import ShareImageModal from "@/components/shared/ShareImageModal";
-import StatCell from "@/components/shared/StatCell";
+import ShareImageModal from "@/components/shared/modal/ShareImageModal";
+import StatCell from "@/components/shared/chip/StatCell";
 import IidxDifficultyItem from "@/components/iidx/IidxDifficultyItem";
 import {getIidxChartScreenshotUrl} from "@/services/game";
 import {hexToRgba} from "@/lib/color-utils";
+import {webStyle} from "@/lib/web-style";
 
 type IidxPlayRowProps = {
     play: IidxPlay;
@@ -44,7 +45,7 @@ export default function IidxPlayRow({play}: IidxPlayRowProps) {
                             className="font-bold text-[15px] leading-5"
                             numberOfLines={1}
                         >
-                            {play.name}
+                            {play.title}
                         </Text>
                         {play.artist ? (
                             <Text
@@ -67,9 +68,7 @@ export default function IidxPlayRow({play}: IidxPlayRowProps) {
                                     borderWidth: 1,
                                     borderColor: hexToRgba(theme.primary, 0.5),
                                     backgroundColor: hexToRgba(theme.primary, 0.08),
-                                    ...(Platform.OS === 'web'
-                                        ? {cursor: 'pointer'} as object
-                                        : {}),
+                                    ...webStyle({cursor: 'pointer'}),
                                 }}
                                 accessibilityRole="button"
                                 accessibilityLabel="View score card"

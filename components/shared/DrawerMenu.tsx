@@ -54,7 +54,7 @@ function DrawerContent({onNavigate}: {onNavigate: (href: Href) => void}) {
         {href: "/main/sdvx/profile", matchPrefix: "/main/sdvx", title: "SOUND VOLTEX", icon: (c) => <Hexagon size={24} color={c}/>, visible: !!data?.profiles.sdvx},
         {href: "/main/gd/profile", matchPrefix: "/main/gd", title: "GITADORA", icon: (c) => <Drum size={24} color={c}/>, visible: !!data?.profiles.gd},
         {href: "/main/settings", matchPrefix: "/main/settings", title: "Settings", icon: (c) => <Settings size={24} color={c}/>},
-        {href: "/main/debug/General", matchPrefix: "/main/debug", title: "Debug", icon: (c) => <Bug size={24} color={c}/>, visible: !!data?.developer},
+        {href: "/main/debug/general", matchPrefix: "/main/debug", title: "Debug", icon: (c) => <Bug size={24} color={c}/>, visible: !!data?.developer},
         {href: "/main/logout", matchPrefix: "/main/logout", title: "Logout", icon: (c) => <LogOut size={24} color={c}/>},
     ];
 

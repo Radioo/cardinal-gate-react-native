@@ -29,7 +29,4 @@ describe('useUserData', () => {
         client.clear();
     });
 
-    it('is exported as default function', () => {
-        expect(typeof useUserData).toBe('function');
-    });
 });

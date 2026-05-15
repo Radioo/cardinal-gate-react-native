@@ -16,7 +16,7 @@ jest.mock('@/hooks/usePullToRefresh', () => ({
 
 let capturedPaginatedProps: Record<string, unknown> | null = null;
 
-jest.mock('@/components/shared/PaginatedPlaysList', () => {
+jest.mock('@/components/shared/layout/PaginatedPlaysList', () => {
     const {createElement} = require('react');
     return {
         __esModule: true,
