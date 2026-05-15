@@ -7,7 +7,14 @@ import Animated, {
 } from "react-native-reanimated";
 import React, {useEffect} from "react";
 import {StyleProp, ViewStyle} from "react-native";
+import {cssInterop} from "nativewind";
 import useTheme from "@/hooks/useTheme";
+
+// Reanimated's Animated.Text wraps RN Text but isn't registered with
+// NativeWind by default, so className is silently dropped on it. Register
+// once at module load so `font-bold text-[10px]` applies the same way it
+// does to the plain <Text> used by the static Chip primitive.
+cssInterop(Animated.Text, {className: 'style'});
 
 export type AnimatedChipPalette = {
     bg: string[];
