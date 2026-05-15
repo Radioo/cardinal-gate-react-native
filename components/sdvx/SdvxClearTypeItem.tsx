@@ -9,9 +9,9 @@ import Chip from "@/components/shared/Chip";
 export const SDVX_CLEAR_TYPE_DATA: Record<SdvxClearType, { text: string; color: string }> = {
     [SdvxClearType.NO_PLAY]: {text: 'NO PLAY', color: '#7d7d7d'},
     [SdvxClearType.PLAYED]: {text: 'PLAYED', color: '#7d7d7d'},
-    [SdvxClearType.COMPLETE]: {text: 'CLEAR', color: '#39c44d'},
-    [SdvxClearType.EXCESSIVE_COMPLETE]: {text: 'EXC CLEAR', color: '#a040dc'},
-    [SdvxClearType.MAXXIVE_COMPLETE]: {text: 'MAXXIVE', color: '#c0c0c0'},
+    [SdvxClearType.CLEAR]: {text: 'CLEAR', color: '#39c44d'},
+    [SdvxClearType.EXCESSIVE_CLEAR]: {text: 'EXC CLEAR', color: '#a040dc'},
+    [SdvxClearType.MAXXIVE_CLEAR]: {text: 'MAXXIVE', color: '#c0c0c0'},
     [SdvxClearType.ULTIMATE_CHAIN]: {text: 'ULT CHAIN', color: '#d33046'},
     [SdvxClearType.PERFECT_ULTIMATE_CHAIN]: {text: 'PUC', color: '#d4c500'},
 };

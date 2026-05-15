@@ -36,12 +36,12 @@ describe('Main Layout', () => {
     it('registers all stack screens with titles', async () => {
         await render(<Layout />);
         expect(screen.toJSON()).toBeTruthy();
-        expect(capturedScreens.Home).toMatchObject({title: 'Home'});
+        expect(capturedScreens.home).toMatchObject({title: 'Home'});
         expect(capturedScreens.iidx).toMatchObject({title: 'beatmania IIDX'});
         expect(capturedScreens.sdvx).toMatchObject({title: 'SOUND VOLTEX'});
         expect(capturedScreens.gd).toMatchObject({title: 'GITADORA'});
         expect(capturedScreens.settings).toMatchObject({title: 'Settings'});
         expect(capturedScreens.debug).toMatchObject({title: 'Debug'});
-        expect(capturedScreens.Logout).toMatchObject({title: 'Logout'});
+        expect(capturedScreens.logout).toMatchObject({title: 'Logout'});
     });
 });

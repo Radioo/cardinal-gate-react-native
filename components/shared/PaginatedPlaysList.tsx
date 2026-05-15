@@ -3,35 +3,37 @@ import {ReactElement} from "react";
 import FullScreenLoader from "@/components/shared/FullScreenLoader";
 import ErrorScreen from "@/components/shared/ErrorScreen";
 import Pagination from "@/components/shared/Pagination";
-import useUserRefresh from "@/hooks/useUserRefresh";
+import usePullToRefresh from "@/hooks/usePullToRefresh";
 
 const MIN_CARD_WIDTH = 380;
 
-export function computeNumColumns(width: number): number {
+export function getNumColumns(width: number): number {
     return Math.max(1, Math.floor(width / MIN_CARD_WIDTH));
 }
 
-type PaginatedPlaysListProps<T> = {
+type PaginatedPlaysListBaseProps<T> = {
     plays: T[];
     pages: number;
     isPending: boolean;
-    isError: boolean;
-    error: Error | null;
     refetch: () => Promise<unknown>;
     page: number;
     onPageChange: (page: number) => void;
     renderItem: (item: T) => ReactElement;
 };
 
-export default function PaginatedPlaysList<T>({
-    plays, pages, isPending, isError, error, refetch, page, onPageChange, renderItem,
-}: PaginatedPlaysListProps<T>) {
-    const {refreshing, handleRefresh} = useUserRefresh(refetch);
-    const {width} = useWindowDimensions();
-    const numColumns = computeNumColumns(width);
+type PaginatedPlaysListProps<T> = PaginatedPlaysListBaseProps<T> & (
+    | {isError: true; error: Error}
+    | {isError: false; error: null}
+);
 
-    if (isError) {
-        return <ErrorScreen error={error!} onRetry={refetch}/>;
+export default function PaginatedPlaysList<T>(props: PaginatedPlaysListProps<T>) {
+    const {plays, pages, isPending, refetch, page, onPageChange, renderItem} = props;
+    const {refreshing, handleRefresh} = usePullToRefresh(refetch);
+    const {width} = useWindowDimensions();
+    const numColumns = getNumColumns(width);
+
+    if (props.isError) {
+        return <ErrorScreen error={props.error} onRetry={refetch}/>;
     }
 
     return (

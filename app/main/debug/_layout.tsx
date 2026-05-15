@@ -7,7 +7,7 @@ export default function Layout() {
     const {data} = useUserData();
 
     if (data && !data.developer) {
-        return <Redirect href="/main/Home" />;
+        return <Redirect href="/main/home" />;
     }
 
     return (

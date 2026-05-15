@@ -9,7 +9,7 @@ jest.mock('@/components/shared/PlayCounts', () => {
     return {__esModule: true, default: () => createElement('View', {testID: 'play-counts'})};
 });
 
-import Home from '@/app/main/Home';
+import Home from '@/app/main/home';
 
 describe('Home', () => {
     it('renders a ScrollView as root element', async () => {

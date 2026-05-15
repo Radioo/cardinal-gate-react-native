@@ -2,6 +2,12 @@ import {SecureValue} from "@/enums/secure-value";
 import * as SecureStore from 'expo-secure-store';
 import {Platform} from "react-native";
 
+/**
+ * Cross-platform secure key/value storage. On native, errors propagate as Error
+ * from expo-secure-store. On web, localStorage failures (storage disabled,
+ * quota exceeded) propagate as DOMException — callers using `instanceof Error`
+ * still match since DOMException extends Error.
+ */
 export async function saveSecureValue(key: SecureValue, value: string): Promise<void> {
     if(Platform.OS === 'web') {
         localStorage.setItem(key, value);

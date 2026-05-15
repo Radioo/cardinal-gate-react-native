@@ -1,15 +1,18 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 import FullScreenLoader from '@/components/shared/FullScreenLoader';
+import {TestRendererJSON} from '../../helpers/types';
 
 describe('FullScreenLoader', () => {
-    it('renders without crashing', async () => {
+    it('renders an ActivityIndicator', async () => {
         await render(<FullScreenLoader />);
-        expect(screen.toJSON()).toBeTruthy();
+        expect(screen.UNSAFE_getByType('ActivityIndicator' as never)).toBeTruthy();
     });
 
-    it('renders with custom style', async () => {
+    it('forwards the style prop to the outer container', async () => {
         await render(<FullScreenLoader style={{backgroundColor: 'red'}} />);
-        expect(screen.toJSON()).toBeTruthy();
+        const tree = screen.toJSON() as TestRendererJSON;
+        const outerStyle = Array.isArray(tree.props.style) ? tree.props.style : [tree.props.style];
+        expect(outerStyle).toEqual(expect.arrayContaining([expect.objectContaining({backgroundColor: 'red'})]));
     });
 });

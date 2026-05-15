@@ -47,7 +47,7 @@ export default function LoginScreen() {
             displayMessage(MessageSeverity.SUCCESS, 'Login successful');
             await clearSession();
             await setAuthToken(response.token);
-            router.replace('/main/Home');
+            router.replace('/main/home');
         } catch (error) {
             displayMessage(MessageSeverity.ERROR, error instanceof Error ? error.message : 'Login failed');
         } finally {

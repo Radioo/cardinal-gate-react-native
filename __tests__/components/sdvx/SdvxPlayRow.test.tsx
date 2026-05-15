@@ -23,7 +23,7 @@ const mockPlay: SdvxPlay = {
     artist: 'Test Artist',
     difficulty: SdvxDifficulty.EXHAUST,
     level: 18,
-    clear_type: SdvxClearType.COMPLETE,
+    clear_type: SdvxClearType.CLEAR,
     score: 9800000,
     ex_score: 1500,
     grade: 'S',
@@ -107,6 +107,6 @@ describe('SdvxPlayRow', () => {
     it('passes correct clear type to the clear type component', async () => {
         await render(<SdvxPlayRow play={mockPlay}/>);
         const clearItem = screen.getByTestId('sdvx-clear-type');
-        expect(clearItem.props.clearType).toBe(SdvxClearType.COMPLETE);
+        expect(clearItem.props.clearType).toBe(SdvxClearType.CLEAR);
     });
 });

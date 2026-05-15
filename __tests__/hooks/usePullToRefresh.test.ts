@@ -1,10 +1,10 @@
 import React from 'react';
 import {render, screen, fireEvent} from '@testing-library/react-native';
 import {act} from 'react';
-import useUserRefresh from '@/hooks/useUserRefresh';
+import usePullToRefresh from '@/hooks/usePullToRefresh';
 
 function TestComponent({refetch}: {refetch: () => Promise<void>}) {
-    const {refreshing, handleRefresh} = useUserRefresh(refetch);
+    const {refreshing, handleRefresh} = usePullToRefresh(refetch);
 
     return React.createElement('View', {},
         React.createElement('Text', {testID: 'refreshing'}, String(refreshing)),
@@ -12,7 +12,7 @@ function TestComponent({refetch}: {refetch: () => Promise<void>}) {
     );
 }
 
-describe('useUserRefresh', () => {
+describe('usePullToRefresh', () => {
     it('starts with refreshing as false', async () => {
         const refetch = jest.fn().mockResolvedValue(undefined);
         await render(React.createElement(TestComponent, {refetch}));

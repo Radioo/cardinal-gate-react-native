@@ -9,13 +9,13 @@ export default function Layout() {
                 headerBackVisible: false,
                 headerLeft: () => <HamburgerButton/>,
             }}>
-                <Stack.Screen name="Home" options={{title: "Home"}}/>
+                <Stack.Screen name="home" options={{title: "Home"}}/>
                 <Stack.Screen name="iidx" options={{title: "beatmania IIDX"}}/>
                 <Stack.Screen name="sdvx" options={{title: "SOUND VOLTEX"}}/>
                 <Stack.Screen name="gd" options={{title: "GITADORA"}}/>
                 <Stack.Screen name="settings" options={{title: "Settings"}}/>
                 <Stack.Screen name="debug" options={{title: "Debug"}}/>
-                <Stack.Screen name="Logout" options={{title: "Logout"}}/>
+                <Stack.Screen name="logout" options={{title: "Logout"}}/>
             </Stack>
         </DrawerMenu>
     );

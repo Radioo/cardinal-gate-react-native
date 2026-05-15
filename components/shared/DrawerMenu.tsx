@@ -49,13 +49,13 @@ function DrawerContent({onNavigate}: {onNavigate: (href: Href) => void}) {
     const pathname = usePathname();
 
     const items: Item[] = [
-        {href: "/main/Home", matchPrefix: "/main/Home", title: "Home", icon: (c) => <House size={24} color={c}/>},
-        {href: "/main/iidx/Profile", matchPrefix: "/main/iidx", title: "beatmania IIDX", icon: (c) => <Disc size={24} color={c}/>, visible: !!data?.profiles.iidx},
-        {href: "/main/sdvx/Profile", matchPrefix: "/main/sdvx", title: "SOUND VOLTEX", icon: (c) => <Hexagon size={24} color={c}/>, visible: !!data?.profiles.sdvx},
-        {href: "/main/gd/Profile", matchPrefix: "/main/gd", title: "GITADORA", icon: (c) => <Drum size={24} color={c}/>, visible: !!data?.profiles.gd},
+        {href: "/main/home", matchPrefix: "/main/home", title: "Home", icon: (c) => <House size={24} color={c}/>},
+        {href: "/main/iidx/profile", matchPrefix: "/main/iidx", title: "beatmania IIDX", icon: (c) => <Disc size={24} color={c}/>, visible: !!data?.profiles.iidx},
+        {href: "/main/sdvx/profile", matchPrefix: "/main/sdvx", title: "SOUND VOLTEX", icon: (c) => <Hexagon size={24} color={c}/>, visible: !!data?.profiles.sdvx},
+        {href: "/main/gd/profile", matchPrefix: "/main/gd", title: "GITADORA", icon: (c) => <Drum size={24} color={c}/>, visible: !!data?.profiles.gd},
         {href: "/main/settings", matchPrefix: "/main/settings", title: "Settings", icon: (c) => <Settings size={24} color={c}/>},
         {href: "/main/debug/General", matchPrefix: "/main/debug", title: "Debug", icon: (c) => <Bug size={24} color={c}/>, visible: !!data?.developer},
-        {href: "/main/Logout", matchPrefix: "/main/Logout", title: "Logout", icon: (c) => <LogOut size={24} color={c}/>},
+        {href: "/main/logout", matchPrefix: "/main/logout", title: "Logout", icon: (c) => <LogOut size={24} color={c}/>},
     ];
 
     return (

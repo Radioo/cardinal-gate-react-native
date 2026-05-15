@@ -13,11 +13,13 @@ type Tab = {
 
 const DEFAULT_TABS: Tab[] = [
     {
-        name: "Profile",
+        name: "profile",
+        title: "Profile",
         icon: (color) => <User size={24} color={color} />,
     },
     {
-        name: "Plays",
+        name: "plays",
+        title: "Plays",
         icon: (color) => <List size={24} color={color} />,
     },
 ];

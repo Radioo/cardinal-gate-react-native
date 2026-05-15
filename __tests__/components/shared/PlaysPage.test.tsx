@@ -2,7 +2,7 @@ import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 import {TestRendererJSON} from '../../helpers/types';
 
-jest.mock('@/hooks/useUserRefresh', () => ({
+jest.mock('@/hooks/usePullToRefresh', () => ({
     __esModule: true,
     default: () => ({refreshing: false, handleRefresh: jest.fn()}),
 }));

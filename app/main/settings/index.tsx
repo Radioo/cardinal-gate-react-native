@@ -5,7 +5,7 @@ import useTheme from "@/hooks/useTheme";
 import {useState} from "react";
 import {Paintbrush} from "lucide-react-native";
 
-export default function Index() {
+export default function Settings() {
     const [colorPickerVisible, setColorPickerVisible] = useState(false);
     const theme = useTheme();
 

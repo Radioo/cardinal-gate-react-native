@@ -3,7 +3,7 @@ import {RefreshControl, ScrollView} from "react-native";
 import {UseQueryResult} from "@tanstack/react-query";
 import FullScreenLoader from "@/components/shared/FullScreenLoader";
 import ErrorScreen from "@/components/shared/ErrorScreen";
-import useUserRefresh from "@/hooks/useUserRefresh";
+import usePullToRefresh from "@/hooks/usePullToRefresh";
 
 type ProfileLayoutProps<T> = {
     query: UseQueryResult<T>;
@@ -11,7 +11,7 @@ type ProfileLayoutProps<T> = {
 }
 
 export default function ProfileLayout<T>({query, children}: ProfileLayoutProps<T>) {
-    const {refreshing, handleRefresh} = useUserRefresh(query.refetch);
+    const {refreshing, handleRefresh} = usePullToRefresh(query.refetch);
 
     if (query.isPending) return <FullScreenLoader/>;
     if (query.isError) return <ErrorScreen error={query.error} onRetry={query.refetch}/>;

@@ -25,14 +25,14 @@ jest.mock('@rn-primitives/dialog', () => {
 describe('SetPageModal', () => {
     it('renders title text', async () => {
         await render(
-            <SetPageModal visible={true} onSubmit={jest.fn()} maxPage={10}/>
+            <SetPageModal initialValue="1" visible={true} onSubmit={jest.fn()} maxPage={10}/>
         );
         expect(screen.getByText('Set page')).toBeTruthy();
     });
 
     it('renders OK button', async () => {
         await render(
-            <SetPageModal visible={true} onSubmit={jest.fn()} maxPage={10}/>
+            <SetPageModal initialValue="1" visible={true} onSubmit={jest.fn()} maxPage={10}/>
         );
         expect(screen.getByText('OK')).toBeTruthy();
     });
@@ -42,13 +42,6 @@ describe('SetPageModal', () => {
             <SetPageModal initialValue="5" visible={true} onSubmit={jest.fn()} maxPage={10}/>
         );
         expect(screen.getByDisplayValue('5')).toBeTruthy();
-    });
-
-    it('defaults input to "1" when no initialValue', async () => {
-        await render(
-            <SetPageModal visible={true} onSubmit={jest.fn()} maxPage={10}/>
-        );
-        expect(screen.getByDisplayValue('1')).toBeTruthy();
     });
 
     it('calls onSubmit with parsed page number on OK press', async () => {
@@ -63,7 +56,7 @@ describe('SetPageModal', () => {
     it('clamps page to maxPage when input exceeds it', async () => {
         const onSubmit = jest.fn();
         await render(
-            <SetPageModal visible={true} onSubmit={onSubmit} maxPage={5}/>
+            <SetPageModal initialValue="1" visible={true} onSubmit={onSubmit} maxPage={5}/>
         );
         fireEvent.changeText(screen.getByDisplayValue('1'), '999');
         fireEvent.press(screen.getByText('OK'));
@@ -73,7 +66,7 @@ describe('SetPageModal', () => {
     it('clamps page to 1 for invalid input', async () => {
         const onSubmit = jest.fn();
         await render(
-            <SetPageModal visible={true} onSubmit={onSubmit} maxPage={10}/>
+            <SetPageModal initialValue="1" visible={true} onSubmit={onSubmit} maxPage={10}/>
         );
         fireEvent.changeText(screen.getByDisplayValue('1'), 'abc');
         fireEvent.press(screen.getByText('OK'));

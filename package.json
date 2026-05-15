@@ -35,14 +35,13 @@
       "\\.(css)$": "<rootDir>/__tests__/helpers/css-mock.js"
     },
     "transformIgnorePatterns": [
-      "/node_modules/(?!(.pnpm|react-native|@react-native|@react-native-community|expo|@expo|@expo-google-fonts|react-navigation|@react-navigation|@sentry/react-native|native-base|@rn-primitives|class-variance-authority|lucide-react-native|polished))",
+      "/node_modules/(?!(.pnpm|react-native|@react-native|@react-native-community|expo|@expo|@expo-google-fonts|react-navigation|@react-navigation|@sentry/react-native|native-base|@rn-primitives|class-variance-authority|lucide-react-native))",
       "/node_modules/react-native-reanimated/plugin/"
     ]
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-masked-view/masked-view": "^0.3.2",
-    "@react-navigation/drawer": "^7.7.2",
     "@react-navigation/native": "^7.2.4",
     "@rn-primitives/checkbox": "^1.4.0",
     "@rn-primitives/dialog": "^1.4.0",

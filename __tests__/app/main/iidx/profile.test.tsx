@@ -10,7 +10,7 @@ jest.mock('@/hooks/queries/useIidxProfile', () => ({
     default: (...args: unknown[]) => mockUseIidxProfile(...args),
 }));
 
-jest.mock('@/hooks/useUserRefresh', () => ({
+jest.mock('@/hooks/usePullToRefresh', () => ({
     __esModule: true,
     default: () => ({refreshing: false, handleRefresh: jest.fn()}),
 }));
@@ -38,7 +38,7 @@ jest.mock('@/components/shared/ErrorScreen', () => {
     return {__esModule: true, default: ({error}: {error: Error}) => createElement('View', {testID: 'error'}, createElement('Text', null, error.message))};
 });
 
-import Profile from '@/app/main/iidx/Profile';
+import Profile from '@/app/main/iidx/profile';
 
 describe('IIDX Profile', () => {
     beforeEach(() => {

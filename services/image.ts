@@ -15,7 +15,7 @@ export async function downloadToLocalFile(url: string, filename: string): Promis
             }
             resolve(result);
         };
-        reader.onerror = reject;
+        reader.onerror = () => reject(new Error('Failed to read blob'));
         reader.readAsDataURL(response);
     });
 

@@ -3,7 +3,7 @@ import {render, screen, fireEvent} from '@testing-library/react-native';
 
 const mockReplace = jest.fn();
 const mockUserData = jest.fn();
-let mockPathname = '/main/Home';
+let mockPathname = '/main/home';
 
 jest.mock('expo-router', () => ({
     router: {replace: (...args: unknown[]) => mockReplace(...args)},
@@ -48,7 +48,7 @@ import DrawerMenu from '@/components/shared/DrawerMenu';
 beforeEach(() => {
     mockReplace.mockClear();
     mockUserData.mockReset();
-    mockPathname = '/main/Home';
+    mockPathname = '/main/home';
 });
 
 describe('DrawerMenu', () => {
@@ -82,6 +82,6 @@ describe('DrawerMenu', () => {
         mockUserData.mockReturnValue({data: {profiles: {iidx: 1, sdvx: 2, gd: 3}, developer: true}});
         render(<DrawerMenu><></></DrawerMenu>);
         fireEvent.press(screen.getByText('beatmania IIDX'));
-        expect(mockReplace).toHaveBeenCalledWith('/main/iidx/Profile');
+        expect(mockReplace).toHaveBeenCalledWith('/main/iidx/profile');
     });
 });

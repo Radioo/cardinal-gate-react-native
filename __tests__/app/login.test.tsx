@@ -101,7 +101,7 @@ describe('LoginScreen', () => {
         });
         expect(displayMessage).toHaveBeenCalledWith(MessageSeverity.SUCCESS, 'Login successful');
         expect(setAuthToken).toHaveBeenCalledWith('test-token-123');
-        expect(router.replace).toHaveBeenCalledWith('/main/Home');
+        expect(router.replace).toHaveBeenCalledWith('/main/home');
     });
 
     it('shows error message on login failure', async () => {

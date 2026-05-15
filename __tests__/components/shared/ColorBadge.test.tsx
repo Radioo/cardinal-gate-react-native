@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react-native';
-import ColorBadge from '@/components/themed/ColorBadge';
+import ColorBadge from '@/components/shared/ColorBadge';
 
 describe('ColorBadge', () => {
     it('renders text', async () => {

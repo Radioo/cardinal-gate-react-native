@@ -10,7 +10,7 @@ jest.mock('@/hooks/queries/useSdvxProfile', () => ({
     default: (...args: unknown[]) => mockUseSdvxProfile(...args),
 }));
 
-jest.mock('@/hooks/useUserRefresh', () => ({
+jest.mock('@/hooks/usePullToRefresh', () => ({
     __esModule: true,
     default: () => ({refreshing: false, handleRefresh: jest.fn()}),
 }));
@@ -37,7 +37,7 @@ jest.mock('@/components/shared/ErrorScreen', () => {
     return {__esModule: true, default: ({error}: {error: Error}) => createElement('View', {testID: 'error'}, createElement('Text', null, error.message))};
 });
 
-import Profile from '@/app/main/sdvx/Profile';
+import Profile from '@/app/main/sdvx/profile';
 
 describe('SDVX Profile', () => {
     beforeEach(() => {

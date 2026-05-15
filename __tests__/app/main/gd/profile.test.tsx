@@ -10,7 +10,7 @@ jest.mock('@/hooks/queries/useGdProfile', () => ({
     default: (...args: unknown[]) => mockUseGdProfile(...args),
 }));
 
-jest.mock('@/hooks/useUserRefresh', () => ({
+jest.mock('@/hooks/usePullToRefresh', () => ({
     __esModule: true,
     default: () => ({refreshing: false, handleRefresh: jest.fn()}),
 }));
@@ -32,7 +32,7 @@ jest.mock('@/components/shared/ErrorScreen', () => {
     return {__esModule: true, default: ({error}: {error: Error}) => createElement('View', {testID: 'error'}, createElement('Text', null, error.message))};
 });
 
-import Profile from '@/app/main/gd/Profile';
+import Profile from '@/app/main/gd/profile';
 
 describe('GD Profile', () => {
     beforeEach(() => {

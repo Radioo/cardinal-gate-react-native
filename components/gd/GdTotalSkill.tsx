@@ -1,7 +1,7 @@
 import {Text} from "@/components/ui/text";
 import {View} from "react-native";
 import useTheme from "@/hooks/useTheme";
-import GradientText from "@/components/themed/GradientText";
+import GradientText from "@/components/shared/GradientText";
 import {SKILL_GRADIENT_TIERS} from "@/constants/gd-skill-tiers";
 import {formatGdHundredthsValue} from "@/services/game";
 

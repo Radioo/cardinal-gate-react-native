@@ -9,18 +9,18 @@ jest.mock('@/components/sdvx/SdvxPerfectUltimateChainItem', () => {
 });
 
 describe('SdvxClearTypeItem', () => {
-    it('renders CLEAR label for COMPLETE', async () => {
-        await render(<SdvxClearTypeItem clearType={SdvxClearType.COMPLETE}/>);
+    it('renders CLEAR label for CLEAR', async () => {
+        await render(<SdvxClearTypeItem clearType={SdvxClearType.CLEAR}/>);
         expect(screen.getByText('CLEAR')).toBeTruthy();
     });
 
-    it('renders EXC CLEAR label for EXCESSIVE_COMPLETE', async () => {
-        await render(<SdvxClearTypeItem clearType={SdvxClearType.EXCESSIVE_COMPLETE}/>);
+    it('renders EXC CLEAR label for EXCESSIVE_CLEAR', async () => {
+        await render(<SdvxClearTypeItem clearType={SdvxClearType.EXCESSIVE_CLEAR}/>);
         expect(screen.getByText('EXC CLEAR')).toBeTruthy();
     });
 
-    it('renders MAXXIVE label for MAXXIVE_COMPLETE', async () => {
-        await render(<SdvxClearTypeItem clearType={SdvxClearType.MAXXIVE_COMPLETE}/>);
+    it('renders MAXXIVE label for MAXXIVE_CLEAR', async () => {
+        await render(<SdvxClearTypeItem clearType={SdvxClearType.MAXXIVE_CLEAR}/>);
         expect(screen.getByText('MAXXIVE')).toBeTruthy();
     });
 

@@ -5,11 +5,13 @@ export default function Layout() {
     return (
         <GameTabLayout tabs={[
             {
-                name: "Profile",
+                name: "profile",
+                title: "Profile",
                 icon: (color) => <User size={24} color={color} />,
             },
             {
-                name: "Skill",
+                name: "skill",
+                title: "Skill",
                 icon: (color) => <List size={24} color={color} />,
             },
         ]} />

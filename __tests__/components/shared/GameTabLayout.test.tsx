@@ -31,8 +31,8 @@ describe('GameTabLayout', () => {
     it('renders the correct number of default tab screens', async () => {
         await render(<GameTabLayout />);
         const json = JSON.stringify(screen.toJSON());
-        expect(json).toContain('"name":"Profile"');
-        expect(json).toContain('"name":"Plays"');
+        expect(json).toContain('"name":"profile"');
+        expect(json).toContain('"name":"plays"');
     });
 
     it('renders custom tabs when provided', async () => {

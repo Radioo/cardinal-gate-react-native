@@ -1,74 +1,33 @@
-import Animated, {
-    useAnimatedStyle,
-    useSharedValue,
-    withTiming,
-    interpolateColor,
-    withRepeat,
-} from "react-native-reanimated";
-import React, {useEffect} from "react";
+import React from "react";
 import {StyleProp, ViewStyle} from "react-native";
 import {IidxClearType} from "@/enums/iidx-clear-type";
 import {IIDX_CHIP_HEIGHT} from "@/components/iidx/IidxDifficultyItem";
-import useTheme from "@/hooks/useTheme";
+import AnimatedClearChip from "@/components/shared/AnimatedClearChip";
 
-const LIGHT_BG = ['#dce5ff', '#ffd6ee', '#d2f1e1', '#dce5ff'];
-const LIGHT_TEXT = ['#274dc1', '#a72d77', '#1f7a52', '#274dc1'];
-const LIGHT_BORDER = ['#7a96e8', '#e08fc1', '#6cb893', '#7a96e8'];
+const LIGHT = {
+    bg: ['#dce5ff', '#ffd6ee', '#d2f1e1', '#dce5ff'],
+    text: ['#274dc1', '#a72d77', '#1f7a52', '#274dc1'],
+    border: ['#7a96e8', '#e08fc1', '#6cb893', '#7a96e8'],
+} as const;
 
-const DARK_BG = ['#1d2548', '#3a1d34', '#1c3a2f', '#1d2548'];
-const DARK_TEXT = ['#b7c8ff', '#ffb4dd', '#9be4c1', '#b7c8ff'];
-const DARK_BORDER = ['#7faaff', '#ff8fe0', '#a4ffd4', '#7faaff'];
+const DARK = {
+    bg: ['#1d2548', '#3a1d34', '#1c3a2f', '#1d2548'],
+    text: ['#b7c8ff', '#ffb4dd', '#9be4c1', '#b7c8ff'],
+    border: ['#7faaff', '#ff8fe0', '#a4ffd4', '#7faaff'],
+} as const;
 
 type Props = {
     style?: StyleProp<ViewStyle>;
 };
 
 export default function IidxFullComboClearTypeItem({style}: Props) {
-    const theme = useTheme();
-    const isDark = theme.scheme === 'dark';
-    const progress = useSharedValue(0);
-
-    useEffect(() => {
-        progress.value = withRepeat(withTiming(1, {duration: 2400}), -1);
-    }, [progress]);
-
-    const bgSet = isDark ? DARK_BG : LIGHT_BG;
-    const textSet = isDark ? DARK_TEXT : LIGHT_TEXT;
-    const borderSet = isDark ? DARK_BORDER : LIGHT_BORDER;
-
-    const containerAnimated = useAnimatedStyle(() => ({
-        backgroundColor: interpolateColor(progress.value, [0, 0.33, 0.66, 1], bgSet),
-        borderColor: interpolateColor(progress.value, [0, 0.33, 0.66, 1], borderSet),
-    }));
-
-    const textAnimated = useAnimatedStyle(() => ({
-        color: interpolateColor(progress.value, [0, 0.33, 0.66, 1], textSet),
-    }));
-
     return (
-        <Animated.View
-            style={[
-                {
-                    flexDirection: 'row',
-                    alignSelf: 'flex-start',
-                    flexShrink: 0,
-                    alignItems: 'center',
-                    height: IIDX_CHIP_HEIGHT,
-                    paddingHorizontal: 8,
-                    borderWidth: 1,
-                    overflow: 'hidden',
-                },
-                containerAnimated,
-                style,
-            ]}
-        >
-            <Animated.Text
-                className="font-bold text-[10px]"
-                style={[{letterSpacing: 1.6, lineHeight: 12}, textAnimated]}
-                numberOfLines={1}
-            >
-                {IidxClearType.FULL_COMBO}
-            </Animated.Text>
-        </Animated.View>
+        <AnimatedClearChip
+            label={IidxClearType.FULL_COMBO}
+            height={IIDX_CHIP_HEIGHT}
+            light={LIGHT}
+            dark={DARK}
+            style={style}
+        />
     );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 import {Platform} from 'react-native';
-import GradientText from '@/components/themed/GradientText';
+import GradientText from '@/components/shared/GradientText';
 import {TestRendererJSON} from '../../helpers/types';
 
 jest.mock('@react-native-masked-view/masked-view', () => {

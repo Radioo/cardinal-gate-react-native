@@ -1,9 +1,9 @@
 import React from 'react';
 import {Text} from 'react-native';
 import {render, screen} from '@testing-library/react-native';
-import PaginatedPlaysList, {computeNumColumns} from '@/components/shared/PaginatedPlaysList';
+import PaginatedPlaysList, {getNumColumns} from '@/components/shared/PaginatedPlaysList';
 
-jest.mock('@/hooks/useUserRefresh', () => ({
+jest.mock('@/hooks/usePullToRefresh', () => ({
     __esModule: true,
     default: () => ({refreshing: false, handleRefresh: jest.fn()}),
 }));
@@ -38,7 +38,7 @@ describe('PaginatedPlaysList', () => {
         plays: [] as string[],
         pages: 1,
         isPending: false,
-        isError: false,
+        isError: false as const,
         error: null,
         refetch: jest.fn().mockResolvedValue(undefined),
         page: 1,
@@ -57,9 +57,12 @@ describe('PaginatedPlaysList', () => {
     });
 
     it('renders ErrorScreen when isError is true with an error', async () => {
+        const {error, isError, ...rest} = defaultProps;
+        void error;
+        void isError;
         await render(
             <PaginatedPlaysList
-                {...defaultProps}
+                {...rest}
                 isError={true}
                 error={new Error('Something went wrong')}
             />
@@ -87,37 +90,37 @@ describe('PaginatedPlaysList', () => {
         expect(screen.queryAllByTestId('error-screen').length).toBe(0);
     });
 
-    describe('computeNumColumns', () => {
+    describe('getNumColumns', () => {
         it('returns 1 for narrow phone widths', () => {
-            expect(computeNumColumns(360)).toBe(1);
-            expect(computeNumColumns(379)).toBe(1);
+            expect(getNumColumns(360)).toBe(1);
+            expect(getNumColumns(379)).toBe(1);
         });
 
         it('returns 2 once the window is at least twice the min card width', () => {
-            expect(computeNumColumns(760)).toBe(2);
-            expect(computeNumColumns(800)).toBe(2);
+            expect(getNumColumns(760)).toBe(2);
+            expect(getNumColumns(800)).toBe(2);
         });
 
         it('returns 3 at typical desktop widths', () => {
-            expect(computeNumColumns(1140)).toBe(3);
-            expect(computeNumColumns(1280)).toBe(3);
+            expect(getNumColumns(1140)).toBe(3);
+            expect(getNumColumns(1280)).toBe(3);
         });
 
         it('returns 4 at large desktop widths', () => {
-            expect(computeNumColumns(1520)).toBe(4);
-            expect(computeNumColumns(1920)).toBe(5);
+            expect(getNumColumns(1520)).toBe(4);
+            expect(getNumColumns(1920)).toBe(5);
         });
 
         it('returns at least 1 column for any positive width', () => {
-            expect(computeNumColumns(50)).toBe(1);
-            expect(computeNumColumns(1)).toBe(1);
-            expect(computeNumColumns(0)).toBe(1);
+            expect(getNumColumns(50)).toBe(1);
+            expect(getNumColumns(1)).toBe(1);
+            expect(getNumColumns(0)).toBe(1);
         });
 
         it('treats the column boundary exactly at the min card width', () => {
             // Exactly at the threshold floor returns the next column count
-            expect(computeNumColumns(380)).toBe(1);
-            expect(computeNumColumns(379)).toBe(1);
+            expect(getNumColumns(380)).toBe(1);
+            expect(getNumColumns(379)).toBe(1);
         });
     });
 });

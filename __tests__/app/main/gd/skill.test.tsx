@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, screen, fireEvent} from '@testing-library/react-native';
-import Skill from '@/app/main/gd/Skill';
+import Skill from '@/app/main/gd/skill';
 
 const mockProfileData = {
     games: [{name: 'GITADORA HIGH-VOLTAGE', version: 10}, {name: 'GITADORA FUZZ-UP', version: 9}],
@@ -79,7 +79,7 @@ jest.mock('@/components/shared/FullScreenLoader', () => {
     return {__esModule: true, default: () => createElement('View', {testID: 'loader'})};
 });
 
-jest.mock('@/components/themed/GradientText', () => {
+jest.mock('@/components/shared/GradientText', () => {
     const {createElement} = require('react');
     return {__esModule: true, default: ({children}: {children: React.ReactNode}) => createElement('View', null, children)};
 });

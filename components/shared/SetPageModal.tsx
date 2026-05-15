@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 import ModalBase from "@/components/shared/ModalBase";
 
 type SetPageModalProps = {
-    initialValue?: string;
+    initialValue: string;
     visible: boolean;
     onSubmit: (page: number) => void;
     maxPage: number;
@@ -20,12 +20,10 @@ export default function SetPageModal({
                                          maxPage,
                                      }: SetPageModalProps) {
     const theme = useTheme();
-    const [value, setValue] = useState(initialValue ?? '1');
+    const [value, setValue] = useState(initialValue);
 
     useEffect(() => {
-        if (initialValue !== undefined) {
-            setValue(initialValue);
-        }
+        setValue(initialValue);
     }, [initialValue]);
 
     return (

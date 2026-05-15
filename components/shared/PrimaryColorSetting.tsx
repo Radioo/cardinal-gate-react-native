@@ -21,7 +21,7 @@ const pickerStyle = {gap: 10};
 function useMaterialYouAccent(): string | null {
     const [accent] = useState<string | null>(() => {
         try { return getMaterialYouAccent(); }
-        catch (e) { console.warn('Material You accent unavailable:', e); return null; }
+        catch { return null; }
     });
     return accent;
 }

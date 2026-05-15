@@ -1,6 +1,7 @@
 import React from 'react';
-import {render, screen, waitFor} from '@testing-library/react-native';
+import {screen, waitFor} from '@testing-library/react-native';
 import {TestRendererJSON} from '../helpers/types';
+import {createTestClient, renderWithClient} from '../helpers/renderWithClient';
 
 const mockGetSecureValue = jest.fn();
 
@@ -28,7 +29,7 @@ jest.mock('@/components/shared/ErrorScreen', () => {
 import Root from '@/app/index';
 
 async function renderRoot() {
-    await render(<Root />);
+    await renderWithClient(createTestClient(), <Root />);
 }
 
 describe('Root', () => {
@@ -38,19 +39,19 @@ describe('Root', () => {
 
     it('shows loader initially while checking token', async () => {
         mockGetSecureValue.mockReturnValue(new Promise(() => {}));
-        await render(<Root />);
+        await renderRoot();
         const tree = screen.toJSON() as TestRendererJSON;
         expect(tree).toBeTruthy();
         expect(tree.props.testID).toBe('loader');
     });
 
-    it('redirects to /main/Home when token exists', async () => {
+    it('redirects to /main/home when token exists', async () => {
         mockGetSecureValue.mockResolvedValue('some-token');
         await renderRoot();
         await waitFor(() => {
             const tree = screen.toJSON() as TestRendererJSON;
             expect(tree).toBeTruthy();
-            expect(tree.props.testID).toBe('redirect-/main/Home');
+            expect(tree.props.testID).toBe('redirect-/main/home');
         });
     });
 
