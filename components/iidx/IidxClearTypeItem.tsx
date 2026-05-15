@@ -29,7 +29,8 @@ export default function IidxClearTypeItem({clearType, style}: IidxClearTypeProps
         return <IidxFullComboClearTypeItem style={style}/>;
     }
 
-    const data = IIDX_CLEAR_TYPE_DATA[clearType];
+    // Wire-format runtime safety: API can ship unknown clear-type values.
+    const data = IIDX_CLEAR_TYPE_DATA[clearType] ?? {text: '', color: '#666666'};
     const palette = deriveClearTypeChipPalette(data.color, theme.scheme === 'dark');
 
     return (

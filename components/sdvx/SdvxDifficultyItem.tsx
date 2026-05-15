@@ -11,6 +11,8 @@ type SdvxDifficultyProps = {
 
 export const SDVX_CHIP_HEIGHT = 22;
 
+const UNKNOWN_DIFFICULTY_COLOR = '#666666';
+
 const DIFFICULTY_COLORS: Record<SdvxDifficulty, string> = {
     [SdvxDifficulty.NOVICE]: '#8666be',
     [SdvxDifficulty.ADVANCED]: '#d4b500',
@@ -25,7 +27,9 @@ const DIFFICULTY_COLORS: Record<SdvxDifficulty, string> = {
 
 const SdvxDifficultyItemInner = ({difficulty, level}: SdvxDifficultyProps) => {
     const theme = useTheme();
-    const baseColor = DIFFICULTY_COLORS[difficulty];
+    // Wire-format runtime safety: API can ship new SDVX difficulty values we
+    // haven't enumerated yet. Type says the Record is total; runtime can lie.
+    const baseColor = DIFFICULTY_COLORS[difficulty] ?? UNKNOWN_DIFFICULTY_COLOR;
     const palette = deriveDifficultyChipPalette(baseColor, theme.scheme === 'dark');
 
     return (

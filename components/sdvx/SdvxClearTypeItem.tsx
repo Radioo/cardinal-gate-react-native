@@ -28,7 +28,8 @@ export default function SdvxClearTypeItem({clearType, style}: SdvxClearTypeItemP
         return <SdvxPerfectUltimateChainItem style={style}/>;
     }
 
-    const data = SDVX_CLEAR_TYPE_DATA[clearType];
+    // Wire-format runtime safety: API can ship unknown clear-type values.
+    const data = SDVX_CLEAR_TYPE_DATA[clearType] ?? {text: '', color: '#666666'};
     const palette = deriveClearTypeChipPalette(data.color, theme.scheme === 'dark');
 
     return (

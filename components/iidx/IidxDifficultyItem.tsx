@@ -25,9 +25,12 @@ const DIFFICULTY_DATA: Record<IidxDifficulty, { playStyle: IidxPlayStyle; name: 
     [IidxDifficulty.DPL]: {playStyle: IidxPlayStyle.DP, name: 'LEGGENDARIA', color: '#9333c9'},
 };
 
+const UNKNOWN_DIFFICULTY_DATA = {playStyle: IidxPlayStyle.SP, name: '???', color: '#666666'};
+
 const IidxDifficultyItemInner = ({difficulty, level}: IidxDifficultyProps) => {
     const theme = useTheme();
-    const data = DIFFICULTY_DATA[difficulty];
+    // Wire-format runtime safety: API can ship unknown IIDX difficulty values.
+    const data = DIFFICULTY_DATA[difficulty] ?? UNKNOWN_DIFFICULTY_DATA;
     const isDark = theme.scheme === 'dark';
     const palette = deriveDifficultyChipPalette(data.color, isDark);
     const stampBg = isDark ? '#2a2c2e' : '#e8e8ea';

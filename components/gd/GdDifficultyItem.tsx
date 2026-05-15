@@ -15,6 +15,7 @@ const DIFFICULTY_COLORS: Record<GdDifficulty, string> = {
 
 const TYPE_COLOR_DARK = '#4f4f4f';
 const GD_CHIP_HEIGHT = 24;
+const UNKNOWN_DIFFICULTY_COLOR = '#666666';
 
 /**
  * GdDifficultyItem takes a compound GdDifficultyContainer prop (type + difficulty + level)
@@ -28,7 +29,8 @@ type GdDifficultyProps = {
 const GdDifficultyItemInner = ({difficulty}: GdDifficultyProps) => {
     const theme = useTheme();
     const isLight = theme.scheme === 'light';
-    const baseColor = DIFFICULTY_COLORS[difficulty.difficulty];
+    // Wire-format runtime safety: API can ship unknown GD difficulty values.
+    const baseColor = DIFFICULTY_COLORS[difficulty.difficulty] ?? UNKNOWN_DIFFICULTY_COLOR;
     const difficultyColor = isLight ? lightenHex(baseColor, 0.2) : baseColor;
     const typeColor = isLight ? lightenHex(TYPE_COLOR_DARK, 0.2) : TYPE_COLOR_DARK;
 
